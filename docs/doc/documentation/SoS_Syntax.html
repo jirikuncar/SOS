@@ -13910,13 +13910,13 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Python functions, classes, variables can be defined or imported (using Python <code>import</code> statement) before any SoS step is defined. These definitions usually contains variables such as version and date of the script, paths to various resources, and utility functions that will be used by later steps. <strong>These definitions are visible to all steps of workflows and are assumed to be readonly</strong> (except for <a href="Command_line_options.html"><code>parameters</code></a> defined by the <code>parameter:</code> keyword.</p>
+<p>Python functions, classes, variables can be defined or imported (using Python <code>import</code> statement) before any SoS step is defined. These definitions usually contains variables such as version and date of the script, paths to various resources, and utility functions that will be used by later steps. <strong>These definitions are visible to all steps of workflows and are assumed to be readonly</strong> (except for <a href="Command_Line_Options.html"><code>parameters</code></a> defined by the <code>parameter:</code> keyword.</p>
 <p>SoS defines the following variables before any variables are defined</p>
 <ul>
 <li><strong><code>SOS_VERSION</code></strong>: version of SoS command.</li>
 <li><strong><code>CONFIG</code></strong>: A dictionary of configurations specified by the global sos configuration file (<code>~/.sos/config.yaml</code>), local configuration file (<code>./config.yaml</code>) and command line option <code>-c config_file</code>. </li>
 </ul>
-<p>Please refer to sections <a href="Command_line_options.html">command line options</a> and <a href="Configuration_files.html">configuration files</a> for the use of <code>parameter</code> keyword and <code>CONFIG</code> variable.</p>
+<p>Please refer to sections <a href="Command_Line_Options.html">command line options</a> and <a href="Configuration_Files.html">configuration files</a> for the use of <code>parameter</code> keyword and <code>CONFIG</code> variable.</p>
 
 </div>
 </div>
@@ -13939,7 +13939,7 @@ option         = name, "=", expression</code></pre>
 <p>A section starts with header in the format of</p>
 
 <pre><code>[names: options]</code></pre>
-<p>The header should start with a <code>[</code> from the beginning of a line and end with a <code>]</code>. It can contain one or more names with optional section options. Please refer to <a href="Workflow_specification.html">workflow specification</a> for the specification of workflows from sections.</p>
+<p>The header should start with a <code>[</code> from the beginning of a line and end with a <code>]</code>. It can contain one or more names with optional section options. Please refer to <a href="Workflow_Specification.html">workflow specification</a> for the specification of workflows from sections.</p>
 
 </div>
 </div>
@@ -13950,7 +13950,7 @@ option         = name, "=", expression</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>SoS uses <a href="http://www.python.org">Python 3</a> expressions and statements. If you are unfamiliar with Python, you can learn some basics of Python, usually in less than half a day, by reading some Python tutorials (e.g. <a href="https://docs.python.org/3/tutorial/">the official python tutorial</a>). This <a href="https://docs.python.org/3/tutorial/introduction.html">short introduction</a> is good enough for you to get started.</p>
-<p>A section can have arbitrary Python statements and SoS-specific statements that define the input, output, and dependent targets, and external tasks of the step. These statements starts with keywords <code>input:</code>, <code>output:</code>, <code>depends:</code>, and <code>task:</code>. Please refer to <a href="SoS_step.html">SoS step</a> for more details about these statements.</p>
+<p>A section can have arbitrary Python statements and SoS-specific statements that define the input, output, and dependent targets, and external tasks of the step. These statements starts with keywords <code>input:</code>, <code>output:</code>, <code>depends:</code>, and <code>task:</code>. Please refer to <a href="SoS_Step.html">SoS step</a> for more details about these statements.</p>
 
 </div>
 </div>
@@ -14095,7 +14095,7 @@ Linux step
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can set global SoS options using preprocessor <code>%set_options</code>. Currently SoS only support option <code>sigil</code>, which sets global default sigil. You can either set it to a valid sigil (e.g. <code>'{ }'</code>, <code>'[ ]'</code>), or <code>None</code> if you would like to disable string interpolation. Please refer to section <a href="String_interpolation.html">string interpolation</a> for details of this option.</p>
+<p>You can set global SoS options using preprocessor <code>%set_options</code>. Currently SoS only support option <code>sigil</code>, which sets global default sigil. You can either set it to a valid sigil (e.g. <code>'{ }'</code>, <code>'[ ]'</code>), or <code>None</code> if you would like to disable string interpolation. Please refer to section <a href="String_Interpolation.html">string interpolation</a> for details of this option.</p>
 
 </div>
 </div>
