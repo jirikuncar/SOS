@@ -13689,6 +13689,8 @@ div#notebook {
 
 <script src="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/toc2.js"></script>
 
+ <script src="../../js/docs.js"></script>
+
 <script>
 $( document ).ready(function(){
 
@@ -13697,7 +13699,8 @@ $( document ).ready(function(){
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
-             'sideBar':true,             // sidebar or floating window
+             // 'sideBar':true,      
+             'sideBar':true,       // sidebar or floating window
              'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
             }
 
@@ -13713,7 +13716,34 @@ $( document ).ready(function(){
             st.toc_index=0;
 
             // fire the main function with these parameters
+
+
             table_of_contents(cfg,st);
+            // $(".toc #toc-level0").append('<li><a href="file:///Users/jma7/Development/SOS/website/index.html">home</a></li>');
+            var path="http://bopeng.github.io/SOS"
+            // var path="file:///Users/jma7/Development/SOS/website"
+            $(".toc #toc-level0").append('<li><a href="'+path+'/index.html">Home</a></li>');
+            // var documentations=[
+            //         "Auxiliary_Steps",
+            //         "Extending_SoS",
+            //         "SoS_Kernel",
+            //         "String_Interpolation",
+            //         "Command_Line_Options",
+            //         "External_task",
+            //         "SoS_Step",
+            //         "User_Interface",
+            //         "Configuration_Files",
+            //         "SoS_Functions",
+            //         "SoS_Syntax",
+            //         "Workflow_Specification" ]
+            var docs=documentation
+            for (var a =0;a<docs.length;a++){
+                  var name =docs[a];
+                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
+            }
+
+
+
     });
 </script>
 <body>
@@ -14358,12 +14388,13 @@ Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filen
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">name</span> <span class="n">filename</span> <span class="n">basefilename</span> <span class="n">expanded</span>
-<span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;~/examples/update_toc.sos&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">name</span> <span class="n">filename</span> <span class="n">basefilename</span> <span class="n">expanded</span> <span class="n">parparname</span>
+<span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;~/sos/examples/update_toc.sos&#39;</span>
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;${file!n}&quot;</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;${file!b}&quot;</span>
 <span class="n">basefilename</span> <span class="o">=</span> <span class="s2">&quot;${file!bn}&quot;</span>
 <span class="n">expanded</span> <span class="o">=</span> <span class="s2">&quot;${file!e}&quot;</span>
+<span class="n">parparname</span> <span class="o">=</span> <span class="s2">&quot;${file!ddb}&quot;</span>
 </pre></div>
 
 </div>
@@ -14377,7 +14408,7 @@ Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filen
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview name filename basefilename expanded</font></pre>
+<pre><font color="green">## %preview name filename basefilename expanded parparname</font></pre>
 </div>
 
 </div>
@@ -14394,7 +14425,7 @@ Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filen
 
 
 <div class="output_text output_subarea ">
-<pre>&#39;~/examples/update_toc&#39;</pre>
+<pre>&#39;~/sos/examples/update_toc&#39;</pre>
 </div>
 
 </div>
@@ -14445,7 +14476,24 @@ Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filen
 
 
 <div class="output_text output_subarea ">
-<pre>&#39;/Users/bpeng1/examples/update_toc.sos&#39;</pre>
+<pre>&#39;/Users/bpeng1/sos/examples/update_toc.sos&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> parparname:</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;sos&#39;</pre>
 </div>
 
 </div>
@@ -14453,6 +14501,16 @@ Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filen
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The last example is pretty interesting because it applies three converters and gets the name of grand-parent directory using an equivalence of <code>basename(dirname(dirname(file)))</code>.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
