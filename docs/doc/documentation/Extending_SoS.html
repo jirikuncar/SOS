@@ -13764,7 +13764,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS can be easily extended with new targets, actions, file previewers, and ability to exchange data between SoS and new languages. To make the extension available to other users, you can either create and distribute a separate package, or extend SoS and send us a pull request.</p>
+<p>SoS can be easily extended with new actions, targets, converters, file previewers, and support for new languages. To make the extension available to other users, you can either create and distribute a separate package, or extend SoS and send us a <a href="https://help.github.com/articles/about-pull-requests/">pull request</a>.</p>
 
 </div>
 </div>
@@ -13783,15 +13783,15 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS makes extensive use of <strong>entry points</strong>, which allows external modules to register their features in the file system to make them available to other modules. It can be confusing initially but <a href="http://stackoverflow.com/questions/774824/explain-python-entry-points">this stack overflow ticket</a> explains it quite well and one of the users went ahead and created <a href="https://github.com/RichardBronosky/entrypoint_demo demonstrates">a project</a> to demonstrate how this feature works.</p>
-<p>To register additional feature with SoS, you either need to extend <code>entry_points</code> of the <code>setup.py</code> of SoS, or create your own package with these <code>entry_points</code>. Option <code>extras_require</code> can be used to specify additional dependent packages for these features. For example, you can create a package with the following entry_points to provide support for ruby.</p>
+<p>SoS makes extensive use of <a href="http://setuptools.readthedocs.io/en/latest/setuptools.html#dynamic-discovery-of-services-and-plugins"><strong>entry points</strong></a>, which allows external modules to register their features in the file system to make them available to other modules. It can be confusing initially but <a href="http://stackoverflow.com/questions/774824/explain-python-entry-points">this stack overflow ticket</a> explains it quite well and one of the users went ahead and created <a href="https://github.com/RichardBronosky/entrypoint_demo demonstrates">a project</a> to demonstrate how this feature works.</p>
+<p>To register additional feature with SoS, you either need to extend <code>entry_points</code> of the <a href="https://github.com/BoPeng/SOS/blob/master/setup.py"><code>setup.py</code> script</a> of SoS, or create your own package with these <code>entry_points</code>. Option <code>extras_require</code> can be used to specify additional dependent packages for these features. For example, you can create a package with the following entry_points to provide support for ruby.</p>
 
 <pre><code>    entry_points='''
 [sos-language]
 ruby = sos-ruby.kernel:sos_ruby
 
-[sos-actions]
-ruby = sos-ruby.actions:ruby
+[sos-targets]
+Ruby_Library = sos-ruby.target:Ruby-Library
 '''</code></pre>
 <p>With the installation of this package, <code>sos</code> would be able to obtain a class <code>sos_ruby</code> from module <code>sos-ruby.kernel</code>, and use it to work with the <code>ruby</code> language.</p>
 
@@ -13803,13 +13803,14 @@ ruby = sos-ruby.actions:ruby
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Additional-actions-and-targets">Additional actions and targets<a class="anchor-link" href="#Additional-actions-and-targets">&#182;</a></h2><p>An action is a normal Python that is decorated as <code>SoS_Action</code> so you can define any action as follows:</p>
+<h2 id="Additional-actions-and-targets">Additional actions and targets<a class="anchor-link" href="#Additional-actions-and-targets">&#182;</a></h2><p>An action is a normal Python function that is decorated as <code>SoS_Action</code>. To define your own action, you generally need to</p>
 
 <pre><code>from sos.actions import SoS_Action
 
-@SoS_Action(run_mode='run')
+@SoS_Action(run_mode=['run', 'interactive'])
 def my_action(*args, **kwargs):
     pass</code></pre>
+<p>Here the <code>run_mode</code> is defined to be <code>run</code> and <code>interactive</code>, meaning the action will be executable in batch and interactive (Jupyter kernel) mode, and not in <code>dryrun</code> mode. An action usually behave the same in both modes but can be tailered for the environment in which it runs.</p>
 <p>You then need to add an entry to <code>entry_points</code> as</p>
 
 <pre><code>[sos-actions]
@@ -13823,13 +13824,15 @@ my_action = mypackage.mymodule:my_action</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Adding additional target is similar with a class derived from <code>BaseTarget</code></p>
+<p>Adding additional target is similar with a class derived from <a href="https://github.com/BoPeng/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>.</p>
 
 <pre><code>from sos.target import BaseTarget
 
 class my_target(BaseTarget):
-    def __init__(self...)</code></pre>
-<p>You will need to define several member functions for this class, most notably <code>exists</code> that checks the existence of the target. The details of this class can be found at the source code of <code>BaseTarget</code>.</p>
+    def __init__(self, *args, **kwargs):
+        pass</code></pre>
+<p>You will need to define several member functions for this class, most notably <code>exists</code> that checks the existence of the target. This function accept a parameter <code>mode</code>, which can be <code>target</code>, <code>signature</code>, or <code>any</code>. Like a file target, a target can be considered exist as long as its signature exists, and if the real target is not needed for the execution of the workflow.</p>
+<p>The details of this class can be found at the source code of <a href="https://github.com/BoPeng/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>. The <a href="https://github.com/BoPeng/SOS/blob/master/sos/R/target.py"><code>R_Library</code></a> provides a good example of a <strong>virtual target</strong> that do not have a fixed corresponding file, can be checked for existence, and actually attempts to obtain (install a R library) the target when it is checked.</p>
 <p>After you defined your target, you can make it available to SOS by adding an appropriate entry point</p>
 
 <pre><code>[sos-targets]
@@ -13852,16 +13855,36 @@ my_target = mypackage.mymodule:my_target</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To convert between sos and another file format, you would need to define a function that accepts source file, destination file, and additional arguments, such as</p>
+<p>To convert between sos and another file format, you would need to define two function, one returnning an <a href="https://docs.python.org/3/library/argparse.html"><code>argparse.ArgumentParser</code></a> that parse converter arguments, and one performing real file conversion.</p>
+<p>Suppose you would like to convert <code>.sos</code> to a <code>.xp</code> format, you can define these two functions as follows</p>
 
-<pre><code>def my_converter(source_file, dest_file, additional_args):
+<pre><code>import argparse
+from sos.sos_script import SoS_Script
+
+def get_my_converter_parser():
+    parser = argparse.ArgumentParser('sos_xp')
+    parser.add_argument('--theme', 
+        help='Style of output format')
+    return parser
+
+def my_converter(source_file, dest_file, args=None, unknown_args=[]):
     # parse additional_args to obtain converter-specific options
-    # then convert from source_file to dest_file</code></pre>
-<p>and register the converter in <code>setup.py</code> as</p>
+    # then convert from source_file to dest_file
+    script = SoS_Script(source_file)
+    for section in script.sections:
+        # do something
+
+if __name__ == '__main__':
+    parser = get_my_converter_parser()
+    args, unknown_args = parser.parse_known_args(sys.argv[3:])
+    my_converter(sys.argv[1], sys.argv[2], args, unknown_args)</code></pre>
+<p>You can then register the converter in <code>setup.py</code> as</p>
 
 <pre><code>[sos-converters]
-fromExt-toExt: mypackage.mymodule:my_converter</code></pre>
-<p>Here <code>fromExt</code> is file extension without leading dot, <code>toExt</code> is destination file extension without leading dot. If <code>dest_file</code> is unspecified, the output should be written to standard output.</p>
+fromExt-toExt.parser: mypackage.mymodule:get_my_converter_parser
+fromExt-toExt.func: mypackage.mymodule:my_converter</code></pre>
+<p>Here <code>fromExt</code> is file extension without leading dot, <code>toExt</code> is destination file extension without leading dot, or a format specified by the <code>--to</code> parameter of command <code>sos convert</code>. If <code>dest_file</code> is unspecified, the output should be written to standard output.</p>
+<p>This example uses <code>if __name__ == '__main__'</code> section so that the converter can be used as a standandalone program, which is not needed but a great way for testing purposes. Note that the input and output files are handled by <code>sos convert</code> so the parser only needs to parsse converter-specific options.</p>
 
 </div>
 </div>
