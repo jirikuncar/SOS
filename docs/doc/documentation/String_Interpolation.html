@@ -13755,7 +13755,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="String-Interpolation">String Interpolation<a class="anchor-link" href="#String-Interpolation">&#182;</a></h1><p>Bo Peng, Nov, 2016, with latest version available <a href="http://bopeng.github.org/SOS">here</a></p>
+<h1 id="String-Interpolation">String Interpolation<a class="anchor-link" href="#String-Interpolation">&#182;</a></h1><p>Bo Peng, Nov, 2016, with latest version available <a href="http://bopeng.github.io/SOS">here</a></p>
 <p>On top of python string manipulation functions (<code>%</code> operator and <a href="https://docs.python.org/3/library/stdtypes.html#str.format"><code>str.format</code></a> function) and similar to recently introduced (Python 3.6) <a href="https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings">format string</a>, SoS uses string interpolation to replace variables and expressions in string literals with their corresponding values.</p>
 <p>Unlike Python format string, SoS string interpolation <strong>does not require any prefix</strong>, and is <strong>applied to only double quoted strings</strong> (<code>" "</code>, <code>""" """</code>, <code>r" "</code>, and <code>r""" """</code>). Single quoted strings (<code>' '</code>, <code>''' '''</code>, <code>r' '</code>, and <code>r''' '''</code>) are not interpolated.</p>
 <p>Although configurable, the default sigil for SoS string interpolation is <code>'${ }'</code>, which means by default any expression between <code>${</code> and <code>}</code> would be evaluated by SoS.</p>
