@@ -3,7 +3,7 @@ import glob,os
 
 def fileNames(docFile,folder):
 	docString="var "+folder+"=["
-	for file in glob.glob("../doc/"+folder+"/*.html"):
+	for file in glob.glob("../docs/doc/"+folder+"/*.html"):
 
 		docString+='"'+file.replace(".html","").split("/")[-1]+'",'
 	
@@ -12,7 +12,7 @@ def fileNames(docFile,folder):
 	docFile.write(docString+"\n")
 
 
-docFile=open("docs.js","w")
+docFile=open("../docs/js/docs.js","w")
 fileNames(docFile,"documentation")
 fileNames(docFile,"tutorials")
 
