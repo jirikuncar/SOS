@@ -52,7 +52,7 @@ $( document ).ready(function(){
 
 
             table_of_contents(cfg,st);
-            var path="http://bopeng.github.io"
+            var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/website"
             $(".toc #toc-level0").append('<li><a href="'+path+'/index.html">Home</a></li>');
             var tuts=tutorials
