@@ -1,11 +1,10 @@
 $(document).ready(function(){
 	$("#intro_content").load("https://raw.githubusercontent.com/BoPeng/SOS/onepage/doc/README.html"); 
 	
-	var tutorials=["Quick_Start_Guide","SoS-QuickStart",
-					"SoS_Docker_Guide","Using_SoS_with_IPython","Using_SoS_with_Spyder"]
+	var tuts=tutorials
 	$("#tutorial > .container").append('<div class="row">')
-	for (var a =0;a<tutorials.length;a++){
-		var name =tutorials[a];
+	for (var a =0;a<tuts.length;a++){
+		var name =tuts[a];
 		var oneString='<div class="col-md-4 col-sm-6 portfolio-item">'
         				+'<div class="portfolio-caption">';
 		oneString+='<a href="./doc/tutorials/'+name+'.html" class="portfolio-link"><h4>'+name+'</h4></a>';
@@ -17,23 +16,10 @@ $(document).ready(function(){
 	$("#tutorial > .container").append('</div>');	
 
 
-
-	var documentations=[
-        "Auxiliary_Steps",
-        "Extending_SoS",
-        "SoS_Kernel",
-        "String_Interpolation",
-        "Command_Line_Options",
-        "External_task",
-        "SoS_Step",
-        "User_Interface",
-        "Configuration_Files",
-        "SoS_Functions",
-        "SoS_Syntax",
-        "Workflow_Specification" ]
+ 	var docs=documentation
 	$("#documentation > .container").append('<div class="row">')
-	for (var a =0;a<documentations.length;a++){
-		var name =documentations[a];
+	for (var a =0;a<docs.length;a++){
+		var name =docs[a];
 		var oneString='<div class="col-md-4 col-sm-6 portfolio-item">'
         				+'<div class="portfolio-caption">';
 		oneString+='<a href="./doc/documentation/'+name+'.html" class="portfolio-link"><h4>'+name+'</h4></a>';
