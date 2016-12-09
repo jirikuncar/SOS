@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$("#intro_content").load("https://raw.githubusercontent.com/BoPeng/SOS/onepage/doc/README.html"); 
+	$("#intro_content").load("https://github.com/BoPeng/SOS/blob/master/docs/doc/README.html"); 
 	
 	var tuts=tutorials
 	$("#tutorial > .container").append('<div class="row">')
