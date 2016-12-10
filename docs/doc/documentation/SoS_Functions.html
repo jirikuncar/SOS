@@ -13694,12 +13694,12 @@ div#notebook {
 <script>
 $( document ).ready(function(){
 
-            var cfg={'threshold':3,     // depth of toc (number of levels)
-             'number_sections': false,  // sections numbering
+            var cfg={'threshold':4,     // depth of toc (number of levels)
+             'number_sections': true,  // sections numbering
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
-             // 'sideBar':false,      
+             // 'sideBar':true,      
              'sideBar':true,       // sidebar or floating window
              'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
             }
@@ -13782,7 +13782,7 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -13793,20 +13793,6 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>I just slept 1.00 seconds
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13823,7 +13809,7 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
@@ -13835,20 +13821,6 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>I just slept 1.01 seconds
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13865,7 +13837,7 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -13877,20 +13849,6 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>I just slept 1.00 seconds
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13907,7 +13865,7 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
@@ -13929,7 +13887,7 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Action-option-active">Action option <code>active</code><a class="anchor-link" href="#Action-option-active">&#182;</a></h2>
+<h2 id="Action-options">Action options<a class="anchor-link" href="#Action-options">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -13938,7 +13896,8 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Action-option-workdir">Action option <code>workdir</code><a class="anchor-link" href="#Action-option-workdir">&#182;</a></h2>
+<p>Actions define their own parameters but their execution is controlled by a common set of options.</p>
+
 </div>
 </div>
 </div>
@@ -13947,7 +13906,84 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Action-option-docker_image">Action option <code>docker_image</code><a class="anchor-link" href="#Action-option-docker_image">&#182;</a></h2>
+<h3 id="Option-active">Option <code>active</code><a class="anchor-link" href="#Option-active">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Action option <code>active</code> is used to activate or inactivate an action in an input loop. Basically, when a loop is defined by <code>for_each</code> or <code>group_by</code> options of <code>input:</code> statement, an action after input would be repeated for each input group. The <code>action</code> parameter accepts an integer, either a non-negative number, a negative number (counting backward), a sequence of indexes, or a slice object, for which the action would be active.</p>
+<p>For example, for an input loop that loops through a sequence of numbers, the first action <code>run</code> is executed for all groups, the second action is executed for even number of groups, the last action is executed for the last step.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">seq</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">for_each</span><span class="o">=</span><span class="s1">&#39;seq&#39;</span>
+<span class="kn">run:</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="nb">all</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+<span class="kn">run:</span> <span class="kp">active</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="n">even</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+<span class="kn">run:</span> <span class="kp">active</span><span class="o">=-</span><span class="mi">1</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="n">last</span> <span class="n">group</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Action-option-workdir">Action option <code>workdir</code><a class="anchor-link" href="#Action-option-workdir">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>workdir</code> changes the current working directory for the action, and change back once the action is executed. The directory will be created if it does not exist.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span>
+   <span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+<span class="kn">bash:</span>
+    <span class="n">ls</span> <span class="n">tmp</span>
+    <span class="n">rm</span> <span class="n">tmp</span><span class="o">/</span><span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+    <span class="n">rmdir</span> <span class="n">tmp</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Action-option-docker_image">Action option <code>docker_image</code><a class="anchor-link" href="#Action-option-docker_image">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13959,10 +13995,28 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 <p>If a docker image is specified (either a name, an Id, or a file), the action is assumed to be executed in the specified docker. The image will be automatically downloaded (pulled) or loaded (if a <code>.tar</code> or <code>.tar.gz</code> file is specified`) if it is not available locally.</p>
 <p>For example, executing the following script</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
 <pre><code>[10]
 python3: docker_image='python'
   set = {'a', 'b'}
   print(set)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>under a docker terminal (that is connected to the docker daemon) will</p>
 <ol>
 <li>Pull docker image <code>python</code>,  which is the official docker image for Python 2 and 3.</li>
@@ -13988,12 +14042,25 @@ is executed in a docker image. These options include</p>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Action-option-docker_file">Action option <code>docker_file</code><a class="anchor-link" href="#Action-option-docker_file">&#182;</a></h2><p>This option allows you to import a docker from specified <code>docker_file</code>, which can be an archive file (<code>.tar</code>, <code>.tar.gz</code>, <code>.tgz</code>, <code>.bzip</code>, <code>.tar.xz</code>, <code>.txz</code>) or a URL to an archive file (e.g. <code>http://example.com/exampleimage.tgz</code>). SoS will use command <code>docker import</code> to import the <code>docker_file</code>. However, because SoS does not know the repository and tag names of the imported docker file, you will still need to use option <code>docker_image</code> to specify the image to use.</p>
+<h3 id="Action-option-docker_file">Action option <code>docker_file</code><a class="anchor-link" href="#Action-option-docker_file">&#182;</a></h3><p>This option allows you to import a docker from specified <code>docker_file</code>, which can be an archive file (<code>.tar</code>, <code>.tar.gz</code>, <code>.tgz</code>, <code>.bzip</code>, <code>.tar.xz</code>, <code>.txz</code>) or a URL to an archive file (e.g. <code>http://example.com/exampleimage.tgz</code>). SoS will use command <code>docker import</code> to import the <code>docker_file</code>. However, because SoS does not know the repository and tag names of the imported docker file, you will still need to use option <code>docker_image</code> to specify the image to use.</p>
 
 </div>
 </div>
@@ -14020,6 +14087,78 @@ is executed in a docker image. These options include</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Action-option-args">Action option <code>args</code><a class="anchor-link" href="#Action-option-args">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All script-executing actions accept an option <code>args</code>, which changes how the script is executed.</p>
+<p>By default, such an action has an <code>interpreter</code> (e.g. <code>bash</code>), a default <code>args='${filename!q}'</code>, amd the script would be executed as <code>interpreter args</code>, which is</p>
+
+<pre><code>bash ${filename!q}</code></pre>
+<p>where <code>${filename!q}</code> would be replaced by the temporary script file.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you would like to change the command line with additional parameters, or different format of filename, you can specify an alternative <code>args</code>, with variables <code>filename</code> (filename of temporary script) and <code>script</code> (actual content of the script).</p>
+<p>For example, option <code>-n</code> can be added to command <code>bash</code> to execute script in dryrun mode</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
+    <span class="n">echo</span> <span class="s2">&quot;-n means running in dryrun mode (only check syntax)&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and you can actually execute a command without filename, and instead executing the script directly from command line</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">python:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-m timeit ${script}&#39;</span>
+    <span class="s1">&#39;&quot;-&quot;.join(str(n) for n in range(100))&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Action-reference">Action reference<a class="anchor-link" href="#Action-reference">&#182;</a></h2>
 </div>
 </div>
@@ -14029,22 +14168,160 @@ is executed in a docker image. These options include</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Action-sos_run">Action <code>sos_run</code><a class="anchor-link" href="#Action-sos_run">&#182;</a></h3><p>Action <code>sos_run(workflow, source)</code> executes a specified workflow. The workflow can be a single workflow, a subworkflow (e.g. <code>A_-10</code>), or a combined workflow (e.g. <code>A + B</code>). Because the workflow is executed from a step, it takes step <code>_input</code> as the input of the nested workflow and it can access local step variables. For example,</p>
+<h3 id="Action-run">Action <code>run</code><a class="anchor-link" href="#Action-run">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>run</code> is the most frequently used action in sos. In most cases, it is equivalent to action <code>bash</code> that uses <code>bash</code> to execute specified script. Under the hood, this action is quite different from <code>bash</code> because the run action does not have a default interpreter and would behave differently under different situations.</p>
 
-<pre><code>import random
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the simplest case when one or more commands are specified, action <code>run</code> would assume it is a batch script under windows, and a bash script otherwise.</p>
 
-[simulate]
-output:   'result_${_reps}.txt'
-run:
-simulate_experiment --seed=${seed} --output=${_output}
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;A&quot;</span>
+</pre></div>
 
-[10]
-reps = range(100)
-input: for_each='reps'
-outout: 'result_${_reps}.txt'
+</div>
+</div>
+</div>
 
-seed = random.randint(1, 2**32)
-sos_run('simulate')</code></pre>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, if the script starts with a <a href="https://en.wikipedia.org/wiki/Shebang_(Unix">shebang line</a>), this action would execute the script directly. This allows you to execute any script in any language. For example, the following script executes a python script using action <code>run</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span>
+    <span class="c1">#!/usr/bin/env python</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;This is python&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and the following example runs a complete sos script using command <code>sos-runner</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># use sigil=None to stop interpolating expressions in script</span>
+<span class="p">[</span><span class="n">sos</span><span class="p">:</span> <span class="kp">sigil</span><span class="o">=</span><span class="bp">None</span><span class="p">]</span>
+<span class="kn">run:</span>
+    <span class="c1">#!/usr/bin/env sos-runner</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This is ${step_name}&quot;</span><span class="p">)</span>
+    <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This is ${step_name}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that action <code>run</code>would not analyze shebang line of a script if it is executed in a docker container (with option <code>docker-image</code>) and would always assumed to be <code>bash</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Action-sos_run">Action <code>sos_run</code><a class="anchor-link" href="#Action-sos_run">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Action <code>sos_run(workflow, source)</code> executes a specified workflow. The workflow can be a single workflow, a subworkflow (e.g. <code>A_-10</code>), or a combined workflow (e.g. <code>A + B</code>). Because the workflow is executed from a step, it takes step <code>_input</code> as the input of the nested workflow and it can access local step variables. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="p">[</span><span class="n">simulate</span><span class="p">]</span>
+<span class="kn">output:</span>   <span class="s2">&quot;result_${_reps}.txt&quot;</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="n">simulate_experiment</span> <span class="o">--</span><span class="n">seed</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">seed</span><span class="p">}</span> <span class="o">--</span><span class="n">output</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="n">reps</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">for_each</span><span class="o">=</span><span class="s1">&#39;reps&#39;</span>
+<span class="kn">output:</span> <span class="s2">&quot;result_${_reps}.txt&quot;</span>
+
+<span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">32</span><span class="p">)</span>
+<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;simulate&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>would run the nested pipeline <code>simulate</code> (which is a single step in this example) 100 times with their own <code>seed</code>, and <code>_reps</code>.</p>
 <p>The workflow can be defined in the current script, or in other SoS scripts, in which case the name or full path of the SoS script should be provided to parameter <code>source</code>. For example,</p>
 
@@ -14060,12 +14337,32 @@ sos_run('A+B', source="AB.sos")</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Actions-run,-bash,-sh,-csh,-tcsh,-zsh">Actions <code>run</code>, <code>bash</code>, <code>sh</code>, <code>csh</code>, <code>tcsh</code>, <code>zsh</code><a class="anchor-link" href="#Actions-run,-bash,-sh,-csh,-tcsh,-zsh">&#182;</a></h3><p>Actions <code>run(script)</code> and <code>bash(script)</code> accepts a shell script and execute it using <code>bash</code>. <code>sh</code>, <code>csh</code>, <code>tcsh</code>, <code>zsh</code> uses respective shell to execute the provided script.</p>
+<h3 id="Actions-bash,-sh,-csh,-tcsh,-zsh">Actions <code>bash</code>, <code>sh</code>, <code>csh</code>, <code>tcsh</code>, <code>zsh</code><a class="anchor-link" href="#Actions-bash,-sh,-csh,-tcsh,-zsh">&#182;</a></h3><p>Action <code>bash(script)</code> accepts a shell script and execute it using <code>bash</code>. <code>sh</code>, <code>csh</code>, <code>tcsh</code>, <code>zsh</code> uses respective shell to execute the provided script.</p>
 <p>These actions, as well as all script-executing actions such as <code>python</code>, also accept an option <code>args</code> and allows you to pass additional arguments to the interpreter. For example</p>
 
-<pre><code>run: args='-n'
-  echo "a"</code></pre>
-<p>will execute the script with command <code>bash -n</code> (check syntax).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
+      <span class="n">echo</span> <span class="s2">&quot;a&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>execute the script with command <code>bash -n</code> (check syntax), so command <code>echo</code> is not actually executed.</p>
 
 </div>
 </div>
@@ -14109,8 +14406,7 @@ in <code>inspect</code> mode.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Action-R">Action <code>R</code><a class="anchor-link" href="#Action-R">&#182;</a></h3><p>Action <code>R(script)</code> execute the passed script using <code>Rscript</code> command.</p>
-
+<h3 id="Action-R">Action <code>R</code><a class="anchor-link" href="#Action-R">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -14119,10 +14415,91 @@ in <code>inspect</code> mode.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Action-perl,-ruby">Action <code>perl</code>, <code>ruby</code><a class="anchor-link" href="#Action-perl,-ruby">&#182;</a></h3><p>Action <code>perl(script)</code> execute the passed script using <code>perl</code> interpreter. Action <code>ruby(script)</code> execute the passed script using <code>ruby</code> interpreter.</p>
+<p>Action <code>R(script)</code> execute the passed script using <code>Rscript</code> command.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">R:</span>
+    <span class="n">D</span> <span class="o">&lt;-</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="c1"># Sort on x</span>
+    <span class="n">indexes</span> <span class="o">&lt;-</span> <span class="n">order</span><span class="p">(</span><span class="n">D</span><span class="err">$</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">D</span><span class="p">[</span><span class="n">indexes</span><span class="p">,]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Action-perl">Action <code>perl</code><a class="anchor-link" href="#Action-perl">&#182;</a></h3><p>Action <code>perl(script)</code> execute the passed script using <code>perl</code> interpreter.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">perl:</span>
+    <span class="n">my</span> <span class="err">$</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Brian&quot;</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s2">&quot;Hello, $name!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Action-ruby">Action <code>ruby</code><a class="anchor-link" href="#Action-ruby">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Action <code>ruby(script)</code> execute the passed script using <code>ruby</code> interpreter.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">ruby:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">8</span> <span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;sam&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mf">98.9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;jill&#39;</span> <span class="p">]</span>
+    <span class="k">print</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">print</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">print</span> <span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="mi">57</span> <span class="o">&lt;&lt;</span> <span class="mi">9</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;phil&#39;</span>
+    <span class="k">print</span> <span class="s2">&quot;A: &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -14133,6 +14510,32 @@ in <code>inspect</code> mode.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">node:</span>
+    <span class="n">var</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">max</span><span class="p">;</span>
+
+    <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000000000</span><span class="p">;</span>
+
+    <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="n">now</span><span class="p">();</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mi">1234</span> <span class="o">+</span> <span class="mi">5678</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mi">1234</span> <span class="o">*</span> <span class="mi">5678</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">1234</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Date</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">d</span><span class="p">);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -14318,10 +14721,55 @@ do_something_else</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Function-get_output">Function <code>get_output</code><a class="anchor-link" href="#Function-get_output">&#182;</a></h3><p>Function <code>get_output(cmd)</code> returns the output of command (decoded in <code>UTF-8</code>), which is a shortcut for <code>subprocess.check_output(cmd, shell=True).decode()</code>. It is worth noting that SoS kills any function call after 5 seconds in inspect mode so you will need to put this function call inside a step process if it will take more than 5 seconds to execute.</p>
+<h3 id="Function-get_output">Function <code>get_output</code><a class="anchor-link" href="#Function-get_output">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function <code>get_output(cmd)</code> returns the output of command (decoded in <code>UTF-8</code>), which is a shortcut for <code>subprocess.check_output(cmd, shell=True).decode()</code>.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_output</span><span class="p">(</span><span class="s1">&#39;which ls&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This function also accepts two options <code>show_command=False</code>, and <code>prompt='$ '</code> that can be useful in case you would like to present the command that produce the output. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">get_output</span><span class="p">(</span><span class="s1">&#39;which ls&#39;</span><span class="p">,</span> <span class="n">show_command</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -14334,40 +14782,132 @@ do_something_else</code></pre>
 <p>is equivalent to</p>
 <div class="highlight"><pre><span></span><span class="kn">output:</span> <span class="p">[</span><span class="s1">&#39;{x}_{y}.txt&#39;</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)]</span>
 </pre></div>
-<p>if <code>a</code> and <code>b</code> are sequences of the same length.</p>
+<p>if <code>a</code> and <code>b</code> are sequences of the same length. For example,</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="SoS-logger-object">SoS <code>logger</code> object<a class="anchor-link" href="#SoS-logger-object">&#182;</a></h3><p>The SoS logger object is a <code>logging</code> object used by SoS to produce various outputs. You can use this object
-to output error, warning, info, debug, and trace messages to terminal. For example,</p>
-
-<pre><code>[0]
-logger.info('I am at ${step_name}')</code></pre>
-<p>would print a logging message <code>I am at default_0</code> when the first step is execute.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>$ sos run test.sos
-INFO: Execute default_0: 
-INFO: input:   <span class="o">[]</span>
-INFO: I am at default_0
-INFO: output:  unspecified
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">]</span>
+<span class="n">salary</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
+<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;{name}&#39;s salary is {salary}&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The sequences should have the same length</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">salary</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">]</span>
+<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;{name}&#39;s salary is {salary}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An exception is made for variables of simple non-sequence types, in which case they are repeated in all expanded items</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">salary</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;{name}&#39;s salary is {salary}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SoS-logger-object">SoS <code>logger</code> object<a class="anchor-link" href="#SoS-logger-object">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The SoS logger object is a <code>logging</code> object used by SoS to produce various outputs. You can use this object to output error, warning, info, debug, and trace messages to terminal. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v2</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at ${step_name}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The output of <code>logger</code> is controlled by logging level, for example, the above message would not be printed at <code>-v1</code> (warning)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v1</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at ${step_name}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
