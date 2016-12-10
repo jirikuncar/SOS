@@ -13755,11 +13755,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="String-Interpolation">String Interpolation<a class="anchor-link" href="#String-Interpolation">&#182;</a></h1><p>Bo Peng, Nov, 2016, with latest version available <a href="http://bopeng.github.io/SOS">here</a></p>
-<p>On top of python string manipulation functions (<code>%</code> operator and <a href="https://docs.python.org/3/library/stdtypes.html#str.format"><code>str.format</code></a> function) and similar to recently introduced (Python 3.6) <a href="https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings">format string</a>, SoS uses string interpolation to replace variables and expressions in string literals with their corresponding values.</p>
-<p>Unlike Python format string, SoS string interpolation <strong>does not require any prefix</strong>, and is <strong>applied to only double quoted strings</strong> (<code>" "</code>, <code>""" """</code>, <code>r" "</code>, and <code>r""" """</code>). Single quoted strings (<code>' '</code>, <code>''' '''</code>, <code>r' '</code>, and <code>r''' '''</code>) are not interpolated.</p>
-<p>Although configurable, the default sigil for SoS string interpolation is <code>'${ }'</code>, which means by default any expression between <code>${</code> and <code>}</code> would be evaluated by SoS.</p>
-
+<h1 id="String-Interpolation">String Interpolation<a class="anchor-link" href="#String-Interpolation">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13768,7 +13764,17 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For example, expressions <code>resource_path</code>, <code>sample_names[0]</code> and <code>sample_names</code> would be replaced by their values in variables <code>ref_genome</code>, <code>title</code>, and <code>all_names</code>, but not in <code>single_quoted</code> because the string literal is quoted by single quotes. For convenience, we use a magic <code>%preview</code> of the SoS kernel to display the values of variables after the evaluation of the cell content.</p>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Unlike Python format string, SoS string interpolation <strong>does not require any prefix</strong>, and is <strong>applied to only double quoted strings</strong> (<code>" "</code>, <code>""" """</code>, <code>r" "</code>, and <code>r""" """</code>). Single quoted strings (<code>' '</code>, <code>''' '''</code>, <code>r' '</code>, and <code>r''' '''</code>) are not interpolated.</p>
+<p>Although configurable, the default sigil for SoS string interpolation is <code>'${ }'</code>, which means by default any expression between <code>${</code> and <code>}</code> would be evaluated by SoS. For example, expressions <code>resource_path</code>, <code>sample_names[0]</code> and <code>sample_names</code> would be replaced by their values in variables <code>ref_genome</code>, <code>title</code>, and <code>all_names</code>, but not in <code>single_quoted</code> because the string literal is quoted by single quotes. For convenience, we use a magic <code>%preview</code> of the SoS kernel to display the values of variables after the evaluation of the cell content.</p>
 
 </div>
 </div>
@@ -13964,7 +13970,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="String-representation-of-Python-objects">String representation of Python objects<a class="anchor-link" href="#String-representation-of-Python-objects">&#182;</a></h2>
+<h2 id="String-representation-of-Objects">String representation of Objects<a class="anchor-link" href="#String-representation-of-Objects">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14284,7 +14290,7 @@ files=['a.txt', 'b.txt']</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14312,8 +14318,10 @@ files=['a.txt', 'b.txt']</code></pre>
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>cat: Jovi.txt: No such file or directory
-<span class="ansi-red-intense-fg">ERROR</span>: <span class="ansi-red-intense-fg">Failed to execute script: Failed to execute script. The script is saved to /Users/bpeng1/SOS/doc/documentation/.sos/interactive_0_0.sh. Please use command &#34;/bin/bash /Users/bpeng1/SOS/doc/documentation/.sos/interactive_0_0.sh&#34; under /private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpmsl_smwb to test it.</span>
-Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filena...name}&#34;&#34;&#34;)\n: Failed to execute script. The script is saved to /Users/bpeng1/SOS/doc/documentation/.sos/interactive_0_0.sh. Please use command &#34;/bin/bash /Users/bpeng1/SOS/doc/documentation/.sos/interactive_0_0.sh&#34; under /private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpmsl_smwb to test it.Sandbox execution failed: Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filena...name}&#34;&#34;&#34;)\n: Failed to execute script. The script is saved to /Users/bpeng1/SOS/doc/documentation/.sos/interactive_0_0.sh. Please use command &#34;/bin/bash /Users/bpeng1/SOS/doc/documentation/.sos/interactive_0_0.sh&#34; under /private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpmsl_smwb to test it.</pre>
+Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filena...name}&#34;&#34;&#34;)\n: Failed to execute script (ret=1). 
+Please use command
+    /bin/bash /Users/bpeng1/SOS/docs/src/documentation/.sos/interactive_0_0
+under /private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmp0dgous_0 to test it.</pre>
 </div>
 </div>
 
@@ -14647,7 +14655,12 @@ Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filen
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you need to stop SoS from interpolating some expressions in a string, you can precede the SoS sigil with a backslash (<code>\</code>). For example, the following script includes a shell script with shell variable <code>${file}</code> that is not interpolated by SoS:</p>
+<p>If you need to stop SoS from interpolating some expressions in a string, you can</p>
+<ol>
+<li>Use single quotes, or</li>
+<li>precede the SoS sigil with a backslash (<code>\</code>)</li>
+</ol>
+<p>For example, the following script includes a shell script with shell variable <code>${file}</code> that is not interpolated by SoS:</p>
 
 </div>
 </div>
