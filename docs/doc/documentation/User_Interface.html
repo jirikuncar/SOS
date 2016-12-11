@@ -13694,12 +13694,12 @@ div#notebook {
 <script>
 $( document ).ready(function(){
 
-            var cfg={'threshold':3,     // depth of toc (number of levels)
-             'number_sections': false,  // sections numbering
+            var cfg={'threshold':4,     // depth of toc (number of levels)
+             'number_sections': true,  // sections numbering
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
-             // 'sideBar':false,      
+             // 'sideBar':true,      
              'sideBar':true,       // sidebar or floating window
              'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
             }
@@ -13783,7 +13783,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="o">-</span><span class="n">h</span>
@@ -13800,7 +13800,7 @@ $( document ).ready(function(){
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos [-h] [--version]
-           {run,dryrun,convert,remove,config,pack,unpack,patch_spyder} ...
+           {run,dryrun,convert,remove,config,pack,unpack,patch-spyder} ...
 
 A workflow system for the execution of commands and scripts in different
 languages.
@@ -13810,7 +13810,7 @@ optional arguments:
   --version             show program&#39;s version number and exit
 
 subcommands:
-  {run,dryrun,convert,remove,config,pack,unpack,patch_spyder}
+  {run,dryrun,convert,remove,config,pack,unpack,patch-spyder}
     run                 Execute default or specified workflow defined in
                         script
     dryrun              Inspect specified script for syntax errors
@@ -13838,7 +13838,7 @@ subcommands:
                         security reasons, files that were outside of the
                         project directory would be extracted in this directory
                         unless option -e is specified.
-    patch_spyder        Patch spyder to work with SoS kernel
+    patch-spyder        Patch spyder to work with SoS kernel
 
 Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Peng
 (bpeng at mdanderson.org) if you have any question.
@@ -13874,7 +13874,7 @@ Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Pe
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="kp">run</span> <span class="o">-</span><span class="n">h</span>
@@ -13891,8 +13891,8 @@ Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Pe
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos run [-h] [-j JOBS] [-c CONFIG_FILE] [-t FILE [FILE ...]]
-               [-b [BIN_DIR [BIN_DIR ...]]] [-q QUEUE] [-n] [-f] [-F]
-               [-v {0,1,2,3,4}]
+               [-b [BIN_DIR [BIN_DIR ...]]] [-q QUEUE] [-n] [-s SIGMODE]
+               [-d [DAG]] [-v {0,1,2,3,4}]
                SCRIPT [WORKFLOW]
 
 Execute default or specified workflow defined in script
@@ -13947,22 +13947,37 @@ optional arguments:
                         more rq-workers with assistance from a redis server,
                         and a &#39;celery&#39; quque where tasks will be distributed
                         to celery workers.
-  -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
-                        Output error (0), warning (1), info (2), debug (3) and
-                        trace (4) information to standard output (default to
-                        2).
 
 Run mode options:
   Control how sos scirpt is executed.
 
   -n                    Execute a workflow without executing any actions. This
                         can be used to check the syntax of a SoS file.
-  -f                    Execute the workflow in a special run mode that
-                        ignores saved runtime signatures and re-execute all
-                        the steps.
-  -F                    Execute the workflow in a special run mode that re-use
-                        existing output files and recontruct runtime
-                        signatures if output files exist.
+  -s SIGMODE            How runtime signature would be handled, which can be
+                        &#34;default&#34; (save and use signature, default mode in
+                        batch mode), &#34;ignore&#34; (ignore runtime signature,
+                        default mode in interactive mode), &#34;force&#34; (ignore
+                        existing signature and overwrite them while executing
+                        the workflow), &#34;build&#34; (build new or overwrite
+                        existing signature from existing environment and
+                        output files), and &#34;assert&#34; for validating existing
+                        files against their signatures. Please refer to online
+                        documentation for details about the use of runtime
+                        signatures.
+
+Output options:
+  Output of workflow
+
+  -d [DAG]              Output Direct Acyclic Graph (DAGs) in graphiviz .dot
+                        format. An exntesion of &#34;.dot&#34; would be added
+                        automatically. Because DAG could change during the
+                        execution of workflow, multiple DAGs could be outputed
+                        with names $FILE_1.dot, $FILE_2.dot. If this option is
+                        specified without a name, the DAG would be wrritten to
+                        the standard output.
+  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
 
 Arbitrary parameters defined by the [parameters] step of the script, and
 [parameters] steps of other scripts if nested workflows are defined in other
@@ -13983,14 +13998,7 @@ specified in the script. Single value parameters should be passed using option
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Examples of the <code>sos run</code> include</p>
-<div class="highlight"><pre><span></span>sos run -h                       <span class="c1"># get help message</span>
-sos run myscript                 <span class="c1"># run default workflow defined in myscript</span>
-sos run myscript align           <span class="c1"># run workflow align defined in myscript</span>
-sos run myscript align+call      <span class="c1"># run a combined workflow align+call</span>
-sos run myscript align -h        <span class="c1"># help message for the align workflow defined in myscript</span>
-sos run -n myscript align        <span class="c1"># run align workflow in inspect mode</span>
-</pre></div>
+<p>Please refer to section <a href="Workflow_Specification.html">Workflow Specification</a> of the documentation and the tutorial on <a href="../tutorials/Execution_of_Workflow.html">Execution of Workflow</a> for details about this command.</p>
 
 </div>
 </div>
@@ -14001,6 +14009,97 @@ sos run -n myscript align        <span class="c1"># run align workflow in inspec
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="subcommand-dryrun">subcommand <code>dryrun</code><a class="anchor-link" href="#subcommand-dryrun">&#182;</a></h2><p>This command execute the script in dryrun mode. It is alias to command <code>sos run -n</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">dryrun</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>usage: sos dryrun [-h] [-c CONFIG_FILE] [-t FILES [FILES ...]] [-d [DAG]]
+                  [-v {0,1,2,3,4}]
+                  SCRIPT [WORKFLOW]
+
+Inspect specified script for syntax errors
+
+positional arguments:
+  SCRIPT                A SoS script that defines one or more workflows. The
+                        script can be a filename or a URL from which the
+                        content of a SoS will be read. If a valid file cannot
+                        be located or downloaded, SoS will search for the
+                        script in a search path specified by variable
+                        `sos_path` defined in the global SoS configuration
+                        file (~/.sos/config.yaml).
+  WORKFLOW              Name of the workflow to execute. This option can be
+                        ignored if the script defines a default workflow (with
+                        no name or with name `default`) or defines only a
+                        single workflow. A subworkflow or a combined workflow
+                        can also be specified, where a subworkflow executes a
+                        subset of workflow (`name_steps` where `steps` can be
+                        `n` (a step `n`), `:n` (up to step `n`), `n:m` (from
+                        step `n` to `m`), and `n:` (from step `n`)), and a
+                        combined workflow executes to multiple (sub)workflows
+                        combined by `+` (e.g. `A_0+B+C`).
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CONFIG_FILE        A configuration file in the format of YAML/JSON. The
+                        content of the configuration file will be available as
+                        a dictionary CONF in the SoS script being executed.
+  -t FILES [FILES ...]  One of more files or alias of other targets that will
+                        be the target of execution. If specified, SoS will
+                        execute only part of a workflow or multiple workflows
+                        or auxiliary steps to generate specified targets.
+
+Output options:
+  Output of workflow
+
+  -d [DAG]              Output Direct Acyclic Graph (DAGs) in graphiviz .dot
+                        format. An exntesion of &#34;.dot&#34; would be added
+                        automatically. Because DAG could change during the
+                        execution of workflow, multiple DAGs could be outputed
+                        with names $FILE_1.dot, $FILE_2.dot. If this option is
+                        specified without a name, the DAG would be wrritten to
+                        the standard output.
+  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
+
+Arbitrary parameters defined by the [parameters] step of the script, and
+[parameters] steps of other scripts if nested workflows are defined in other
+SoS files (option `source`). The name, default and type of the parameters are
+specified in the script. Single value parameters should be passed using option
+`--name value` and multi-value parameters should be passed using option
+`--name value1 value2`.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Please refer to the tutorial on <a href="../tutorials/Execution_of_Workflow.html">Execution of Workflow</a> for details about this command.</p>
 
 </div>
 </div>
@@ -14016,7 +14115,7 @@ sos run -n myscript align        <span class="c1"># run align workflow in inspec
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="o">-</span><span class="n">h</span>
@@ -14049,7 +14148,8 @@ optional arguments:
                         Destination file format, which is usually determined
                         from extension of `to_file` filename, but is needed if
                         `to_file` is unspecified.
-  -l, --list            List available converters and their options.
+  -l, --list            List all available converters or converters matching
+                        input parameters and their options.
   -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
                         Output error (0), warning (1), info (2), debug (3) and
                         trace (4) information to standard output (default to
@@ -14070,12 +14170,118 @@ markdown, and terminal output.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="../media/QuickStart.sos.html.png" alt="HTML"></p>
-<p>It is also worth noting that you are a VIM user, it is highly recommended that you install the SoS syntax file so that your SoS scripts can be properly highlighted during editing. This is not only visually appealing but is very helpful in identifying syntax errors as you write. The same script in vim with a dark background would look look like</p>
-<p><img src="../media/QuickStart.sos.vim.png" alt="vim"></p>
+<p>You can list all available converters and their options using command</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="o">-</span><span class="n">l</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>===================================
+======      sos --&gt; term     ======
+===================================
+usage: sos convert FILE.sos --to term [-h] [--bg {light,dark}] [--linenos]
+
+Write script to terminal with syntax highlighting.
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --bg {light,dark}  Color theme of the output
+  --linenos          Display lineno to the left of the script
+
+
+===================================
+======      sos --&gt; html     ======
+===================================
+usage: sos convert FILE.sos FILE.html (or --to html) [-h] [--raw RAW]
+                                                     [--style {lovelace,pastie,monokai,igor,vs,perldoc,tango,xcode,trac,bw,paraiso-dark,fruity,native,friendly,emacs,manni,paraiso-light,murphy,vim,colorful,rrt,autumn,default,borland,algol_nu,algol}]
+                                                     [--linenos]
+
+Convert sos file to html format with syntax highlighting, and save the output
+either to a HTML file or view it in a broaser.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --raw RAW             URL to the raw sos file, which will be linked to
+                        filenames in the HTML output
+  --style {lovelace,pastie,monokai,igor,vs,perldoc,tango,xcode,trac,bw,paraiso-dark,fruity,native,friendly,emacs,manni,paraiso-light,murphy,vim,colorful,rrt,autumn,default,borland,algol_nu,algol}
+                        Pygments style for the HTML output.
+  --linenos             Display lineno to the left of the source code
+
+
+===================================
+======      sos --&gt; ipynb    ======
+===================================
+usage: sos convert FILE.sos FILE._ipynb (or --to ipynb) [-h] [-e]
+
+Convert a sos script to Jupyter notebook (.ipynb) so that it can be opened by
+Jupyter notebook.
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -e, --execute  Execute the notebook as if running &#34;Cell -&gt; Run all&#34; from the
+                 Jupyter notebook interface
+
+
+===================================
+======      sos --&gt; md       ======
+===================================
+usage: sos convert FILE.sos FILE.md (or --to md) [-h]
+
+Convert SOS scriot to a markdown format with scripts quoted in markdown
+syntax.
+
+optional arguments:
+  -h, --help  show this help message and exit
+
+
+===================================
+======    ipynb --&gt; sos      ======
+===================================
+usage: sos convert FILE.ipynb FILE.sos (or --to sos) [-h] [--reorder]
+                                                     [--reset-index]
+                                                     [--add-header]
+                                                     [--no-index]
+                                                     [--remove-magic]
+
+Export Jupyter notebook with a SoS kernel to a .sos file. The cells are
+presented in the .sos file as %cell structure lines, which will be ignored if
+executed in batch mode
+
+optional arguments:
+  -h, --help      show this help message and exit
+  --reorder       Reorder cells according to execution count
+  --reset-index   Reset index to 1, 2, 3, ... regardless of existing execution
+                  counts
+  --add-header    Add default section headers to cells without headers, which
+                  would help running the converted script in batch mode
+  --no-index      Do not output any index
+  --remove-magic  Remove magic lines from the output
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -14088,7 +14294,7 @@ markdown, and terminal output.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">config</span> <span class="o">-</span><span class="n">h</span>
@@ -14158,88 +14364,7 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This subcommand can read/write three configuration files</p>
-<ol>
-<li><strong><code>~/.sos/config.yaml</code></strong> A global SoS configuration file. (option <code>--global</code>)</li>
-<li><strong><code>.sos/config.yaml</code></strong> Project specific SoS configuration file. (default)</li>
-<li><strong>User specified</strong> Any configuration file specified with option <code>-c</code> (<code>--config</code>).</li>
-</ol>
-<p>The global and local configuration files will be loaded by default. Other configuration files can be specified using option <code>-c</code> of the <code>sos run</code> command. Options defined in these configuration file will be available to the script as dictionary <code>CONFIG</code>.</p>
-<p>Note that you can set complex datatypes from command line using Python expressions,</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">config</span> <span class="o">--</span><span class="nb">set</span> <span class="n">a</span> <span class="s1">&#39;{&quot;b&quot;:1}&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Set a to {&#39;b&#39;: 1}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>although</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">config</span> <span class="o">--</span><span class="nb">set</span> <span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="mi">1</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Set a to {&#39;b&#39;: 1}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>is easier to write if you only need to set one key <code>b</code> in dictionary <code>a</code>.</p>
+<p>Please refer to section <a href="Configuration_File.html">Configuration File</a> for details about this command.</p>
 
 </div>
 </div>
@@ -14255,7 +14380,7 @@ optional arguments:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">remove</span> <span class="o">-</span><span class="n">h</span>
@@ -14314,13 +14439,23 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Please refer to the tutorial on <a href="../tutorials/Project_Management.html">Project Management</a> for details about this command.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="subcommand-pack">subcommand <code>pack</code><a class="anchor-link" href="#subcommand-pack">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">pack</span> <span class="o">-</span><span class="n">h</span>
@@ -14337,7 +14472,7 @@ optional arguments:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos pack [-h] [-o OUTPUT] [-i [INCLUDE [INCLUDE ...]]]
-                [-e [EXCLUDE [EXCLUDE ...]]] [-a] [-m MESSAGE] [-d] [-y]
+                [-e [EXCLUDE [EXCLUDE ...]]] [-a] [-m MESSAGE] [-n] [-y]
                 [-v {0,1,2,3,4}]
                 [session]
 
@@ -14378,7 +14513,7 @@ optional arguments:
                         Because the message would be lost during unpacking, it
                         is highly recommended that you create a README file
                         and include it with option --include.
-  -d, --dryrun          List files to be included and total file size without
+  -n, --dryrun          List files to be included and total file size without
                         actually archiving them
   -y, --yes             Overwrite output file if it already exists
   -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
@@ -14398,13 +14533,23 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Please refer to the tutorial on <a href="../tutorials/Project_Management.html">Project Management</a> for details about this command.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="subcommand-unpack">subcommand <code>unpack</code><a class="anchor-link" href="#subcommand-unpack">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">unpack</span> <span class="o">-</span><span class="n">h</span>
@@ -14476,6 +14621,16 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Please refer to the tutorial on <a href="../tutorials/Project_Management.html">Project Management</a> for details about this command.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Command-sos-runner">Command <code>sos-runner</code><a class="anchor-link" href="#Command-sos-runner">&#182;</a></h2>
 </div>
 </div>
@@ -14486,10 +14641,10 @@ optional arguments:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Command <code>sos-runner</code> is a shortcut for <code>sos run</code> so</p>
-<div class="highlight"><pre><span></span>sos-runner script
+<div class="highlight"><pre><span></span>% sos-runner script
 </pre></div>
 <p>is equivalent to</p>
-<div class="highlight"><pre><span></span>sos run script
+<div class="highlight"><pre><span></span>% sos run script
 </pre></div>
 <p>This allows a SoS script to be executed directly if it is executable with shebang line</p>
 
