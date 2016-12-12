@@ -13904,7 +13904,7 @@ positional arguments:
                         be located or downloaded, SoS will search for the
                         script in a search path specified by variable
                         `sos_path` defined in the global SoS configuration
-                        file (~/.sos/config.yaml).
+                        file (~/.sos/config.yml).
   WORKFLOW              Name of the workflow to execute. This option can be
                         ignored if the script defines a default workflow (with
                         no name or with name `default`) or defines only a
@@ -14044,7 +14044,7 @@ positional arguments:
                         be located or downloaded, SoS will search for the
                         script in a search path specified by variable
                         `sos_path` defined in the global SoS configuration
-                        file (~/.sos/config.yaml).
+                        file (~/.sos/config.yml).
   WORKFLOW              Name of the workflow to execute. This option can be
                         ignored if the script defines a default workflow (with
                         no name or with name `default`) or defines only a
@@ -14170,118 +14170,10 @@ markdown, and terminal output.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can list all available converters and their options using command</p>
+<p>Please refer to the <a href="../tutorials/File_Conversion.html">File Conversion</a> tutorial for more details about this command.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="o">-</span><span class="n">l</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>===================================
-======      sos --&gt; term     ======
-===================================
-usage: sos convert FILE.sos --to term [-h] [--bg {light,dark}] [--linenos]
-
-Write script to terminal with syntax highlighting.
-
-optional arguments:
-  -h, --help         show this help message and exit
-  --bg {light,dark}  Color theme of the output
-  --linenos          Display lineno to the left of the script
-
-
-===================================
-======      sos --&gt; html     ======
-===================================
-usage: sos convert FILE.sos FILE.html (or --to html) [-h] [--raw RAW]
-                                                     [--style {lovelace,pastie,monokai,igor,vs,perldoc,tango,xcode,trac,bw,paraiso-dark,fruity,native,friendly,emacs,manni,paraiso-light,murphy,vim,colorful,rrt,autumn,default,borland,algol_nu,algol}]
-                                                     [--linenos]
-
-Convert sos file to html format with syntax highlighting, and save the output
-either to a HTML file or view it in a broaser.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --raw RAW             URL to the raw sos file, which will be linked to
-                        filenames in the HTML output
-  --style {lovelace,pastie,monokai,igor,vs,perldoc,tango,xcode,trac,bw,paraiso-dark,fruity,native,friendly,emacs,manni,paraiso-light,murphy,vim,colorful,rrt,autumn,default,borland,algol_nu,algol}
-                        Pygments style for the HTML output.
-  --linenos             Display lineno to the left of the source code
-
-
-===================================
-======      sos --&gt; ipynb    ======
-===================================
-usage: sos convert FILE.sos FILE._ipynb (or --to ipynb) [-h] [-e]
-
-Convert a sos script to Jupyter notebook (.ipynb) so that it can be opened by
-Jupyter notebook.
-
-optional arguments:
-  -h, --help     show this help message and exit
-  -e, --execute  Execute the notebook as if running &#34;Cell -&gt; Run all&#34; from the
-                 Jupyter notebook interface
-
-
-===================================
-======      sos --&gt; md       ======
-===================================
-usage: sos convert FILE.sos FILE.md (or --to md) [-h]
-
-Convert SOS scriot to a markdown format with scripts quoted in markdown
-syntax.
-
-optional arguments:
-  -h, --help  show this help message and exit
-
-
-===================================
-======    ipynb --&gt; sos      ======
-===================================
-usage: sos convert FILE.ipynb FILE.sos (or --to sos) [-h] [--reorder]
-                                                     [--reset-index]
-                                                     [--add-header]
-                                                     [--no-index]
-                                                     [--remove-magic]
-
-Export Jupyter notebook with a SoS kernel to a .sos file. The cells are
-presented in the .sos file as %cell structure lines, which will be ignored if
-executed in batch mode
-
-optional arguments:
-  -h, --help      show this help message and exit
-  --reorder       Reorder cells according to execution count
-  --reset-index   Reset index to 1, 2, 3, ... regardless of existing execution
-                  counts
-  --add-header    Add default section headers to cells without headers, which
-                  would help running the converted script in batch mode
-  --no-index      Do not output any index
-  --remove-magic  Remove magic lines from the output
-
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -14319,8 +14211,8 @@ configuration files.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -g, --global          If set, change global (~/.sos/config.yaml) instead of
-                        local (.sos/config.yaml) configuration
+  -g, --global          If set, change global (~/.sos/config.yml) instead of
+                        local (.sos/config.yml) configuration
   -c CONFIG_FILE, --config CONFIG_FILE
                         User specified configuration file in YAML format. This
                         file will not be automatically loaded by SoS but can

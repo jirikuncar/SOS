@@ -13694,12 +13694,12 @@ div#notebook {
 <script>
 $( document ).ready(function(){
 
-            var cfg={'threshold':3,     // depth of toc (number of levels)
-             'number_sections': false,  // sections numbering
+            var cfg={'threshold':4,     // depth of toc (number of levels)
+             'number_sections': true,  // sections numbering
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
-             // 'sideBar':false,      
+             // 'sideBar':true,      
              'sideBar':true,       // sidebar or floating window
              'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
             }
@@ -13755,7 +13755,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Command-line-options">Command line options<a class="anchor-link" href="#Command-line-options">&#182;</a></h2>
+<h1 id="Command-line-options">Command line options<a class="anchor-link" href="#Command-line-options">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13764,7 +13764,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It is extremely easy for you to pass command line options to a SoS script.</p>
+<p>SoS allows you to define parameters that accept values from command line options easily.</p>
 
 </div>
 </div>
@@ -13774,7 +13774,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Optional-arguments">Optional arguments<a class="anchor-link" href="#Optional-arguments">&#182;</a></h3>
+<h2 id="Optional-arguments">Optional arguments<a class="anchor-link" href="#Optional-arguments">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -13789,27 +13789,29 @@ $( document ).ready(function(){
 parameter: var_name = default_value</code></pre>
 <p>The default value can be number, string, list of string, or expressions that return values of these types. Other types can be used as long as they can be converted to these types from user-provided values. For example</p>
 
-<pre><code># path to tool gatk
-parameter: gatk_path = '~/bin/GATK'</code></pre>
-<p>defines a variable <code>gatk_path</code> with default value <code>'~/bin/GATK'</code>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># path to tool gatk</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+</pre></div>
 
-<pre><code># A list of sample names
-parameter: sample_names=[]</code></pre>
-<p>defines a variable <code>sample_name</code> with default value <code>[]</code>, and</p>
-<div class="highlight"><pre><span></span><span class="c1"># path to gatk</span>
-<span class="n">parameter</span><span class="p">:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;gatk_path&#39;</span><span class="p">]</span>
-</pre></div>
-<p>uses <code>gatk_path</code> from a YAML-based configuration file (specified from command line using option <code>-c</code>) as default value. You can set default value for <code>CONFIG</code> inside SoS script via:</p>
-<div class="highlight"><pre><span></span><span class="c1"># path to gatk</span>
-<span class="n">parameter</span><span class="p">:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gatk_path&#39;</span><span class="p">,</span> <span class="s1">&#39;/default/path/to/gatk&#39;</span><span class="p">)</span>
-</pre></div>
-<p>so that if configuration files are not supplied the default value <code>/default/path/to/gatk</code> will be used.</p>
-<p>The default values not only determines the values of variable when they are not specified from command line or configuration files, but also determines the type of input these parameters accept. For example, with the above definitions for command arguments <code>--gatk_path</code> and <code>--sample_names</code>, you can pass values to these variables from command line,</p>
-<div class="highlight"><pre><span></span>sos run myscript --gatk_path /path/to/gatk --sample_names A1 A2 A3
-</pre></div>
-<p>A list will be passed to <code>sample_names</code> even if only a single value is provided (e.g. <code>sample_names=['A1']</code> for <code>--sample_name A1</code>).
-Attempts to pass more than one values (a list) to <code>gatk_path</code> (e.g. <code>--gatk_path /path1 /path2</code>) will trigger an error.</p>
-<p>Note that boolean values can be specified from command line as <code>--param</code> for <code>True</code> and <code>--no-param</code> for <code>False</code>. It is also allowed to use <code>--gatk-path</code> in addition to <code>--gatk_path</code> for parameter <code>--gatk_path</code>.</p>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>defines a variable <code>gatk_path</code> with default value <code>'~/bin/GATK'</code>.</p>
 
 </div>
 </div>
@@ -13819,14 +13821,331 @@ Attempts to pass more than one values (a list) to <code>gatk_path</code> (e.g. <
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Required-arguments">Required arguments<a class="anchor-link" href="#Required-arguments">&#182;</a></h3><p>In cases where there is no suitable default values and/or command line arguments are mandatary, you can list the type of arguments (e.g. <code>int</code>, <code>bool</code>, <code>str</code>, <code>list</code> of strings) in place of default values. For example, if an integer parameter <code>cutoff</code> is required, you can define it as</p>
-<div class="highlight"><pre><span></span><span class="c1"># cutoff value</span>
-<span class="n">parameter</span><span class="p">:</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="nb">int</span>
+<p>If you execute a workflow without defining <code>gatk_path</code>, the default value will be used</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
 </pre></div>
-<p>This will force the users to provide an integer to this parameter. You can do the same for lists but SoS assumes that you need a <strong>list of strings</strong>. For example, the following definition</p>
-<div class="highlight"><pre><span></span><span class="c1"># input bam files</span>
-<span class="n">parameter</span><span class="p">:</span> <span class="n">bam_files</span> <span class="o">=</span> <span class="nb">list</span>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>~/bin/GATK
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can set this parameter from command line using option <code>--gatk_path</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">gatk_path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
 </pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/my/GATK
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also use <code>-</code> in place of <code>_</code> in command line, although the variable name cannot have <code>-</code> in it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">gatk</span><span class="o">-</span><span class="n">path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/my/GATK
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The default value of the parameter determines the type of values it accepts. For example, the following command yields an error because the parameter expects an integer (from default value <code>0</code>) but a string is passed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+
+<span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">cutoff</span> <span class="n">zero</span>
+<span class="kn">parameter:</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Failed to process statement if &#34;sos_handle_parameter_&#34; in ...ff&#39;,  0\n)\n: argument --cutoff: invalid int value: &#39;zero&#39;
+Sandbox execution failed.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Simiarly, a list would be created if the parameter has a default value of type list</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">sample</span><span class="o">-</span><span class="n">names</span> <span class="n">A</span>
+<span class="kn">parameter:</span> <span class="n">sample_names</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sample_names</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;A&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, the convention to specify <code>True</code> or <code>False</code> of a boolean parameter is to use <code>--no-PARAM</code> for <code>PARAM=False</code>. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">trim</span>
+<span class="kn">parameter:</span> <span class="n">trim</span><span class="o">=</span><span class="bp">True</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trim</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>False
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Required-arguments">Required arguments<a class="anchor-link" href="#Required-arguments">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In cases where there is no suitable default values and/or command line arguments are mandatary, you can list the type of arguments (e.g. <code>int</code>, <code>bool</code>, <code>str</code>, <code>list</code> of strings) in place of default values. This will force SoS to get a parameter from command line, and yield an error if no value is specified for this parameter.</p>
+<p>For example, if an integer parameter <code>cutoff</code> is required, you can define it as</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+
+<span class="c1"># cutoff value</span>
+<span class="kn">parameter:</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="nb">int</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Failed to process statement if &#34;sos_handle_parameter_&#34; in ...&#39;,  int\n)\n: Argument cutoff of type &lt;class &#39;int&#39;&gt; is required
+Sandbox execution failed.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and execute the workflow without parameter, SoS would fail with an error message. This will force the users to provide an integer to this parameter. You can do the same for lists but SoS assumes that you need a <strong>list of strings</strong>. For example, the following definition</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">bam</span><span class="o">-</span><span class="n">files</span> <span class="n">A</span><span class="o">.</span><span class="n">bam</span> <span class="n">B</span><span class="o">.</span><span class="n">bam</span>
+<span class="c1"># input bam files</span>
+<span class="kn">parameter:</span> <span class="n">bam_files</span> <span class="o">=</span> <span class="nb">list</span>
+<span class="k">print</span><span class="p">(</span><span class="n">bam_files</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;A.bam&#39;, &#39;B.bam&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>request a list of strings from command line. SoS will return a list even if only one value is provided.</p>
 
 </div>
@@ -13837,43 +14156,199 @@ Attempts to pass more than one values (a list) to <code>gatk_path</code> (e.g. <
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Redefinition-of-parameter">Redefinition of <code>parameter</code><a class="anchor-link" href="#Redefinition-of-parameter">&#182;</a></h3><p>A very important property of the <code>parameter</code> directive is that <strong>parameter definition is only effective for undefined variable</strong>. That is to say, the parameter statement will be ignored if a parameter has been specified in some way, most likely as a variable in a step.</p>
-<p>For example, the following workflow</p>
-<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">default_1</span><span class="p">]</span>
-<span class="kn">parameter:</span> <span class="n">cutoff</span><span class="o">=</span><span class="mi">10</span>
-<span class="kn">sh:</span>
-  <span class="n">do</span> <span class="n">something</span> <span class="k">with</span> <span class="err">$</span><span class="p">{</span><span class="n">cutoff</span><span class="p">}</span>
-
-<span class="p">[</span><span class="n">default_2</span><span class="p">]</span>
-<span class="kn">sh:</span>
-  <span class="n">do</span> <span class="n">something</span> <span class="k">else</span>
-
-<span class="p">[</span><span class="n">batch</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">cutoff</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
-</pre></div>
-<p>would be called in a number of ways</p>
-<div class="highlight"><pre><span></span>sos run myscript 
-sos run myscript --cutoff 5
-sos run myscript batch
-</pre></div>
-<p>The first command uses default value <code>10</code> for parameter <code>cutoff</code>, the second command assigns value <code>5</code> from command line, and the third command uses a series of values <code>0</code>, <code>1</code>, .... Because <code>cutoff</code> is already defined for workflow <code>default</code>, the parameter statement will be ignored.</p>
+<h2 id="Redefinition-of-parameter">Redefinition of <code>parameter</code><a class="anchor-link" href="#Redefinition-of-parameter">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A very important property of the <code>parameter</code> directive is that <strong>parameter definition is only effective for undefined variable</strong>. That is to say, the parameter statement will be ignored if a parameter has been specified in some way, most likely as a variable in a step.</p>
+<p>For example, when the <code>default</code> workflow of the following script is executed, <code>cutoff</code> takes its default value of <code>10</code>.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">default_1</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">cutoff</span><span class="o">=</span><span class="mi">10</span>
+<span class="kn">sh:</span>
+  <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">cutoff</span><span class="p">}</span>
+
+<span class="p">[</span><span class="n">batch</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">cutoff</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A command line argument can be used to set this parameter to <code>8</code>,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">cutoff</span> <span class="mi">8</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>8
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, if we execute another workflow in this script and calls <code>default</code> as a nested workflow, <code>cutoff</code> will use the existing value set by step <code>batch</code>, instead of using its default value</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="n">batch</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10
+10
+10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Well, not exactly. As you can see the default value of parameter <code>cutoff</code> is still used. This is actually one of the few differences in running SoS script in batch mode and in interactive mode. In interactive mode parameters will always be processed because it is quite likely that a script could be re-executed with different parameters, while having old values from previous runs. The batch mode does not have this problem (each run would start from a fresh namespace) and enforces this rule.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To see how this script behave in batch mode, you can run it as a complete script as follows.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="kp">sigil</span><span class="o">=</span><span class="bp">None</span><span class="p">]</span>
+<span class="kn">run:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;batch -v1&#39;</span>
+    <span class="c1">#!/usr/bin/env sos-runner</span>
+    <span class="p">[</span><span class="n">default_1</span><span class="p">]</span>
+    <span class="n">parameter</span><span class="p">:</span> <span class="n">cutoff</span><span class="o">=</span><span class="mi">10</span>
+    <span class="kp">sh</span><span class="p">:</span>
+      <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">cutoff</span><span class="p">}</span>
+
+    <span class="p">[</span><span class="n">batch</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">cutoff</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0
+1
+2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here <code>sigil=None</code> is used to stop string interpolation so that the script can be saved in verbatim to a file. With the <code>run</code> action and shebang line, the script itself bvecomes the command and is executed with arguments <code>batch -v1</code>. Please check section <a href="SoS_Step.html">SoS Step</a> for details about the usage of this <code>run</code> action.</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>

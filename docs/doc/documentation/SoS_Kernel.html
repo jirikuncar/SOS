@@ -19653,28 +19653,29 @@ something
 <h2 id="Convert-between-.ipynb-and-.sos-files">Convert between <code>.ipynb</code> and <code>.sos</code> files<a class="anchor-link" href="#Convert-between-.ipynb-and-.sos-files">&#182;</a></h2><p>You can save a Jupyter notebook with SoS kernel to a SoS script using <code>File -&gt; Download As -&gt; SoS</code> from the browser, or using command</p>
 
 <pre><code>$ sos convert myscript.ipynb myscript.sos</code></pre>
-<p>The conversion process will strip all results (which can be useful if you would like to version control your notebook without results) but keep cell information and SoS magics. <strong>SoS files converted from Jupyter notebook might not be executable by the <code>sos</code> command in batch mode</strong> if they contain SoS magics such as <code>%use R</code>** because these are not supported by non-interactive execution of SoS scripts.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can convert an existing SoS script to the <code>.ipynb</code> format using command</p>
+<p>You can also convert an <code>.sos</code> script to <code>.ipynb</code> format using command</p>
 
 <pre><code>$ sos convert myscript.sos myscript.ipynb</code></pre>
-<p>and open the resulting notebook from the web interface.</p>
-<p>The converter uses lines that starts with <code>%cell</code> to split a SoS script into cells of a Jupyter notebook. If you have a long script and would like to split it into several cells, you can manually insert <code>%cell</code> lines to a <code>.sos</code> script before conversion (which would be ignored in batch mode), or split the cells in Jupyter by selecting <code>Edit -&gt; Split Cell</code>, or using a keyboard shortcut (<code>Cmd-Shift-"-"</code> under Mac).</p>
-<p>The resulting <code>.ipynb</code> files have only input code and markdown cells. However, you can execute the notebook from command line if you add an <code>-e</code> (or <code>--execute</code>) option to the converter. That is to say, if you execute</p>
+<p>or even to an executed notebook with option <code>--execute</code></p>
 
 <pre><code>$ sos convert myscript.sos myscript.ipynb --execute</code></pre>
-<p>You would get a notebook with both input and output cells, as if you have opened the non-executed <code>ipynb</code> file and selected <code>Cell -&gt; Run all</code>.</p>
+<p>Please refer to the tutorial on <a href="../tutorials/File_Conversion.html">File Conversion</a> for details of these commands.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
