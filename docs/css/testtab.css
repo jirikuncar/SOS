@@ -1,0 +1,41 @@
+#exTab2 h3 {
+  color : white;
+  background-color: white;
+  padding : 5px 15px;
+}
+
+#fixedbar { 
+  display: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  /*background: rgba(0,0,0,0.75);*/
+  background: black;
+}
+ 
+#fixednav { 
+  display: block;
+  width: 750px;
+  margin: 0 auto;
+  padding: 0px 25px;
+}
+ 
+#fixednav li a {
+  display: block;
+  float: left;
+  /*font-size: 1.75em;
+  font-weight: bold;
+  color: #96aed8;
+  line-height: 80px;
+  text-decoration: none;
+  padding: 0px 8px;
+  margin-right: 6px; 
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  transition: all 0.2s linear; */
+}
+#fixednav li a:hover {
+/*  color: #fff;
+  background: rgba(0,0,0,0.3);*/
+}

@@ -14131,29 +14131,34 @@ specified in the script. Single value parameters should be passed using option
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos convert [-h] [-t TO_FORMAT] [-l] [-v {0,1,2,3,4}] [FROM] [TO]
+<pre>usage: sos convert [-h] [-v {0,1,2,3,4}]
+                   {sos-term,ipynb-sos,sos-html,sos-md,sos-ipynb} ...
 
 Converts .sos to various formats including .html for web display, to jupyter
 notebook (.ipynb), and to terminal for syntax highlighted viewing on terminal.
 It also allows converting from jupyter notebook (.ipynb) to sos script (.sos).
 
-positional arguments:
-  FROM                  File to be converted.
-  TO                    File to convert to, default to standard output if no
-                        file name is given.
-
 optional arguments:
   -h, --help            show this help message and exit
-  -t TO_FORMAT, --to TO_FORMAT
-                        Destination file format, which is usually determined
-                        from extension of `to_file` filename, but is needed if
-                        `to_file` is unspecified.
-  -l, --list            List all available converters or converters matching
-                        input parameters and their options.
   -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
                         Output error (0), warning (1), info (2), debug (3) and
                         trace (4) information to standard output (default to
                         2).
+
+converters (name of converter is not needed from command line):
+  {sos-term,ipynb-sos,sos-html,sos-md,sos-ipynb}
+    sos-term            Write script to terminal with syntax highlighting.
+    ipynb-sos           Export Jupyter notebook with a SoS kernel to a .sos
+                        file. The cells are presented in the .sos file as cell
+                        structure lines, which will be ignored if executed in
+                        batch mode
+    sos-html            Convert sos file to html format with syntax
+                        highlighting, and save the output either to a HTML
+                        file or view it in a broaser.
+    sos-md              Convert SOS scriot to a markdown format with scripts
+                        quoted in markdown syntax.
+    sos-ipynb           Convert a sos script to Jupyter notebook (.ipynb) so
+                        that it can be opened by Jupyter notebook.
 
 Extra command line argument could be specified to customize the style of html,
 markdown, and terminal output.
@@ -14186,7 +14191,7 @@ markdown, and terminal output.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">config</span> <span class="o">-</span><span class="n">h</span>
@@ -14272,7 +14277,7 @@ optional arguments:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">remove</span> <span class="o">-</span><span class="n">h</span>
@@ -14347,7 +14352,7 @@ optional arguments:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">pack</span> <span class="o">-</span><span class="n">h</span>
@@ -14441,7 +14446,7 @@ optional arguments:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">unpack</span> <span class="o">-</span><span class="n">h</span>
