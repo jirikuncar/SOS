@@ -242,7 +242,8 @@ header .intro-text {
   padding-bottom: 50px;
 }
 header .intro-text .intro-lead-in {
-  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: italic;
   font-size: 22px;
   line-height: 22px;
@@ -262,7 +263,8 @@ header .intro-text .intro-heading {
     padding-bottom: 200px;
   }
   header .intro-text .intro-lead-in {
-    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: italic;
     font-size: 40px;
     line-height: 40px;
@@ -287,7 +289,8 @@ section h2.section-heading {
 }
 section h3.section-subheading {
   font-size: 16px;
-  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: none;
   font-style: italic;
   font-weight: 400;
@@ -647,6 +650,8 @@ ul.social-buttons li a:focus,
 ul.social-buttons li a:active {
   background-color: #fed136;
 }
+
+
 .btn:focus,
 .btn:active,
 .btn.active,

@@ -54,13 +54,16 @@ $( document ).ready(function(){
             table_of_contents(cfg,st);
             var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/website"
-            $(".toc #toc-level0").append('<li><a href="'+path+'/index.html">Home</a></li>');
+            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html">Home</a></li>');
             var tuts=tutorials
             for (var a =0;a<tuts.length;a++){
                   var name =tuts[a];
                   $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
             }
 
+            var home=$("#toc-level0 #indexHome");
+          
+            home.insertBefore("#toc-level0 li:eq(0)");
 
 
     });

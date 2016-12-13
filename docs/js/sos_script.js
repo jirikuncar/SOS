@@ -50,10 +50,13 @@ $(document).ready(function(){
 
 	  $("#fixedbar li a ").click(function(){
 	  		var tabindex=$(this).attr('href');
-	  		console.log(tabindex);
 	  		$('#navigation li a').filter('[href="'+tabindex+'"]').tab('show'); 		
 	  })
         
+      $("#navigation li a ").click(function(){
+	  		var tabindex=$(this).attr('href');
+	  		$('#fixedbar li a').filter('[href="'+tabindex+'"]').tab('show'); 		
+	  })
 
 
 
