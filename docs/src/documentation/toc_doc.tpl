@@ -55,25 +55,19 @@ $( document ).ready(function(){
             // $(".toc #toc-level0").append('<li><a href="file:///Users/jma7/Development/SOS/website/index.html">home</a></li>');
             var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/website"
-            $(".toc #toc-level0").append('<li><a href="'+path+'/index.html">Home</a></li>');
-            // var documentations=[
-            //         "Auxiliary_Steps",
-            //         "Extending_SoS",
-            //         "SoS_Kernel",
-            //         "String_Interpolation",
-            //         "Command_Line_Options",
-            //         "External_task",
-            //         "SoS_Step",
-            //         "User_Interface",
-            //         "Configuration_Files",
-            //         "SoS_Functions",
-            //         "SoS_Syntax",
-            //         "Workflow_Specification" ]
+            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" >Home</a></li>');
+
             var docs=documentation
             for (var a =0;a<docs.length;a++){
                   var name =docs[a];
-                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
+                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.split("_").join(" ")+'</a></li>');
             }
+            var home=$("#toc-level0 #indexHome");
+          
+            home.insertBefore("#toc-level0 li:eq(0)");
+
+
+            // $("#toc-level0 li").filter(".home").insertBefore($("#toc-level0 li").filter(':nth-child(1)'));
 
 
 
