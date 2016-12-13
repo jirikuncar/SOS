@@ -28,7 +28,8 @@
 $( document ).ready(function(){
 
             var cfg={'threshold':{{ nb.get('metadata', {}).get('toc', {}).get('threshold', '3') }},     // depth of toc (number of levels)
-             'number_sections': {{ 'true' if nb.get('metadata', {}).get('toc', {}).get('number_sections', False) else 'false' }},  // sections numbering
+             // 'number_sections': {{ 'true' if nb.get('metadata', {}).get('toc', {}).get('number_sections', False) else 'false' }},  
+             'number_sections': true,  // sections numbering
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
@@ -54,7 +55,7 @@ $( document ).ready(function(){
             table_of_contents(cfg,st);
             var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/website"
-            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html">Home</a></li>');
+            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b><</a></li>');
             var tuts=tutorials
             for (var a =0;a<tuts.length;a++){
                   var name =tuts[a];
@@ -64,6 +65,10 @@ $( document ).ready(function(){
             var home=$("#toc-level0 #indexHome");
           
             home.insertBefore("#toc-level0 li:eq(0)");
+
+            $("#toc-header").hide();
+            // $(".number_sections-btn").hide();
+            // $(".toc_cell_sections-btn".hide();
 
 
     });
