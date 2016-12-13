@@ -32,7 +32,28 @@ $(document).ready(function(){
 
 
 
+	 $(window).on('scroll',function() {
+            var scrolltop = $(this).scrollTop();
+         
+            if(scrolltop >= 900) {
+              $('#fixedbar').fadeIn(250);
+            }
+            
+            else if(scrolltop <= 900) {
+              $('#fixedbar').fadeOut(250);
+            }
+          });
 
+	// var tabindex=$("#fixedbar").tabs({active:1}).tabs("option","active");
+	// console.log(tabindex);
+	// $("#navigation").tabs().tabs("option","active",tabindex);
+
+	  $("#fixedbar li a ").click(function(){
+	  		var tabindex=$(this).attr('href');
+	  		console.log(tabindex);
+	  		$('#navigation li a').filter('[href="'+tabindex+'"]').tab('show'); 		
+	  })
+        
 
 
 
