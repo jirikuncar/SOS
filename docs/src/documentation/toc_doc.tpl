@@ -28,7 +28,8 @@
 $( document ).ready(function(){
 
             var cfg={'threshold':{{ nb.get('metadata', {}).get('toc', {}).get('threshold', '3') }},     // depth of toc (number of levels)
-             'number_sections': {{ 'true' if nb.get('metadata', {}).get('toc', {}).get('number_sections', False) else 'false' }},  // sections numbering
+             // 'number_sections': {{ 'true' if nb.get('metadata', {}).get('toc', {}).get('number_sections', False) else 'false' }},  // sections numbering
+             'number_sections': true, 
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
@@ -55,7 +56,7 @@ $( document ).ready(function(){
             // $(".toc #toc-level0").append('<li><a href="file:///Users/jma7/Development/SOS/website/index.html">home</a></li>');
             var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/website"
-            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" >Home</a></li>');
+            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" ><b>Home<b></a></li>');
 
             var docs=documentation
             for (var a =0;a<docs.length;a++){
@@ -65,7 +66,7 @@ $( document ).ready(function(){
             var home=$("#toc-level0 #indexHome");
           
             home.insertBefore("#toc-level0 li:eq(0)");
-
+            $("#toc-header").hide();
 
             // $("#toc-level0 li").filter(".home").insertBefore($("#toc-level0 li").filter(':nth-child(1)'));
 
