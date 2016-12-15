@@ -7,6 +7,7 @@
     text-align:center;
 }
 
+.nav-tabs li a {font-size:22px;}
 
 #exTab2 h3 {
   color : white;
@@ -83,6 +84,7 @@ ul.gitbutton li a:active {
 
 .btn-xl{
   padding:10px 20px;
+  margin: 30px;
 
 
 }
