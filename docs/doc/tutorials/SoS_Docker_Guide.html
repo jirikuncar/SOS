@@ -13723,14 +13723,12 @@ $( document ).ready(function(){
 
 
             var file=tutorialsDict[$("h1:first").attr("id")];
-            // var path="http://bopeng.github.io/SOS"
-            var path="file:///Users/jma7/Development/SOS/docs"
+            var path="http://bopeng.github.io/SOS/docs"
+            // var path="file:///Users/jma7/Development/SOS/docs"
             
             var tuts=tutorials;
             var pos=tutorials.indexOf(file);
-            console.log(file)
-            console.log(tutorials)
-          console.log(pos)
+        
             for (var a=pos;a>=0;a--){
                   var name=tuts[a]
                   $('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace("_"," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
