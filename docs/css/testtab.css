@@ -9,11 +9,6 @@
 
 .nav-tabs li a {font-size:22px;}
 
-#exTab2 h3 {
-  color : white;
-  background-color: white;
-  padding : 5px 15px;
-}
 
 #fixedbar { 
   display: none;
