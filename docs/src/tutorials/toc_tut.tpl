@@ -56,7 +56,7 @@ $( document ).ready(function(){
 
 
             var file=tutorialsDict[$("h1:first").attr("id")];
-            var path="http://bopeng.github.io/SOS/docs"
+            var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/docs"
             
             var tuts=tutorials;
