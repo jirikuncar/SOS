@@ -13720,20 +13720,40 @@ $( document ).ready(function(){
 
 
             table_of_contents(cfg,st);
-            var path="http://bopeng.github.io/SOS"
-            // var path="file:///Users/jma7/Development/SOS/website"
-            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b></a></li>');
-            var tuts=tutorials
-            for (var a =0;a<tuts.length;a++){
-                  var name =tuts[a];
+
+
+            var file=tutorialsDict[$("h1:first").attr("id")];
+            // var path="http://bopeng.github.io/SOS"
+            var path="file:///Users/jma7/Development/SOS/docs"
+            
+            var tuts=tutorials;
+            var pos=tutorials.indexOf(file);
+            console.log(file)
+            console.log(tutorials)
+          console.log(pos)
+            for (var a=pos;a>=0;a--){
+                  var name=tuts[a]
+                  $('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace("_"," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<tuts.length;a++){
+                  var name=tuts[a]
                   $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
             }
-
-            var home=$("#toc-level0 #indexHome");
-          
-            home.insertBefore("#toc-level0 li:eq(0)");
-
             $("#toc-header").hide();
+
+            // for (var a =0;a<tuts.length;a++){
+            //       var name =tuts[a];
+            //       if ()
+            //       $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
+            // }
+
+            // $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b></a></li>');
+            // var home=$("#toc-level0 #indexHome");
+          
+            // home.insertBefore("#toc-level0 li:eq(0)");
+
+            
             // $(".number_sections-btn").hide();
             // $(".toc_cell_sections-btn".hide();
 
