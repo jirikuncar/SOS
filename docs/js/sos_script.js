@@ -2,6 +2,13 @@ $(document).ready(function(){
 	$("#intro_content").load("https://raw.githubusercontent.com/BoPeng/SOS/master/docs/doc/homepage/Overview.html"); 
 	$("#installation_content").load("https://raw.githubusercontent.com/BoPeng/SOS/master/docs/doc/homepage/Running_SoS.html"); 
 	$("#documentation_content").load("https://raw.githubusercontent.com/BoPeng/SOS/master/docs/doc/homepage/Documentation.html"); 
+	$("#features_content").load("https://raw.githubusercontent.com/BoPeng/SOS/master/docs/doc/homepage/Features.html"); 
+
+	// $("#intro_content").load("doc/homepage/Overview.html"); 
+	// $("#installation_content").load("doc/homepage/Running_SoS.html"); 
+	// $("#documentation_content").load("doc/homepage/Documentation.html"); 
+	// $("#features_content").load("doc/homepage/Features.html"); 
+
 
 	
 	// var tuts=tutorials
