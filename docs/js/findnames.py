@@ -5,7 +5,7 @@ import re
 
 def fileDict(docFile,folder):
 	docString="var "+folder+"Dict={"
-	for file in glob.glob("../src/"+folder+"/*.ipynb"):
+	for file in glob.glob("../docs/src/"+folder+"/*.ipynb"):
 		name=file.replace(".ipynb","").split("/")[-1]
 		with open(file) as json_data:
  			d=json.load(json_data)
@@ -17,7 +17,7 @@ def fileDict(docFile,folder):
 	docFile.write(docString+"\n")
 
 
-with open("../src/homepage/Documentation.ipynb") as json_data:
+with open("../docs/src/homepage/Documentation.ipynb") as json_data:
  	d=json.load(json_data)
 
 tutString="var tutorials=["
@@ -41,7 +41,7 @@ docString+="]"
 # print(tutString)
 # print(docString)
 
-docFile=open("docs.js","w")
+docFile=open("../docs/js/docs.js","w")
 fileDict(docFile,"documentation")
 fileDict(docFile,"tutorials")
 
