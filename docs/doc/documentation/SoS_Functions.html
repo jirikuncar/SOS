@@ -13719,21 +13719,39 @@ $( document ).ready(function(){
             // fire the main function with these parameters
 
 
-            table_of_contents(cfg,st);
-            // $(".toc #toc-level0").append('<li><a href="file:///Users/jma7/Development/SOS/website/index.html">home</a></li>');
-            var path="http://bopeng.github.io/SOS"
-            // var path="file:///Users/jma7/Development/SOS/website"
-            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" ><b>Home<b></a></li>');
 
-            var docs=documentation
-            for (var a =0;a<docs.length;a++){
-                  var name =docs[a];
-                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.split("_").join(" ")+'</a></li>');
+            table_of_contents(cfg,st);
+
+            var file=documentationDict[$("h1:first").attr("id")];
+            var path="http://bopeng.github.io/SOS"
+            // var path="file:///Users/jma7/Development/SOS/docs"
+            
+            var docs=documentation;
+            var pos=documentation.indexOf(file);
+        
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
-            var home=$("#toc-level0 #indexHome");
-          
-            home.insertBefore("#toc-level0 li:eq(0)");
+            $('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
+            }
             $("#toc-header").hide();
+
+            // var path="file:///Users/jma7/Development/SOS/website"
+            // $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" ><b>Home<b></a></li>');
+
+            // var docs=documentation
+            // for (var a =0;a<docs.length;a++){
+            //       var name =docs[a];
+            //       $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.split("_").join(" ")+'</a></li>');
+            // }
+            // var home=$("#toc-level0 #indexHome");
+          
+            // home.insertBefore("#toc-level0 li:eq(0)");
+            // $("#toc-header").hide();
 
             // $("#toc-level0 li").filter(".home").insertBefore($("#toc-level0 li").filter(':nth-child(1)'));
 
@@ -14597,6 +14615,252 @@ output: <a target="_blank" href="b.txt.processed">b.txt.processed</a>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="report"><code>report</code><a class="anchor-link" href="#report">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Action <code>report</code> writes the passed string to an output, which is determined by parameter <code>output</code>, and command line option <code>-r</code>.</p>
+<ul>
+<li>If <code>output='filename'</code>, the content will be written to a file.</li>
+<li>If <code>output='&gt;&gt;filename'</code>, the content will be appended to specified file</li>
+<li>If <code>output=obj</code> and <code>obj</code> has a <code>write</code> function (e.g. a file handle), the content will be passed to the <code>write</code> function</li>
+<li>If output is unspecified and a filename is specified with option <code>-r</code>, the content will be appended to specified file (no <code>&gt;&gt;</code> prefix is needed).</li>
+<li>If output is unspecified and no filename is specified from option <code>-r</code>, the content will be written to standard output.</li>
+</ul>
+<p>For example, the content of <code>report</code> actions is printed to standard output if no output is specified.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">report:</span>
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span>
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Runing default_10
+
+Runing default_20</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can specify an output file with option <code>output</code>, but the output will be overwritten if multiple actions write to the same file</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview report.txt</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> report.txt (17 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Runing default_20</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This can be fixed by using the <code>&gt;&gt;</code> version of filename,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;&gt;&gt;report.txt&#39;</span>
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview report.txt</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> report.txt (36 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Runing default_10
+
+Runing default_20</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>-r</code> can be used to set a default output of all <code>report</code> actions</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">report:</span> 
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span>
+    <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview report.txt</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> report.txt (36 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Runing default_10
+
+Runing default_20</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">

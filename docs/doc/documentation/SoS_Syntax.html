@@ -13719,21 +13719,39 @@ $( document ).ready(function(){
             // fire the main function with these parameters
 
 
-            table_of_contents(cfg,st);
-            // $(".toc #toc-level0").append('<li><a href="file:///Users/jma7/Development/SOS/website/index.html">home</a></li>');
-            var path="http://bopeng.github.io/SOS"
-            // var path="file:///Users/jma7/Development/SOS/website"
-            $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" ><b>Home<b></a></li>');
 
-            var docs=documentation
-            for (var a =0;a<docs.length;a++){
-                  var name =docs[a];
-                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.split("_").join(" ")+'</a></li>');
+            table_of_contents(cfg,st);
+
+            var file=documentationDict[$("h1:first").attr("id")];
+            var path="http://bopeng.github.io/SOS"
+            // var path="file:///Users/jma7/Development/SOS/docs"
+            
+            var docs=documentation;
+            var pos=documentation.indexOf(file);
+        
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
-            var home=$("#toc-level0 #indexHome");
-          
-            home.insertBefore("#toc-level0 li:eq(0)");
+            $('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
+            }
             $("#toc-header").hide();
+
+            // var path="file:///Users/jma7/Development/SOS/website"
+            // $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" ><b>Home<b></a></li>');
+
+            // var docs=documentation
+            // for (var a =0;a<docs.length;a++){
+            //       var name =docs[a];
+            //       $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.split("_").join(" ")+'</a></li>');
+            // }
+            // var home=$("#toc-level0 #indexHome");
+          
+            // home.insertBefore("#toc-level0 li:eq(0)");
+            // $("#toc-header").hide();
 
             // $("#toc-level0 li").filter(".home").insertBefore($("#toc-level0 li").filter(':nth-child(1)'));
 
