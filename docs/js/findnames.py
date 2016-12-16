@@ -4,7 +4,7 @@ import re
 
 
 path="../docs"
-# path="../"
+#path="../"
 
 def fileDict(docFile,folder):
 	docString="var "+folder+"Dict={"
@@ -24,8 +24,6 @@ def fileDict(docFile,folder):
 def findImages(docFile):
 	docString="var images=["
 	for file in glob.glob(path+"/img/*"):
-		name=file.replace(".ipynb","").split("/")[-1]
- 		# title=d["cells"]
 		docString+='"'+name+'",'
 	docString=docString[:-1]
 	docString+="]"
@@ -57,7 +55,7 @@ docString+="]"
 # print(docString)
 
 docFile=open("../docs/js/docs.js","w")
-# docFile=open("docs.js","w")
+#docFile=open("docs.js","w")
 fileDict(docFile,"documentation")
 fileDict(docFile,"tutorials")
 findImages(docFile)
