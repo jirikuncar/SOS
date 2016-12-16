@@ -68,16 +68,8 @@ $(document).ready(function(){
 	  		$('#fixedbar li a').filter('[href="'+tabindex+'"]').tab('show'); 		
 	  })
 
+	var images=["keyboard.png","screen.jpg"]
 
-      var images=  glob("img/{*.jpg, *.JPG, *.png, *.PNG}", GLOB_BRACE)
-
-      $('header').css({'background-image': 'url(' + images[Math.floor(Math.random() * images.length)] + ')'});
-
-      if (images.indexof("light") !== -1) {
-	      $('#intro-heading').css({'color': black});
-	      $('#intro-lead-in').css({'color': black})
-      }
-
-
+      $('header').css({'background-image': 'url(img/' + images[Math.floor(Math.random() * images.length)] + ')'});
 	
 });
