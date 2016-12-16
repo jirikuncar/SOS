@@ -3,9 +3,12 @@ import json
 import re
 
 
+path="../docs"
+# path="../"
+
 def fileDict(docFile,folder):
 	docString="var "+folder+"Dict={"
-	for file in glob.glob("../docs/src/"+folder+"/*.ipynb"):
+	for file in glob.glob(path+"/src/"+folder+"/*.ipynb"):
 		name=file.replace(".ipynb","").split("/")[-1]
 		with open(file) as json_data:
  			d=json.load(json_data)
@@ -14,10 +17,22 @@ def fileDict(docFile,folder):
 		docString+='"'+title+'":"'+name+'",'
 	docString=docString[:-1]
 	docString+="}"
+	# print (docString)
 	docFile.write(docString+"\n")
 
 
-with open("../docs/src/homepage/Documentation.ipynb") as json_data:
+def findImages(docFile):
+	docString="var images=["
+	for file in glob.glob(path+"/img/*"):
+		name=file.replace(".ipynb","").split("/")[-1]
+ 		# title=d["cells"]
+		docString+='"'+name+'",'
+	docString=docString[:-1]
+	docString+="]"
+	docFile.write(docString+"\n")
+
+
+with open(path+"/src/homepage/Documentation.ipynb") as json_data:
  	d=json.load(json_data)
 
 tutString="var tutorials=["
@@ -42,9 +57,10 @@ docString+="]"
 # print(docString)
 
 docFile=open("../docs/js/docs.js","w")
+# docFile=open("docs.js","w")
 fileDict(docFile,"documentation")
 fileDict(docFile,"tutorials")
-
+findImages(docFile)
 
 docFile.write(docString+"\n")
 docFile.write(tutString+"\n")

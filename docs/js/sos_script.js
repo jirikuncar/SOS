@@ -68,8 +68,8 @@ $(document).ready(function(){
 	  		$('#fixedbar li a').filter('[href="'+tabindex+'"]').tab('show'); 		
 	  })
 
-	var images=["keyboard.png","screen.jpg"]
+	var imgs=images
 
-      $('header').css({'background-image': 'url(img/' + images[Math.floor(Math.random() * images.length)] + ')'});
+      $('header').css({'background-image': 'url(img/' + imgs[Math.floor(Math.random() * imgs.length)] + ')'});
 	
 });
