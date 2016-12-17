@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Extending_SoS</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Extending_SoS</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -13816,7 +13814,7 @@ Ruby_Library = sos-ruby.target:Ruby-Library
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Additional-actions-and-targets">Additional actions and targets<a class="anchor-link" href="#Additional-actions-and-targets">&#182;</a></h2><p>An action is a normal Python function that is decorated as <code>SoS_Action</code>. To define your own action, you generally need to</p>
+<h2 id="Additional-actions">Additional actions<a class="anchor-link" href="#Additional-actions">&#182;</a></h2><p>An action is a normal Python function that is decorated as <code>SoS_Action</code>. To define your own action, you generally need to</p>
 
 <pre><code>from sos.actions import SoS_Action
 
@@ -13829,6 +13827,34 @@ def my_action(*args, **kwargs):
 <pre><code>[sos-actions]
 my_action = mypackage.mymodule:my_action</code></pre>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If the execution of action depends on some other targets, you can raise an <code>UnknownTarget</code> with the target so that the target can be obtained. For example, if your action depends on a particular <code>R_library</code>, you can test the existence of the target as follows:</p>
+
+<pre><code>from sos.target import UnknownTarget
+from sos.R.target import R_library
+
+@SoS_Action(run_mode=['run', 'interactive'])
+def my_action(script, *args, **kwargs):
+    if not R_library('somelib').exists():
+        raise UnknownTarget(R_library('somelib'))
+    # ...</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Additional-targets">Additional targets<a class="anchor-link" href="#Additional-targets">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14038,4 +14064,8 @@ myaddon.func = yourpackage.module:addon_func</code></pre>
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>

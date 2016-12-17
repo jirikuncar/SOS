@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Generating_Reports</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Generating_Reports</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -13694,13 +13692,13 @@ div#notebook {
 <script>
 $( document ).ready(function(){
 
-            var cfg={'threshold':3,     // depth of toc (number of levels)
-             // 'number_sections': false,  
+            var cfg={'threshold':4,     // depth of toc (number of levels)
+             // 'number_sections': true,  
              'number_sections': true,  // sections numbering
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
-             // 'sideBar':false,      
+             // 'sideBar':true,      
              'sideBar':true,       // sidebar or floating window
              'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
             }
@@ -13776,12 +13774,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The general workflow of generating a report in s SoS workflow is</p>
-<ol>
-<li>Use <code>report</code> action to write a small piece of results piece by piece during the execution of the workflow.</li>
-<li>At the end of the workflow, use a master <code>report</code> action to collect all reports, or use actions such as <code>pandoc</code> or <code>Rmarkdown</code> to convert report to a nice-looking report in HTML or PDf format.</li>
-</ol>
-<p>Let us demonstrate this process using a few examples.</p>
+<p>There are multiple ways to generate reports from the execution of SoS workflows. This tutorial introduces some basic methods but you can certainly be more creative.</p>
 
 </div>
 </div>
@@ -13791,7 +13784,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Reporting-to-a-single-output-stream">Reporting to a single output stream<a class="anchor-link" href="#Reporting-to-a-single-output-stream">&#182;</a></h2>
+<h2 id="A-summarization-step">A summarization step<a class="anchor-link" href="#A-summarization-step">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -13800,23 +13793,39 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you have a simple workflow with steps executed sequentially, you can write all reports to standard output or a specified file. For example, without any option, the <code>report</code> actions write the script they get (in script format) to standard output.</p>
+<p>You can write a report at the end of the workflow that summarizes the results of previous steps. For example, in the following example, the <code>report</code> action summarizes previous steps and writes a report to the standard output.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="kn">report:</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
-  
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">R:</span>
+    <span class="n">jpeg</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+    <span class="n">cars</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="n">barplot</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
+
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;100&quot;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;a.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">a</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
 <span class="kn">report:</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+    <span class="o">*</span> <span class="n">Figure</span>
+    <span class="err">!</span><span class="p">[</span><span class="n">figure</span><span class="p">](</span><span class="n">a</span><span class="o">.</span><span class="n">jpg</span><span class="p">)</span>
+    <span class="o">*</span> <span class="n">result</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">res</span><span class="p">}</span>
 </pre></div>
 
 </div>
@@ -13829,9 +13838,14 @@ $( document ).ready(function(){
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>* Result from default_10
+<pre>* Figure
+![figure](a.jpg)
+* result
+100
 
-* Result from default_20</pre>
+
+
+</pre>
 </div>
 </div>
 
@@ -13839,35 +13853,49 @@ $( document ).ready(function(){
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">A</span> <span class="n">command</span> <span class="n">line</span> <span class="n">option</span> <span class="sb">`-r`</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">direct</span> <span class="n">the</span> <span class="n">output</span> <span class="n">to</span> <span class="n">another</span> <span class="nb">file</span><span class="o">.</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is a pretty bad idea to write report to standard output because other actions can also write to it. You can use either the <code>output</code> option of the <code>report</code> action or a command line option <code>-r</code> to specify an output file of the <code>report</code> action. Moreover, if there would be a lot of processing to get summary information, you can separate them into different steps. For example, an auxiliary step is used to extract information from the output of step <code>20</code>. As you can see, the <code>%preview</code> magic automatically render <code>.md</code> file.</p>
 
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
-<span class="o">%</span><span class="n">preview</span> <span class="n">out</span><span class="o">.</span><span class="n">md</span>
-<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="n">out</span><span class="o">.</span><span class="n">md</span>
-
+<span class="o">%</span><span class="n">preview</span> <span class="n">summary</span><span class="o">.</span><span class="n">md</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="kn">report:</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
-  
+<span class="kn">output:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">R:</span>
+    <span class="n">jpeg</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+    <span class="n">cars</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="n">barplot</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
+
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="kn">report:</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;100&quot;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="p">[</span><span class="n">counts</span><span class="p">:</span> <span class="kp">shared</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;a.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">a</span><span class="p">:</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">depends:</span> <span class="n">sos_variable</span><span class="p">(</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;summary.md&#39;</span>
+    <span class="o">*</span> <span class="n">Figure</span>
+    <span class="err">!</span><span class="p">[</span><span class="n">figure</span><span class="p">](</span><span class="n">a</span><span class="o">.</span><span class="n">jpg</span><span class="p">)</span>
+    <span class="o">*</span> <span class="n">result</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">counts</span><span class="p">}</span>
 </pre></div>
 
 </div>
@@ -13881,7 +13909,7 @@ $( document ).ready(function(){
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview out.md</font></pre>
+<pre><font color="green">## %preview summary.md</font></pre>
 </div>
 
 </div>
@@ -13889,7 +13917,313 @@ $( document ).ready(function(){
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> out.md (50 B):</font></pre>
+<pre><font color="green">> summary.md (42 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<ul>
+<li>Figure
+<img alt="figure" src="a.jpg" /></li>
+<li>result
+100</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of outputting reports in <code>.md</code> format and rendering them outside of SoS, you can also render them inside SoS using action <code>pandoc</code> or <code>Rmarkdown</code>. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">summary</span><span class="o">.</span><span class="n">html</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">R:</span>
+    <span class="n">jpeg</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+    <span class="n">cars</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="n">barplot</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;100&quot;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="p">[</span><span class="n">counts</span><span class="p">:</span> <span class="kp">shared</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;a.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">a</span><span class="p">:</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">depends:</span> <span class="n">sos_variable</span><span class="p">(</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+
+<span class="kn">pandoc:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;summary.html&#39;</span>
+    <span class="o">*</span> <span class="n">Figure</span>
+    <span class="err">!</span><span class="p">[</span><span class="n">figure</span><span class="p">](</span><span class="n">a</span><span class="o">.</span><span class="n">jpg</span><span class="p">)</span>
+    <span class="o">*</span> <span class="n">result</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">counts</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview summary.html</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> summary.html (80 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<ul>
+<li>Figure <img src="a.jpg" alt="figure" /></li>
+<li>result 100</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Reporting-to-report-output">Reporting to report output<a class="anchor-link" href="#Reporting-to-report-output">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Write a single reporting step is convenient in that you only need to write one (large) template and try to feed the template with all required information. If you workflow is long, or if some of the steps are optional, or if you prefer writing reports immediately after a step is completed (so that your steps and reports are close to each other), you can report results piece by piece.</p>
+<p>The simplest method to write such a report is as follows:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">R:</span>
+    <span class="n">jpeg</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+    <span class="n">cars</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="n">barplot</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
+
+<span class="kn">report:</span>
+    <span class="o">*</span> <span class="n">Figure</span>
+    <span class="err">!</span><span class="p">[</span><span class="n">figure</span><span class="p">](</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">})</span>    
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;${counts}&quot;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="kn">report:</span>
+    <span class="o">*</span> <span class="n">result</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">counts</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>* Figure
+![figure](a.jpg)    
+
+
+
+* result
+100
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: <a target="_blank" href="a.jpg">a.jpg</a>
+output: <a target="_blank" href="a.txt">a.txt</a>
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> a.txt (4 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As you can see, you can report the result of a step immediately after it is available and no summary step is needed because all reports have been written to standard output. To write the report other than standard output, you can use the <code>-r</code> option.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">summary</span><span class="o">.</span><span class="n">md</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="n">summary</span><span class="o">.</span><span class="n">md</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">R:</span>
+    <span class="n">jpeg</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+    <span class="n">cars</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="n">barplot</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
+
+<span class="kn">report:</span>
+    <span class="o">*</span> <span class="n">Figure</span>
+    <span class="err">!</span><span class="p">[</span><span class="n">figure</span><span class="p">](</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">})</span>    
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;${counts}&quot;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="kn">report:</span>
+    <span class="o">*</span> <span class="n">result</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">counts</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: <a target="_blank" href="a.jpg">a.jpg</a>
+output: <a target="_blank" href="a.txt">a.txt</a>
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> a.txt (4 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview summary.md</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> summary.md (47 B):</font></pre>
 </div>
 
 </div>
@@ -13899,10 +14233,12 @@ $( document ).ready(function(){
 <div class="output_html rendered_html output_subarea ">
 <ul>
 <li>
-<p>Result from default_10</p>
+<p>Figure
+<img alt="figure" src="a.jpg" />    </p>
 </li>
 <li>
-<p>Result from default_20</p>
+<p>result
+100</p>
 </li>
 </ul>
 </div>
@@ -13918,7 +14254,8 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Reporting-to-multiple-output-streams">Reporting to multiple output streams<a class="anchor-link" href="#Reporting-to-multiple-output-streams">&#182;</a></h2>
+<p>You cannot use the <code>output</code> option to write to the same file because the file would be overwritten.</p>
+
 </div>
 </div>
 </div>
@@ -13927,29 +14264,57 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The previous examples work well when the workflow is executed sequentially, which is generally not the case. Even if your workflow consists of only forward-style steps that should conceptually be executed sequentially, SoS might execute some later step if it does not depend on the result of a previous one. It is therefore difficult to control the order at which reports are written.</p>
-<p>The solution of this problem is to write reports to individual files and collect them at the end of the workflow.</p>
+<h2 id="Reporting-to-multiple-output-files">Reporting to multiple output files<a class="anchor-link" href="#Reporting-to-multiple-output-files">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The previous approach assumes that all steps would be executed, and be executed sequentially. However,</p>
+<ol>
+<li>As you have learned in other sections, SoS steps can be executed in parallel, and do not have to be executed in order because a later step can be executed before a previous one if it does not depend on it. </li>
+<li>Some steps of a workflow might be skipped if they have been executed before so re-executing a workflow might result in an incomplete report. </li>
+<li>This method makes it impossible to catch and process the report inside SoS so you can not use actions <code>pandoc</code> or <code>Rmarkdown</code> to generate nice looking reports.</li>
+</ol>
+<p>Because of all these problems, it makes more sense to write reports to separate files during evolution, and collect them at the end. For example, in the following example, an output file is specified for each <code>report</code> and a summary step is used at the end to collect and process them.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">summary</span><span class="o">.</span><span class="n">html</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.jpg&#39;</span>
+<span class="kn">R:</span>
+    <span class="n">jpeg</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+    <span class="n">cars</span> <span class="o">&lt;-</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="n">barplot</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
 
-<span class="p">[</span><span class="mi">10</span><span class="p">]</span>   
-<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;a_10.md&#39;</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
-  
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;figure.md&#39;</span>
+    <span class="o">*</span> <span class="n">Figure</span>
+    <span class="err">!</span><span class="p">[</span><span class="n">figure</span><span class="p">](</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">})</span>    
+
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;a_20.md&#39;</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;${counts}&quot;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
 
-<span class="p">[</span><span class="mi">30</span><span class="p">]</span>
-<span class="kp">report</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a_10.md&#39;</span><span class="p">,</span> <span class="s1">&#39;a_20.md&#39;</span><span class="p">])</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;result.md&#39;</span>
+    <span class="o">*</span> <span class="n">result</span>
+    <span class="err">$</span><span class="p">{</span><span class="n">counts</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kn">pandoc:</span> <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;figure.md&#39;</span><span class="p">,</span> <span class="s1">&#39;result.md&#39;</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;summary.html&#39;</span>
+    <span class="n">Final</span> <span class="kp">report</span>
 </pre></div>
 
 </div>
@@ -13961,55 +14326,32 @@ $( document ).ready(function(){
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>* Result from default_10
 
-* Result from default_20
-
-</pre>
-</div>
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview summary.html</font></pre>
 </div>
 
 </div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
-<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="s1">&#39;${step_name}.md&#39;</span>
-
-<span class="p">[</span><span class="mi">10</span><span class="p">]</span>   
-<span class="kn">report:</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
-  
-<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="kn">report:</span>
-   <span class="o">*</span> <span class="n">Result</span> <span class="kn">from</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
-
-<span class="p">[</span><span class="mi">30</span><span class="p">]</span>
-<span class="kp">report</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;default_10.md&#39;</span><span class="p">,</span> <span class="s1">&#39;default_20.md&#39;</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1">#, &#39;default_20.md&#39;])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>* Result from default_10
 
-* Result from default_20
-
-</pre>
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> summary.html (114 B):</font></pre>
 </div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<p>Final report</p>
+<ul>
+<li><p>Figure <img src="a.jpg" alt="figure" /></p></li>
+<li><p>result 100</p></li>
+</ul>
+
+</div>
+
 </div>
 
 </div>
@@ -14021,20 +14363,16 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Using-pandoc-to-process-report">Using <code>pandoc</code> to process report<a class="anchor-link" href="#Using-pandoc-to-process-report">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Using-Rmarkdown-to-process-report">Using <code>Rmarkdown</code> to process report<a class="anchor-link" href="#Using-Rmarkdown-to-process-report">&#182;</a></h2>
+<p>You will notice that both <code>script</code> and <code>input</code> are specified to action <code>pandoc</code>. In this case the <code>script</code> is put before the content of each <code>input</code> files, making it a perfect place to write headers and summaries.</p>
+
 </div>
 </div>
 </div>
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>
