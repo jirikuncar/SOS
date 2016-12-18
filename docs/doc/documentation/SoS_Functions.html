@@ -13785,7 +13785,7 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Although arbitrary python functions can be used in SoS step process, SoS defines some <strong><code>actions</code></strong> (e.g. the <code>run</code> function in the aforementioned examples)
-that can be used in a SoS script. These fucntions accept a common set of <strong>runtime options</strong>, and are <strong>not called in dryrun mode</strong>.</p>
+that can be used in a SoS script. These fucntions accept a common set of <strong> options</strong>, and are <strong>not called in dryrun mode</strong>.</p>
 <p>For example, function <code>time.sleep(5)</code> would be executed in run mode,</p>
 
 </div>
@@ -13796,11 +13796,11 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I just slept </span><span class="si">{:.2f}</span><span class="s1"> seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -13837,12 +13837,12 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">run</span> -n
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I just slept </span><span class="si">{:.2f}</span><span class="s1"> seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -13879,12 +13879,12 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">python</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="kn">python:</span>
     <span class="kn">import</span> <span class="nn">time</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I just slept </span><span class="si">{:.2f}</span><span class="s1"> seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -13921,13 +13921,13 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">run</span> -n
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">python</span><span class="p">:</span>
+<span class="kn">python:</span>
     <span class="kn">import</span> <span class="nn">time</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I just slept </span><span class="si">{:.2f}</span><span class="s1"> seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -13959,6 +13959,238 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="input"><code>input</code><a class="anchor-link" href="#input">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Parameter <code>input</code> specifies the input files that an action needs before it can be executed. This parameter is processed by SoS before an action is called and SoS will try to generate the file if an input target does not exist.</p>
+<p>For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">bash:</span>
+    <span class="n">echo</span> <span class="s1">&#39;content of a.txt&#39;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>content of a.txt
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="p">[</span><span class="n">a</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span><span class="p">]</span>
+<span class="kn">bash:</span>
+    <span class="n">echo</span> <span class="s1">&#39;content of a.txt&#39;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>content of a.txt
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Although both the <code>input</code> parameter and the <code>input</code> statement of a step can affect the execution of workflow (change DAG), they differ in that <code>input</code> statement defines variables <code>input</code> and <code>_input</code>, <code>input</code> parameter does not define any.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="output"><code>output</code><a class="anchor-link" href="#output">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similar to <code>input</code>, parameter <code>output</code> defines the output of an action, which can be a single name (or target) or a list of files or targets. SoS would check the existence of output after the completion of the action. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">bash:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Failed to process statement &#39;bash(r&#34;&#34;&#34;&#34;&#34;&#34;, output=\&#39;a.txt\&#39;)\n&#39;: Target a.txt does not exist after execution of action
+Sandbox execution failed.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Parameter <code>output</code>  does not change the step variable <code>output</code> and thus affect the default input file of the next step. The targets specified by this parameter will be tracked, so this is a great way to track additional files from a step. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">summary</span><span class="o">.</span><span class="n">md</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s1">&#39;a&#39;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;a.md&#39;</span>
+  <span class="n">this</span> <span class="ow">is</span> <span class="n">step</span> <span class="mi">10</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;My input is ${input}&quot;</span><span class="p">)</span>
+<span class="kn">report:</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;a.md&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;summary.md&#39;</span>
+   <span class="n">Summary</span> <span class="kp">report</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>My input is a.txt
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview summary.md</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> summary.md (33 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<p>Summary report</p>
+<p>this is step 10</p>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As you can see, the <code>output</code> variable of step 10 (and thus input of step 20) is defined by the output statement, which is not affected by parameter <code>output='a.md'</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="active"><code>active</code><a class="anchor-link" href="#active">&#182;</a></h3>
 </div>
 </div>
@@ -13979,14 +14211,14 @@ that can be used in a SoS script. These fucntions accept a common set of <strong
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seq</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="nb">input</span><span class="p">:</span> <span class="n">for_each</span><span class="o">=</span><span class="s1">&#39;seq&#39;</span>
-<span class="n">run</span><span class="p">:</span>
-   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="n">active</span> <span class="n">at</span> <span class="nb">all</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
-<span class="n">run</span><span class="p">:</span> <span class="n">active</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="n">active</span> <span class="n">at</span> <span class="n">even</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
-<span class="n">run</span><span class="p">:</span> <span class="n">active</span><span class="o">=-</span><span class="mi">1</span>
-   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="n">active</span> <span class="n">at</span> <span class="n">last</span> <span class="n">group</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">seq</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">for_each</span><span class="o">=</span><span class="s1">&#39;seq&#39;</span>
+<span class="kn">run:</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="nb">all</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+<span class="kn">run:</span> <span class="kp">active</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="n">even</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+<span class="kn">run:</span> <span class="kp">active</span><span class="o">=-</span><span class="mi">1</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="n">last</span> <span class="n">group</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
 </pre></div>
 
 </div>
@@ -14040,9 +14272,9 @@ I am active at last group 4
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bash</span><span class="p">:</span> <span class="n">workdir</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span>
    <span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">bash</span><span class="p">:</span>
+<span class="kn">bash:</span>
     <span class="n">ls</span> <span class="n">tmp</span>
     <span class="n">rm</span> <span class="n">tmp</span><span class="o">/</span><span class="n">a</span><span class="o">.</span><span class="n">txt</span>
     <span class="n">rmdir</span> <span class="n">tmp</span>
@@ -14197,7 +14429,7 @@ is executed in a docker image. These options include</p>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bash</span><span class="p">:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
     <span class="n">echo</span> <span class="s2">&quot;-n means running in dryrun mode (only check syntax)&quot;</span>
 </pre></div>
 
@@ -14221,7 +14453,7 @@ is executed in a docker image. These options include</p>
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">python</span><span class="p">:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-m timeit $</span><span class="si">{script}</span><span class="s1">&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">python:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-m timeit ${script}&#39;</span>
     <span class="s1">&#39;&quot;-&quot;.join(str(n) for n in range(100))&#39;</span>
 </pre></div>
 
@@ -14287,7 +14519,7 @@ is executed in a docker image. These options include</p>
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span>
     <span class="n">echo</span> <span class="s2">&quot;A&quot;</span>
 </pre></div>
 
@@ -14325,9 +14557,9 @@ is executed in a docker image. These options include</p>
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span>
     <span class="c1">#!/usr/bin/env python</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This is python&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;This is python&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14364,14 +14596,14 @@ is executed in a docker image. These options include</p>
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># use sigil=None to stop interpolating expressions in script</span>
-<span class="p">[</span><span class="n">sos</span><span class="p">:</span> <span class="n">sigil</span><span class="o">=</span><span class="kc">None</span><span class="p">]</span>
-<span class="n">run</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># use sigil=None to stop interpolating expressions in script</span>
+<span class="p">[</span><span class="n">sos</span><span class="p">:</span> <span class="kp">sigil</span><span class="o">=</span><span class="bp">None</span><span class="p">]</span>
+<span class="kn">run:</span>
     <span class="c1">#!/usr/bin/env sos-runner</span>
     <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is $</span><span class="si">{step_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This is ${step_name}&quot;</span><span class="p">)</span>
     <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is $</span><span class="si">{step_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This is ${step_name}&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14447,12 +14679,12 @@ INFO: Workflow default (ID=fc087fb3ae4c581e) is executed successfully.
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">sub</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">sub</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
 
 <span class="p">[</span><span class="n">default</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-    <span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">)</span>
+    <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14490,12 +14722,12 @@ INFO: Workflow default (ID=fc087fb3ae4c581e) is executed successfully.
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">sub</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">sub</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
 
 <span class="p">[</span><span class="n">default</span><span class="p">]</span>
-<span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14533,19 +14765,19 @@ INFO: Workflow default (ID=fc087fb3ae4c581e) is executed successfully.
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">!</span>touch a.txt b.txt
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span> <span class="n">b</span><span class="o">.</span><span class="n">txt</span>
 
 <span class="p">[</span><span class="n">process</span><span class="p">]</span>
-<span class="n">output</span><span class="p">:</span> <span class="s2">&quot;$</span><span class="si">{input}</span><span class="s2">.processed&quot;</span>
-<span class="n">run</span><span class="p">:</span>
+<span class="kn">output:</span> <span class="s2">&quot;${input}.processed&quot;</span>
+<span class="kn">run:</span>
     <span class="n">echo</span> <span class="n">Processing</span> <span class="err">$</span><span class="p">{</span><span class="nb">input</span><span class="p">}</span>
     <span class="n">touch</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span>
 
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="nb">input</span><span class="p">:</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="n">group_by</span><span class="o">=</span><span class="mi">1</span>
-<span class="n">output</span><span class="p">:</span> <span class="s2">&quot;$</span><span class="si">{_input}</span><span class="s2">.processed&quot;</span>
-<span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;process&#39;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="kp">group_by</span><span class="o">=</span><span class="mi">1</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input}.processed&quot;</span>
+<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;process&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14646,12 +14878,12 @@ output: <a target="_blank" href="b.txt.processed">b.txt.processed</a>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">report:</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span>
+<span class="kn">report:</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 </pre></div>
 
@@ -14690,14 +14922,14 @@ Runing default_20</pre>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> report.txt
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 </pre></div>
 
@@ -14750,14 +14982,14 @@ Runing default_20</pre>
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> report.txt
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;report.txt&#39;</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;&gt;&gt;report.txt&#39;</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;&gt;&gt;report.txt&#39;</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 </pre></div>
 
@@ -14812,15 +15044,15 @@ Runing default_20</pre>
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> report.txt
-<span class="o">%</span><span class="k">run</span> -r report.txt
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> 
+<span class="kn">report:</span> 
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span>
+<span class="kn">report:</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 </pre></div>
 
@@ -14875,15 +15107,15 @@ Runing default_20</pre>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> default_10.txt default_20.txt
-<span class="o">%</span><span class="k">run</span> -r &#39;${step_name}.txt&#39;
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">default_10</span><span class="o">.</span><span class="n">txt</span> <span class="n">default_20</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="s1">&#39;${step_name}.txt&#39;</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> 
+<span class="kn">report:</span> 
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span>
+<span class="kn">report:</span>
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
 </pre></div>
 
@@ -14952,13 +15184,13 @@ Runing default_20</pre>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">run</span><span class="p">:</span>
+<span class="kn">run:</span>
    <span class="c1"># run some command and generate a out.txt</span>
    <span class="n">echo</span> <span class="s2">&quot;some result &quot;</span> <span class="o">&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">txt</span>
 
-<span class="n">report</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s1">&#39;out.txt&#39;</span><span class="p">)</span>
+<span class="kp">report</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s1">&#39;out.txt&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14996,7 +15228,7 @@ Runing default_20</pre>
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run</span><span class="p">:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
       <span class="n">echo</span> <span class="s2">&quot;a&quot;</span>
 </pre></div>
 
@@ -15034,9 +15266,9 @@ such as <code>input</code>, and with <code>result</code> writing directly to the
 </pre></div>
 <p>while</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="nb">input</span><span class="p">:</span> <span class="n">group_by</span><span class="o">=</span><span class="s1">&#39;single&#39;</span>
+<span class="kn">input:</span> <span class="n">group_by</span><span class="o">=</span><span class="s1">&#39;single&#39;</span>
 
-<span class="n">python</span><span class="p">:</span>
+<span class="kn">python:</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="nb">input</span><span class="err">!</span><span class="n">r</span><span class="p">})</span> <span class="k">as</span> <span class="n">data</span><span class="p">:</span>
    <span class="n">result</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="nb">input</span><span class="err">!</span><span class="n">r</span><span class="p">}</span> <span class="o">+</span> <span class="s1">&#39;.res&#39;</span>
@@ -15073,7 +15305,7 @@ in <code>inspect</code> mode.</p>
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">R</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">R:</span>
     <span class="n">D</span> <span class="o">&lt;-</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
     <span class="c1"># Sort on x</span>
     <span class="n">indexes</span> <span class="o">&lt;-</span> <span class="n">order</span><span class="p">(</span><span class="n">D</span><span class="err">$</span><span class="n">x</span><span class="p">)</span>
@@ -15118,9 +15350,9 @@ in <code>inspect</code> mode.</p>
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">perl</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">perl:</span>
     <span class="n">my</span> <span class="err">$</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Brian&quot;</span><span class="p">;</span>
-    <span class="nb">print</span> <span class="s2">&quot;Hello, $name!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s2">&quot;Hello, $name!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
 </pre></div>
 
 </div>
@@ -15166,14 +15398,14 @@ in <code>inspect</code> mode.</p>
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ruby</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">ruby:</span>
     <span class="n">a</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">8</span> <span class="p">]</span>
     <span class="n">b</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;sam&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mf">98.9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;jill&#39;</span> <span class="p">]</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="nb">print</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="nb">print</span> <span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">print</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">print</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">print</span> <span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="mi">57</span> <span class="o">&lt;&lt;</span> <span class="mi">9</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;phil&#39;</span>
-    <span class="nb">print</span> <span class="s2">&quot;A: &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">print</span> <span class="s2">&quot;A: &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 </pre></div>
 
 </div>
@@ -15213,7 +15445,7 @@ A: 45 3 19 8 57 9 phil
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">node</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">node:</span>
     <span class="n">var</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">max</span><span class="p">;</span>
 
     <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000000000</span><span class="p">;</span>
@@ -15273,9 +15505,9 @@ A: 45 3 19 8 57 9 phil
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pandoc</span><span class="p">:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">pandoc:</span>
     <span class="c1"># this is header</span>
-    <span class="n">This</span> <span class="ow">is</span> <span class="n">some</span> <span class="n">test</span><span class="p">,</span> <span class="k">with</span> <span class="o">**</span><span class="n">emphasis</span><span class="o">**.</span>        
+    <span class="n">This</span> <span class="ow">is</span> <span class="n">some</span> <span class="n">test</span><span class="p">,</span> <span class="k">with</span> <span class="o">**</span><span class="n">emphasis</span><span class="o">**.</span>
 </pre></div>
 
 </div>
@@ -15313,9 +15545,9 @@ A: 45 3 19 8 57 9 phil
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> out.html
-<span class="n">pandoc</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span>
+<span class="kn">pandoc:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span>
     <span class="n">Itemize</span>
 
     <span class="o">*</span> <span class="n">item</span> <span class="mi">1</span>
@@ -15378,9 +15610,9 @@ A: 45 3 19 8 57 9 phil
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> out.tex
-<span class="n">pandoc</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.tex&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">out</span><span class="o">.</span><span class="n">tex</span>
+<span class="kn">pandoc:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.tex&#39;</span>
     <span class="n">Itemize</span>
 
     <span class="o">*</span> <span class="n">item</span> <span class="mi">1</span>
@@ -15441,9 +15673,9 @@ A: 45 3 19 8 57 9 phil
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> out.html
-<span class="n">pandoc</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;${input!q} --output ${output!q} -s&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span>
+<span class="kn">pandoc:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;${input!q} --output ${output!q} -s&#39;</span>
     <span class="n">Itemize</span>
 
     <span class="o">*</span> <span class="n">item</span> <span class="mi">1</span>
@@ -15518,18 +15750,17 @@ A: 45 3 19 8 57 9 phil
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> out.html
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;out.md&#39;</span>
+<span class="kn">report:</span> <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;out.md&#39;</span>
     <span class="n">Itemize</span>
 
     <span class="o">*</span> <span class="n">item</span> <span class="mi">1</span>
     <span class="o">*</span> <span class="n">item</span> <span class="mi">2</span>
 
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">pandoc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s1">&#39;out.md&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span><span class="p">)</span>
-    
+<span class="kp">pandoc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s1">&#39;out.md&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15589,24 +15820,24 @@ A: 45 3 19 8 57 9 phil
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#%sandbox</span>
-<span class="o">%</span><span class="k">preview</span> out.html
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">#%sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;out10.md&#39;</span>
+<span class="kn">report:</span> <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;out10.md&#39;</span>
     <span class="n">Itemize</span>
 
     <span class="o">*</span> <span class="n">item</span> <span class="mi">1</span>
     <span class="o">*</span> <span class="n">item</span> <span class="mi">2</span>
 
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span> <span class="n">output</span><span class="o">=</span> <span class="s1">&#39;out20.md&#39;</span>
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span> <span class="s1">&#39;out20.md&#39;</span>
     <span class="n">enumerated</span>
 
     <span class="mf">1.</span> <span class="n">item</span> <span class="mi">1</span>
     <span class="mf">2.</span> <span class="n">item</span> <span class="mi">2</span>
 
 <span class="p">[</span><span class="mi">30</span><span class="p">]</span>
-<span class="n">pandoc</span><span class="p">:</span> <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out10.md&#39;</span><span class="p">,</span> <span class="s1">&#39;out20.md&#39;</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span>
+<span class="kn">pandoc:</span> <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out10.md&#39;</span><span class="p">,</span> <span class="s1">&#39;out20.md&#39;</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;out.html&#39;</span>
     <span class="n">Markdown</span> <span class="n">supports</span> <span class="n">both</span> <span class="n">itemized</span> <span class="ow">and</span> <span class="n">enumerated</span>
 </pre></div>
 
@@ -15689,16 +15920,16 @@ enumerated
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">%</span><span class="k">preview</span> out.html
-<span class="o">%</span><span class="k">run</span> -r &#39;${step_name}.md&#39;
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">out</span><span class="o">.</span><span class="n">html</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="s1">&#39;${step_name}.md&#39;</span>
 
 <span class="p">[</span><span class="n">A_10</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span>
+<span class="kn">report:</span>
     <span class="n">step_10</span>
 
 <span class="p">[</span><span class="n">A_20</span><span class="p">]</span>
-<span class="n">report</span><span class="p">:</span>
+<span class="kn">report:</span>
     <span class="n">Itemize</span>
 
     <span class="o">*</span> <span class="n">item</span> <span class="mi">1</span>
@@ -16058,15 +16289,15 @@ download(['${GATK_URL}/${x}' for x in GATK_RESOURCE_FILES], dest=GATK_RESOURCE_D
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span>
-<span class="o">!</span>touch a.txt
-<span class="o">!</span><span class="nb">echo</span> <span class="s1">&#39;something&#39;</span> &gt; b.txt
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+<span class="err">!</span><span class="n">echo</span> <span class="s1">&#39;something&#39;</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">.</span><span class="n">txt</span>
 
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="nb">input</span><span class="p">:</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="n">group_by</span><span class="o">=</span><span class="mi">1</span>
+<span class="kn">input:</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="kp">group_by</span><span class="o">=</span><span class="mi">1</span>
 
-<span class="n">stop_if</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">_input</span><span class="p">)</span>
+<span class="kp">stop_if</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">_input</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16131,7 +16362,7 @@ download(['${GATK_URL}/${x}' for x in GATK_RESOURCE_FILES], dest=GATK_RESOURCE_D
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_output</span><span class="p">(</span><span class="s1">&#39;which ls&#39;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_output</span><span class="p">(</span><span class="s1">&#39;which ls&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16170,7 +16401,7 @@ download(['${GATK_URL}/${x}' for x in GATK_RESOURCE_FILES], dest=GATK_RESOURCE_D
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">get_output</span><span class="p">(</span><span class="s1">&#39;which ls&#39;</span><span class="p">,</span> <span class="n">show_command</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">get_output</span><span class="p">(</span><span class="s1">&#39;which ls&#39;</span><span class="p">,</span> <span class="n">show_command</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -16200,10 +16431,10 @@ download(['${GATK_URL}/${x}' for x in GATK_RESOURCE_FILES], dest=GATK_RESOURCE_D
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="expand_pattern"><code>expand_pattern</code><a class="anchor-link" href="#expand_pattern">&#182;</a></h3><p>Function <code>expand_pattern</code> expands a string to multiple ones using items of variables quoted between <code>{ }</code>. For example,</p>
-<div class="highlight"><pre><span></span><span class="n">output</span><span class="p">:</span> <span class="n">expand_pattern</span><span class="p">(</span><span class="s1">&#39;{a}_{b}.txt&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="kn">output:</span> <span class="n">expand_pattern</span><span class="p">(</span><span class="s1">&#39;{a}_{b}.txt&#39;</span><span class="p">)</span>
 </pre></div>
 <p>is equivalent to</p>
-<div class="highlight"><pre><span></span><span class="n">output</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;{x}_{y}.txt&#39;</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)]</span>
+<div class="highlight"><pre><span></span><span class="kn">output:</span> <span class="p">[</span><span class="s1">&#39;{x}_{y}.txt&#39;</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)]</span>
 </pre></div>
 <p>if <code>a</code> and <code>b</code> are sequences of the same length. For example,</p>
 
@@ -16215,9 +16446,9 @@ download(['${GATK_URL}/${x}' for x in GATK_RESOURCE_FILES], dest=GATK_RESOURCE_D
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;John&#39;</span><span class="p">]</span>
 <span class="n">salary</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
-<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{name}</span><span class="s2">&#39;s salary is </span><span class="si">{salary}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;{name}&#39;s salary is {salary}&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16256,10 +16487,10 @@ download(['${GATK_URL}/${x}' for x in GATK_RESOURCE_FILES], dest=GATK_RESOURCE_D
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sandbox</span> --expect-error
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
 
 <span class="n">salary</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">]</span>
-<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{name}</span><span class="s2">&#39;s salary is </span><span class="si">{salary}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;{name}&#39;s salary is {salary}&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16296,8 +16527,8 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">salary</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{name}</span><span class="s2">&#39;s salary is </span><span class="si">{salary}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">salary</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">expand_pattern</span><span class="p">(</span><span class="s2">&quot;{name}&#39;s salary is {salary}&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16345,9 +16576,9 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">run</span> -v2
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v2</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at $</span><span class="si">{step_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at ${step_name}&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16385,9 +16616,9 @@ INFO: I am at default_0
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">run</span> -v1
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v1</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at $</span><span class="si">{step_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at ${step_name}&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
