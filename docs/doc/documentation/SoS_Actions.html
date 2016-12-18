@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Extending_SoS</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>SoS_Actions</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -13766,7 +13766,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Extending-SoS">Extending SoS<a class="anchor-link" href="#Extending-SoS">&#182;</a></h1>
+<h1 id="Understanding-SoS-action">Understanding SoS action<a class="anchor-link" href="#Understanding-SoS-action">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13775,7 +13775,180 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS can be easily extended with new actions, targets, converters, file previewers, and support for new languages. To make the extension available to other users, you can either create and distribute a separate package, or extend SoS and send us a <a href="https://help.github.com/articles/about-pull-requests/">pull request</a>.</p>
+<h2 id="SoS-Action">SoS Action<a class="anchor-link" href="#SoS-Action">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Although arbitrary python functions can be used in SoS step process, SoS defines some <strong><code>actions</code></strong> that can be used in a SoS script. These fucntions accept a common set of <strong>parameters</strong> that determines when and how these functions would be called.</p>
+<p>For example, function <code>time.sleep(5)</code> would be executed in run mode,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>I just slept 1.00 seconds
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and also in dryrun mode (option <code>-n</code>),</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>I just slept 1.00 seconds
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>because these statements are regular Python functions. However, if you put the statements in an action <code>python</code>, the statements would be executed in run mode,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="kn">python:</span>
+    <span class="kn">import</span> <span class="nn">time</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>I just slept 1.01 seconds
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>but not executed in dryrun mode (option <code>-n</code>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="kn">python:</span>
+    <span class="kn">import</span> <span class="nn">time</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;I just slept {:.2f} seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Action-options">Action options<a class="anchor-link" href="#Action-options">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Actions define their own parameters but their execution is controlled by a common set of options.</p>
 
 </div>
 </div>
@@ -13785,7 +13958,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Understanding-entry_points">Understanding <code>entry_points</code><a class="anchor-link" href="#Understanding-entry_points">&#182;</a></h2>
+<h3 id="input"><code>input</code><a class="anchor-link" href="#input">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13794,106 +13967,87 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS makes extensive use of <a href="http://setuptools.readthedocs.io/en/latest/setuptools.html#dynamic-discovery-of-services-and-plugins"><strong>entry points</strong></a>, which allows external modules to register their features in the file system to make them available to other modules. It can be confusing initially but <a href="http://stackoverflow.com/questions/774824/explain-python-entry-points">this stack overflow ticket</a> explains it quite well and one of the users went ahead and created <a href="https://github.com/RichardBronosky/entrypoint_demo demonstrates">a project</a> to demonstrate how this feature works.</p>
-<p>To register additional feature with SoS, you either need to extend <code>entry_points</code> of the <a href="https://github.com/BoPeng/SOS/blob/master/setup.py"><code>setup.py</code> script</a> of SoS, or create your own package with these <code>entry_points</code>. Option <code>extras_require</code> can be used to specify additional dependent packages for these features. For example, you can create a package with the following entry_points to provide support for ruby.</p>
-
-<pre><code>    entry_points='''
-[sos-language]
-ruby = sos-ruby.kernel:sos_ruby
-
-[sos-targets]
-Ruby_Library = sos-ruby.target:Ruby-Library
-'''</code></pre>
-<p>With the installation of this package, <code>sos</code> would be able to obtain a class <code>sos_ruby</code> from module <code>sos-ruby.kernel</code>, and use it to work with the <code>ruby</code> language.</p>
+<p>Parameter <code>input</code> specifies the input files that an action needs before it can be executed. This parameter is processed by SoS before an action is called and SoS will try to generate the file if an input target does not exist.</p>
+<p>For example,</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">bash:</span>
+    <span class="n">echo</span> <span class="s1">&#39;content of a.txt&#39;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>content of a.txt
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="p">[</span><span class="n">a</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span><span class="p">]</span>
+<span class="kn">bash:</span>
+    <span class="n">echo</span> <span class="s1">&#39;content of a.txt&#39;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">report:</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>content of a.txt
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Additional-actions">Additional actions<a class="anchor-link" href="#Additional-actions">&#182;</a></h2><p>Please refer to section <a href="SoS_Actions.html">SoS Actions</a> for details about actions and how to define your own action.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Additional-targets">Additional targets<a class="anchor-link" href="#Additional-targets">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Adding additional target is similar with a class derived from <a href="https://github.com/BoPeng/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>.</p>
-
-<pre><code>from sos.target import BaseTarget
-
-class my_target(BaseTarget):
-    def __init__(self, *args, **kwargs):
-        pass</code></pre>
-<p>You will need to define several member functions for this class, most notably <code>exists</code> that checks the existence of the target. This function accept a parameter <code>mode</code>, which can be <code>target</code>, <code>signature</code>, or <code>any</code>. Like a file target, a target can be considered exist as long as its signature exists, and if the real target is not needed for the execution of the workflow.</p>
-<p>The details of this class can be found at the source code of <a href="https://github.com/BoPeng/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>. The <a href="https://github.com/BoPeng/SOS/blob/master/sos/R/target.py"><code>R_Library</code></a> provides a good example of a <strong>virtual target</strong> that do not have a fixed corresponding file, can be checked for existence, and actually attempts to obtain (install a R library) the target when it is checked.</p>
-<p>After you defined your target, you can make it available to SOS by adding an appropriate entry point</p>
-
-<pre><code>[sos-targets]
-my_target = mypackage.mymodule:my_target</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="File-format-conversion">File format conversion<a class="anchor-link" href="#File-format-conversion">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To convert between sos and another file format, you would need to define two function, one returnning an <a href="https://docs.python.org/3/library/argparse.html"><code>argparse.ArgumentParser</code></a> that parse converter arguments, and one performing real file conversion.</p>
-<p>Suppose you would like to convert <code>.sos</code> to a <code>.xp</code> format, you can define these two functions as follows</p>
-
-<pre><code>import argparse
-from sos.sos_script import SoS_Script
-
-def get_my_converter_parser():
-    parser = argparse.ArgumentParser('sos_xp')
-    parser.add_argument('--theme', 
-        help='Style of output format')
-    return parser
-
-def my_converter(source_file, dest_file, args=None, unknown_args=[]):
-    # parse additional_args to obtain converter-specific options
-    # then convert from source_file to dest_file
-    script = SoS_Script(source_file)
-    for section in script.sections:
-        # do something
-
-if __name__ == '__main__':
-    parser = get_my_converter_parser()
-    args, unknown_args = parser.parse_known_args(sys.argv[3:])
-    my_converter(sys.argv[1], sys.argv[2], args, unknown_args)</code></pre>
-<p>You can then register the converter in <code>setup.py</code> as</p>
-
-<pre><code>[sos-converters]
-fromExt-toExt.parser: mypackage.mymodule:get_my_converter_parser
-fromExt-toExt.func: mypackage.mymodule:my_converter</code></pre>
-<p>Here <code>fromExt</code> is file extension without leading dot, <code>toExt</code> is destination file extension without leading dot, or a format specified by the <code>--to</code> parameter of command <code>sos convert</code>. If <code>dest_file</code> is unspecified, the output should be written to standard output.</p>
-<p>This example uses <code>if __name__ == '__main__'</code> section so that the converter can be used as a standandalone program, which is not needed but a great way for testing purposes. Note that the input and output files are handled by <code>sos convert</code> so the parser only needs to parse converter-specific options.</p>
+<p>Although both the <code>input</code> parameter and the <code>input</code> statement of a step can affect the execution of workflow (change DAG), they differ in that <code>input</code> statement defines variables <code>input</code> and <code>_input</code>, <code>input</code> parameter does not define any.</p>
 
 </div>
 </div>
@@ -13903,25 +14057,307 @@ fromExt-toExt.func: mypackage.mymodule:my_converter</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Preview-additional-formats">Preview additional formats<a class="anchor-link" href="#Preview-additional-formats">&#182;</a></h2><p>Adding a preview function is very simple. All you need to is to define a function that returns preview information, and add an entry point to link the function to certain file format.</p>
-<p>More specifically, a previewer should be specified as</p>
+<h3 id="output"><code>output</code><a class="anchor-link" href="#output">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similar to <code>input</code>, parameter <code>output</code> defines the output of an action, which can be a single name (or target) or a list of files or targets. SoS would check the existence of output after the completion of the action. For example,</p>
 
-<pre><code>pattern,priority = preview_module:func</code></pre>
-<p>or</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">bash:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;a.txt&#39;</span>
+</pre></div>
 
-<pre><code>module:func,priority = preview_module:func</code></pre>
-<p>where</p>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Failed to process statement &#39;bash(r&#34;&#34;&#34;&#34;&#34;&#34;, output=\&#39;a.txt\&#39;)\n&#39;: Target a.txt does not exist after execution of action
+Sandbox execution failed.</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Parameter <code>output</code>  does not change the step variable <code>output</code> and thus affect the default input file of the next step. The targets specified by this parameter will be tracked, so this is a great way to track additional files from a step. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">summary</span><span class="o">.</span><span class="n">md</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s1">&#39;a&#39;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="kn">report:</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;a.md&#39;</span>
+  <span class="n">this</span> <span class="ow">is</span> <span class="n">step</span> <span class="mi">10</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;My input is ${input}&quot;</span><span class="p">)</span>
+<span class="kn">report:</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;a.md&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;summary.md&#39;</span>
+   <span class="n">Summary</span> <span class="kp">report</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>My input is a.txt
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## %preview summary.md</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> summary.md (33 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<p>Summary report</p>
+<p>this is step 10</p>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As you can see, the <code>output</code> variable of step 10 (and thus input of step 20) is defined by the output statement, which is not affected by parameter <code>output='a.md'</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="active"><code>active</code><a class="anchor-link" href="#active">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Action option <code>active</code> is used to activate or inactivate an action in an input loop. Basically, when a loop is defined by <code>for_each</code> or <code>group_by</code> options of <code>input:</code> statement, an action after input would be repeated for each input group. The <code>action</code> parameter accepts an integer, either a non-negative number, a negative number (counting backward), a sequence of indexes, or a slice object, for which the action would be active.</p>
+<p>For example, for an input loop that loops through a sequence of numbers, the first action <code>run</code> is executed for all groups, the second action is executed for even number of groups, the last action is executed for the last step.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">seq</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">for_each</span><span class="o">=</span><span class="s1">&#39;seq&#39;</span>
+<span class="kn">run:</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="nb">all</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+<span class="kn">run:</span> <span class="kp">active</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="n">even</span> <span class="n">groups</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+<span class="kn">run:</span> <span class="kp">active</span><span class="o">=-</span><span class="mi">1</span>
+   <span class="n">echo</span> <span class="n">I</span> <span class="n">am</span> <span class="kp">active</span> <span class="n">at</span> <span class="n">last</span> <span class="n">group</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>I am active at all groups 0
+I am active at even groups 0
+I am active at all groups 1
+I am active at all groups 2
+I am active at even groups 2
+I am active at all groups 3
+I am active at all groups 4
+I am active at even groups 4
+I am active at last group 4
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="workdir"><code>workdir</code><a class="anchor-link" href="#workdir">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>workdir</code> changes the current working directory for the action, and change back once the action is executed. The directory will be created if it does not exist.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span>
+   <span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+<span class="kn">bash:</span>
+    <span class="n">ls</span> <span class="n">tmp</span>
+    <span class="n">rm</span> <span class="n">tmp</span><span class="o">/</span><span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+    <span class="n">rmdir</span> <span class="n">tmp</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>a.txt
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="docker_image"><code>docker_image</code><a class="anchor-link" href="#docker_image">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If a docker image is specified (either a name, an Id, or a file), the action is assumed to be executed in the specified docker. The image will be automatically downloaded (pulled) or loaded (if a <code>.tar</code> or <code>.tar.gz</code> file is specified`) if it is not available locally.</p>
+<p>For example, executing the following script</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>[10]
+python3: docker_image='python'
+  set = {'a', 'b'}
+  print(set)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>under a docker terminal (that is connected to the docker daemon) will</p>
 <ol>
-<li><code>pattern</code> is a pattern that matches incoming filename (see module fnmatch.fnmatch for details)</li>
-<li><code>module:func</code> specifies a function in module that detects the type of input file.</li>
-<li><code>priority</code> is an integer number that indicates the priority of previewer in case multiple pattern or function matches the  same file. Developers of third-party previewer can override an existing previewer by specifying a higher priority number.</li>
-<li><p><code>preview_module:func</code> points to a function in a module. The function should accept a filename as the only parameter, and  returns either</p>
+<li>Pull docker image <code>python</code>,  which is the official docker image for Python 2 and 3.</li>
+<li>Create a python script with the specified content</li>
+<li>Run the docker container <code>python</code> and make the script available inside the container</li>
+<li>Use the <code>python3</code> command inside the container to execute the script.</li>
+</ol>
+<p>Additional <code>docker_run</code> parameters can be passed to actions when the action
+is executed in a docker image. These options include</p>
 <ul>
-<li>A string that will be displayed as plain text to standard output.</li>
-<li>A dictionary that will be returned as <code>data</code> field of <code>display_data</code> (see <a href="http://jupyter-client.readthedocs.io/en/latest/messaging.html">Jupyter documentation</a> for details). The dictionary typically has <code>text/html</code> for HTML output, "text/plain" for plain text, and "text/png" for image presentation of the file.</li>
+<li><code>name</code>: name of the container (option <code>--name</code>)</li>
+<li><code>tty</code>: if a tty is attached (default to <code>True</code>, option <code>-t</code>)</li>
+<li><code>stdin_open</code>: if stdin should be open (default to <code>False</code>, option <code>-i</code>)</li>
+<li><code>user</code>: username (default o <code>root</code>, option <code>-u</code>)</li>
+<li><code>environment</code>: Can be a string, a list of string or dictinary of environment variables for docker (option <code>-e</code>)</li>
+<li><code>volumes</code>: string or list of string, extra volumes that need to be link, in addition to SoS mounted (<code>/tmp</code>, <code>/Users</code> (if mac), <code>/Volumes</code> (if <a href="https://github.com/bpeng2000/SOS/wiki/SoS-Docker-guide">properly configured</a> under mac) and script file)</li>
+<li><code>volumes_from</code>: container names or Ids to get volumes from</li>
+<li><code>working_dir</code>: working directory (option <code>-w</code>), default working directory, or working directory set by runtime option <code>workdir</code>.</li>
+<li><code>port</code>: port opened (option <code>-p</code>)</li>
+<li><code>extra_args</code>: If there is any extra arguments you would like to pass to the <code>docker run</code> process (after you check the actual command of <code>docker run</code> of SoS</li>
 </ul>
-</li>
-</ol>
 
 </div>
 </div>
@@ -13931,20 +14367,7 @@ fromExt-toExt.func: mypackage.mymodule:my_converter</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Support-for-a-language.">Support for a language.<a class="anchor-link" href="#Support-for-a-language.">&#182;</a></h2><p>SoS needs to know a few things before it can support a language properly,</p>
-<ol>
-<li>The Jupyter kernel this language uses to work with Jupyer, which is a <code>ir</code> kernel for language <code>R</code>.</li>
-<li>How to translate a Python object to a <strong>similar</strong> object in this language</li>
-<li>How to translate an object in this language to a <strong>similar</strong> object in Python.</li>
-</ol>
-<p>It is important to understand that, instead of providing object that is native to the <strong>sender</strong> language (e.g. use <a href="http://rpy2.bitbucket.org/"><code>rpy2</code></a> to wrap R objects in Python), SoS tries to provide object that is native to the <strong>recipient</strong> language. That is to say, although objects</p>
-
-<pre><code>a = 1
-b = c(1, 2)</code></pre>
-<p>are of the same type <code>numeric</code> in R, they are translated to Python in different types</p>
-
-<pre><code>a = 1
-b = [1, 2]</code></pre>
+<h3 id="docker_file"><code>docker_file</code><a class="anchor-link" href="#docker_file">&#182;</a></h3><p>This option allows you to import a docker from specified <code>docker_file</code>, which can be an archive file (<code>.tar</code>, <code>.tar.gz</code>, <code>.tgz</code>, <code>.bzip</code>, <code>.tar.xz</code>, <code>.txz</code>) or a URL to an archive file (e.g. <code>http://example.com/exampleimage.tgz</code>). SoS will use command <code>docker import</code> to import the <code>docker_file</code>. However, because SoS does not know the repository and tag names of the imported docker file, you will still need to use option <code>docker_image</code> to specify the image to use.</p>
 
 </div>
 </div>
@@ -13954,14 +14377,14 @@ b = [1, 2]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To support a new language, you will need to write a Python package that defines a class, say <code>mylanguage</code>, with its object providing the following attributes:</p>
-<ol>
-<li><code>kernel_name</code>: name of the kernel the language uses</li>
-<li><code>init_statements</code>: a statement that will be executed by the sub-kernel when the kernel starts. This statement usually defines functions to convert object to Python.</li>
-<li><code>py_to_lan</code>: a Python function that represents a Python object in the destination language. It accepts a name and a Python object, and should return a name and a statement. The name is the variable's name in the subkernel, which can be different from the name in SoS. The statement will be executed by the <strong>sub-kernel</strong> to construct the object in subkernel.</li>
-<li><code>lan_to_py</code>: a Python function that accept names of one or more variables in the subkernel and returns an updated list of names, and a statement that will be executed in the subkernel. </li>
-<li><code>py_to_dict</code>: a Python function that accepts the output of the expression <code>lan_to_py</code> (which is a string returned from the subkernel), and update the SoS dictionary with variables.</li>
-</ol>
+<p>It is easy to define your own actions. All you need to do is to define a function and decorate it with a <code>SoS_Action</code> decorator. For example</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pysos</span> <span class="kn">import</span> <span class="n">SoS_Action</span>
+
+<span class="nd">@SoS_Action</span><span class="p">(</span><span class="n">run_mode</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">,</span> <span class="s1">&#39;interactive&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">my_action</span><span class="p">(</span><span class="n">parameters</span><span class="p">):</span>
+    <span class="n">do_something_with_parameters</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</pre></div>
 
 </div>
 </div>
@@ -13971,21 +14394,20 @@ b = [1, 2]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The last three functions are used to transfer variables between SoS and the subkernel.  For example, to send a Python object <code>b = [1, 2]</code> to <code>R</code> (magic <code>%get</code>), SoS will</p>
-<ol>
-<li>call <code>py_to_lan('b', b)</code></li>
-<li>retrieve return value <code>('b', 'b &lt;- c(1, 2)')</code></li>
-<li>execute the returned expression in the subkernel to create variable <code>b</code> in it.</li>
-</ol>
-<p>Note that the function <code>py_to_lan</code> can change the variable name because a valid variable name in Python might not be a valid variable name in another language. The function should return the new name to let SoS know that an object with a different name is created in the subkernel. SoS will execute multiple statements altogether if multiple variables are passed.</p>
-<p>Sending variables from subkernel (magic <code>%put</code>) follows the same idea. Basically, the subkernel returns a string that would be evaluated by SoS to get the variable. This is achieved with two helper functions. For example, to send a <code>R</code> object <code>b &lt;- c(1, 2)</code> from subkernel <code>R</code> to <code>SoS</code> (magic <code>%put</code>), SoS will</p>
-<ol>
-<li>call <code>lan_to_py(['b'])</code> to obtain a statement, which in this case is something like <code>py.repr(list(b=b))</code> where <code>py.repr</code> is defined in <code>init_statements</code> of the subkernel</li>
-<li>execute the returned statement in the subkernel</li>
-<li>retrieve return value from the subkernel, which can be something like <code>[1] "{'b': [1, 2]}"</code>. As you can see, because SoS has no control over how the subkernel returns a string, some further processing is needed.</li>
-<li>call <code>py_to_dict</code> to process the returned value to get a dictionary <code>{'b': [1, 2]}</code>, which will then be merged to the SoS dictionary.</li>
-</ol>
-<p>Note that although SoS uses strings to exchange information between sos and subkernels, you do not have to send all information using strings. For example, the <code>sos.R.kernel</code> module exchange Python DataFrame and R data.frame using disk files.</p>
+<h3 id="args"><code>args</code><a class="anchor-link" href="#args">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All script-executing actions accept an option <code>args</code>, which changes how the script is executed.</p>
+<p>By default, such an action has an <code>interpreter</code> (e.g. <code>bash</code>), a default <code>args='${filename!q}'</code>, amd the script would be executed as <code>interpreter args</code>, which is</p>
+
+<pre><code>bash ${filename!q}</code></pre>
+<p>where <code>${filename!q}</code> would be replaced by the temporary script file.</p>
 
 </div>
 </div>
@@ -13995,7 +14417,70 @@ b = [1, 2]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Adding-a-subcommad-(addon)">Adding a subcommad (addon)<a class="anchor-link" href="#Adding-a-subcommad-(addon)">&#182;</a></h2>
+<p>If you would like to change the command line with additional parameters, or different format of filename, you can specify an alternative <code>args</code>, with variables <code>filename</code> (filename of temporary script) and <code>script</code> (actual content of the script).</p>
+<p>For example, option <code>-n</code> can be added to command <code>bash</code> to execute script in dryrun mode</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
+    <span class="n">echo</span> <span class="s2">&quot;-n means running in dryrun mode (only check syntax)&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and you can actually execute a command without filename, and instead executing the script directly from command line</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">python:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-m timeit ${script}&#39;</span>
+    <span class="s1">&#39;&quot;-&quot;.join(str(n) for n in range(100))&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10000 loops, best of 3: 31.2 usec per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Defining-your-own-actions">Defining your own actions<a class="anchor-link" href="#Defining-your-own-actions">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14004,18 +14489,37 @@ b = [1, 2]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you would like to add a complete subcommand as an addon to SoS, you will need to define two functions and add them to <code>setup.py</code> as two entry points, one with suffix <code>.args</code> and one with suffix <code>.func</code>.</p>
+<p>Under the hood an action is a normal Python function that is decorated as <code>SoS_Action</code>. The <code>decorator</code> defines the common interface of actions and calls the actual function. To define your own action, you generally need to</p>
 
-<pre><code>[sos_addons]
-myaddon.args = yourpackage.module:addon_parser
-myaddon.func = yourpackage.module:addon_func</code></pre>
-<p>The <code>addon_parser</code> function should use module <code>argparse</code> to return an <code>ArgumentParser</code> object. SoS would obtain this parser and add it as a subparse of the SoS main parser so that the options can be parsed as</p>
+<pre><code>from sos.actions import SoS_Action
 
-<pre><code>sos myaddon options</code></pre>
-<p>The <code>addon_func</code> should be defined as</p>
+@SoS_Action(run_mode=['run', 'interactive'])
+def my_action(*args, **kwargs):
+    pass</code></pre>
+<p>Here the <code>run_mode</code> is defined to be <code>run</code> and <code>interactive</code>, meaning the action will be executable in batch and interactive (Jupyter kernel) mode, and not in <code>dryrun</code> mode. An action usually behave the same in both modes but can be tailered for the environment in which it runs.</p>
+<p>You then need to add an entry to <code>entry_points</code> as</p>
 
-<pre><code>def addon_func(args, unknown_args)</code></pre>
-<p>with <code>args</code> being the parsed known arguments, and <code>unknown_args</code> being a list of unknown arguments that you can process by youself.</p>
+<pre><code>[sos-actions]
+my_action = mypackage.mymodule:my_action</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If the execution of action depends on some other targets, you can raise an <code>UnknownTarget</code> with the target so that the target can be obtained. For example, if your action depends on a particular <code>R_library</code>, you can test the existence of the target as follows:</p>
+
+<pre><code>from sos.target import UnknownTarget
+from sos.R.target import R_library
+
+@SoS_Action(run_mode=['run', 'interactive'])
+def my_action(script, *args, **kwargs):
+    if not R_library('somelib').exists():
+        raise UnknownTarget(R_library('somelib'))
+    # ...</code></pre>
 
 </div>
 </div>
