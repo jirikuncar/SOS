@@ -29,7 +29,7 @@ $( document ).ready(function(){
 
             var cfg={'threshold':{{ nb.get('metadata', {}).get('toc', {}).get('threshold', '3') }},     // depth of toc (number of levels)
              // 'number_sections': {{ 'true' if nb.get('metadata', {}).get('toc', {}).get('number_sections', False) else 'false' }},  // sections numbering
-             'number_sections': true, 
+             'number_sections': false, 
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
@@ -58,18 +58,22 @@ $( document ).ready(function(){
             var file=documentationDict[$("h1:first").attr("id")];
             var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/docs"
-            
+            $("#toc-level0 li").css("background-color","#ddedff");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
             var docs=documentation;
             var pos=documentation.indexOf(file);
         
             for (var a=pos;a>=0;a--){
                   var name=docs[a]
-                  $('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+                  $('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
-            $('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            $('a[href="'+path+'/doc/documentation/'+file+'.html'+'"]').css("background-color","#b4d4f7");
+
+
+            $('<li id="indexHome"><a href="'+path+'/index.html#exTab2"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
             for (var a=pos+1;a<docs.length;a++){
                   var name=docs[a]
-                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
+                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
             }
             $("#toc-header").hide();
 
