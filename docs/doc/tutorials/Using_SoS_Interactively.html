@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Using_SoS_Interactively</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Using_SoS_Interactively</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -13694,7 +13696,7 @@ $( document ).ready(function(){
 
             var cfg={'threshold':4,     // depth of toc (number of levels)
              // 'number_sections': true,  
-             'number_sections': true,  // sections numbering
+             'number_sections': false,  // sections numbering
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
@@ -13723,20 +13725,26 @@ $( document ).ready(function(){
             var file=tutorialsDict[$("h1:first").attr("id")];
             var path="http://bopeng.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/docs"
+            $("#toc-level0 li").css("background-color","#ddedff");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
             
             var tuts=tutorials;
             var pos=tutorials.indexOf(file);
         
             for (var a=pos;a>=0;a--){
                   var name=tuts[a]
-                  $('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace("_"," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+                  $('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
-            $('<li id="indexHome"><a href="'+path+'/index.html"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            $('a[href="'+path+'/doc/tutorials/'+file+'.html'+'"]').css("background-color","#b4d4f7");
+
+
+            $('<li id="indexHome"><a href="'+path+'/index.html#exTab2"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
             for (var a=pos+1;a<tuts.length;a++){
                   var name=tuts[a]
-                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace("_"," ")+'</a></li>');
+                  $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
             }
             $("#toc-header").hide();
+
 
             // for (var a =0;a<tuts.length;a++){
             //       var name =tuts[a];
@@ -13924,8 +13932,4 @@ $( document ).ready(function(){
     </div>
   </div>
 </body>
-
- 
-
-
 </html>
