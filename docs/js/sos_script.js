@@ -9,47 +9,14 @@ $(document).ready(function(){
 	$("#features_content").load("doc/homepage/Features.html"); */
 
 
-
-	
-	// var tuts=tutorials
-	// $("#tutorial > .container").append('<div class="row">')
-	// for (var a =0;a<tuts.length;a++){
-	// 	var name =tuts[a];
-	// 	var oneString='<div class="col-md-4 col-sm-6 portfolio-item">'
- //        				+'<div class="portfolio-caption">';
-	// 	oneString+='<a href="./doc/tutorials/'+name+'.html" class="portfolio-link"><h4>'+name+'</h4></a>';
-	// 	oneString+='</div></div>';       	
-	// 	 $("#tutorial > .container").append(
-	//        	oneString
-	//      );
-	// }	
-	// $("#tutorial > .container").append('</div>');	
-
-
- // 	var docs=documentation
-	// $("#documentation > .container").append('<div class="row">')
-	// for (var a =0;a<docs.length;a++){
-	// 	var name =docs[a];
-	// 	var oneString='<div class="col-md-4 col-sm-6 portfolio-item">'
- //        				+'<div class="portfolio-caption">';
-	// 	oneString+='<a href="./doc/documentation/'+name+'.html" class="portfolio-link"><h4>'+name+'</h4></a>';
-	// 	oneString+='</div></div>';       	
-	// 	 $("#documentation > .container").append(
-	//        	oneString
-	//      );
-	// }	
-	// $("#documentation > .container").append('</div>');		
-
-
-
 	 $(window).on('scroll',function() {
             var scrolltop = $(this).scrollTop();
          
-            if(scrolltop >= 900) {
+            if(scrolltop >= 300) {
               $('#fixedbar').fadeIn(250);
             }
             
-            else if(scrolltop <= 900) {
+            else if(scrolltop <= 300) {
               $('#fixedbar').fadeOut(250);
             }
           });
@@ -68,8 +35,25 @@ $(document).ready(function(){
 	  		$('#fixedbar li a').filter('[href="'+tabindex+'"]').tab('show'); 		
 	  })
 
-	var imgs=images
-
+      // Get random images
+	  var imgs=images
+      // $('header').css({'background-image': 'url(img/' + imgs[Math.floor(Math.random() * imgs.length)] + ')','height':'600px'});
       $('header').css({'background-image': 'url(img/' + imgs[Math.floor(Math.random() * imgs.length)] + ')'});
+
+      $('.nav a').click(function (e) {
+		  e.preventDefault()
+		  $(this).tab('show')
+		})  
+    
+	  $('a.scroll').on('click', function (e) {
+	        var href = $(this).attr('href');
+	        $('html, body').animate({
+	            scrollTop: $(href).offset().top-50
+	        }, 'slow');
+	        e.preventDefault();
+	   });
+
+
+
 	
 });
