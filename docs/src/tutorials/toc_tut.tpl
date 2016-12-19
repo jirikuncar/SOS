@@ -71,7 +71,7 @@ $( document ).ready(function(){
             $('a[href="'+path+'/doc/tutorials/'+file+'.html'+'"]').css("background-color","#b4d4f7");
 
 
-            $('<li id="indexHome"><a href="'+path+'/index.html#exTab2"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            $('<li id="indexHome"><a href="'+path+'/index.html#documentation"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
             for (var a=pos+1;a<tuts.length;a++){
                   var name=tuts[a]
                   $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
