@@ -53,6 +53,22 @@ $(document).ready(function(){
 	        e.preventDefault();
 	   });
 
+	  function activateTab(tab){
+    		$('.nav-tabs a[href="#' + tab + '"]').tab('show');
+	  };
+
+	  var hash = document.location.hash;	
+	  if (hash=="#documentation") {
+	  		activateTab(4);
+	  		$('html, body').stop().animate({
+            	scrollTop: ($("#exTab2").offset().top - 50)
+         	}, 'fast');
+	  } 
+
+	  $('.nav-tabs a').on('shown.bs.tab', function (e) {
+    		window.location.hash = "#exTab2";
+		});
+
 
 
 	
