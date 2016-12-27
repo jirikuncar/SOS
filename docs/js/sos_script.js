@@ -45,11 +45,11 @@ $(document).ready(function(){
 	 $(window).on('scroll',function() {
             var scrolltop = $(this).scrollTop();
          
-            if(scrolltop >= 900) {
+            if(scrolltop >= 600) {
               $('#fixedbar').fadeIn(250);
             }
             
-            else if(scrolltop <= 900) {
+            else if(scrolltop <= 600) {
               $('#fixedbar').fadeOut(250);
             }
           });
