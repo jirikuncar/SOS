@@ -13833,7 +13833,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">parameter:</span> <span class="n">qc</span> <span class="o">=</span> <span class="bp">True</span>
@@ -13872,7 +13872,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">qc</span>
@@ -13923,7 +13923,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">:</span> <span class="kp">shared</span><span class="o">=</span><span class="s1">&#39;myvar&#39;</span><span class="p">]</span>
@@ -13964,7 +13964,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14008,7 +14008,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14067,61 +14067,6 @@ output 2: b.txt
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-provides">Option <code>provides</code><a class="anchor-link" href="#Option-provides">&#182;</a></h3><p>This option lists files or targets a step generates so that it can be called if the target is required but does not exist. Please see section <a href="Auxiliary_Steps.html">auxiliary step</a> for details. A step can be treated as both a forward step and an auxiliary step despite of the differences on how they are invoked.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-workdir">Option <code>workdir</code><a class="anchor-link" href="#Option-workdir">&#182;</a></h3><p>Option <code>workdir</code> changes the workdir of the current step to specified directory. It also creates the directory if it does not already exist.</p>
-<p>For example, step 10 in the following example creates directory <code>tmp</code> and changes working directory to it before creating a file <code>a.txt</code>. The change of directory, however, does not affect how variables are interpreted so <code>output</code> is still <code>a.txt</code>, not <code>tmp/a.txt</code>, so <code>${myoutput}</code> does not point to the correct file in the next step.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
-<span class="p">[</span><span class="mi">10</span><span class="p">:</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="kp">shared</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;myoutput&#39;</span><span class="p">:</span> <span class="s1">&#39;output[0]&#39;</span><span class="p">}]</span>
-<span class="kn">output:</span> <span class="s1">&#39;a.txt&#39;</span>
-<span class="kn">run:</span>
-    <span class="n">touch</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span>
-
-<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;${myoutput}: ${os.path.isfile(myoutput)}&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>a.txt: False
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Simiarly, this option would change the working directory of all nested workflows so it should really be used with caution.</p>
 
 </div>
 </div>
@@ -14193,7 +14138,7 @@ with different <code>_input</code>. Here <code>_input</code> is a temporary vari
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14251,7 +14196,7 @@ with different <code>_input</code>. Here <code>_input</code> is a temporary vari
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14313,7 +14258,7 @@ with different <code>_input</code>. Here <code>_input</code> is a temporary vari
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14357,7 +14302,7 @@ file3 file4
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14434,7 +14379,7 @@ group_by=combinations
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14505,7 +14450,7 @@ group_by=combinations
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14568,7 +14513,7 @@ group_by=combinations
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14615,7 +14560,7 @@ group_by=combinations
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14660,7 +14605,7 @@ group_by=combinations
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14694,7 +14639,7 @@ group_by=combinations
 
 <div class="output_html rendered_html output_subarea ">
 <pre> input: 
-output: <a target="_blank" href="1_2_Hello.txt">1_2_Hello.txt</a>, <a target="_blank" href="2_4_World.txt">2_4_World.txt</a>
+output: 1_2_Hello.txt, 2_4_World.txt
 </pre>
 </div>
 
@@ -14790,7 +14735,7 @@ output: <a target="_blank" href="1_2_Hello.txt">1_2_Hello.txt</a>, <a target="_b
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14839,7 +14784,7 @@ output: <a target="_blank" href="1_2_Hello.txt">1_2_Hello.txt</a>, <a target="_b
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14905,7 +14850,7 @@ output: <a target="_blank" href="1_2_Hello.txt">1_2_Hello.txt</a>, <a target="_b
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -14945,8 +14890,8 @@ output: <a target="_blank" href="1_2_Hello.txt">1_2_Hello.txt</a>, <a target="_b
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="a-20.txt">a-20.txt</a>, <a target="_blank" href="b-10.txt">b-10.txt</a>
-output: <a target="_blank" href="a-processed-20.txt">a-processed-20.txt</a>, <a target="_blank" href="b-processed-10.txt">b-processed-10.txt</a>
+<pre> input: a-20.txt, b-10.txt
+output: a-processed-20.txt, b-processed-10.txt
 </pre>
 </div>
 
@@ -14994,7 +14939,7 @@ output: <a target="_blank" href="a-processed-20.txt">a-processed-20.txt</a>, <a 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -15035,8 +14980,8 @@ b-processed-10.txt
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="a-20.txt">a-20.txt</a>, <a target="_blank" href="b-10.txt">b-10.txt</a>
-output: <a target="_blank" href="a-processed-20.txt">a-processed-20.txt</a>, <a target="_blank" href="b-processed-10.txt">b-processed-10.txt</a>
+<pre> input: a-20.txt, b-10.txt
+output: a-processed-20.txt, b-processed-10.txt
 </pre>
 </div>
 
@@ -15173,7 +15118,7 @@ by one so generate multiple <code>output</code> files (<code>'${_input}.bai'</co
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
@@ -15216,7 +15161,7 @@ Sandbox execution failed.</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -15248,7 +15193,7 @@ Sandbox execution failed.</pre>
 
 <div class="output_html rendered_html output_subarea ">
 <pre> input: 
-output: <a target="_blank" href="result_19.html">result_19.html</a>, <a target="_blank" href="result_9.html">result_9.html</a>
+output: result_13.html, result_14.html
 </pre>
 </div>
 
@@ -15257,7 +15202,7 @@ output: <a target="_blank" href="result_19.html">result_19.html</a>, <a target="
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> result_19.html (0 B):</font></pre>
+<pre><font color="green">> result_13.html (0 B):</font></pre>
 </div>
 
 </div>
@@ -15273,7 +15218,7 @@ output: <a target="_blank" href="result_19.html">result_19.html</a>, <a target="
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> result_9.html (0 B):</font></pre>
+<pre><font color="green">> result_14.html (0 B):</font></pre>
 </div>
 
 </div>
@@ -15357,7 +15302,7 @@ of input and output files and related variables.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -15388,7 +15333,7 @@ of input and output files and related variables.</p>
 
 <div class="output_html rendered_html output_subarea ">
 <pre> input: 
-output: <a target="_blank" href="a.txt">a.txt</a>
+output: a.txt
 </pre>
 </div>
 
@@ -15424,7 +15369,7 @@ output: <a target="_blank" href="a.txt">a.txt</a>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -15455,7 +15400,7 @@ output: <a target="_blank" href="a.txt">a.txt</a>
 
 <div class="output_html rendered_html output_subarea ">
 <pre> input: 
-output: <a target="_blank" href="a.txt">a.txt</a>
+output: a.txt
 </pre>
 </div>
 
@@ -15495,7 +15440,7 @@ output: <a target="_blank" href="a.txt">a.txt</a>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Step processes are executed within SoS and are executed sequentially. However, part or all of the step process can be executed externally and potentially in parallel as step <code>task</code>. This will be covered in detail in section <a href="External_Task.html">External tasks</a>.</p>
+<p>Step processes are executed within SoS and are executed sequentially. However, part or all of the step process can be executed externally and potentially in parallel as step <code>task</code>. This will be covered in detail in section <a href="External_task.html">External task</a>.</p>
 
 </div>
 </div>
