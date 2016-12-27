@@ -13838,8 +13838,8 @@ $( document ).ready(function(){
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
-INFO: Running <span class="ansi-green-fg">default_20</span>: 
+<pre>INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Running <span class="ansi-green-fg">default_10</span>: 
 INFO: Running <span class="ansi-green-fg">default_30</span>: 
 INFO: Running <span class="ansi-green-fg">default_40</span>: 
 </pre>
@@ -14136,7 +14136,9 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">.</span><span class="n">sos</span><span class="o">/.</span><span class="n">runtime</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+
+<span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">.</span><span class="n">sos</span><span class="o">/.</span><span class="n">runtime</span>
 <span class="err">!</span><span class="p">[</span> <span class="o">-</span><span class="n">d</span> <span class="n">temp</span> <span class="p">]</span> <span class="o">||</span> <span class="n">mkdir</span> <span class="n">temp</span>
 </pre></div>
 
@@ -14150,7 +14152,9 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">parameter:</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+
+<span class="kn">parameter:</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="kn">output:</span>  <span class="s2">&quot;temp/result.txt&quot;</span>
 <span class="kn">sh:</span>
@@ -14174,7 +14178,7 @@ Sandbox execution failed.</pre>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>1000+0 records in
 1000+0 records out
-512000 bytes transferred in 0.038813 secs (13191499 bytes/sec)
+512000 bytes transferred in 0.035019 secs (14620568 bytes/sec)
 </pre>
 </div>
 </div>
@@ -14190,8 +14194,8 @@ Sandbox execution failed.</pre>
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14231,7 +14235,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span>
 </pre></div>
 
 </div>
@@ -14246,7 +14251,7 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>1000+0 records in
 1000+0 records out
-512000 bytes transferred in 0.040177 secs (12743576 bytes/sec)
+512000 bytes transferred in 0.034253 secs (14947543 bytes/sec)
 </pre>
 </div>
 </div>
@@ -14262,8 +14267,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14312,7 +14317,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">s</span> <span class="n">default</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">s</span> <span class="n">default</span>
 </pre></div>
 
 </div>
@@ -14327,7 +14333,7 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>1000+0 records in
 1000+0 records out
-512000 bytes transferred in 0.038870 secs (13172080 bytes/sec)
+512000 bytes transferred in 0.034355 secs (14903249 bytes/sec)
 </pre>
 </div>
 </div>
@@ -14343,8 +14349,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14384,7 +14390,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">s</span> <span class="n">default</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">s</span> <span class="n">default</span>
 <span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">v2</span>
 </pre></div>
 
@@ -14425,8 +14432,8 @@ INFO: Workflow default (ID=e9251d43927ed624) is executed successfully.
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14466,7 +14473,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">v2</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">v2</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span>
 </pre></div>
 
 </div>
@@ -14482,7 +14490,7 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
 2000+0 records in
 2000+0 records out
-1024000 bytes transferred in 0.075930 secs (13486085 bytes/sec)
+1024000 bytes transferred in 0.068127 secs (15030770 bytes/sec)
 INFO: Running <span class="ansi-green-fg">default_20</span>: 
 INFO: Workflow default (ID=96aa8738ded2179e) is executed successfully.
 </pre>
@@ -14500,8 +14508,8 @@ INFO: Workflow default (ID=96aa8738ded2179e) is executed successfully.
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14541,7 +14549,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
 <span class="kn">parameter:</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="kn">output:</span>  <span class="s2">&quot;temp/result.txt&quot;</span>
@@ -14584,8 +14593,8 @@ INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14634,7 +14643,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">s</span> <span class="k">assert</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">s</span> <span class="k">assert</span>
 <span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
 </pre></div>
 
@@ -14675,8 +14685,8 @@ INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14716,7 +14726,7 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span> <span class="o">--</span><span class="nb">dir</span> <span class="o">.</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
 <span class="err">!</span><span class="n">echo</span> <span class="s2">&quot;aaa&quot;</span> <span class="o">&gt;&gt;</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
 <span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
 </pre></div>
@@ -14756,7 +14766,8 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">rm</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="err">!</span><span class="n">rm</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
 <span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
 </pre></div>
 
@@ -14790,8 +14801,8 @@ INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14850,7 +14861,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="nb">set</span>
 <span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">s</span> <span class="n">force</span>
 </pre></div>
 
@@ -14873,7 +14885,7 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>2000+0 records in
 2000+0 records out
-1024000 bytes transferred in 0.072248 secs (14173406 bytes/sec)
+1024000 bytes transferred in 0.068262 secs (15001056 bytes/sec)
 </pre>
 </div>
 </div>
@@ -14889,8 +14901,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -14939,7 +14951,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">s</span> <span class="n">build</span> <span class="o">-</span><span class="n">v2</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">s</span> <span class="n">build</span> <span class="o">-</span><span class="n">v2</span>
 </pre></div>
 
 </div>
@@ -14972,8 +14985,8 @@ INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -15013,7 +15026,8 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">echo</span> <span class="s2">&quot;something else&quot;</span> <span class="o">&gt;</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="err">!</span><span class="n">echo</span> <span class="s2">&quot;something else&quot;</span> <span class="o">&gt;</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
 <span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">s</span> <span class="n">build</span> <span class="o">-</span><span class="n">v2</span>
 </pre></div>
 
@@ -15047,8 +15061,8 @@ INFO: Workflow default (ID=2b077801357ee5a0) is executed successfully.
 <div class="output_area"><div class="prompt"></div>
 
 <div class="output_html rendered_html output_subarea ">
-<pre> input: <a target="_blank" href="temp/result.txt">temp/result.txt</a>
-output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
+<pre> input: temp/result.txt
+output: temp/size.txt
 </pre>
 </div>
 
@@ -15069,6 +15083,20 @@ output: <a target="_blank" href="temp/size.txt">temp/size.txt</a>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># cleanup</span>
+<span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">tmp</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
