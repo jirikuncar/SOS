@@ -7,7 +7,7 @@
     text-align:center;
 }
 
-.nav-tabs li a {font-size:18px; text-transform: uppercase; }
+.nav-tabs li a {font-size:14px; text-transform: uppercase; }
 
 
 #fixedbar { 
@@ -92,9 +92,15 @@ ul.gitbutton li a:active {
 
 .btn-xl{
   padding:10px 20px;
-  margin: 30px;
-
-
+   margin: 30px;
+  /* margin-right: 60px;
+  margin-left: 60px; */
+  background-color: #fed136;
+  border-color: #fed136;
+  outline: none;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 
@@ -105,7 +111,7 @@ header .intro-text {
 header .intro-text .intro-lead-in {
   /*font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
   font-family: "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-style: italic;
+  /* font-style: italic; */
   font-size: 22px;
   line-height: 22px;
   margin-bottom: 25px;
