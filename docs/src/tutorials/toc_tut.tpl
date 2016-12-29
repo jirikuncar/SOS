@@ -56,7 +56,7 @@ $( document ).ready(function(){
 
 
             var file=tutorialsDict[$("h1:first").attr("id")];
-            var path="http://bopeng.github.io/SOS"
+            var path="http://vatlab.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/docs"
             $("#toc-level0 li").css("background-color","#ddedff");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
