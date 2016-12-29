@@ -13721,7 +13721,7 @@ $( document ).ready(function(){
             table_of_contents(cfg,st);
 
             var file=documentationDict[$("h1:first").attr("id")];
-            var path="http://bopeng.github.io/SOS"
+            var path="http://vatlab.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/docs"
             $("#toc-level0 li").css("background-color","#ddedff");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
@@ -13800,7 +13800,7 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>SoS makes extensive use of <a href="http://setuptools.readthedocs.io/en/latest/setuptools.html#dynamic-discovery-of-services-and-plugins"><strong>entry points</strong></a>, which allows external modules to register their features in the file system to make them available to other modules. It can be confusing initially but <a href="http://stackoverflow.com/questions/774824/explain-python-entry-points">this stack overflow ticket</a> explains it quite well.</p>
-<p>To register additional feature with SoS, you either need to extend <code>entry_points</code> of the <a href="https://github.com/BoPeng/SOS/blob/master/setup.py"><code>setup.py</code> script</a> of SoS, or create your own package with these <code>entry_points</code>. Option <code>extras_require</code> can be used to specify additional dependent packages for these features. For example, you can create a package with the following entry_points to provide support for ruby.</p>
+<p>To register additional feature with SoS, you either need to extend <code>entry_points</code> of the <a href="https://github.com/vatlab/SOS/blob/master/setup.py"><code>setup.py</code> script</a> of SoS, or create your own package with these <code>entry_points</code>. Option <code>extras_require</code> can be used to specify additional dependent packages for these features. For example, you can create a package with the following entry_points to provide support for ruby.</p>
 
 <pre><code>    entry_points='''
 [sos-language]
@@ -13838,7 +13838,7 @@ Ruby_Library = sos-ruby.target:Ruby-Library
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Adding additional target is similar with a class derived from <a href="https://github.com/BoPeng/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>.</p>
+<p>Adding additional target is similar with a class derived from <a href="https://github.com/vatlab/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>.</p>
 
 <pre><code>from sos.target import BaseTarget
 
@@ -13846,7 +13846,7 @@ class my_target(BaseTarget):
     def __init__(self, *args, **kwargs):
         pass</code></pre>
 <p>You will need to define several member functions for this class, most notably <code>exists</code> that checks the existence of the target. This function accept a parameter <code>mode</code>, which can be <code>target</code>, <code>signature</code>, or <code>any</code>. Like a file target, a target can be considered exist as long as its signature exists, and if the real target is not needed for the execution of the workflow.</p>
-<p>The details of this class can be found at the source code of <a href="https://github.com/BoPeng/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>. The <a href="https://github.com/BoPeng/SOS/blob/master/sos/R/target.py"><code>R_Library</code></a> provides a good example of a <strong>virtual target</strong> that do not have a fixed corresponding file, can be checked for existence, and actually attempts to obtain (install a R library) the target when it is checked.</p>
+<p>The details of this class can be found at the source code of <a href="https://github.com/vatlab/SOS/blob/master/sos/target.py"><code>BaseTarget</code></a>. The <a href="https://github.com/vatlab/SOS/blob/master/sos/R/target.py"><code>R_Library</code></a> provides a good example of a <strong>virtual target</strong> that do not have a fixed corresponding file, can be checked for existence, and actually attempts to obtain (install a R library) the target when it is checked.</p>
 <p>After you defined your target, you can make it available to SOS by adding an appropriate entry point</p>
 
 <pre><code>[sos-targets]
