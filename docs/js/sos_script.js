@@ -1,8 +1,8 @@
 $(document).ready(function(){
-	$("#intro_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/doc/homepage/Overview.html"); 
-	$("#installation_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/doc/homepage/Running_SoS.html"); 
-	$("#documentation_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/doc/homepage/Documentation.html"); 
-	$("#features_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/doc/homepage/Features.html"); 
+	$("#intro_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/Overview.html"); 
+	$("#installation_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/Running_SoS.html"); 
+	$("#documentation_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/Documentation.html"); 
+	$("#features_content").load("https://raw.githubusercontent.com/vatlab/SOS/master/docs/Features.html"); 
 /*	$("#intro_content").load("doc/homepage/Overview.html"); 
 	$("#installation_content").load("doc/homepage/Running_SoS.html"); 
 	$("#documentation_content").load("doc/homepage/Documentation.html"); 
