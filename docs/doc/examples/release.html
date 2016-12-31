@@ -462,7 +462,7 @@ body {
   <div class="file-header">
 
   <div class="file-info">
-      <a href="release" class="commit-tease-sha">/Users/bpeng1/SOS/development/release</a>
+      <a href="release" class="commit-tease-sha">release</a>
       <span class="file-info-divider"></span>
     3.5 KiB
   </div>
@@ -597,7 +597,7 @@ docker push mdabioinfo/sos-notebook
 </pre></div>
 
 <div class="source blob-code sos-script "><pre><span></span><span class="nb">cd</span> ../docs/src/documentation
-jupyter nbconvert --to html --output <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> --template toc_doc
+sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span>  --template toc_doc
  
 </pre></div>
 
@@ -646,7 +646,7 @@ sos convert <span class="si">${</span><span class="nv">_input</span><span class=
 </pre></div>
 
 <div class="source blob-code sos-script "><pre><span></span>cp <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> .
-sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!b</span><span class="si">}</span> --raw <span class="si">${</span><span class="nv">_input</span><span class="p">!b</span><span class="si">}</span>
+sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!b</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!b</span><span class="si">}</span> --raw <span class="si">${</span><span class="nv">_input</span><span class="p">!b</span><span class="si">}</span>
  
 </pre></div>
 
