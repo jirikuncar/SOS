@@ -18,7 +18,7 @@
 .lev6 {margin-left: 180px}
 </style>
 
-<link rel="stylesheet" type="text/css" href="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/main.css">
+<link rel="stylesheet" type="text/css" href="../../css/toc2.css">
 
 <script src="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/toc2.js"></script>
 
@@ -58,7 +58,7 @@ $( document ).ready(function(){
             var file=documentationDict[$("h1:first").attr("id")];
             var path="http://vatlab.github.io/SOS"
             // var path="file:///Users/jma7/Development/SOS/docs"
-            $("#toc-level0 li").css("background-color","#ddedff");
+            $("#toc-level0 a").css("color","#126dce");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
             var docs=documentation;
             var pos=documentation.indexOf(file);
@@ -67,7 +67,7 @@ $( document ).ready(function(){
                   var name=docs[a]
                   $('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
-            $('a[href="'+path+'/doc/documentation/'+file+'.html'+'"]').css("background-color","#b4d4f7");
+            $('a[href="'+path+'/doc/documentation/'+file+'.html'+'"]').css("color","#126dce");
 
 
             $('<li id="indexHome"><a href="'+path+'/index.html#documentation"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
