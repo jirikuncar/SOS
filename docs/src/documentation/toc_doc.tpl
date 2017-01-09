@@ -18,11 +18,27 @@
 .lev6 {margin-left: 180px}
 </style>
 
+<link rel="stylesheet" type="text/css" href="../../css/jt.css">
 <link rel="stylesheet" type="text/css" href="../../css/toc2.css">
 
 <script src="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/toc2.js"></script>
 
  <script src="../../js/docs.js"></script>
+
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
 
 <script>
 $( document ).ready(function(){
