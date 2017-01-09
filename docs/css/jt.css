@@ -257,11 +257,14 @@ th {
     border: 1px solid #ddd !important;
   }
 }
+
+/*
 @font-face {
   font-family: 'Glyphicons Halflings';
   src: url('../components/bootstrap/fonts/glyphicons-halflings-regular.eot');
   src: url('../components/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../components/bootstrap/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../components/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../components/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../components/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
+*/
 .glyphicon {
   position: relative;
   top: 1px;
@@ -6744,7 +6747,6 @@ button.close {
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 /* FONT PATH
- * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
   src: url('../components/font-awesome/fonts/fontawesome-webfont.eot?v=4.2.0');
@@ -6752,6 +6754,7 @@ button.close {
   font-weight: normal;
   font-style: normal;
 }
+*/
 .fa {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -11679,19 +11682,19 @@ ul.typeahead-list > li > a {
  font-family: 'Droid Sans';
  font-weight: normal;
  font-style: normal;
- src: local('Droid Sans'), url('fonts/droid-sans.ttf') format('truetype');
+ src: local('Droid Sans'), url('../fonts/DroidSans.ttf') format('truetype');
 }
 @font-face {
  font-family: 'Fira Code';
  font-weight: normal;
  font-style: normal;
- src: local('Fira Code'), url('fonts/firacode.otf') format('opentype');
+ src: local('Fira Code'), url('../fonts/FiraCode-Regular.otf') format('opentype');
 }
 @font-face {
  font-family: 'PT Mono';
  font-weight: normal;
  font-style: normal;
- src: local('PT Mono'), url('fonts/ptmono.ttf') format('truetype');
+ src: local('PT Mono'), url('../fonts/PTM55FT.ttf') format('truetype');
 }
 div#notebook {
  font-family: "Droid Sans", sans-serif;
