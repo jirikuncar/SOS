@@ -464,7 +464,7 @@ body {
   <div class="file-info">
       <a href="release" class="commit-tease-sha">release</a>
       <span class="file-info-divider"></span>
-    3.5 KiB
+    3.7 KiB
   </div>
   <div class="file-actions">
   </div>
@@ -596,8 +596,9 @@ docker push mdabioinfo/sos-notebook
 <div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span>
 </pre></div>
 
-<div class="source blob-code sos-script "><pre><span></span><span class="nb">cd</span> ../docs/src/documentation
-sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span>  --template toc_doc
+<div class="source blob-code sos-script "><pre><span></span>	<span class="nb">cd</span> ../docs/src/documentation
+	sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span>  --template toc_doc
+  	perl -0777 -pi -e <span class="s1">&#39;BEGIN{undef $/;}  s/&lt;style type=\&quot;text\/css\&quot;&gt;(.+?)&lt;\/style&gt;//smg&#39;</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span>
  
 </pre></div>
 
@@ -613,8 +614,9 @@ sos convert <span class="si">${</span><span class="nv">_input</span><span class=
 <div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span> 
 </pre></div>
 
-<div class="source blob-code sos-script "><pre><span></span><span class="nb">cd</span> ../docs/src/tutorials
-sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span>  --template toc_tut
+<div class="source blob-code sos-script "><pre><span></span>	<span class="nb">cd</span> ../docs/src/tutorials
+	sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span>  --template toc_tut
+  	perl -0777 -pi -e <span class="s1">&#39;BEGIN{undef $/;}  s/&lt;style type=\&quot;text\/css\&quot;&gt;(.+?)&lt;\/style&gt;//smg&#39;</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!a</span><span class="si">}</span>
  
 </pre></div>
 
