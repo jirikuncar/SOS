@@ -108,7 +108,7 @@ $( document ).ready(function(){
             // $("#toc-header").hide();
 
             // $("#toc-level0 li").filter(".home").insertBefore($("#toc-level0 li").filter(':nth-child(1)'));
-
+            $("#toc").attr("style","max-height:938px")
 
 
     });

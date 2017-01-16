@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Using_SoS_Interactively</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Using_SoS_Interactively</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
@@ -125,6 +127,7 @@ $( document ).ready(function(){
                   $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
             }
             $("#toc-header").hide();
+            $("#toc").attr("style","max-height:938px")
 
 
             // for (var a =0;a<tuts.length;a++){
@@ -328,8 +331,4 @@ $( document ).ready(function(){
     </div>
   </div>
 </body>
-
- 
-
-
 </html>
