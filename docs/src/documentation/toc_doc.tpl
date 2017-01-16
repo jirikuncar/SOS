@@ -115,4 +115,37 @@ $( document ).ready(function(){
 </script>
 
 
+{%- if nb['metadata'].get('sos',{}).get('kernels',{}) is not none -%}
+
+<style>  /* defined here in case the main.css below cannot be loaded */
+
+ {% for item in nb['metadata'].get('sos',{}).get('kernels',{}) %}
+
+{%- if item[2] -%}
+.lan_{{item[0]}} {background-color: {{item[2]}} !important }
+
+{%- else -%}
+.lan_{{item[0]}} {}
+
+{%- endif -%}
+
+{% endfor %}
+
+</style>
+
+
+{%- endif -%}
+
 {%- endblock header -%}
+
+
+{% block codecell %}
+
+{%- if cell['metadata'].get('kernel',{}) is not none -%}
+	<div class="cell border-box-sizing code_cell rendered lan_{{cell['metadata'].get('kernel', {})}}">
+
+{%- endif -%}
+	{{ super() }}
+
+</div>
+{%- endblock codecell %}
