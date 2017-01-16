@@ -9575,7 +9575,7 @@ div.inner_cell {
 div.input_area {
   border: 1px solid #cfcfcf;
   border-radius: 2px;
-  background: #f7f7f7;
+/*  background: #f7f7f7; */
   line-height: 1.21429em;
 }
 /* This is needed so that empty prompt areas can collapse to zero height when there
@@ -12559,8 +12559,8 @@ div.input_area {
 }
 div.cell {
  padding: 0px;
- background: #efefef;
- background-color: #efefef;
+/* background: #efefef;
+ background-color: #efefef; */
  border: medium solid #ffffff;
  border-top-right-radius: 2px;
  border-top-left-radius: 2px;
@@ -12604,7 +12604,7 @@ div.prompt,
  width: 12ex;
 }
 div.prompt.input_prompt {
- background-color: #efefef;
+ /* background-color: #efefef; */
  border-right: 2px solid rgba(240,147,43,.50);
  border-top-left-radius: 2px;
  border-top-right-radius: 0px;
@@ -12614,7 +12614,7 @@ div.prompt.input_prompt {
  width: 12ex !important;
 }
 div.output_wrapper {
- background-color: #ffffff;
+ /* background-color: #ffffff; */
  border: 0px;
  margin-bottom: 0em;
  margin-top: 0em;
@@ -12663,6 +12663,7 @@ div.output_subarea {
  box-flex: 1;
  flex: 1;
  max-width: 90%;
+ background: #ffffff;
 }
 div.prompt.output_prompt {
  font-family: "Fira Code", monospace;
