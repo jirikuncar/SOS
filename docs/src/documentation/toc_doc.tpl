@@ -115,7 +115,7 @@ $( document ).ready(function(){
 </script>
 
 
-{%- if nb['metadata'].get('sos',{}).get('kernels',{}) is not none -%}
+{%- if nb['metadata'].get('sos',{}).get('kernels',none) is not none -%}
 
 <style>  /* defined here in case the main.css below cannot be loaded */
 
@@ -141,8 +141,8 @@ $( document ).ready(function(){
 
 {% block codecell %}
 
-{%- if cell['metadata'].get('kernel',{}) is not none -%}
-	<div class="cell border-box-sizing code_cell rendered lan_{{cell['metadata'].get('kernel', {})}}">
+{%- if cell['metadata'].get('kernel',none) is not none -%}
+	<div class="cell border-box-sizing code_cell rendered lan_{{cell['metadata'].get('kernel', none)}}">
 
 {%- endif -%}
 	{{ super() }}
