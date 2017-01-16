@@ -92,6 +92,7 @@ $( document ).ready(function(){
                   $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
             }
             $("#toc-header").hide();
+            $("#toc").attr("style","max-height:938px")
 
 
             // for (var a =0;a<tuts.length;a++){
