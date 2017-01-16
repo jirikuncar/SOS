@@ -145,7 +145,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -188,7 +192,7 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -216,6 +220,8 @@ $( document ).ready(function(){
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -258,7 +264,7 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
@@ -273,6 +279,8 @@ $( document ).ready(function(){
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -284,7 +292,7 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
@@ -313,6 +321,8 @@ $( document ).ready(function(){
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -336,7 +346,7 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
@@ -371,6 +381,8 @@ I am in default_30
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -395,13 +407,31 @@ I am in default_30
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>One of the most important features of the SoS kernel is its support for multiple Jupyter subkernel. Using a <code>%use kernel</code> magic, you can start (and/or switches to) an alternative jupyter kernel and use a completely different script in the same notebook.</p>
-<p>A <code>kernel</code> can be any <a href="https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages">Jupyter supported kernels</a> that have been installed locally. In particular, you can use <code>ir</code> for R kernel, <code>python3</code> for python3, <code>iperl</code> for perl, <code>bash</code> for bash. Please refer to <a href="https://github.com/IRkernel/IRkernel">IRKernel</a> for instructions on how to install the <code>ir</code> kernel for <code>R</code>.</p>
-<p>For example,</p>
+<p>One of the most important features of the SoS kernel is its support for multiple Jupyter subkernel. A <code>subkernel</code> can be any <a href="https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages">Jupyter supported kernels</a> that have been installed locally. In particular, you can use <code>ir</code> for R kernel, <code>python3</code> for python3, <code>iperl</code> for perl, <code>bash</code> for bash. Please refer to <a href="https://github.com/IRkernel/IRkernel">IRKernel</a> for instructions on how to install the <code>ir</code> kernel for <code>R</code>.</p>
 
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Kernel-switch-magics">Kernel switch magics<a class="anchor-link" href="#Kernel-switch-magics">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can switch kernels using SoS magics or interactively if you are using a Jupyter notebook. Using a <code>%use kernel</code> magic, you can start (and/or switches to) an alternative jupyter kernel and use a completely different script in the same notebook.</p>
+<p>For example,</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
@@ -415,6 +445,8 @@ I am in default_30
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -424,7 +456,7 @@ I am in default_30
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
@@ -3632,6 +3664,8 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -3641,7 +3675,7 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
@@ -3652,6 +3686,8 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 
 </div>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -3674,7 +3710,7 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
@@ -3713,45 +3749,45 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
   <tbody>
     <tr>
       <th>0</th>
-      <td>-0.080236</td>
-      <td>-1.185806</td>
-      <td>-0.666644</td>
-      <td>-0.217088</td>
+      <td>0.605733</td>
+      <td>0.355467</td>
+      <td>-0.070785</td>
+      <td>-0.081856</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>-0.834922</td>
-      <td>-0.407410</td>
-      <td>0.059401</td>
-      <td>1.751014</td>
+      <td>-1.505198</td>
+      <td>0.736966</td>
+      <td>-0.683434</td>
+      <td>-1.608062</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-0.636459</td>
-      <td>-0.110253</td>
-      <td>0.138277</td>
-      <td>0.336033</td>
+      <td>-0.076474</td>
+      <td>0.211609</td>
+      <td>-0.210234</td>
+      <td>1.248536</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>0.425266</td>
-      <td>1.004583</td>
-      <td>-1.805501</td>
-      <td>0.375769</td>
+      <td>-1.622145</td>
+      <td>-0.021034</td>
+      <td>0.203741</td>
+      <td>-0.356522</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.097741</td>
-      <td>-0.781354</td>
-      <td>0.036256</td>
-      <td>-1.534463</td>
+      <td>-1.263896</td>
+      <td>0.168650</td>
+      <td>-0.683386</td>
+      <td>-0.398749</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>-0.046473</td>
-      <td>-0.466750</td>
-      <td>-0.032544</td>
-      <td>0.020554</td>
+      <td>-1.215079</td>
+      <td>0.184683</td>
+      <td>0.625955</td>
+      <td>-1.154201</td>
     </tr>
   </tbody>
 </table>
@@ -3764,6 +3800,8 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -3773,7 +3811,7 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
@@ -3807,12 +3845,12 @@ d
 <table>
 <thead><tr><th scope=col>A</th><th scope=col>B</th><th scope=col>C</th><th scope=col>D</th></tr></thead>
 <tbody>
-	<tr><td>-0.08023604</td><td>-1.1858061 </td><td>-0.66664417</td><td>-0.21708807</td></tr>
-	<tr><td>-0.83492228</td><td>-0.4074096 </td><td> 0.05940068</td><td> 1.75101425</td></tr>
-	<tr><td>-0.63645899</td><td>-0.1102526 </td><td> 0.13827724</td><td> 0.33603269</td></tr>
-	<tr><td> 0.42526555</td><td> 1.0045830 </td><td>-1.80550058</td><td> 0.37576934</td></tr>
-	<tr><td> 0.09774097</td><td>-0.7813538 </td><td> 0.03625609</td><td>-1.53446308</td></tr>
-	<tr><td>-0.04647287</td><td>-0.4667498 </td><td>-0.03254394</td><td> 0.02055402</td></tr>
+	<tr><td> 0.60573278</td><td> 0.3554667 </td><td>-0.07078457</td><td>-0.08185553</td></tr>
+	<tr><td>-1.50519769</td><td> 0.7369657 </td><td>-0.68343369</td><td>-1.60806198</td></tr>
+	<tr><td>-0.07647393</td><td> 0.2116091 </td><td>-0.21023366</td><td> 1.24853632</td></tr>
+	<tr><td>-1.62214541</td><td>-0.0210337 </td><td> 0.20374069</td><td>-0.35652153</td></tr>
+	<tr><td>-1.26389615</td><td> 0.1686503 </td><td>-0.68338604</td><td>-0.39874856</td></tr>
+	<tr><td>-1.21507908</td><td> 0.1846831 </td><td> 0.62595526</td><td>-1.15420056</td></tr>
 </tbody>
 </table>
 
@@ -3824,12 +3862,81 @@ d
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exchange-of-variables-between-subkernels">Exchange of variables between subkernels<a class="anchor-link" href="#Exchange-of-variables-between-subkernels">&#182;</a></h2>
+<h3 id="Interactive-kernel-switch">Interactive kernel switch<a class="anchor-link" href="#Interactive-kernel-switch">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also select kernel for each cell and switch kernels globally using the Jupyter notebook.</p>
+<ol>
+<li><p>A dropdown list at the top right corner of each cell displays the current kernel for the cell. You can change the kernel used for the cell by selecting another kernel from the list. This will start the cell with the specified kernel, although another kernel can still be used if the cell contains kernel switching magics <code>%use</code> or <code>%with</code>.</p>
+</li>
+<li><p>A dropbown list in the notebook toolbar lists the global default kernel that would be used for new cell. Changing the kernel from the tool bar effectively executes a <code>%use KERNEL</code> command. It will also change the kernel of any new cell to that kernel.</p>
+</li>
+</ol>
+<p>For example, if you can add a cell below, it will be executed by default with a <code>R</code> kernel because of the previous <code>%use R</code> magic. However, you can use the drop down list to the right of the cell to change the kernel to <code>SoS</code> so that it can be executed in the SoS kernel.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="s2">&quot;${1+1}&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;2&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This local change of cell kernel will not change the default kernel so the next code cell will still be evaluated with a <code>R</code> kernel.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Explicit-data-exchange">Explicit data exchange<a class="anchor-link" href="#Explicit-data-exchange">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -3843,10 +3950,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">get</span> <span class="n">data</span>
@@ -3867,12 +3974,12 @@ d
 <table>
 <thead><tr><th scope=col>A</th><th scope=col>B</th><th scope=col>C</th><th scope=col>D</th></tr></thead>
 <tbody>
-	<tr><td>-0.08023604</td><td>-1.1858061 </td><td>-0.66664417</td><td>-0.21708807</td></tr>
-	<tr><td>-0.83492228</td><td>-0.4074096 </td><td> 0.05940068</td><td> 1.75101425</td></tr>
-	<tr><td>-0.63645899</td><td>-0.1102526 </td><td> 0.13827724</td><td> 0.33603269</td></tr>
-	<tr><td> 0.42526555</td><td> 1.0045830 </td><td>-1.80550058</td><td> 0.37576934</td></tr>
-	<tr><td> 0.09774097</td><td>-0.7813538 </td><td> 0.03625609</td><td>-1.53446308</td></tr>
-	<tr><td>-0.04647287</td><td>-0.4667498 </td><td>-0.03254394</td><td> 0.02055402</td></tr>
+	<tr><td> 0.60573278</td><td> 0.3554667 </td><td>-0.07078457</td><td>-0.08185553</td></tr>
+	<tr><td>-1.50519769</td><td> 0.7369657 </td><td>-0.68343369</td><td>-1.60806198</td></tr>
+	<tr><td>-0.07647393</td><td> 0.2116091 </td><td>-0.21023366</td><td> 1.24853632</td></tr>
+	<tr><td>-1.62214541</td><td>-0.0210337 </td><td> 0.20374069</td><td>-0.35652153</td></tr>
+	<tr><td>-1.26389615</td><td> 0.1686503 </td><td>-0.68338604</td><td>-0.39874856</td></tr>
+	<tr><td>-1.21507908</td><td> 0.1846831 </td><td> 0.62595526</td><td>-1.15420056</td></tr>
 </tbody>
 </table>
 
@@ -3881,6 +3988,8 @@ d
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -3893,10 +4002,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">class</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -3927,6 +4036,8 @@ d
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -3936,10 +4047,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="p">[</span> <span class="n">data</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -3951,9 +4062,11 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">put</span> <span class="n">data</span>
@@ -3964,9 +4077,11 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -3981,7 +4096,7 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -4008,19 +4123,19 @@ d
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>1.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>2</th>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>0.0</td>
-      <td>1.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
     </tr>
@@ -4049,6 +4164,8 @@ d
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -4058,10 +4175,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">data</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span>
@@ -4073,9 +4190,11 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">data</span>
@@ -4089,7 +4208,7 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -4116,19 +4235,19 @@ d
       <td>2.0</td>
       <td>2.0</td>
       <td>2.0</td>
-      <td>3.0</td>
+      <td>2.0</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2.0</td>
       <td>2.0</td>
       <td>2.0</td>
-      <td>2.0</td>
+      <td>3.0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>2.0</td>
-      <td>3.0</td>
+      <td>2.0</td>
       <td>2.0</td>
       <td>2.0</td>
     </tr>
@@ -4157,12 +4276,14 @@ d
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Implicit-data-exchange">Implicit data exchange<a class="anchor-link" href="#Implicit-data-exchange">&#182;</a></h2>
+<h3 id="Implicit-data-exchange">Implicit data exchange<a class="anchor-link" href="#Implicit-data-exchange">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -4176,10 +4297,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -4191,12 +4312,14 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_python3">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">python</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">Python</span>
 <span class="n">sos_var</span> <span class="o">+=</span> <span class="mi">100</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;sos_var is changed to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sos_var</span><span class="p">))</span>
 </pre></div>
@@ -4220,9 +4343,11 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># I am still in R</span>
@@ -4249,9 +4374,11 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -4266,7 +4393,7 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4279,6 +4406,8 @@ d
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -4288,10 +4417,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># clean up</span>
@@ -4301,6 +4430,8 @@ d
 
 </div>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -4318,7 +4449,12 @@ d
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In addition to SoS statements, you can use a few SoS magics in Jupyter notebook. <strong>SoS magics have to be specified at the beginning of a cell</strong> although they can be specified after empty lines and comments, and multiple magics can be used in a single cell.</p>
+<p>In addition to SoS statements, you can use a few SoS magics in Jupyter notebook.</p>
+<ol>
+<li>SoS magics have to be specified at the beginning of a cell, although they can be specified after empty lines and comments.</li>
+<li>Lines ending with <code>"\"</code> will be joined so you can break long magics into multiple lines</li>
+<li>Multiple magics can be used in a single cell.</li>
+</ol>
 <p>SoS supports the following jupyter magics:</p>
 
 </div>
@@ -4353,10 +4489,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
@@ -4367,12 +4503,14 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">n</span> <span class="o">-</span><span class="n">o</span> <span class="n">ran</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">ir</span> <span class="o">-</span><span class="n">i</span> <span class="n">n</span> <span class="o">-</span><span class="n">o</span> <span class="n">ran</span>
 <span class="n">ran</span> <span class="o">&lt;-</span> <span class="n">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 </pre></div>
 
@@ -4381,9 +4519,11 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -4398,20 +4538,22 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[0.89905416379405,
- 1.53512630136844,
- -1.90749682292116,
- 2.00747200083488,
- 0.317106299067485]</pre>
+<pre>[-0.315782646636207,
+ 0.0753350405817532,
+ -0.610427157303694,
+ 0.774152654207378,
+ -0.367569711235697]</pre>
 </div>
 
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -4443,10 +4585,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">n</span> <span class="o">-</span><span class="n">o</span> <span class="n">ran</span>
@@ -4455,6 +4597,8 @@ d
 
 </div>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -4467,10 +4611,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span>
@@ -4495,9 +4639,11 @@ d
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ran</span>
@@ -4511,20 +4657,22 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[1.36562693992177,
- -0.337834601673364,
- -0.0749543898701478,
- -1.11142029071332,
- -2.11600522316238]</pre>
+<pre>[-1.12070816260536,
+ -1.09701825404786,
+ 1.49677400362222,
+ 0.337311176925819,
+ 0.3642010518001]</pre>
 </div>
 
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -4546,10 +4694,10 @@ d
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -4570,7 +4718,7 @@ d
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>png(&#34;/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmppz4jq8bo/a.png&#34;)
+<pre>png(&#34;/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpean4z7gm/a.png&#34;)
 plot(seq(1,10))
 dev.off()
 ## -- End interpolated command --
@@ -4616,6 +4764,8 @@ dev.off()
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -4635,10 +4785,10 @@ dev.off()
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">data</span>
@@ -4717,6 +4867,8 @@ dev.off()
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -4726,10 +4878,10 @@ dev.off()
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">]</span>
@@ -4773,6 +4925,8 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -4900,10 +5054,10 @@ Name: one, dtype: float64</pre>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -4919,9 +5073,11 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">put</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">d</span> <span class="n">e</span>
@@ -5034,6 +5190,8 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -5053,10 +5211,10 @@ Name: one, dtype: float64</pre>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">5</span>
@@ -5067,9 +5225,11 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">put</span> <span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">b</span>
@@ -5086,7 +5246,8 @@ Name: one, dtype: float64</pre>
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Variable .a.b is put to SoS as _a_b</pre>
+<pre>&#39;Variable .a.b is put to SoS as _a_b&#39;
+</pre>
 </div>
 </div>
 
@@ -5116,6 +5277,8 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -5218,10 +5381,10 @@ Name: one, dtype: float64</pre>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5235,9 +5398,11 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -5270,9 +5435,11 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">b</span>
@@ -5303,9 +5470,11 @@ Name: one, dtype: float64</pre>
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">c</span>
@@ -5331,6 +5500,8 @@ TRUE
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -5350,10 +5521,10 @@ TRUE
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5365,9 +5536,11 @@ TRUE
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -5385,7 +5558,8 @@ TRUE
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Variable _var is passed from SoS to kernel R as .var</pre>
+<pre>&#39;Variable _var is passed from SoS to kernel ir as .var&#39;
+</pre>
 </div>
 </div>
 
@@ -5401,9 +5575,11 @@ TRUE
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5411,6 +5587,8 @@ TRUE
 
 </div>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -5451,10 +5629,10 @@ TRUE
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5558,6 +5736,8 @@ specified in the script. Single value parameters should be passed using option
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -5576,10 +5756,10 @@ specified in the script. Single value parameters should be passed using option
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">parameter:</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>
@@ -5606,9 +5786,11 @@ specified in the script. Single value parameters should be passed using option
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">a</span> <span class="mi">20</span>
@@ -5633,6 +5815,8 @@ specified in the script. Single value parameters should be passed using option
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -5652,10 +5836,10 @@ specified in the script. Single value parameters should be passed using option
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">v2</span>
@@ -5690,9 +5874,11 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">v1</span>
@@ -5719,6 +5905,8 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -5728,10 +5916,10 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
@@ -5742,9 +5930,11 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -6019,6 +6209,8 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -6057,10 +6249,10 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">dict</span> <span class="o">--</span><span class="n">keys</span>
@@ -6074,7 +6266,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[50]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6112,6 +6304,8 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -6121,10 +6315,10 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">dict</span> <span class="o">--</span><span class="n">reset</span>
@@ -6139,7 +6333,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6149,6 +6343,8 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -6186,10 +6382,10 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">ls</span> <span class="n">Auxil</span><span class="o">*</span>
@@ -6214,6 +6410,8 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -6223,10 +6421,10 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -6252,6 +6450,8 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -6261,10 +6461,10 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -6279,7 +6479,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6289,6 +6489,8 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
@@ -6331,10 +6533,10 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span>
@@ -6348,9 +6550,11 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">cat</span> <span class="err">$</span><span class="p">{</span><span class="n">filename</span><span class="p">}</span>
@@ -6366,7 +6570,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>cat /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpamqtauro
+<pre>cat /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpg_9ictao
 ## -- End interpolated command --
 something
 </pre>
@@ -6377,9 +6581,11 @@ something
 </div>
 
 </div>
+
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># clean up</span>
@@ -6396,13 +6602,15 @@ something
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>rm /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpamqtauro
+<pre>rm /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpg_9ictao
 ## -- End interpolated command --
 </pre>
 </div>
 </div>
 
 </div>
+</div>
+
 </div>
 
 </div>
