@@ -22,5 +22,6 @@ if __name__ == '__main__':
     args, unknown_args = parser.parse_known_args()
     with open('myfigure.pdf', 'w') as pdf:
         pdf.write('fake pdf')
+        print('Generating myfigure.pdf')
 
 
