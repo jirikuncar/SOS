@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Extending_SoS</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Extending_SoS</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
@@ -149,7 +147,7 @@ $( document ).ready(function(){
     });
 </script><style>  /* defined here in case the main.css below cannot be loaded */
 
- 
+ .lan_sos {}
 
 </style>
 <body>
@@ -374,6 +372,7 @@ fromExt-toExt.func: mypackage.mymodule:my_converter</code></pre>
 <li>The Jupyter kernel this language uses to work with Jupyer, which is a <code>ir</code> kernel for language <code>R</code>.</li>
 <li>How to translate a Python object to a <strong>similar</strong> object in this language</li>
 <li>How to translate an object in this language to a <strong>similar</strong> object in Python.</li>
+<li>The color of the prompt of cells executed by this language.</li>
 </ol>
 <p>It is important to understand that, instead of providing object that is native to the <strong>sender</strong> language (e.g. use <a href="http://rpy2.bitbucket.org/"><code>rpy2</code></a> to wrap R objects in Python), SoS tries to provide object that is native to the <strong>recipient</strong> language. That is to say, although objects</p>
 
@@ -396,6 +395,7 @@ b = [1, 2]</code></pre>
 <ol>
 <li><code>kernel_name</code>: name of the kernel the language uses</li>
 <li><code>init_statements</code>: a statement that will be executed by the sub-kernel when the kernel starts. This statement usually defines functions to convert object to Python.</li>
+<li><code>background_color</code>: a name or <code>#XXXXXX</code> value for a color that will be used in the prompt area of cells that are executed by the subkernel. An empty string can be used for using default notebook color.</li>
 <li><code>sos_to_lan</code>: a Python function that represents a Python object in the destination language. It accepts a name and a Python object, and should return a name and a statement. The name is the variable's name in the subkernel, which can be different from the name in SoS. The statement will be executed by the <strong>sub-kernel</strong> to construct the object in subkernel.</li>
 <li><code>lan_to_sos</code>: a Python function that accept names of one or more variables in the subkernel and returns a dictionary of variables that will be merged to the SoS dictionary. In addition to specified items, this function should also transfer any variables in the subkernel with name starting with <code>sos</code>. </li>
 </ol>
@@ -468,4 +468,8 @@ myaddon.func = yourpackage.module:addon_func</code></pre>
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>
