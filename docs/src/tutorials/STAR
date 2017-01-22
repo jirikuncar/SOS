@@ -30,7 +30,7 @@ if __name__ == '__main__':
         outFile = args.outFileNamePrefix + '.out.tab'
         prepareOutput(outFile)
         with open(outFile, 'w') as ou:
-            ou.write('sequence result from {}'.format(args.readFilesIn))
+            ou.write('sequence\tresult\tfrom\t{}\n1\t2\t\3\t4\n'.format(args.readFilesIn))
         print('Generating {} from {}'.format(outFile, args.readFilesIn))
 
 
