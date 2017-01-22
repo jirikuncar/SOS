@@ -86,7 +86,7 @@ $( document ).ready(function(){
             }
             $('a[href="'+path+'/doc/tutorials/'+file+'.html'+'"]').css("color","#126dce");
 
-            $('<li id="indexHome" style="margin-bottom:10pt"> <a href="http://vatlab.github.io/SOS/index.html#documentation"> <img height="32" width="32" style="border:0px;margin-right:5px;vertical-align:bottom" src="http://vatlab.github.io/SOS/img/sos_icon.svg"> <b>Script of Scripts<b></b></a> </li>').insertBefore("#toc-level0 li:eq(0)");
+            $('<li id="indexHome" style="margin-bottom:10pt"> <a href="http://vatlab.github.io/SOS/index.html#documentation"> <img height="32" width="32" style="border:0px;margin-right:5px;vertical-align:bottom" src="http://vatlab.github.io/SOS/img/sos_icon.svg"> <b>Home</b></a> </li>').insertBefore("#toc-level0 li:eq(0)");
             for (var a=pos+1;a<tuts.length;a++){
                   var name=tuts[a]
                   $(".toc #toc-level0").append('<li><a href="'+path+'/doc/tutorials/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
