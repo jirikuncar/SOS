@@ -226,63 +226,6 @@ markdown, and terminal output.
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="o">-</span><span class="n">h</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos convert [-h] [-v {0,1,2,3,4}]
-                   {sos-html,sos-md,sos-term,ipynb-sos,sos-ipynb} ...
-
-Converts .sos to various formats including .html for web display, to jupyter
-notebook (.ipynb), and to terminal for syntax highlighted viewing on terminal.
-It also allows converting from jupyter notebook (.ipynb) to sos script (.sos).
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
-                        Output error (0), warning (1), info (2), debug (3) and
-                        trace (4) information to standard output (default to
-                        2).
-
-converters (name of converter is not needed from command line):
-  {sos-html,sos-md,sos-term,ipynb-sos,sos-ipynb}
-    sos-html            Convert sos file to html format with syntax
-                        highlighting, and save the output either to a HTML
-                        file or view it in a broaser.
-    sos-md              Convert SOS scriot to a markdown format with scripts
-                        quoted in markdown syntax.
-    sos-term            Write script to terminal with syntax highlighting.
-    ipynb-sos           Export Jupyter notebook with a SoS kernel to a .sos
-                        file. The cells are presented in the .sos file as cell
-                        structure lines, which will be ignored if executed in
-                        batch mode
-    sos-ipynb           Convert a sos script to Jupyter notebook (.ipynb) so
-                        that it can be opened by Jupyter notebook.
-
-Extra command line argument could be specified to customize the style of html,
-markdown, and terminal output.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -362,50 +305,6 @@ optional arguments:
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="n">myscript</span><span class="o">.</span><span class="n">sos</span> <span class="o">--</span><span class="n">to</span> <span class="n">html</span> <span class="o">-</span><span class="n">h</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos convert FILE.sos FILE.html (or --to html) [-h] [--raw RAW]
-                                                     [--style {colorful,bw,tango,algol_nu,igor,algol,manni,vs,perldoc,borland,paraiso-light,default,paraiso-dark,trac,native,emacs,murphy,rrt,monokai,xcode,fruity,autumn,lovelace,pastie,vim,friendly}]
-                                                     [--linenos] [-v]
-
-Convert sos file to html format with syntax highlighting, and save the output
-either to a HTML file or view it in a broaser.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --raw RAW             URL to the raw sos file, which will be linked to
-                        filenames in the HTML output
-  --style {colorful,bw,tango,algol_nu,igor,algol,manni,vs,perldoc,borland,paraiso-light,default,paraiso-dark,trac,native,emacs,murphy,rrt,monokai,xcode,fruity,autumn,lovelace,pastie,vim,friendly}
-                        Pygments style for the HTML output.
-  --linenos             Display lineno to the left of the source code
-  -v, --view            Open the output file in a broswer. In case no html
-                        file is specified, this option will display the HTML
-                        file in a browser, instead of writing its content to
-                        standard output.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -424,33 +323,6 @@ optional arguments:
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="o">../</span><span class="n">examples</span><span class="o">/</span><span class="n">update_toc</span><span class="o">.</span><span class="n">sos</span> <span class="n">update_toc</span><span class="o">.</span><span class="n">html</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: SoS script saved to update_toc.html
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
