@@ -23,9 +23,8 @@ def fileDict(docFile,folder):
 
 def findImages(docFile):
 	docString="var images=["
-	for file in glob.glob(path+"/img/*"):
-		name=file.split("/")[-1]
-		docString+='"'+name+'",'
+	for file in glob.glob(path+"/img/banner_*"):
+		docString+='"'+os.path.basename(file)+'",'
 	docString=docString[:-1]
 	docString+="]"
 	docFile.write(docString+"\n")
