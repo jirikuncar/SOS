@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Execution_of_Workflow</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Execution_of_Workflow</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
@@ -236,6 +234,42 @@ INFO: Running <span class="ansi-green-fg">default_40</span>:
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v2</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="p">[</span><span class="mi">30</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">40</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Running <span class="ansi-green-fg">default_10</span>: 
+INFO: Running <span class="ansi-green-fg">default_30</span>: 
+INFO: Running <span class="ansi-green-fg">default_40</span>: 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -258,6 +292,25 @@ INFO: Running <span class="ansi-green-fg">default_40</span>:
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v1</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.txt&#39;</span>
+<span class="p">[</span><span class="mi">30</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">40</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
 </div>
 
 </div>
@@ -315,6 +368,39 @@ Sandbox execution failed.</pre>
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="kp">skip</span><span class="o">=</span><span class="bp">False</span><span class="p">]</span>
+<span class="kn">sh:</span>
+   <span class="n">echo</span> <span class="s2">&quot;I am command echo&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>File contains parsing errors: &lt;string&gt;
+	[line  2]: [10, skip=False]
+sh:
+   echo &#34;I am command echo&#34;
+Invalid statements: SyntaxError(&#39;invalid syntax&#39;, (&#39;&lt;string&gt;&#39;, 1, 10, &#39;[10, skip=False]\n&#39;))
+Sandbox execution failed.</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -342,6 +428,20 @@ Sandbox execution failed.</pre>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">n</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span> <span class="kp">skip</span><span class="o">=</span><span class="bp">False</span><span class="p">]</span>
+<span class="kn">sh:</span>
+   <span class="n">echo</span> <span class="s2">&quot;I am command echo&quot;</span>
+</pre></div>
+
+</div>
+</div>
 </div>
 
 </div>
@@ -401,6 +501,40 @@ Sandbox execution failed.</pre>
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">mkdir</span> <span class="n">tmp</span>
+<span class="err">!</span><span class="n">echo</span> <span class="s2">&quot;#!/bin/bash&quot;</span> <span class="o">&gt;</span> <span class="n">tmp</span><span class="o">/</span><span class="n">ls</span>
+<span class="err">!</span><span class="n">echo</span> <span class="s2">&quot;echo This is fake ls&quot;</span> <span class="o">&gt;&gt;</span> <span class="n">tmp</span><span class="o">/</span><span class="n">ls</span>
+<span class="err">!</span><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">tmp</span><span class="o">/</span><span class="n">ls</span>
+
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">b</span> <span class="n">tmp</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">sh:</span>
+    <span class="n">ls</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>This is fake ls
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -452,6 +586,43 @@ Sandbox execution failed.</pre>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+
+<span class="p">[</span><span class="n">install_lls</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="n">executable</span><span class="p">(</span><span class="s1">&#39;lls&#39;</span><span class="p">)]</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;#!/bin/bash&quot;</span> <span class="o">&gt;</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+    <span class="n">echo</span> <span class="s2">&quot;echo This is lls&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+    <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;lls&#39;</span><span class="p">)</span>
+<span class="kn">run:</span>
+    <span class="n">lls</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>This is lls
+</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -545,6 +716,20 @@ Sandbox execution failed.</pre>
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+
+<span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">.</span><span class="n">sos</span><span class="o">/.</span><span class="n">runtime</span>
+<span class="err">!</span><span class="p">[</span> <span class="o">-</span><span class="n">d</span> <span class="n">temp</span> <span class="p">]</span> <span class="o">||</span> <span class="n">mkdir</span> <span class="n">temp</span>
+</pre></div>
+
+</div>
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -620,6 +805,77 @@ output: temp/size.txt
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+
+<span class="kn">parameter:</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span>  <span class="s2">&quot;temp/result.txt&quot;</span>
+<span class="kn">sh:</span>
+    <span class="n">dd</span> <span class="k">if</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">urandom</span> <span class="n">of</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span> <span class="n">count</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">size</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">output:</span>  <span class="s1">&#39;temp/size.txt&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sz</span><span class="p">:</span>
+    <span class="n">sz</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;${input}: ${os.path.getsize(input[0])}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>1000+0 records in
+1000+0 records out
+512000 bytes transferred in 0.035019 secs (14620568 bytes/sec)
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (24 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>temp/result.txt: 512000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -694,6 +950,67 @@ output: temp/size.txt
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>1000+0 records in
+1000+0 records out
+512000 bytes transferred in 0.034253 secs (14947543 bytes/sec)
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (24 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>temp/result.txt: 512000
+</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -778,6 +1095,67 @@ output: temp/size.txt
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">s</span> <span class="n">default</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>1000+0 records in
+1000+0 records out
+512000 bytes transferred in 0.034355 secs (14903249 bytes/sec)
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (24 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>temp/result.txt: 512000
+</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -864,6 +1242,77 @@ output: temp/size.txt
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">s</span> <span class="n">default</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">v2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>sos options is set to &#34;-s default&#34;
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+INFO: Step <span class="ansi-green-fg">default_10</span> (index=0) is <span class="ansi-green-fg">ignored</span> due to saved signature
+INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Step <span class="ansi-green-fg">default_20</span> (index=0) is <span class="ansi-green-fg">ignored</span> due to saved signature
+INFO: Workflow default (ID=e9251d43927ed624) is executed successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (24 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>temp/result.txt: 512000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -941,6 +1390,70 @@ output: temp/size.txt
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">v2</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+2000+0 records in
+2000+0 records out
+1024000 bytes transferred in 0.068127 secs (15030770 bytes/sec)
+INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Workflow default (ID=96aa8738ded2179e) is executed successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (25 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>temp/result.txt: 1024000
+</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -1028,6 +1541,79 @@ output: temp/size.txt
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
+<span class="kn">parameter:</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">output:</span>  <span class="s2">&quot;temp/result.txt&quot;</span>
+<span class="c1"># added comment</span>
+<span class="kn">sh:</span>
+    <span class="n">dd</span> <span class="k">if</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">urandom</span> <span class="n">of</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span> <span class="n">count</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">size</span><span class="p">}</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="kn">output:</span>  <span class="s1">&#39;temp/size.txt&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sz</span><span class="p">:</span>
+    <span class="n">sz</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Modified ${input}: ${os.path.getsize(input[0])}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+INFO: Step <span class="ansi-green-fg">default_10</span> (index=0) is <span class="ansi-green-fg">ignored</span> due to saved signature
+INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (34 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Modified temp/result.txt: 1024000
+</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -1123,6 +1709,77 @@ output: temp/size.txt
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">s</span> <span class="k">assert</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>sos options is set to &#34;-s assert&#34;
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+INFO: Step <span class="ansi-green-fg">default_10</span> (index=0) is <span class="ansi-green-fg">ignored</span> with matching signature
+INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Step <span class="ansi-green-fg">default_20</span> (index=0) is <span class="ansi-green-fg">ignored</span> with matching signature
+INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (34 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Modified temp/result.txt: 1024000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -1164,6 +1821,34 @@ Sandbox execution failed.</pre>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="err">!</span><span class="n">echo</span> <span class="s2">&quot;aaa&quot;</span> <span class="o">&gt;&gt;</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+Failed to process step output: &#34;temp/result.txt&#34; (Signature mismatch: File has changed temp/result.txt)
+Sandbox execution failed.</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -1242,6 +1927,70 @@ output: temp/size.txt
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="err">!</span><span class="n">rm</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">v2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+INFO: Step <span class="ansi-green-fg">default_10</span> (index=0) is <span class="ansi-green-fg">ignored</span> with matching signature
+INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Step <span class="ansi-green-fg">default_20</span> (index=0) is <span class="ansi-green-fg">ignored</span> with matching signature
+INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (34 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Modified temp/result.txt: 1024000
+</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -1345,6 +2094,75 @@ output: temp/size.txt
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="nb">set</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">s</span> <span class="n">force</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>sos options &#34;-s assert&#34; reset to &#34;&#34;
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>2000+0 records in
+2000+0 records out
+1024000 bytes transferred in 0.068262 secs (15001056 bytes/sec)
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (34 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Modified temp/result.txt: 1024000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -1431,6 +2249,69 @@ output: temp/size.txt
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">size</span> <span class="mi">2000</span> <span class="o">-</span><span class="n">s</span> <span class="n">build</span> <span class="o">-</span><span class="n">v2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+INFO: Step <span class="ansi-green-fg">default_10</span> (index=0) is <span class="ansi-green-fg">ignored</span> with signature constructed
+INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Step <span class="ansi-green-fg">default_20</span> (index=0) is <span class="ansi-green-fg">ignored</span> with signature constructed
+INFO: Workflow default (ID=e53cef26d0601b1b) is executed successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (34 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Modified temp/result.txt: 1024000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -1509,6 +2390,70 @@ output: temp/size.txt
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="nb">dir</span> <span class="n">tmp</span>
+<span class="err">!</span><span class="n">echo</span> <span class="s2">&quot;something else&quot;</span> <span class="o">&gt;</span> <span class="n">temp</span><span class="o">/</span><span class="n">result</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">%</span><span class="n">rerun</span> <span class="o">-</span><span class="n">s</span> <span class="n">build</span> <span class="o">-</span><span class="n">v2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
+INFO: Step <span class="ansi-green-fg">default_10</span> (index=0) is <span class="ansi-green-fg">ignored</span> with signature constructed
+INFO: Running <span class="ansi-green-fg">default_20</span>: 
+INFO: Step <span class="ansi-green-fg">default_20</span> (index=0) is <span class="ansi-green-fg">ignored</span> with signature constructed
+INFO: Workflow default (ID=2b077801357ee5a0) is executed successfully.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">## -- Preview output --</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: temp/result.txt
+output: temp/size.txt
+</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> temp/size.txt (34 B):</font></pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Modified temp/result.txt: 1024000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -1525,9 +2470,25 @@ output: temp/size.txt
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># cleanup</span>
+<span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">tmp</span>
+</pre></div>
+
+</div>
+</div>
+</div>
 
 </div>
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>

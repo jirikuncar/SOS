@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>SoS_Docker_Guide</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>SoS_Docker_Guide</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
@@ -241,6 +239,31 @@ $( document ).ready(function(){
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">docker</span> <span class="n">ps</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</pre>
+</div>
+</div>
+
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -290,6 +313,42 @@ INFO: docker run --rm   -v /Users:/Users -v /tmp:/tmp -v /Users/bpeng1/SOS/doc/p
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v2</span>
+<span class="kn">ruby:</span> <span class="n">docker_image</span><span class="o">=</span><span class="s1">&#39;ruby&#39;</span>
+    <span class="n">line1</span> <span class="o">=</span> <span class="s2">&quot;Cats are smarter than dogs&quot;</span><span class="p">;</span>
+    <span class="n">line2</span> <span class="o">=</span> <span class="s2">&quot;Dogs also like meat&quot;</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">line1</span> <span class="o">=~</span> <span class="o">/</span><span class="n">Cats</span><span class="p">(</span><span class="o">.*</span><span class="p">)</span><span class="o">/</span> <span class="p">)</span>
+      <span class="n">puts</span> <span class="s2">&quot;Line1 contains Cats&quot;</span>
+    <span class="n">end</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">line2</span> <span class="o">=~</span> <span class="o">/</span><span class="n">Cats</span><span class="p">(</span><span class="o">.*</span><span class="p">)</span><span class="o">/</span> <span class="p">)</span>
+      <span class="n">puts</span> <span class="s2">&quot;Line2 contains  Dogs&quot;</span>
+    <span class="n">end</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">interactive_0</span>: 
+INFO: docker run --rm   -v /Users:/Users -v /tmp:/tmp -v /Users/bpeng1/SOS/doc/pending/tmp8k4kemrk/docker_run_19836.rb:/var/lib/sos/docker_run_19836.rb    -t -P -w=/Users/bpeng1/SOS/doc/pending     ruby ruby /var/lib/sos/docker_run_19836.rb
+</pre>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -394,9 +453,24 @@ run:     docker_image='compbio/ngseasy-fastqc:1.0-r001'
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
 
 </div>
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>
