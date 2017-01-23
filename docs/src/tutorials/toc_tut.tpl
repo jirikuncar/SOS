@@ -148,6 +148,5 @@ $( document ).ready(function(){
 {%- else -%}
 	{{ super() }}
 {%- endif -%}
-	{{ super() }}
 
 {%- endblock codecell %}
