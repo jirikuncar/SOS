@@ -143,9 +143,11 @@ $( document ).ready(function(){
 
 {%- if cell['metadata'].get('kernel',none) is not none -%}
 	<div class="cell border-box-sizing code_cell rendered lan_{{cell['metadata'].get('kernel', none)}}">
-
+	{{ super() }}
+  </div>
+{%- else -%}
+	{{ super() }}
 {%- endif -%}
 	{{ super() }}
 
-</div>
 {%- endblock codecell %}
