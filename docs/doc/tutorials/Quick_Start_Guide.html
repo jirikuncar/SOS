@@ -1350,24 +1350,8 @@ Generating aligned/mutated.out.tab from case.fastq
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>INFO: Running <span class="ansi-green-fg">default_1</span>: create a index for reference genome
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Generating STAR_index/chrName.txt
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_2</span>: align the reads to the reference genome
+INFO: Step <span class="ansi-green-fg">default_1</span> (index=0) is <span class="ansi-green-fg">ignored</span> due to saved signature
+INFO: Running <span class="ansi-green-fg">default_2</span>: align the reads to the reference genome
 </pre>
 </div>
 </div>
@@ -1956,11 +1940,10 @@ INFO: Workflow default (ID=95df7eeeafcdaa5c) is executed successfully.
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">html</span>
-<span class="c1">#!/usr/bin/env sos-runner</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="ch">#!/usr/bin/env sos-runner</span>
 <span class="c1">#fileformat=SOS1.0</span>
 
 <span class="c1"># This script aligns raw reads of a control and a mutated sample</span>
@@ -2026,11 +2009,11 @@ INFO: Workflow default (ID=95df7eeeafcdaa5c) is executed successfully.
 <div class="output_area">
 <div class="prompt"></div>
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Generating STAR_index/chrName.txt
-Generating aligned/control.out.tab from control.fastq
-Generating aligned/mutated.out.tab from mutated.fastq
-Generating myfigure.pdf
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Adding step build_index with output STAR_index/chrName.txt
+INFO: Running <span class="ansi-green-fg">build_index</span>: create a index for reference genome
+INFO: Step <span class="ansi-green-fg">build_index</span> (index=0) is <span class="ansi-green-fg">ignored</span> due to saved signature
+INFO: Running <span class="ansi-green-fg">default_1</span>: align the reads to the reference genome
 </pre>
 </div>
 </div>
@@ -2038,42 +2021,40 @@ Generating myfigure.pdf
 <div class="output_area">
 <div class="prompt"></div>
 
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview report.html</font></pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Generating aligned/control.out.tab from control.fastq
+Generating aligned/mutated.out.tab from mutated.fastq
+</pre>
 </div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> report.html (467 B):</font></pre>
-</div>
-
 </div>
 
 <div class="output_area">
 <div class="prompt"></div>
 
-
-<div class="output_html rendered_html output_subarea ">
-<h1 id="an-analysis-of-two-rna-seq-samples">An analysis of two RNA Seq samples</h1>
-<h2 id="alignment-of-reads">Alignment of reads</h2>
-<ul>
-<li>input file: control.fastq mutated.fastq</li>
-<li>output file: aligned/control.out.tab aligned/mutated.out.tab</li>
-</ul>
-<h2 id="statistical-analysis">Statistical analysis</h2>
-<ul>
-<li>input file: aligned/control.out.tab aligned/mutated.out.tab</li>
-<li>Figure: aligned/control.out.tab aligned/mutated.out.tab</li>
-</ul>
-
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_2</span>: compare expression values
+</pre>
+</div>
 </div>
 
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Generating myfigure.pdf
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Running <span class="ansi-green-fg">default_3</span>: 
+INFO: Report saved to report.html
+INFO: Workflow default (ID=5055fba191bd8d53) is executed successfully.
+</pre>
+</div>
 </div>
 
 </div>
@@ -2086,6 +2067,7 @@ Generating myfigure.pdf
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>In this example, partial reports are prepared whenever a step completes, and a final step is used combine all partial reports (with a header) and process it with pandoc.</p>
 <p>Please refer to <a href="Generating_Reports.html">the report generation tutorial</a> for details.</p>
 
 </div>
