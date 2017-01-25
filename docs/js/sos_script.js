@@ -67,8 +67,41 @@ $(document).ready(function(){
 	  		var tabindex=$(this).attr('href');
 	  		$('#fixedbar li a').filter('[href="'+tabindex+'"]').tab('show'); 		
 	  })
-	var imgs=images
+	  var imgs=images
 
       $('header').css({'background-image': 'url(img/' + imgs[Math.floor(Math.random() * imgs.length)] + ')'});
+
+     $('.nav a').click(function (e) {
+		  e.preventDefault()
+		  $(this).tab('show')
+		})  
+    
+	  $('a.scroll').on('click', function (e) {
+	        var href = $(this).attr('href');
+	        $('html, body').animate({
+	            scrollTop: $(href).offset().top-50
+	        }, 'slow');
+	        e.preventDefault();
+	   });
+
+	  function activateTab(tab){
+    		$('.nav-tabs a[href="#' + tab + '"]').tab('show');
+	  };
+
+	  var hash = document.location.hash;	
+	  if (hash=="#documentation") {
+	  		activateTab(4);
+	  		$('html, body').stop().animate({
+            	scrollTop: ($("#exTab2").offset().top - 50)
+         	}, 'fast');
+	  } 
+
+	  $('.nav-tabs a').on('shown.bs.tab', function (e) {
+    		if(history.pushState) {
+		        history.pushState(null, null, e.target.hash); 
+		    } else {
+		        window.location.hash = e.target.hash; 
+		    }
+		});
 	
 });
