@@ -85,23 +85,24 @@ $(document).ready(function(){
 	   });
 
 	  function activateTab(tab){
-    		$('.nav-tabs a[href="#' + tab + '"]').tab('show');
+    		$('.nav-tabs a[href="' + tab + '"]').tab('show');
 	  };
 
 	  var hash = document.location.hash;	
 	  if (hash=="#documentation") {
-	  		activateTab(4);
+	  		activateTab("#4");
 	  		$('html, body').stop().animate({
             	scrollTop: ($("#exTab2").offset().top - 50)
          	}, 'fast');
-	  } 
+	  } else{
+	  		activateTab(hash)
+	  }
 
 	  $('.nav-tabs a').on('shown.bs.tab', function (e) {
-    		if(history.pushState) {
-		        history.pushState(null, null, e.target.hash); 
-		    } else {
-		        window.location.hash = e.target.hash; 
-		    }
+    		var id = $(e.target).attr("href").substr(1);
+  			window.location.hash = id;
+
 		});
+
 	
 });
