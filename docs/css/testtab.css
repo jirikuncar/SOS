@@ -170,3 +170,23 @@ footer {
 .footer-links a {
 	color: white;
 }
+
+.logo-table {
+    border: 0px;
+    width: 80%;
+    text-align: center;
+    margin-left:auto; 
+    margin-right:auto;
+    padding: 15pt;
+}
+
+.logo-table  td img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 48pt;
+    width: 48pt;
+    margin-bottom: 10pt;
+}
+  
+  
