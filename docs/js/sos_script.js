@@ -76,27 +76,29 @@ $(document).ready(function(){
 		  $(this).tab('show')
 		})  
     
-	  $('a.scroll').on('click', function (e) {
-	        var href = $(this).attr('href');
-	        $('html, body').animate({
-	            scrollTop: $(href).offset().top-50
-	        }, 'slow');
-	        e.preventDefault();
-	   });
+	  // $('a.scroll').on('click', function (e) {
+	  //       var href = $(this).attr('href');
+	  //       $('html, body').animate({
+	  //           scrollTop: $(href).offset().top-50
+	  //       }, 'slow');
+	  //       e.preventDefault();
+	  //  });
 
 	  function activateTab(tab){
     		$('.nav-tabs a[href="' + tab + '"]').tab('show');
 	  };
 
 	  var hash = document.location.hash;	
-	  if (hash=="#documentation") {
-	  		activateTab("#4");
-	  		$('html, body').stop().animate({
-            	scrollTop: ($("#exTab2").offset().top - 50)
-         	}, 'fast');
-	  } else{
-	  		activateTab(hash)
-	  }
+	  // if (hash=="#documentation") {
+	  // 		activateTab("#4");
+	  // 		$('html, body').stop().animate({
+   //          	scrollTop: ($("#exTab2").offset().top - 50)
+   //       	}, 'fast');
+	  // } else{
+	  // 		activateTab(hash)
+	  // }
+	  activateTab(hash)
+
 
 	  $('.nav-tabs a').on('shown.bs.tab', function (e) {
     		var id = $(e.target).attr("href").substr(1);
