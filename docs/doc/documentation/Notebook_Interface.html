@@ -148,7 +148,7 @@ $( document ).ready(function(){
     });
 </script><style>  /* defined here in case the main.css below cannot be loaded */
 
- .lan_sos {}.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+ .lan_sos {}.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }.lan_bash {background-color: #E6EEFF !important }.lan_python2 {background-color: #F6FAEA !important }
 
 </style>
 <body>
@@ -211,11 +211,15 @@ $( document ).ready(function(){
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Available kernels:
-  python3    /Users/bpeng1/bin/anaconda/lib/python3.5/site-packages/ipykernel/resources
+  bash       /Users/bpeng1/Library/Jupyter/kernels/bash
   ir         /Users/bpeng1/Library/Jupyter/kernels/ir
+  python2    /Users/bpeng1/Library/Jupyter/kernels/python2
+  python3    /Users/bpeng1/Library/Jupyter/kernels/python3
   sos        /Users/bpeng1/bin/anaconda/share/jupyter/kernels/sos
 </pre>
 </div>
@@ -240,6 +244,84 @@ $( document ).ready(function(){
 <pre><code>$ jupyter qtconsole --kernel sos</code></pre>
 <p>or even <a href="../tutorials/Using_SoS_with_Spyder.html">use the SoS kernel in Spyder</a>. Most of the features described in this section also applies to <code>qtconsole</code> and <code>spyder</code>.</p>
 <p>Note that SoS uses <a href="http://www.imagemagick.org/script/index.php">imagemagick</a> and python package <a href="http://docs.wand-py.org/en/0.4.2/"><code>wand</code></a> to preview output files so it is recommended that you install these packages.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="User-Interface">User Interface<a class="anchor-link" href="#User-Interface">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="../../img/JupyterNotebook.png" alt="user_interface"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The SoS frontend consists of a dropdown list and a button on the menu bar, a side panel, and dropdown list for each code cell.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Interactive-kernel-switch">Interactive kernel switch<a class="anchor-link" href="#Interactive-kernel-switch">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also select kernel for each cell and switch kernels globally using the Jupyter notebook.</p>
+<ol>
+<li><p>A dropdown list at the top right corner of each cell displays the current kernel for the cell. You can change the kernel used for the cell by selecting another kernel from the list. This will start the cell with the specified kernel, although another kernel can still be used if the cell contains kernel switching magics <code>%use</code> or <code>%with</code>.</p>
+</li>
+<li><p>A dropbown list in the notebook toolbar lists the global default kernel that would be used for new cell. Changing the kernel from the tool bar effectively executes a <code>%use KERNEL</code> command. It will also change the kernel of any new cell to that kernel.</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Side-panel">Side panel<a class="anchor-link" href="#Side-panel">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS provides a side panel that can be toggled by a cube icon next to the language selection dropdown. The side panel contains a special cell that is used for two purposes:</p>
+<ol>
+<li>A scratch cell using which you can evaluate any expression and check its results.</li>
+<li>A preview cell in which the <code>%preview</code> magic of any cell would be executed if the side panel is open.</li>
+</ol>
+<p>Because this cell is not part of the main notebook, its output will not be saved with the notebook. This allows you to test commands, check environment, values of variables and content of files without affecting the content of the notebook.</p>
 
 </div>
 </div>
@@ -312,7 +394,9 @@ $( document ).ready(function(){
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Reference genome is located at /path/to/resource/hg19
 </pre>
@@ -370,7 +454,9 @@ $( document ).ready(function(){
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>I am in default_10
 I am in default_20
@@ -476,7 +562,9 @@ I am in default_30
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 
 <div class="output_png output_subarea ">
@@ -3734,7 +3822,9 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[8]:</div>
+
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -3751,45 +3841,45 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.605733</td>
-      <td>0.355467</td>
-      <td>-0.070785</td>
-      <td>-0.081856</td>
+      <td>0.473735</td>
+      <td>0.952717</td>
+      <td>2.167777</td>
+      <td>2.518088</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>-1.505198</td>
-      <td>0.736966</td>
-      <td>-0.683434</td>
-      <td>-1.608062</td>
+      <td>-0.710433</td>
+      <td>-0.073087</td>
+      <td>-1.385951</td>
+      <td>-0.103973</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-0.076474</td>
-      <td>0.211609</td>
-      <td>-0.210234</td>
-      <td>1.248536</td>
+      <td>0.159817</td>
+      <td>-2.077570</td>
+      <td>-0.237815</td>
+      <td>-1.730801</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>-1.622145</td>
-      <td>-0.021034</td>
-      <td>0.203741</td>
-      <td>-0.356522</td>
+      <td>-0.114774</td>
+      <td>-1.035827</td>
+      <td>2.443909</td>
+      <td>-0.308454</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>-1.263896</td>
-      <td>0.168650</td>
-      <td>-0.683386</td>
-      <td>-0.398749</td>
+      <td>-0.936157</td>
+      <td>-1.501479</td>
+      <td>0.406105</td>
+      <td>-1.117734</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>-1.215079</td>
-      <td>0.184683</td>
-      <td>0.625955</td>
-      <td>-1.154201</td>
+      <td>2.103258</td>
+      <td>-0.085228</td>
+      <td>-0.164638</td>
+      <td>-1.559283</td>
     </tr>
   </tbody>
 </table>
@@ -3832,7 +3922,9 @@ QAISkIAEJCABCUhAAhKQgAQKgf8H1z2xSZVHCcMAAAAASUVORK5CYII="
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>d &lt;- read.csv(&#39;mydata.csv&#39;)
 d
@@ -3841,18 +3933,20 @@ d
 </div>
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <table>
 <thead><tr><th scope=col>A</th><th scope=col>B</th><th scope=col>C</th><th scope=col>D</th></tr></thead>
 <tbody>
-	<tr><td> 0.60573278</td><td> 0.3554667 </td><td>-0.07078457</td><td>-0.08185553</td></tr>
-	<tr><td>-1.50519769</td><td> 0.7369657 </td><td>-0.68343369</td><td>-1.60806198</td></tr>
-	<tr><td>-0.07647393</td><td> 0.2116091 </td><td>-0.21023366</td><td> 1.24853632</td></tr>
-	<tr><td>-1.62214541</td><td>-0.0210337 </td><td> 0.20374069</td><td>-0.35652153</td></tr>
-	<tr><td>-1.26389615</td><td> 0.1686503 </td><td>-0.68338604</td><td>-0.39874856</td></tr>
-	<tr><td>-1.21507908</td><td> 0.1846831 </td><td> 0.62595526</td><td>-1.15420056</td></tr>
+	<tr><td> 0.4737346 </td><td> 0.95271679</td><td> 2.1677766 </td><td> 2.5180882 </td></tr>
+	<tr><td>-0.7104334 </td><td>-0.07308714</td><td>-1.3859514 </td><td>-0.1039735 </td></tr>
+	<tr><td> 0.1598168 </td><td>-2.07756960</td><td>-0.2378151 </td><td>-1.7308009 </td></tr>
+	<tr><td>-0.1147735 </td><td>-1.03582693</td><td> 2.4439088 </td><td>-0.3084537 </td></tr>
+	<tr><td>-0.9361572 </td><td>-1.50147895</td><td> 0.4061049 </td><td>-1.1177335 </td></tr>
+	<tr><td> 2.1032582 </td><td>-0.08522806</td><td>-0.1646378 </td><td>-1.5592832 </td></tr>
 </tbody>
 </table>
 
@@ -3865,73 +3959,6 @@ d
 
 </div>
 	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Interactive-kernel-switch">Interactive kernel switch<a class="anchor-link" href="#Interactive-kernel-switch">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can also select kernel for each cell and switch kernels globally using the Jupyter notebook.</p>
-<ol>
-<li><p>A dropdown list at the top right corner of each cell displays the current kernel for the cell. You can change the kernel used for the cell by selecting another kernel from the list. This will start the cell with the specified kernel, although another kernel can still be used if the cell contains kernel switching magics <code>%use</code> or <code>%with</code>.</p>
-</li>
-<li><p>A dropbown list in the notebook toolbar lists the global default kernel that would be used for new cell. Changing the kernel from the tool bar effectively executes a <code>%use KERNEL</code> command. It will also change the kernel of any new cell to that kernel.</p>
-</li>
-</ol>
-<p>For example, if you can add a cell below, it will be executed by default with a <code>R</code> kernel because of the previous <code>%use R</code> magic. However, you can use the drop down list to the right of the cell to change the kernel to <code>SoS</code> so that it can be executed in the SoS kernel.</p>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="s2">&quot;${1+1}&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;2&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This local change of cell kernel will not change the default kernel so the next code cell will still be evaluated with a <code>R</code> kernel.</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -3955,7 +3982,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">get</span> <span class="n">data</span>
@@ -3970,18 +3997,20 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <table>
 <thead><tr><th scope=col>A</th><th scope=col>B</th><th scope=col>C</th><th scope=col>D</th></tr></thead>
 <tbody>
-	<tr><td> 0.60573278</td><td> 0.3554667 </td><td>-0.07078457</td><td>-0.08185553</td></tr>
-	<tr><td>-1.50519769</td><td> 0.7369657 </td><td>-0.68343369</td><td>-1.60806198</td></tr>
-	<tr><td>-0.07647393</td><td> 0.2116091 </td><td>-0.21023366</td><td> 1.24853632</td></tr>
-	<tr><td>-1.62214541</td><td>-0.0210337 </td><td> 0.20374069</td><td>-0.35652153</td></tr>
-	<tr><td>-1.26389615</td><td> 0.1686503 </td><td>-0.68338604</td><td>-0.39874856</td></tr>
-	<tr><td>-1.21507908</td><td> 0.1846831 </td><td> 0.62595526</td><td>-1.15420056</td></tr>
+	<tr><td> 0.4737346 </td><td> 0.95271679</td><td> 2.1677766 </td><td> 2.5180882 </td></tr>
+	<tr><td>-0.7104334 </td><td>-0.07308714</td><td>-1.3859514 </td><td>-0.1039735 </td></tr>
+	<tr><td> 0.1598168 </td><td>-2.07756960</td><td>-0.2378151 </td><td>-1.7308009 </td></tr>
+	<tr><td>-0.1147735 </td><td>-1.03582693</td><td> 2.4439088 </td><td>-0.3084537 </td></tr>
+	<tr><td>-0.9361572 </td><td>-1.50147895</td><td> 0.4061049 </td><td>-1.1177335 </td></tr>
+	<tr><td> 2.1032582 </td><td>-0.08522806</td><td>-0.1646378 </td><td>-1.5592832 </td></tr>
 </tbody>
 </table>
 
@@ -4007,7 +4036,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">class</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -4021,7 +4050,9 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
@@ -4052,7 +4083,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="p">[</span> <span class="n">data</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -4068,7 +4099,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">put</span> <span class="n">data</span>
@@ -4083,7 +4114,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -4098,7 +4129,9 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[14]:</div>
+
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -4117,8 +4150,8 @@ d
       <th>0</th>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>1</th>
@@ -4132,13 +4165,13 @@ d
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>1.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.0</td>
+      <td>1.0</td>
       <td>0.0</td>
     </tr>
     <tr>
@@ -4150,7 +4183,7 @@ d
     </tr>
     <tr>
       <th>5</th>
-      <td>0.0</td>
+      <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -4180,7 +4213,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">data</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span>
@@ -4196,7 +4229,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">data</span>
@@ -4210,7 +4243,9 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[16]:</div>
+
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -4229,8 +4264,8 @@ d
       <th>0</th>
       <td>2.0</td>
       <td>2.0</td>
-      <td>2.0</td>
-      <td>2.0</td>
+      <td>3.0</td>
+      <td>3.0</td>
     </tr>
     <tr>
       <th>1</th>
@@ -4244,13 +4279,13 @@ d
       <td>2.0</td>
       <td>2.0</td>
       <td>2.0</td>
-      <td>3.0</td>
+      <td>2.0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>2.0</td>
       <td>2.0</td>
-      <td>2.0</td>
+      <td>3.0</td>
       <td>2.0</td>
     </tr>
     <tr>
@@ -4262,7 +4297,7 @@ d
     </tr>
     <tr>
       <th>5</th>
-      <td>2.0</td>
+      <td>3.0</td>
       <td>2.0</td>
       <td>2.0</td>
       <td>2.0</td>
@@ -4302,7 +4337,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -4314,11 +4349,11 @@ d
 </div>
 
 </div>
-	</div><div class="cell border-box-sizing code_cell rendered lan_python3">
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">Python</span>
@@ -4334,7 +4369,18 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Failed to start kernel &#34;Python&#34;. Use &#34;jupyter kernelspec list&#34; to check if it is installed: No such kernel named Python
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>sos_var is changed to 200
 </pre>
@@ -4349,7 +4395,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># I am still in R</span>
@@ -4364,7 +4410,9 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 200
@@ -4380,7 +4428,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -4395,7 +4443,9 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[20]:</div>
+
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4422,7 +4472,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># clean up</span>
@@ -4494,7 +4544,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
@@ -4509,7 +4559,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">ir</span> <span class="o">-</span><span class="n">i</span> <span class="n">n</span> <span class="o">-</span><span class="n">o</span> <span class="n">ran</span>
@@ -4525,7 +4575,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -4540,15 +4590,17 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[24]:</div>
+
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[-0.315782646636207,
- 0.0753350405817532,
- -0.610427157303694,
- 0.774152654207378,
- -0.367569711235697]</pre>
+<pre>[-0.0480987179036174,
+ -0.150045519664737,
+ -1.70383354943907,
+ 2.1163752128081,
+ 0.58976343538273]</pre>
 </div>
 
 </div>
@@ -4590,7 +4642,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">n</span> <span class="o">-</span><span class="n">o</span> <span class="n">ran</span>
@@ -4616,7 +4668,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span>
@@ -4630,10 +4682,12 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Kernel &#34;sos&#34; is used.
-</pre>
+Available kernels are: SoS (sos), Bash (bash), R (ir), Python3 (python3), Python2 (python2).</pre>
 </div>
 </div>
 
@@ -4645,7 +4699,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ran</span>
@@ -4659,15 +4713,17 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[27]:</div>
+
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[-1.12070816260536,
- -1.09701825404786,
- 1.49677400362222,
- 0.337311176925819,
- 0.3642010518001]</pre>
+<pre>[0.910749025423907,
+ -0.249518224914373,
+ 1.21444038648923,
+ 0.0450905241042093,
+ -1.61945536565849]</pre>
 </div>
 
 </div>
@@ -4699,7 +4755,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -4718,9 +4774,11 @@ d
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>png(&#34;/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpean4z7gm/a.png&#34;)
+<pre>png(&#34;/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpahj24jvd/a.png&#34;)
 plot(seq(1,10))
 dev.off()
 ## -- End interpolated command --
@@ -4728,7 +4786,9 @@ dev.off()
 </div>
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <strong>pdf:</strong> 2
@@ -4736,15 +4796,19 @@ dev.off()
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview a.png</font></pre>
+<pre><font color="green">%preview a.png</font></pre>
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <pre><font color="green">> a.png (13.5 KiB):</font></pre>
@@ -4752,7 +4816,9 @@ dev.off()
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 
 <div class="output_png output_subarea ">
@@ -4790,7 +4856,7 @@ dev.off()
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">data</span>
@@ -4809,23 +4875,29 @@ dev.off()
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview data</font></pre>
+<pre><font color="green">%preview data</font></pre>
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> data:</font></pre>
+<pre><font color="green">> data:</font> DataFrame of shape (4, 2)</pre>
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <div>
@@ -4883,7 +4955,7 @@ dev.off()
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">]</span>
@@ -4897,23 +4969,29 @@ dev.off()
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview data['one']</font></pre>
+<pre><font color="green">%preview data['one']</font></pre>
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> data['one']:</font></pre>
+<pre><font color="green">> data['one']:</font> Series of shape (4,)</pre>
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 
 <div class="output_text output_subarea ">
@@ -4946,8 +5024,12 @@ Name: one, dtype: float64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The output of the <code>%preview</code> magic would be part of the notebook. If you just want to check the value of a variable, you can inspect a variable by pressing <code>Shift-Tab</code> when you move your cursor in or after the variable. A popup window would appear with information about the variable.</p>
-<p>Finally, if you would like to preview filename and/or variable without saving the output, you can install and use <a href="https://github.com/minrk/nbextension-scratchpad">the scratchpad Notebook Extension</a>. This extension allow you to open a separate panel and execute whatever statement there without affecting the current notebook.</p>
+<p>If the side panel of the notebook is open, the <code>%preview</code> magic would be executed in the side panel. Otherwise it would be executed in the current cell with its result being part of the main notebook. Because SoS also provides an inspection feature that allows you to inspect the value of variables interactively, you have a number of choices to inspect sos variables and preview files. In summary,</p>
+<ol>
+<li>If you just want to check the value of a variable, you can inspect it by pressing <code>Shift-Tab</code> when you move your cursor in or after the variable. A popup window would appear with information about the variable. This only works for SoS variables.</li>
+<li>You can evaluate variables and expressions or use <code>%preview</code> magic in the side panel to preview variables and files. You can select another kernel and check variables in a subkernel.</li>
+<li>You can use the <code>%preview</code> magic to automatically preview variables and files after the execution of the cell. You will need to open the side panel if you do not want to keep the preview result in the main notebook.</li>
+</ol>
 
 </div>
 </div>
@@ -5059,7 +5141,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -5079,7 +5161,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">put</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">d</span> <span class="n">e</span>
@@ -5094,15 +5176,19 @@ Name: one, dtype: float64</pre>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview a b c d e</font></pre>
+<pre><font color="green">%preview a b c d e</font></pre>
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <pre><font color="green">> a:</font></pre>
@@ -5110,16 +5196,19 @@ Name: one, dtype: float64</pre>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 
 
-<div class="output_text output_subarea ">
-<pre>1</pre>
+<div class="output_html rendered_html output_subarea ">
+1
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <pre><font color="green">> b:</font></pre>
@@ -5127,16 +5216,24 @@ Name: one, dtype: float64</pre>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 
 
-<div class="output_text output_subarea ">
-<pre>[1, 2, 3]</pre>
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>1</li>
+	<li>2</li>
+	<li>3</li>
+</ol>
+
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <pre><font color="green">> c:</font></pre>
@@ -5144,16 +5241,24 @@ Name: one, dtype: float64</pre>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 
 
-<div class="output_text output_subarea ">
-<pre>[1, 2, 3]</pre>
+<div class="output_html rendered_html output_subarea ">
+<ol>
+	<li>1</li>
+	<li>2</li>
+	<li>3</li>
+</ol>
+
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <pre><font color="green">> d:</font></pre>
@@ -5161,16 +5266,24 @@ Name: one, dtype: float64</pre>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 
 
-<div class="output_text output_subarea ">
-<pre>[1, 2, &#39;3&#39;]</pre>
+<div class="output_html rendered_html output_subarea ">
+<ol>
+	<li>1</li>
+	<li>2</li>
+	<li>'3'</li>
+</ol>
+
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <pre><font color="green">> e:</font></pre>
@@ -5178,12 +5291,18 @@ Name: one, dtype: float64</pre>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 
 
-<div class="output_text output_subarea ">
-<pre>array([[ 1.,  3.],
-       [ 2.,  4.]])</pre>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<tbody>
+	<tr><td>1</td><td>3</td></tr>
+	<tr><td>2</td><td>4</td></tr>
+</tbody>
+</table>
+
 </div>
 
 </div>
@@ -5216,7 +5335,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">5</span>
@@ -5231,7 +5350,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">put</span> <span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">b</span>
@@ -5246,22 +5365,28 @@ Name: one, dtype: float64</pre>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>&#39;Variable .a.b is put to SoS as _a_b&#39;
+<pre>Variable .a.b is put to SoS as _a_b
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview _a_b</font></pre>
+<pre><font color="green">%preview _a_b</font></pre>
 </div>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <pre><font color="green">> _a_b:</font></pre>
@@ -5269,13 +5394,17 @@ Name: one, dtype: float64</pre>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
 
-
-<div class="output_text output_subarea ">
-<pre>5</pre>
+<div class="output_subarea output_text output_error">
+<pre>
+Error in parse(text = x, srcfile = src): &lt;text&gt;:1:1: unexpected input
+1: _
+    ^
+Traceback:
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -5386,7 +5515,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5404,7 +5533,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -5420,7 +5549,9 @@ Name: one, dtype: float64</pre>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
@@ -5441,7 +5572,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">b</span>
@@ -5455,7 +5586,9 @@ Name: one, dtype: float64</pre>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <ol>
@@ -5476,7 +5609,7 @@ Name: one, dtype: float64</pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">c</span>
@@ -5490,7 +5623,9 @@ Name: one, dtype: float64</pre>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 TRUE
@@ -5526,7 +5661,7 @@ TRUE
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5542,7 +5677,7 @@ TRUE
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -5558,14 +5693,18 @@ TRUE
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>&#39;Variable _var is passed from SoS to kernel ir as .var&#39;
+<pre>Variable _var is passed from SoS to kernel ir as .var
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 'Hi, Bob'
@@ -5581,7 +5720,7 @@ TRUE
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5634,7 +5773,7 @@ TRUE
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
@@ -5649,7 +5788,9 @@ TRUE
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: run [-h] [-c CONFIG_FILE] [-t FILE [FILE ...]]
            [-b [BIN_DIR [BIN_DIR ...]]] [-r [REPORT_FILE]] [-n] [-s SIGMODE]
@@ -5761,7 +5902,7 @@ specified in the script. Single value parameters should be passed using option
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">parameter:</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>
@@ -5777,7 +5918,9 @@ specified in the script. Single value parameters should be passed using option
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>a is set to 10
 </pre>
@@ -5792,7 +5935,7 @@ specified in the script. Single value parameters should be passed using option
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">a</span> <span class="mi">20</span>
@@ -5806,7 +5949,9 @@ specified in the script. Single value parameters should be passed using option
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>a is set to 20
 </pre>
@@ -5841,7 +5986,7 @@ specified in the script. Single value parameters should be passed using option
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">v2</span>
@@ -5857,14 +6002,18 @@ specified in the script. Single value parameters should be passed using option
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sos options is set to &#34;-v2&#34;
+<pre>Set sos options to &#34;-v2&#34;
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
 INFO: Running <span class="ansi-green-fg">default_20</span>: 
@@ -5880,7 +6029,7 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">v1</span>
@@ -5896,9 +6045,11 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sos options is set to &#34;-v1&#34;
+<pre>Set sos options to &#34;-v1&#34;
 </pre>
 </div>
 </div>
@@ -5921,7 +6072,7 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
@@ -5936,7 +6087,7 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -5954,7 +6105,9 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 
 <div class="output_png output_subarea ">
@@ -6254,7 +6407,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">dict</span> <span class="o">--</span><span class="n">keys</span>
@@ -6268,7 +6421,9 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[50]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[49]:</div>
+
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6320,7 +6475,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">dict</span> <span class="o">--</span><span class="n">reset</span>
@@ -6335,7 +6490,9 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[50]:</div>
+
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6387,7 +6544,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">ls</span> <span class="n">Auxil</span><span class="o">*</span>
@@ -6401,7 +6558,9 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Auxiliary_Steps.ipynb
 </pre>
@@ -6426,7 +6585,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -6441,7 +6600,9 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>ls: Auxil*: No such file or directory
 </pre>
@@ -6466,7 +6627,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -6481,7 +6642,9 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[53]:</div>
+
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6538,7 +6701,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span>
@@ -6556,7 +6719,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">cat</span> <span class="err">$</span><span class="p">{</span><span class="n">filename</span><span class="p">}</span>
@@ -6570,9 +6733,11 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>cat /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpg_9ictao
+<pre>cat /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpizxgrsox
 ## -- End interpolated command --
 something
 </pre>
@@ -6587,7 +6752,7 @@ something
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># clean up</span>
@@ -6602,9 +6767,11 @@ something
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>rm /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpg_9ictao
+<pre>rm /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpizxgrsox
 ## -- End interpolated command --
 </pre>
 </div>
