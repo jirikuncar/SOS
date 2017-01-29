@@ -109,10 +109,10 @@ server</a> from which you can open our sample notebooks and create your own note
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Please install <a href="https://github.com/takluyver/bash_kernel">Jupyter Bash Kernel</a> using commands</p>
-<div class="highlight"><pre><span></span>pip install bash_kernel
-python -m bash_kernel.install
-</pre></div>
+<ul>
+<li><a href="https://github.com/takluyver/bash_kernel">Jupyter Bash Kernel</a></li>
+</ul>
+<p>Understandably, it can be tricky to use bash under windows.</p>
 
 </div>
 </div>
@@ -135,8 +135,9 @@ python -m bash_kernel.install
 <p>If you still have Python 2.x installed on your system and would like to use it with SoS, you will need to</p>
 <ul>
 <li>Place executable <code>python2</code> or <code>python2.7</code> in your <code>$PATH</code> and use action <code>python2</code> for python2 scripts.</li>
-<li>Install python2 kernel following directions <a href="http://ipython.readthedocs.io/en/stable/install/kernel_install.html">here</a>. Most likely you should be using commands<div class="highlight"><pre><span></span>python2.7 -m pip install ipykernel
-python2.7 -m ipykernel install --user
+<li>Install python2 kernel following directions <a href="http://ipython.readthedocs.io/en/stable/install/kernel_install.html">here</a>. Most likely you should be using commands<div class="highlight"><pre><span></span>conda create -n ipykernel_py2 <span class="nv">python</span><span class="o">=</span><span class="m">2</span> ipykernel
+<span class="nb">source</span> activate ipykernel_py2    <span class="c1"># On Windows, remove the word &#39;source&#39;</span>
+python -m ipykernel install --user
 </pre></div>
 </li>
 </ul>
@@ -185,6 +186,10 @@ python2.7 -m ipykernel install --user
 <li><a href="https://github.com/IRkernel/IRkernel">IRKernel</a> R kernel for Jupyter</li>
 <li>Python <a href="https://github.com/wesm/feather">feather-format</a> module for exchanging data frames between SoS/Python DataFrame and R data.frame. This
 module is not installed by default because it need to compile from source or <a href="https://pypi.python.org/pypi/feather-format">install from conda</a>.</li>
+</ul>
+<p>Hint:</p>
+<ul>
+<li>If you are running windows and using conda, you might need to run <code>activate.bat</code> or add <code>C:\Users\user\AppData\Local\Continuum\Anaconda3\Library\mingw-w64\bin</code> to your <code>$PATH</code> before you could run ir kernel from Jupyter (issue <a href="https://github.com/ContinuumIO/anaconda-issues/issues/777"></a> </li>
 </ul>
 
 </div>
@@ -292,7 +297,7 @@ module is not installed by default because it need to compile from source or <a 
 <pre><code>jupyter notebook --generate-config</code></pre>
 <p>and modify it with lines such as</p>
 <div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">NotebookApp</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span>
-<span class="n">c</span><span class="o">.</span><span class="n">NotebookApp</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s1">u&#39;sha1:bcd259ccf...&lt;your hashed password here&gt;&#39;</span>
+<span class="n">c</span><span class="o">.</span><span class="n">NotebookApp</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;sha1:bcd259ccf...&lt;your hashed password here&gt;&#39;</span>
 <span class="n">c</span><span class="o">.</span><span class="n">NotebookApp</span><span class="o">.</span><span class="n">open_browser</span> <span class="o">=</span> <span class="bp">False</span>
 <span class="n">c</span><span class="o">.</span><span class="n">NotebookApp</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">9999</span>
 </pre></div>
@@ -306,3 +311,5 @@ module is not installed by default because it need to compile from source or <a 
 </div>
 </div>
 </div>
+ 
+
