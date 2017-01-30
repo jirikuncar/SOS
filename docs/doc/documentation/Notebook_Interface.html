@@ -272,7 +272,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The SoS frontend consists of a dropdown list and a button on the menu bar, a side panel, and dropdown list for each code cell.</p>
+<p>The SoS frontend is based on the Jupyter notebook frontend but adds a dropdown list and a button to the menu bar, a side panel, and dropdown lists for all code cell.</p>
 
 </div>
 </div>
@@ -282,7 +282,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Interactive-kernel-switch">Interactive kernel switch<a class="anchor-link" href="#Interactive-kernel-switch">&#182;</a></h3>
+<h3 id="Single-cell-operation">Single cell operation<a class="anchor-link" href="#Single-cell-operation">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -291,13 +291,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can select kernel for each cell and for all new cells (default kernel) using the Jupyter notebook.</p>
-<ol>
-<li><p>A dropdown list at the top right corner of each cell displays the current kernel for the cell. You can change the kernel used for the cell by selecting another kernel from the list. This will start the cell with the specified kernel, although another kernel can still be used if the cell contains kernel switching magics <code>%use</code> or <code>%with</code>.</p>
-</li>
-<li><p>A dropbown list in the notebook toolbar lists the global default kernel that would be used for new cell. Changing the kernel from the tool bar effectively executes a <code>%use KERNEL</code> command. It will also change the kernel of any new cell to that kernel.</p>
-</li>
-</ol>
+<p>A cell can either be a Markdown cell or a code cell. The markdown cells accept texts in markdown format and are used to generate descriptions of your notebook. The code cell starts with comments (lines starting with <code>#</code>), SoS magics (lines starting with <code>%</code>), shell commands (lines  starting with <code>!</code>), followed by statements that can be evaluated by either a SoS kernel (based on Python3), or any of the subkernels that Jupyter supports.</p>
 
 </div>
 </div>
@@ -307,42 +301,36 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Side-panel">Side panel<a class="anchor-link" href="#Side-panel">&#182;</a></h3>
+<p>We will discuss SoS magics in details later but basically these magic statements control how SoS works. For example, a <code>%with</code> magic temporarily switches to the specified kernel and uses it to evaluate the content of the cell, and a <code>%preview</code> magic displays information on variables or files after the completion of the cell.</p>
+
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_ir">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS provides a side panel that can be toggled by a cube icon next to the language selection dropdown. The side panel contains a special cell that is used for two purposes:</p>
-<ol>
-<li>A scratch cell using which you can evaluate any expression and check its results.</li>
-<li>A preview cell in which the <code>%preview</code> magic of any cell would be executed if the side panel is open.</li>
-</ol>
-<p>Because this cell is not part of the main notebook, its output will not be saved with the notebook. This allows you to test commands, check environment, values of variables and content of files without affecting the content of the notebook.</p>
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">R</span>
+<span class="o">%</span><span class="n">preview</span> <span class="n">title</span>
+<span class="n">title</span> <span class="o">&lt;-</span> <span class="n">paste</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
 
 </div>
 </div>
 </div>
+
+</div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Acceptable-statements">Acceptable statements<a class="anchor-link" href="#Acceptable-statements">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can enter any SoS expression, statements, and workflows in a Jupyter notebook. More specifically, you can enter</p>
+<p>Using the default SoS kernel, you can enter</p>
 <ul>
-<li>any Python expression and statements. For example, you can write pieces of SoS code and evaluate them</li>
+<li>any SoS (Python) expression and statements. For example, you can write pieces of SoS code and evaluate them</li>
 </ul>
 
 </div>
@@ -414,18 +402,6 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>markdown cells to document your workflow. These cells are not evaluated by SoS so string interpolations are not available to these cells.</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
 <li>SoS workflows with one or more steps.</li>
 </ul>
 
@@ -476,6 +452,64 @@ I am in default_30
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Technically speaking, SoS prefixes input with a default header if no header is present, and execute all input as SoS workflows. The major differences between running SoS scripts in batch mode and Jupyter notebook is the scope of variables. Whereas in Jupyter notebook all scripts are executed in the same namespace (SoS dictionary) with shared variables, SoS batch mode executes each step in separate processes with their own namespaces, with additional rules such as readonly global variables.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Switch-between-kernels">Switch between kernels<a class="anchor-link" href="#Switch-between-kernels">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also enter any statement for any other (installed) kernel after you switch to the subkernel. The switch can be down either programmatically using magics <code>%with</code> or <code>%use</code>, or interactively using the language selection drop downs.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><p>A dropdown list at the top right corner of each cell displays the current kernel for the cell. You can change the kernel used for the cell by selecting another kernel from the list. This will start the cell with the specified kernel, although another kernel can still be used if the cell contains kernel switching magics <code>%use</code> or <code>%with</code>.</p>
+</li>
+<li><p>A dropbown list in the notebook toolbar lists the global default kernel that would be used for new cell. Changing the kernel from the tool bar effectively executes a <code>%use KERNEL</code> command. It will also change the kernel of any new cell to that kernel.</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Side-panel">Side panel<a class="anchor-link" href="#Side-panel">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS provides a side panel that can be toggled by a cube icon next to the language selection dropdown. The side panel contains a special cell that is used for two purposes:</p>
+<ol>
+<li>A scratch cell using which you can evaluate any expression and check its results.</li>
+<li>A preview cell in which the <code>%preview</code> magic of any cell would be executed if the side panel is open.</li>
+</ol>
+<p>Because this cell is not part of the main notebook, its output will not be saved with the notebook. This allows you to test commands, check environment, values of variables and content of files without affecting the content of the notebook.</p>
 
 </div>
 </div>
