@@ -170,7 +170,16 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a href="http://jupyter.org/">Jupyter</a> notebook is a web application that allows you to create documents with live code and results. The underlying interpreters of the cells are called <strong>kernel</strong>. For example, you can use a <code>python</code> kernel to interpret python expressions, or a <code>ir</code> kernel to interpret <code>R</code> commands. You can use sos within a <code>python</code> kernel by loading the <a href="../tutorials/Using_SoS_with_IPython.html"><code>sos_magic</code> ipython extension</a>, or use a <code>sos</code> kernel to work in a complete SoS environment.</p>
-<p>In addition to the ability to execute SoS workflows within Jupyter, the SoS kernel allows you to start subkernels (e.g. <a href="https://github.com/IRkernel/IRkernel"><code>irkernel</code></a> for <a href="https://www.r-project.org/">the R langauage</a>) and switch between the subkernels in the same notebook. This allows for truly integrated data analysis using different langauages.</p>
+<p>Comparing to a regular Jupyter notebook, the SoS Jupyter notebook provides the following features:</p>
+<ul>
+<li><strong>Enhanced Python3 kernel</strong> The SoS kernel is based on Python 3 but it provides additional features such as string interpolation.</li>
+<li><strong>Full-blown workflow system</strong> SoS is a workflow system that defines many functions (actions) to execute scripts in different languages.</li>
+<li><strong>Multi-Kernel notebook</strong> In addition to the ability to execute SoS workflows within Jupyter, the SoS kernel allows you to start subkernels (e.g. <a href="https://github.com/IRkernel/IRkernel"><code>irkernel</code></a> for <a href="https://www.r-project.org/">the R langauage</a>) and switch between the subkernels in the same notebook. This allows for truly integrated data analysis using different langauages.</li>
+<li><strong>Data-exchange between kernels</strong> Using a data exchange mechanism, SoS allows you to exchange variables between supported languages either explicitly, or implicitly for variables with names starting with <code>sos</code>.</li>
+<li><strong>Scratch-pad</strong> You can evaluate any statement in a side panel without effecting the main notebook. This provides a scratch pad for you to test your scripts before incorporating them to the main notebook.</li>
+<li><strong>Line-by-line execution</strong> SoS provides a shortcut (Ctrl-Shift-Enter) for you to send selected text or current line to the panel cell for evaluation, allowing you to step through code cell for easy debugging.</li>
+<li><strong>Preview of variables and files</strong> A magic <code>%preview</code> is provided to preview files and variables (and expressions) in multiple kernels. The output of the preview magic is displayed in the side panel (if the panel is open) which effectively reduces the size of the main notebook.</li>
+</ul>
 
 </div>
 </div>
@@ -506,7 +515,7 @@ I am in default_30
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>SoS provides a side panel that can be toggled by a cube icon next to the language selection dropdown. The side panel contains a special cell that is used for two purposes:</p>
 <ol>
-<li>A scratch cell using which you can evaluate any expression and check its results.</li>
+<li>A scratch cell using which you can evaluate any expression and check its results. You can either input (or copy/paste the statement) into the cell, or use shortcut <code>Ctrl-Shift-Enter</code> to <strong>send selected text or current line to the panel cell for evaluation</strong>. The latter effectively allows you to evaluate content of a cell line by line.</li>
 <li>A preview cell in which the <code>%preview</code> magic of any cell would be executed if the side panel is open.</li>
 </ol>
 <p>Because this cell is not part of the main notebook, its output will not be saved with the notebook. This allows you to test commands, check environment, values of variables and content of files without affecting the content of the notebook.</p>
