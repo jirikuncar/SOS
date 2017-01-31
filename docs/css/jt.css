@@ -10111,6 +10111,7 @@ div.output_unrecognized a:hover {
   font-style: italic;
 }
 .rendered_html strong {
+  font-family: sans-serif;
   font-weight: bold;
 }
 .rendered_html u {
