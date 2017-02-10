@@ -468,7 +468,7 @@ body {
   <div class="file-info">
       <a href="release" class="commit-tease-sha">release</a>
       <span class="file-info-divider"></span>
-    4.0 KiB
+    4.3 KiB
   </div>
   <div class="file-actions">
   </div>
@@ -699,6 +699,26 @@ sos convert <span class="si">${</span><span class="nv">_input</span><span class=
 <div class="source blob-code sos-script "><pre><span></span>git add --all docs/doc/documentation docs/doc/tutorials docs/doc/examples docs/doc/media docs/js/docs.js docs/*.html
 git commit docs/*.html docs/doc/* --no-verify -m <span class="s1">&#39;${msg}&#39;</span>
 git push --no-verify
+ 
+</pre></div>
+
+<div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">check</span><span class="o">-</span><span class="n">doc</span><span class="p">]</span>
+</pre></div>
+
+<div class="source blob-code sos-comment"><pre><span></span><span class="c1"># check if examples in the documentation can be run successfully</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">input:</span> <span class="s1">&#39;../docs/src/documentation/*.ipynb&#39;</span><span class="p">,</span> <span class="kp">group_by</span><span class="o">=</span><span class="mi">1</span>
+ 
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span>
+</pre></div>
+
+<div class="source blob-code sos-script "><pre><span></span><span class="c1"># convert ipynb to sos</span>
+sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_input</span><span class="p">!bn</span><span class="si">}</span>.sos
+<span class="c1"># then from sos to ipynb with execution</span>
+sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!bn</span><span class="si">}</span>.sos <span class="si">${</span><span class="nv">_input</span><span class="p">!b</span><span class="si">}</span> --execute
  
 </pre></div>
 
