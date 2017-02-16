@@ -159,7 +159,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Execution-of-tasks-on-remote-host-without-shared-file-system">Execution of tasks on remote host without shared file system<a class="anchor-link" href="#Execution-of-tasks-on-remote-host-without-shared-file-system">&#182;</a></h1>
+<h1 id="Execution-of-tasks-on-remote-host">Execution of tasks on remote host<a class="anchor-link" href="#Execution-of-tasks-on-remote-host">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -168,7 +168,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS allow you to execute tasks on remote hosts with their own file system. For example, you can execute a complex workflow mostly locally, but execute jobs on remote servers if they have more computing power, or if they have some software that cannot be installed locally.</p>
+<p>SoS allows you to execute tasks on remote hosts with or without their own file systems. For example, you can execute a complex workflow mostly locally, but execute a few jobs on a remote host if it provides more computing power, or if it has some software that cannot be installed locally. The remote host could have its own file system (separate systems), share its file system with the local machine (e.g. nodes on the cluster), or share some storage with the local machine (e.g. have the same shared storage), so file synchronization will be needed in some cases.</p>
 <p>With help from a few runtime options (options to <code>task</code>), SoS can</p>
 <ul>
 <li>Copy specified local files to the remote host, possibly to different directories</li>
@@ -202,7 +202,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Following any online tutorial, set up public-key access from your local machine to the remote host. If your public key does not work, check file permissions of <code>.ssh</code>, keys under <code>.ssh</code>, and <code>$HOME</code> in some cases. After setting up the server, make sure you can login without password using command</p>
+<p>Following any online tutorial, set up public-key access from your local machine to the remote host. If your public key does not work, check file permissions of <code>~/.ssh</code>, files under <code>.ssh</code>, and <code>$HOME</code> in some cases. After setting up the server, make sure you can login without password using command</p>
 
 </div>
 </div>
@@ -212,8 +212,8 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>% ssh remote-host</code></pre>
+<div class="highlight"><pre><span></span>% ssh remote-host
+</pre></div>
 
 </div>
 </div>
@@ -233,37 +233,28 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You will need to install the latest version of sos (preferrably identical version between local and remote hosts), and the software you will need to run. Test it by logging to the remote machine with commands</p>
+<div class="highlight"><pre><span></span>% sos -h
+</pre></div>
 
-<pre><code>% sos -h</code></pre>
-
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Make-sure-$PATH-works-in-non-login-mode">Make sure <code>$PATH</code> works in non-login mode<a class="anchor-link" href="#Make-sure-$PATH-works-in-non-login-mode">&#182;</a></h3>
-</div>
-</div>
-</div>
+</div>### Make sure `$PATH` works in non-interactive mode
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Commands that are available in login shell are not necessarily available during remote execution. Basically, remote execution through <code>ssh</code> invokes a non-interactive and non-login shell with basic <code>$PATH</code>. SoS tries to address this problem by executing commands through a login shell</p>
-
-<pre><code>% ssh remote-host "bash --login -c 'sos-command-to-run'"</code></pre>
-<p>but your <code>.bashrc</code> might contain a line like</p>
-
-<pre><code>[ -z "$PS1" ] &amp;&amp; return</code></pre>
-<p>that makes it exit prematurally. Remove this line if this is the case.</p>
+<div class="highlight"><pre><span></span>% ssh remote-host <span class="s2">&quot;bash --login -c &#39;sos execute task_id&#39;&quot;</span>
+</pre></div>
+<p>but default <code>.bashrc</code> on the remote server might contain a line like</p>
+<div class="highlight"><pre><span></span><span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$PS1</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="k">return</span>
+</pre></div>
+<p>that makes it exit when <code>bash</code> is not running interactively. This line has to be removed in order to have complete <code>$PATH</code> during remote execution.</p>
 <p>Now, fire command</p>
-
-<pre><code>% ssh remote-host "bash --login -c 'sos -h'"</code></pre>
-<p>from your local machine and see if <code>sos</code> can be invoked. Similarly, check if the command you would like to execute remotely can be executed in this way.</p>
+<div class="highlight"><pre><span></span>% ssh remote-host <span class="s2">&quot;bash --login -c &#39;sos -h&#39;&quot;</span>
+</pre></div>
+<p>from your local machine and see if <code>sos</code> can be invoked. Similarly, check if the command you would like to execute remotely can be executed in this manner.</p>
 
 </div>
 </div>
@@ -282,18 +273,19 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This step is optional but is highly recommended. Basically you can save necessary information for each remote host that you would like to use in SoS configuration file so that you do not have to specify them one by one.</p>
+<p>This step is optional but is highly recommended. Basically you can save necessary information for each remote host that you would like to use in a SoS configuration file so that you do not have to specify them one by one.</p>
 <p>First, give your host an alias so that you do not have to specify the long URL each time. To do this execute command</p>
 
 <pre><code>% sos config --global --set hosts.monster.address dcdrlue8ee.yourdomain.com</code></pre>
 <p>where <code>monster</code> is a short alias and <code>dcdrlue8ee.yourdomain.com</code> is the complete address.</p>
 <p>This commands writes to <code>~/.sos/config.yml</code> the following entry</p>
-
-<pre><code>$ cat ~/.sos/config.yml
+<div class="highlight"><pre><span></span>$ cat ~/.sos/config.yml
 hosts:
   monster:
-    address: dcdrlue8ee.yourdomain.com</code></pre>
+    address: dcdrlue8ee.yourdomain.com
+</pre></div>
 <p>You can write to this file directly if you are familiar with YML format.</p>
+<p>If your account name differs between the local and remote servers, the complete address should be <code>username@address</code>. In this example <code>john@dcdrlue8ee.yourdomain.com</code> if the remote server account is <code>john</code>.</p>
 
 </div>
 </div>
@@ -317,12 +309,12 @@ hosts:
 <pre><code>% sos config --global --set hosts.monster.path_map /Users/myuser/:/home/myuser/</code></pre>
 <p>In this way, if the local data is <code>/User/myuser/projects/input.fastq</code>, the path will be translated to <code>/home/myuser/projects/input.fastq</code> during remote execution.</p>
 <p>In more complicated cases where there are different directories, more than one mapping can be specified. For example, if you have directories under different volumes, you can map them differently using</p>
-
-<pre><code>% sos config --global --set hosts.monster.path_map \
-    /Users/myuser/projects/:/home/myuser/scratch/projects/  \
-    /Volumes/Resource:/home/myuser/resource \
-    /Users/myuser:/home/myuser</code></pre>
-<p>This command will result in</p>
+<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.path_map <span class="se">\</span>
+    /Users/myuser/projects/:/home/myuser/scratch/projects/  <span class="se">\</span>
+    /Volumes/Resource:/home/myuser/resource <span class="se">\</span>
+    /Users/myuser:/home/myuser
+</pre></div>
+<p>This command will write the following entries to the configuration file</p>
 
 <pre><code>$ cat ~/.sos/config.yml
 hosts:
@@ -339,9 +331,49 @@ hosts:
 ~/myscript ==&gt; /home/myuser/myscript.py</code></pre>
 <p>Note that</p>
 <ol>
+<li>Both source and destination paths should be absolute (starts with <code>/</code> for Linux-like systems).</li>
 <li>SoS expands local directories to absolute path before applying <code>path_map</code>.</li>
-<li>SoS applies path maps at the other in which they are specified, so you should specify general mappings after more specific ones. </li>
+<li>SoS applies path maps at the order in which they are specified, so you should specify general mappings after more specific ones. For example, if you specify <code>/Users/myuser:/home/myuser</code> before <code>/Users/myuser/projects/:/home/myuser/scratch/projects/</code>, path <code>/Users/myuser/projects/input.txt</code> would be mapped to <code>/home/myuser/projects/input</code>, not to the intended directory <code>/home/myuser/scratch/projects/input</code>.</li>
 </ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Set-up-shared">Set up <code>shared</code><a class="anchor-link" href="#Set-up-shared">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>shared</code> tells SoS which file systems are shared between local and remote hosts so that it does not have to synchronize files under these directories between the hosts.</p>
+<ul>
+<li><p>SoS assumes independent file systems so you do not have to specify option <code>shared</code> if the local and remote hosts does not share any file system.</p>
+</li>
+<li><p>If your local and remote host share all file systems, you should use command</p>
+<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /
+</pre></div>
+<p>to indicate that the root directory is shared so no cross-network copy is needed.</p>
+</li>
+<li><p>If your local and remote host share one or more shared volumes, you can specify them with command</p>
+<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /projects /data
+</pre></div>
+<p>to indicate that files under these directories are available on the remote host.</p>
+</li>
+</ul>
+<p>Shared file systems do not have to be mounted at the same locations. For example, a local file system <code>/projects</code> might be available at the remote host under <code>/scratch/projects</code>. In this case, you should</p>
+<ul>
+<li>Set <code>/projects</code> as <code>shared</code> so that files under <code>/projects</code> will not be copied.</li>
+<li>Set <code>/projects:/scratch/projects</code> in <code>path_map</code> so that the path can be correctly translated between local and remote hosts.</li>
+</ul>
+<p>It is important to remember that <strong>SoS does not copy files under shared directories</strong>. If the local and remote host share a file system but you really would like to copy files to a differenet directory, you can ignore the <code>shared</code> option and let SoS copy files as if they are separate file systems.</p>
 
 </div>
 </div>
@@ -390,8 +422,8 @@ run:
 <p>Note that:</p>
 <ol>
 <li>Option <code>on_host</code> specifies the host to connect, and allows SoS to retrieve <code>path_map</code> from configuration file.</li>
-<li>Option <code>to_host</code> specifies local files or directories that will be copied to the remote host (using <code>rsync</code>).</li>
-<li>Options <code>from_host</code> specifies <strong>local files</strong> that will be copied from the remote host. SoS will figure out the corresponding remote file to be copied.</li>
+<li>Option <code>to_host</code> specifies local files or directories that will be copied to the remote host (using <code>rsync</code>, if files are not on a shared file system).</li>
+<li>Option <code>from_host</code> specifies <strong>local files</strong> that need to be copied from the remote host. SoS will use <code>path_map</code> to determine paths of the corresponding remote files to be copied.</li>
 </ol>
 
 </div>
@@ -411,7 +443,16 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Each task has an <code>environment</code> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task as if it is executed locally. For example, you might have a script that generates a <code>STAR</code> index from fasta file. You should have all these files available locally and write the task as:</p>
+<h3 id="Automatic-variable-translation">Automatic variable translation<a class="anchor-link" href="#Automatic-variable-translation">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Each task has an <code>environment</code> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task as if it is executed locally. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
 
 <pre><code>depends:      hg19_fasta
 run:
@@ -422,24 +463,42 @@ run:
         --genomeFastaFiles ${hg19_fasta} \
         --sjdbGTFfile ${hg19_genes_gtf} \
         --sjdbOverhang 100</code></pre>
-<p>Now, to make the script execute remotely, you should tell SoS which variables need to be translated to remote path. This can be done using option <code>map_vars</code></p>
+<p><strong>SoS will by default translate all variables (of type string and list of strings) as if they are local paths</strong>. In this case, because <code>hg19_star_index</code>, <code>hg19_fasta</code> and <code>hg19_genes_gtf</code> are all local paths, they will be translated to remote paths during remote execution.</p>
 
-<pre><code>depends:      hg19_fasta
-
-task:     on_host='monster', map_vars=['hg19_fasta', 'hg19_star_index', 'hg19_genes_gtf']
-run:
-    STAR \
-        --runThreadN 8 \
-        --runMode genomeGenerate \
-        --genomeDir ${hg19_star_index} \
-        --genomeFastaFiles ${hg19_fasta} \
-        --sjdbGTFfile ${hg19_genes_gtf} \
-        --sjdbOverhang 100</code></pre>
-<p>This option will <strong>change the runtime environment</strong> of the task so that the script can be composed using variables corresponding to remote servers.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Explicit-variable-translation-using-option-map_vars">Explicit variable translation using option <code>map_vars</code><a class="anchor-link" href="#Explicit-variable-translation-using-option-map_vars">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and would like to use <code>hg19_fasta</code> that is available on the remote machine, you can use option <code>map_vars</code> to let SoS translate only specified variables (in this case excluding <code>hg19_fasta</code>):</p>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">map_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;hg19_star_index&#39;</span><span class="p">,</span> <span class="s1">&#39;hg19_genes_gtf&#39;</span><span class="p">]</span>
+<span class="kn">run:</span>
+    <span class="n">STAR</span> \
+        <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
+        <span class="o">--</span><span class="n">runMode</span> <span class="n">genomeGenerate</span> \
+        <span class="o">--</span><span class="n">genomeDir</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_star_index</span><span class="p">}</span> \
+        <span class="o">--</span><span class="n">genomeFastaFiles</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_fasta</span><span class="p">}</span> \
+        <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
+        <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
+</pre></div>
+<p>This option will <strong>change the runtime environment</strong> of the task that reconfigures file paths so that the script can be executed using variables corresponding to remote servers.</p>
 <p>Note that</p>
 <ol>
+<li>The default value of <code>map_vars</code> is <code>True</code>, which translates all variables.</li>
 <li>Variables such as <code>_input</code>, <code>input</code>, <code>_output</code> are automatically translated so you only need to specify non-system variables.</li>
-<li>You can hard-code path in remote host, but that will make your script host-dependent. It is therefore highly recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you are switching to another host with differnt <code>path_map</code>.</li>
+<li>You can hard-code path in remote host and bypass the variable mapping process, but that will make your script host-dependent. It is therefore highly recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you are switching to another host with differnt <code>path_map</code>.</li>
 </ol>
 
 </div>
@@ -462,8 +521,8 @@ run:
 <p>With all the pieces putting together, you can now execute the task on the remote host using <code>task</code> options</p>
 <div class="highlight"><pre><span></span><span class="kn">depends:</span>      <span class="n">hg19_fasta</span>
 
-<span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">map_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;hg19_fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;hg19_star_index&#39;</span><span class="p">,</span> <span class="s1">&#39;hg19_genes_gtf&#39;</span><span class="p">],</span>
-          <span class="kp">to_host</span><span class="o">=</span><span class="p">[</span><span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span><span class="p">],</span> <span class="kp">from_host</span><span class="o">=</span><span class="n">hg10_index</span>
+<span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span>
+          <span class="kp">to_host</span><span class="o">=</span><span class="p">[</span><span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span><span class="p">],</span> <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
 
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
@@ -474,6 +533,7 @@ run:
         <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
         <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
 </pre></div>
+<p>Here the default <code>map_vars=True</code> is used so all variables are translated.</p>
 
 </div>
 </div>
@@ -493,9 +553,10 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="path_map-option"><code>path_map</code> option<a class="anchor-link" href="#path_map-option">&#182;</a></h3><p>You can specify <code>path_map</code> as a <code>task</code> option. This allows you to write everything in the script clearly and you do not have to use any configuration file. For example,</p>
-
-<pre><code>task:     on_host='dcdrlue8ee.yourdomain.com', path_map='/Users/myuser:/home/myuser',
-          other_options...</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;dcdrlue8ee.yourdomain.com&#39;</span><span class="p">,</span> <span class="kp">path_map</span><span class="o">=</span><span class="s1">&#39;/Users/myuser:/home/myuser&#39;</span><span class="p">,</span>
+          <span class="n">other_options</span><span class="o">...</span>
+</pre></div>
+<p><code>path_map</code> specified in script will override these in <code>config.yml</code> if available.</p>
 
 </div>
 </div>
@@ -516,7 +577,7 @@ run:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>SoS uses <code>rsync</code> command to exchange files between hosts, and use <code>ssh</code> to execute command. If the default commands do not work for your configuration (e.g. if you do not have <code>rsync</code> and need to use <code>scp</code>, you can</p>
 <ol>
-<li><p>Use option <code>-v3</code> to display the exact command used to transfer files and execute commands</p>
+<li><p>Use option <code>-v3</code> to display the exact command used to transfer files and execute commands.</p>
 </li>
 <li><p>Define options <code>send_cmd</code>, <code>received_cmd</code> and <code>execute_cmd</code> for your particular configuration. These variables should be defined with <code>${source}</code> and <code>${dest}</code> which will be replaced by source and destination filenames for each file.</p>
 </li>
