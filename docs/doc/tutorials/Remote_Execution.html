@@ -76,13 +76,13 @@
 <script>
 $( document ).ready(function(){
 
-            var cfg={'threshold':3,     // depth of toc (number of levels)
-             // 'number_sections': false,  
+            var cfg={'threshold':4,     // depth of toc (number of levels)
+             // 'number_sections': true,  
              'number_sections': false,  // sections numbering
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
              "toc_section_display": "block", // display toc contents in the window
-             // 'sideBar':false,      
+             // 'sideBar':true,      
              'sideBar':true,       // sidebar or floating window
              'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
             }
@@ -223,7 +223,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Install-software">Install software<a class="anchor-link" href="#Install-software">&#182;</a></h3>
+<h3 id="Software-installation">Software installation<a class="anchor-link" href="#Software-installation">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -383,7 +383,55 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Transfer-files">Transfer files<a class="anchor-link" href="#Transfer-files">&#182;</a></h2>
+<h3 id="Sample-configurations">Sample configurations<a class="anchor-link" href="#Sample-configurations">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The server settings are critically important for the successful execution of commands on remote servers. As an example, I am working on a Mac mini (with limited CPU/RAM) and have access to a Mac Pro workstation and a Linux server, and I use Google Drive to store scripts that shared by the Mac mini and the Mac Pro workstation.</p>
+<p>The hosts configurations for these two machines are</p>
+
+<pre><code>hosts:
+  macpro:
+    address: mp-bpeng.mdanderson.edu
+    path_map:
+    - /Users/bpeng1/.sos/RNASeq/:/Volumes/Home/.sos/
+    - /Users/bpeng1/Google Drive:/Users/bpeng1/gdrive
+    shared: /Users/bpeng1/Google Drive
+  linux:
+    address: dcdrlpmcfd.mdanderson.edu
+    path_map:
+    - /Users/bpeng1/Google Drive:/home/bpeng1/gdrive
+    - /Users/bpeng1/.sos/RNASeq/:/home/bpeng1/.sos/
+    - /Users/bpeng1:/home/bpeng1</code></pre>
+<p>For the Macpro,</p>
+<ol>
+<li>Resources under <code>~/.sos/RNASeq</code> is mapped to a separate volume under <code>/Volumes/Home/.sos</code>.</li>
+<li>Local <code>Google Drive</code> is mapped to <code>gdrive</code> on the remote server. This is not required but path with space can cause trouble to a lot of software so I created a symbolic <code>gdrive</code> for <code>Google Drive</code> on the Mac server and use path <code>gdrive</code> to access <code>Google Drive</code>.</li>
+<li><code>~/Google Drive</code> is declared to be <code>shared</code> so files under <code>Google Drive</code> will not be synchronized (but path will still be mapped to <code>gdrive</code>).</li>
+<li>Both systems have <code>/Users/bpeng1</code> so no other mapping is needed.</li>
+</ol>
+<p>For the linux server,</p>
+<ol>
+<li>Scripts under <code>Googld Drive</code> are mapped to <code>/home/bpeng1/gdrive</code> because Linux is even less tolerant to spaces in paths.</li>
+<li>Resources under local <code>~/.sos/RNASeq</code> is mapped to <code>/home/bpeng1/.sos</code> on the server</li>
+<li>Home directory <code>/Users/bpeng1</code> is mapped to <code>/home/bpeng1</code> on the linux server.</li>
+<li>No file system is shared between the Mac mini and the Linux server.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="File-transfer">File transfer<a class="anchor-link" href="#File-transfer">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -424,6 +472,8 @@ run:
 <li>Option <code>on_host</code> specifies the host to connect, and allows SoS to retrieve <code>path_map</code> from configuration file.</li>
 <li>Option <code>to_host</code> specifies local files or directories that will be copied to the remote host (using <code>rsync</code>, if files are not on a shared file system).</li>
 <li>Option <code>from_host</code> specifies <strong>local files</strong> that need to be copied from the remote host. SoS will use <code>path_map</code> to determine paths of the corresponding remote files to be copied.</li>
+<li>The shell script would be executed on the remote server</li>
+<li>If there is any problem with file transfer, use option <code>-v3</code> to check if filenames are mapped correctly.</li>
 </ol>
 
 </div>
@@ -452,7 +502,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Each task has an <em>context</em> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task using local paths. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
+<p>Each task has a <em>context</em> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task using local paths, and <strong>define variables for all paths that would differ between local and remote hosts</strong>. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
 
 <pre><code>depends:      hg19_fasta
 run:
@@ -463,7 +513,8 @@ run:
         --genomeFastaFiles ${hg19_fasta} \
         --sjdbGTFfile ${hg19_genes_gtf} \
         --sjdbOverhang 100</code></pre>
-<p><strong>SoS will by default translate all variables (of type string and list of strings) as if they are local paths</strong>. In this case, because <code>hg19_star_index</code>, <code>hg19_fasta</code> and <code>hg19_genes_gtf</code> are all local paths, they will be translated to remote paths during remote execution. Variables that are translated can be view with option <code>-v3</code> (debug output).</p>
+<p>where  <code>hg19_fasta</code>, <code>hg19_genes_gtf</code> and <code>hg19_star_index</code> are variables pointing to input and output files of this process.</p>
+<p><strong>SoS will by default translate all variables (of type string and list of strings) as if they are local paths</strong>. In this case, all three variables will be translated to remote paths during remote execution. You can view details of variable translation using option <code>-v3</code> (debug output).</p>
 
 </div>
 </div>
@@ -482,7 +533,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and would like to use <code>hg19_fasta</code> that is available on the remote host, you can add this variable to option <code>preserved_vars</code> so that its value will be preserved during context switch:</p>
+<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and use variable <code>hg19_fasta</code> to point to fasta file on the remote host, you can add this variable to option <code>preserved_vars</code> so that its value will not be mapped during context switch:</p>
 <div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">preserved_vars</span><span class="o">=</span><span class="s1">&#39;hg19_fasta&#39;</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
@@ -493,12 +544,8 @@ run:
         <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
         <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
 </pre></div>
-<p>Note that</p>
-<ol>
-<li>The default value of <code>map_vars</code> is <code>True</code>, which translates all variables.</li>
-<li>Variables such as <code>_input</code>, <code>input</code>, <code>_output</code> are automatically translated so you only need to specify non-system variables.</li>
-<li>You can hard-code paths in remote host to bypass the variable mapping, but that will make your script host-dependent. It is recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you are switching to another host with differnt <code>path_map</code>.</li>
-</ol>
+<p>Other variables that need to be preserved include sample names, command line options etc.</p>
+<p>Note that you can write tasks for remote hosts (e.g. use hard-coded paths or preserve related variables) but that will make your task host-dependent. It is recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you would like to execute the task locally or  switch to hosts with differnt configurations.</p>
 
 </div>
 </div>
@@ -517,10 +564,11 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>With all the pieces putting together, you can now execute the task on the remote host using <code>task</code> options</p>
+<p>With all the pieces put together, you can now execute the task on the remote host using <code>task</code> options</p>
 <div class="highlight"><pre><span></span><span class="kn">depends:</span>  <span class="n">hg19_fasta</span>
 <span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span>
-          <span class="kp">to_host</span><span class="o">=</span><span class="p">[</span><span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span><span class="p">],</span> <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
+          <span class="kp">to_host</span><span class="o">=</span><span class="p">[</span><span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span><span class="p">],</span>
+          <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
         <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
@@ -549,11 +597,39 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="path_map-option"><code>path_map</code> option<a class="anchor-link" href="#path_map-option">&#182;</a></h3><p>You can specify <code>path_map</code> as a <code>task</code> option. This allows you to write everything in the script clearly and you do not have to use any configuration file. For example,</p>
-<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;dcdrlue8ee.yourdomain.com&#39;</span><span class="p">,</span> <span class="kp">path_map</span><span class="o">=</span><span class="s1">&#39;/Users/myuser:/home/myuser&#39;</span><span class="p">,</span>
-          <span class="n">other_options</span><span class="o">...</span>
+<h3 id="Option-on_host">Option <code>on_host</code><a class="anchor-link" href="#Option-on_host">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of using a configuration file to save configurations to all hosts, you can specify all host related information in option <code>on_host</code> as a dictionary. This method is preferred by users who would like to keep everything in the script. A common usage pattern is to define all hosts in the global section of the script:</p>
+<div class="highlight"><pre><span></span><span class="n">host1</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="s1">&#39;address-of-host1&#39;</span>
+        <span class="s1">&#39;path_map&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;path1:remote_path1&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;path2:remote_path2&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;shared&#39;</span><span class="p">:</span>  <span class="s1">&#39;/shared/path&#39;</span>
+         <span class="p">}</span>
+<span class="n">host2</span> <span class="o">=</span> <span class="o">...</span>
 </pre></div>
-<p><code>path_map</code> specified in script will override these in <code>config.yml</code> if available.</p>
+<p>and use the configurations as follows:</p>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="n">host1</span><span class="p">,</span>
+          <span class="kp">to_host</span><span class="o">=...</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=...</span>
+</pre></div>
+<p>Or even allows the specification of hosts from command line:</p>
+<div class="highlight"><pre><span></span><span class="n">hosts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;host1&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+         <span class="s1">&#39;host2&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+         <span class="s1">&#39;localhost&#39;</span><span class="p">:</span> <span class="bp">None</span>
+         <span class="p">}</span>
+<span class="c1"># by default execute locally        </span>
+<span class="kn">parameter:</span> <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">task:</span>   <span class="kp">on_host</span><span class="o">=</span><span class="n">hosts</span><span class="p">[</span><span class="n">host</span><span class="p">]</span>
+</pre></div>
 
 </div>
 </div>
@@ -563,7 +639,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="send_cmd,-received_cmd,-execute_cmd"><code>send_cmd</code>, <code>received_cmd</code>, <code>execute_cmd</code><a class="anchor-link" href="#send_cmd,-received_cmd,-execute_cmd">&#182;</a></h3>
+<h3 id="Configure-send_cmd,-received_cmd,-and-execute_cmd">Configure <code>send_cmd</code>, <code>received_cmd</code>, and <code>execute_cmd</code><a class="anchor-link" href="#Configure-send_cmd,-received_cmd,-and-execute_cmd">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -579,6 +655,7 @@ run:
 <li><p>Define options <code>send_cmd</code>, <code>received_cmd</code> and <code>execute_cmd</code> for your particular configuration. These variables should be defined with <code>${source}</code> and <code>${dest}</code> which will be replaced by source and destination filenames for each file.</p>
 </li>
 </ol>
+<p>Similar to options <code>path_map</code> and <code>shared</code>, these three options can be defined in configuration file or as keys to <code>on_host</code>.</p>
 
 </div>
 </div>
