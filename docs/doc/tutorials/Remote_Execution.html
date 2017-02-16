@@ -383,7 +383,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Options-on_host,-to_host-and-from_host">Options <code>on_host</code>, <code>to_host</code> and <code>from_host</code><a class="anchor-link" href="#Options-on_host,-to_host-and-from_host">&#182;</a></h2>
+<h2 id="Transfer-files">Transfer files<a class="anchor-link" href="#Transfer-files">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -392,7 +392,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that you have your machine configured, you should try to copy some files and see if they work correctly. File copy is specified with options <code>to_host</code> and <code>from_host</code>. You can test these options using simple SoS steps such as (replace filenames with files you have, of course),</p>
+<p>Now that you have your machine configured, you should try to copy some files and see if they work correctly. File copy is specified with options <code>to_host</code> and <code>from_host</code>, which accepts a single file or directory name (string) or list (or nested lists) of filenames. You can test these options using simple SoS steps such as (replace filenames with files you have, of course),</p>
 
 </div>
 </div>
@@ -530,7 +530,7 @@ run:
         <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
         <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
 </pre></div>
-<p>Here the default <code>map_vars=True</code> is used so all variables are translated.</p>
+<p>Here we allow SoS to translate all variables so option <code>preserved_vars</code> is not needed.</p>
 
 </div>
 </div>
