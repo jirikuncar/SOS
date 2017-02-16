@@ -193,7 +193,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Set-up-public-key-access-to-the-remote-host">Set up public-key access to the remote host<a class="anchor-link" href="#Set-up-public-key-access-to-the-remote-host">&#182;</a></h3>
+<h3 id="Public-key-access">Public-key access<a class="anchor-link" href="#Public-key-access">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -223,7 +223,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Install-SoS-and-required-software">Install SoS and required software<a class="anchor-link" href="#Install-SoS-and-required-software">&#182;</a></h3>
+<h3 id="Install-software">Install software<a class="anchor-link" href="#Install-software">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -238,7 +238,7 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>### Make sure `$PATH` works in non-interactive mode
+</div>### Check `$PATH`
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -264,7 +264,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Set-up-a-local-configuration-file">Set up a local configuration file<a class="anchor-link" href="#Set-up-a-local-configuration-file">&#182;</a></h3>
+<h3 id="Configure-address">Configure <code>address</code><a class="anchor-link" href="#Configure-address">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -295,7 +295,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Set-up-path_map">Set up <code>path_map</code><a class="anchor-link" href="#Set-up-path_map">&#182;</a></h3>
+<h3 id="Configure-path_map">Configure <code>path_map</code><a class="anchor-link" href="#Configure-path_map">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -344,7 +344,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Set-up-shared">Set up <code>shared</code><a class="anchor-link" href="#Set-up-shared">&#182;</a></h3>
+<h3 id="Configure-shared">Configure <code>shared</code><a class="anchor-link" href="#Configure-shared">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -383,7 +383,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Copying-files-back-and-forth-(task-options-to_host-and-from_host)">Copying files back and forth (<code>task</code> options <code>to_host</code> and <code>from_host</code>)<a class="anchor-link" href="#Copying-files-back-and-forth-(task-options-to_host-and-from_host)">&#182;</a></h2>
+<h2 id="Options-on_host,-to_host-and-from_host">Options <code>on_host</code>, <code>to_host</code> and <code>from_host</code><a class="anchor-link" href="#Options-on_host,-to_host-and-from_host">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -452,7 +452,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Each task has an <code>environment</code> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task as if it is executed locally. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
+<p>Each task has an <em>context</em> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task using local paths. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
 
 <pre><code>depends:      hg19_fasta
 run:
@@ -463,7 +463,7 @@ run:
         --genomeFastaFiles ${hg19_fasta} \
         --sjdbGTFfile ${hg19_genes_gtf} \
         --sjdbOverhang 100</code></pre>
-<p><strong>SoS will by default translate all variables (of type string and list of strings) as if they are local paths</strong>. In this case, because <code>hg19_star_index</code>, <code>hg19_fasta</code> and <code>hg19_genes_gtf</code> are all local paths, they will be translated to remote paths during remote execution.</p>
+<p><strong>SoS will by default translate all variables (of type string and list of strings) as if they are local paths</strong>. In this case, because <code>hg19_star_index</code>, <code>hg19_fasta</code> and <code>hg19_genes_gtf</code> are all local paths, they will be translated to remote paths during remote execution. Variables that are translated can be view with option <code>-v3</code> (debug output).</p>
 
 </div>
 </div>
@@ -473,7 +473,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Explicit-variable-translation-using-option-map_vars">Explicit variable translation using option <code>map_vars</code><a class="anchor-link" href="#Explicit-variable-translation-using-option-map_vars">&#182;</a></h3>
+<h3 id="Option-map_vars">Option <code>map_vars</code><a class="anchor-link" href="#Option-map_vars">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -482,7 +482,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and would like to use <code>hg19_fasta</code> that is available on the remote machine, you can use option <code>map_vars</code> to let SoS translate only specified variables (in this case excluding <code>hg19_fasta</code>):</p>
+<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and would like to use <code>hg19_fasta</code> that is available on the remote host, you can use option <code>map_vars</code> to let SoS translate only specified variables (in this case excluding <code>hg19_fasta</code>):</p>
 <div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">map_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;hg19_star_index&#39;</span><span class="p">,</span> <span class="s1">&#39;hg19_genes_gtf&#39;</span><span class="p">]</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
@@ -493,12 +493,11 @@ run:
         <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
         <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
 </pre></div>
-<p>This option will <strong>change the runtime environment</strong> of the task that reconfigures file paths so that the script can be executed using variables corresponding to remote servers.</p>
 <p>Note that</p>
 <ol>
 <li>The default value of <code>map_vars</code> is <code>True</code>, which translates all variables.</li>
 <li>Variables such as <code>_input</code>, <code>input</code>, <code>_output</code> are automatically translated so you only need to specify non-system variables.</li>
-<li>You can hard-code path in remote host and bypass the variable mapping process, but that will make your script host-dependent. It is therefore highly recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you are switching to another host with differnt <code>path_map</code>.</li>
+<li>You can hard-code paths in remote host or use <code>map_vars=[]</code> to bypass the variable mapping process, but that will make your script host-dependent. It is recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you are switching to another host with differnt <code>path_map</code>.</li>
 </ol>
 
 </div>
@@ -519,11 +518,9 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With all the pieces putting together, you can now execute the task on the remote host using <code>task</code> options</p>
-<div class="highlight"><pre><span></span><span class="kn">depends:</span>      <span class="n">hg19_fasta</span>
-
+<div class="highlight"><pre><span></span><span class="kn">depends:</span>  <span class="n">hg19_fasta</span>
 <span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span>
           <span class="kp">to_host</span><span class="o">=</span><span class="p">[</span><span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span><span class="p">],</span> <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
-
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
         <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
