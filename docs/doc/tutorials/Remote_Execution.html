@@ -443,7 +443,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Automatic-variable-translation">Automatic variable translation<a class="anchor-link" href="#Automatic-variable-translation">&#182;</a></h3>
+<h3 id="Variable-translation">Variable translation<a class="anchor-link" href="#Variable-translation">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -473,7 +473,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-map_vars">Option <code>map_vars</code><a class="anchor-link" href="#Option-map_vars">&#182;</a></h3>
+<h3 id="Option-preserved_vars">Option <code>preserved_vars</code><a class="anchor-link" href="#Option-preserved_vars">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -482,8 +482,8 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and would like to use <code>hg19_fasta</code> that is available on the remote host, you can use option <code>map_vars</code> to let SoS translate only specified variables (in this case excluding <code>hg19_fasta</code>):</p>
-<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">map_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;hg19_star_index&#39;</span><span class="p">,</span> <span class="s1">&#39;hg19_genes_gtf&#39;</span><span class="p">]</span>
+<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and would like to use <code>hg19_fasta</code> that is available on the remote host, you can add this variable to option <code>preserved_vars</code> so that its value will be preserved during context switch:</p>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">preserved_vars</span><span class="o">=</span><span class="s1">&#39;hg19_fasta&#39;</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
         <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
@@ -497,7 +497,7 @@ run:
 <ol>
 <li>The default value of <code>map_vars</code> is <code>True</code>, which translates all variables.</li>
 <li>Variables such as <code>_input</code>, <code>input</code>, <code>_output</code> are automatically translated so you only need to specify non-system variables.</li>
-<li>You can hard-code paths in remote host or use <code>map_vars=[]</code> to bypass the variable mapping process, but that will make your script host-dependent. It is recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you are switching to another host with differnt <code>path_map</code>.</li>
+<li>You can hard-code paths in remote host to bypass the variable mapping, but that will make your script host-dependent. It is recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you are switching to another host with differnt <code>path_map</code>.</li>
 </ol>
 
 </div>
