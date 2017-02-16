@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }.lan_python2 {background-color: #F6FAEA !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -664,13 +668,13 @@ $( document ).ready(function(){
 <td style="text-align:left"><code>q</code></td>
 <td style="text-align:left"><code>quoted()</code></td>
 <td style="text-align:left"><code>${file1!q}</code></td>
-<td style="text-align:left"><code>file\ 1.txt</code></td>
+<td style="text-align:left"><code>'file 1.txt'</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>e</code></td>
-<td style="text-align:left"><code>expanduser()</code></td>
-<td style="text-align:left"><code>${file2!e}</code></td>
-<td style="text-align:left"><code>/path/to/user/SoS/test.sos</code></td>
+<td style="text-align:left"><code>replace(' ', '\\ ')</code></td>
+<td style="text-align:left"><code>${file1!e}</code></td>
+<td style="text-align:left"><code>file\ 1.txt</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><code>a</code></td>
@@ -697,10 +701,16 @@ $( document ).ready(function(){
 <td style="text-align:left"><code>~/SoS/test</code></td>
 </tr>
 <tr>
+<td style="text-align:left"><code>u</code></td>
+<td style="text-align:left"><code>expanduser()</code></td>
+<td style="text-align:left"><code>${file2!e}</code></td>
+<td style="text-align:left"><code>/path/to/user/SoS/test.sos</code></td>
+</tr>
+<tr>
 <td style="text-align:left"><code>,</code></td>
-<td style="text-align:left"><code>', '.join()</code></td>
+<td style="text-align:left"><code>','.join()</code></td>
 <td style="text-align:left"><code>${files!,}</code></td>
-<td style="text-align:left"><code>a.txt, b.txt</code></td>
+<td style="text-align:left"><code>a.txt,b.txt</code></td>
 </tr>
 </tbody>
 </table>
