@@ -12775,7 +12775,7 @@ div.cell.text_cell.unrendered .input_prompt {
 }
 div.rendered_html code {
  font-family: "PT Mono", monospace;
- font-size: 11pt;
+ /* font-size: 11pt; */
  padding-top: 3px;
  color: #303030;
  background: #efefef;
@@ -12823,8 +12823,8 @@ div.text_cell_render pre {
  font-size: 11pt !important;
  line-height: 170% !important;
  color: #353535;
- /* background: #efefef;
- background-color: #efefef; */
+  background: #efefef;
+ background-color: #efefef;
  /* border: 2px #e7e7e7  solid; */
  max-width: 86%;
  border-radius: 2px;
