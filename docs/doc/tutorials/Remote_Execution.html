@@ -159,7 +159,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Execution-of-tasks-on-remote-host">Execution of tasks on remote host<a class="anchor-link" href="#Execution-of-tasks-on-remote-host">&#182;</a></h1>
+<h1 id="Execution-of-tasks-on-remote-hosts">Execution of tasks on remote hosts<a class="anchor-link" href="#Execution-of-tasks-on-remote-hosts">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -431,7 +431,71 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="File-transfer">File transfer<a class="anchor-link" href="#File-transfer">&#182;</a></h2>
+<h2 id="Running-tasks-remotely">Running tasks remotely<a class="anchor-link" href="#Running-tasks-remotely">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-on_host">Option <code>on_host</code><a class="anchor-link" href="#Option-on_host">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you have set up a host in SoS configuration file propertly, you can use option <code>on_host</code> to specify the host on which the task will be executed.</p>
+
+<pre><code>task:   on_host='monster'</code></pre>
+<p>Here <code>monster</code> is the alias of the host.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of using a configuration file to save configurations to all hosts, you can also specify all host related information in option <code>on_host</code> as a dictionary. This method is preferred by users who would like to keep everything in the script. A common usage pattern is to define all hosts in the global section of the script:</p>
+<div class="highlight"><pre><span></span><span class="n">host1</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="s1">&#39;address-of-host1&#39;</span>
+        <span class="s1">&#39;path_map&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;path1:remote_path1&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;path2:remote_path2&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;shared&#39;</span><span class="p">:</span>  <span class="s1">&#39;/shared/path&#39;</span>
+         <span class="p">}</span>
+<span class="n">host2</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+<p>and use the configurations as follows:</p>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="n">host1</span><span class="p">,</span>
+          <span class="kp">to_host</span><span class="o">=...</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=...</span>
+</pre></div>
+<p>Or even allows the specification of hosts from command line:</p>
+<div class="highlight"><pre><span></span><span class="n">hosts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;host1&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+         <span class="s1">&#39;host2&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
+         <span class="s1">&#39;localhost&#39;</span><span class="p">:</span> <span class="bp">None</span>
+         <span class="p">}</span>
+<span class="c1"># by default execute locally        </span>
+<span class="kn">parameter:</span> <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">task:</span>   <span class="kp">on_host</span><span class="o">=</span><span class="n">hosts</span><span class="p">[</span><span class="n">host</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Options-to_host-and-from_host">Options <code>to_host</code> and <code>from_host</code><a class="anchor-link" href="#Options-to_host-and-from_host">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -467,24 +531,8 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that:</p>
-<ol>
-<li>Option <code>on_host</code> specifies the host to connect, and allows SoS to retrieve <code>path_map</code> from configuration file.</li>
-<li>Option <code>to_host</code> specifies local files or directories that will be copied to the remote host (using <code>rsync</code>, if files are not on a shared file system).</li>
-<li>Option <code>from_host</code> specifies <strong>local files</strong> that need to be copied from the remote host. SoS will use <code>path_map</code> to determine paths of the corresponding remote files to be copied.</li>
-<li>The shell script would be executed on the remote server</li>
-<li>If there is any problem with file transfer, use option <code>-v3</code> to check if filenames are mapped correctly.</li>
-</ol>
+<p><strong>input, dependent, and output files are automatically transferred</strong> so <code>to_host</code> and <code>from_host</code> are only needed to transfer files or directories in additional to step input and outputs. If there is any problem with file transfer, use option <code>-v3</code> to check if filenames are mapped correctly.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Prepare-task">Prepare task<a class="anchor-link" href="#Prepare-task">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -555,7 +603,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Running-task-remotely">Running task remotely<a class="anchor-link" href="#Running-task-remotely">&#182;</a></h2>
+<h3 id="Running-task">Running task<a class="anchor-link" href="#Running-task">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -565,10 +613,9 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With all the pieces put together, you can now execute the task on the remote host using <code>task</code> options</p>
-<div class="highlight"><pre><span></span><span class="kn">depends:</span>  <span class="n">hg19_fasta</span>
-<span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span>
-          <span class="kp">to_host</span><span class="o">=</span><span class="p">[</span><span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span><span class="p">],</span>
-          <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
+<div class="highlight"><pre><span></span><span class="kn">depends:</span>  <span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span>
+<span class="kn">output:</span>   <span class="s2">&quot;${hg19_star_index}/chrName.txt&quot;</span>
+<span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
         <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
@@ -578,7 +625,18 @@ run:
         <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
         <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
 </pre></div>
-<p>Here we allow SoS to translate all variables so option <code>preserved_vars</code> is not needed.</p>
+<p>For this example,</p>
+<ol>
+<li>SoS automatically transfers all input (None in this example) and dependent files (<code>hg19_fasta1 and</code>hg19_genes_gtf<code>in this example) so no</code>to_host` is needed.</li>
+<li>All variables are path names that can be safely translated by SoS so option <code>preserved_vars</code> is not needed.</li>
+<li>Option <code>from_host</code> is needed because we need to transfer not only the reprsenting output file (<code>hg19_star_index}/chrName.txt</code>), but also the whole directory containing the whole indexes (<code>hg19_star_index</code>).</li>
+</ol>
+<p>SoS tries its best to automate the process while allowing you to tweak the details with runtime options. Just to recap the use of these  options:</p>
+<ul>
+<li><code>to_host</code> is needed to transfer <strong>additional input</strong> files or directories to remote host.</li>
+<li><code>from_host</code> is needed to tranfer <strong>additional output</strong> files or directories from remote host.</li>
+<li><code>preserve_vars</code> is needed to prevent some variables from being translated automatically by SoS.</li>
+</ul>
 
 </div>
 </div>
@@ -589,48 +647,6 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Advanced-usages">Advanced usages<a class="anchor-link" href="#Advanced-usages">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-on_host">Option <code>on_host</code><a class="anchor-link" href="#Option-on_host">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Instead of using a configuration file to save configurations to all hosts, you can specify all host related information in option <code>on_host</code> as a dictionary. This method is preferred by users who would like to keep everything in the script. A common usage pattern is to define all hosts in the global section of the script:</p>
-<div class="highlight"><pre><span></span><span class="n">host1</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="s1">&#39;address-of-host1&#39;</span>
-        <span class="s1">&#39;path_map&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;path1:remote_path1&#39;</span><span class="p">,</span>
-                     <span class="s1">&#39;path2:remote_path2&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;shared&#39;</span><span class="p">:</span>  <span class="s1">&#39;/shared/path&#39;</span>
-         <span class="p">}</span>
-<span class="n">host2</span> <span class="o">=</span> <span class="o">...</span>
-</pre></div>
-<p>and use the configurations as follows:</p>
-<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="n">host1</span><span class="p">,</span>
-          <span class="kp">to_host</span><span class="o">=...</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=...</span>
-</pre></div>
-<p>Or even allows the specification of hosts from command line:</p>
-<div class="highlight"><pre><span></span><span class="n">hosts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;host1&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-         <span class="s1">&#39;host2&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-         <span class="s1">&#39;localhost&#39;</span><span class="p">:</span> <span class="bp">None</span>
-         <span class="p">}</span>
-<span class="c1"># by default execute locally        </span>
-<span class="kn">parameter:</span> <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
-
-<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="kn">task:</span>   <span class="kp">on_host</span><span class="o">=</span><span class="n">hosts</span><span class="p">[</span><span class="n">host</span><span class="p">]</span>
-</pre></div>
-
 </div>
 </div>
 </div>
