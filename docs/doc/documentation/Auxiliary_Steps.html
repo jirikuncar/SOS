@@ -223,12 +223,12 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>An auxiliary step can be defined in the format of</p>
+<p>An auxiliary step can be defined by the <code>provides</code> option in section head, in the format of</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="n">step_name</span> <span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="n">target</span><span class="p">]</span>
 </pre></div>
 <p>where <code>target</code> can be</p>
 <ul>
-<li>A file pattern such as <code>"{sample}.bam.idx"</code></li>
+<li>A filename or file pattern such as <code>"{sample}.bam.idx"</code></li>
 <li>Other types of targets such as <code>executable("ms")</code></li>
 <li>A list (sequence) of one or more file patterns and targets.</li>
 </ul>
@@ -250,7 +250,10 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A file pattern is a filename with optional patterns with variable names enbraced in <code>{ }</code>. SoS matches filenames with the patterns and, if successful, assign variables with matched parts of the names.</p>
+<p>A file pattern is a filename with optional patterns with variable names enbraced in <code>{ }</code>. SoS matches filenames with the patterns and, if successful, assign variables with matched parts of the names. For example,</p>
+
+<pre><code>[compress: provides = '{filename}.bam']</code></pre>
+<p>would be triggered with target <code>sample_A.bam</code> and <code>sample_B.bam</code>. When the step is triggered by <code>sample_A.bam</code>, it defines variable <code>filename</code> as <code>sample_A</code> and sets the output of the step as <code>sample_A.bam</code>.</p>
 <p>The following example removes all local <code>*.bam</code> and <code>*.bam.bi</code> file before it executes three workflows defined by <code>targets</code>. We use magic <code>%run</code> to execute it, which is equivalent to executing it from command line using commands such as</p>
 <div class="highlight"><pre><span></span>sos run myscript -t TS1.bam
 </pre></div>
@@ -415,7 +418,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can specify multiple targets to the <code>provides</code> option and a step would be triggered if it matches any of them. For example, the <code>temp</code> step is triggered twice in the following example, first time by target <code>text.bak</code> and the second time by target <code>text.tmp</code>.</p>
+<p>You can specify multiple targets to the <code>provides</code> option and a step would be triggered if any of the targets matches. For example, the <code>temp</code> step is triggered twice in the following example, first time by target <code>text.bak</code> and the second time by target <code>text.tmp</code>.</p>
 
 </div>
 </div>
@@ -423,14 +426,14 @@ $( document ).ready(function(){
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
 <span class="o">%</span><span class="n">preview</span> <span class="o">--</span><span class="n">off</span>
 
 <span class="p">[</span><span class="n">temp</span><span class="p">:</span> <span class="kp">provides</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;{filename}.bak&#39;</span><span class="p">,</span> <span class="s1">&#39;{filename}.tmp&#39;</span><span class="p">]]</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Locate ${output}&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Touch ${output}&quot;</span><span class="p">)</span>
 <span class="kn">sh:</span>
     <span class="n">touch</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span>
 
@@ -450,8 +453,8 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Locate text.bak
-Locate text.tmp
+<pre>Touch text.tmp
+Touch text.bak
 </pre>
 </div>
 </div>
@@ -475,10 +478,10 @@ Locate text.tmp
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As you have noticed, auxiliary steps usually define its own <code>output</code> statement. This is because the step is triggered by <code>output</code> and has a default <code>output</code> statement</p>
+<p>As you have noticed, auxiliary steps usually do not define their own <code>output</code> statement. This is because auxiliary steps have a default <code>output</code> statement</p>
 
 <pre><code>output:  __default_output__</code></pre>
-<p>where <code>__default_output__</code> is the matched target. You can cutomize the output of an auxiliary step by defining your own <code>output</code> statement. This technique is usually used for the generating of multiple output files.</p>
+<p>where <code>__default_output__</code> is the matched target. You can cutomize the output of an auxiliary step by defining your own <code>output</code> statement. This technique is usually used for the generation of multiple output files.</p>
 <p>For example, in the following example, step <code>touch</code> is triggered three times for the generation of three targets.</p>
 
 </div>
@@ -584,7 +587,7 @@ Write A to 1.txt 2.txt 3.txt
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this example, the <code>touch</code> step is triggered by one of the three files, but it produces three output files <code>1.txt</code>, <code>2.txt</code>, <code>3.txt</code>, and the <code>default</code> step will not look for steps to generate the other two files because they are already generated.</p>
+<p>In this example, the <code>touch</code> step is triggered by one of the three files, but it produces three output files <code>1.txt</code>, <code>2.txt</code>, <code>3.txt</code>. The <code>default</code> step will not look for steps to generate the other two files because they have already been generated.</p>
 
 </div>
 </div>
@@ -653,6 +656,16 @@ Write A to 1.txt 2.txt 3.txt
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This workflow has one step that depends on a <code>sos_variable</code> <code>numNotebooks</code>. The <code>count</code> step is then executed to provide this variable.</p>
+<p>There is however a minor difference between the <code>shared</code> and <code>provides</code> for the specification of shared variables. That is to say, whereas</p>
+
+<pre><code>[step: provides=[sos_variable('var1'), sos_variable('var2')]</code></pre>
+<p>would be triggered by <code>var1</code> or <code>var2</code> and generate <strong>one of</strong> the variables (due to the multi-target rule of option <code>provides</code>),</p>
+
+<pre><code>[step: shared=['var1', 'var2']]</code></pre>
+<p>would be assumed to generate <strong>both of</strong> the variables, so technically speaking the <code>shared</code> version is equivalent to</p>
+
+<pre><code>[step: provides=[sos_variable('var1'), sos_variable('var2')]
+output: sos_variable('var1'), sos_variable('var2')</code></pre>
 
 </div>
 </div>
