@@ -148,7 +148,7 @@ $( document ).ready(function(){
     });
 </script><style>  /* defined here in case the main.css below cannot be loaded */
 
- .lan_sos {}
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }.lan_python2 {background-color: #F6FAEA !important }
 
 </style>
 <body>
@@ -224,15 +224,24 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>An auxiliary step can be defined in the format of</p>
-<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">step_name</span> <span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="kp">pattern</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">step_name</span> <span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="n">target</span><span class="p">]</span>
 </pre></div>
-<p>where <code>pattern</code> can be</p>
+<p>where <code>target</code> can be</p>
 <ul>
 <li>A file pattern such as <code>"{sample}.bam.idx"</code></li>
 <li>Other types of targets such as <code>executable("ms")</code></li>
 <li>A list (sequence) of one or more file patterns and targets.</li>
 </ul>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="File-Pattern">File Pattern<a class="anchor-link" href="#File-Pattern">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -328,6 +337,254 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As you can see from the output, when the first workflow is executed with target <code>TS1.bam</code>, step <code>compress</code> is executed to produce it. In the run, both steps are executed to generate <code>TS2.bam</code> and then <code>TS2.bam.bai</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Non-file-targets">Non-file targets<a class="anchor-link" href="#Non-file-targets">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In addition to output files, an auxiliary step can provide targets of other types. A most widely used target is <code>sos_variable</code>, which provides variables that can be accessed by later steps. For example,</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># remove var in case it is defined already</span>
+<span class="o">%</span><span class="nb">dict</span> <span class="o">--</span><span class="k">del</span> <span class="n">numNotebooks</span>
+
+<span class="c1"># this step provides variable `numNotebooks`</span>
+<span class="p">[</span><span class="n">count</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="n">sos_variable</span><span class="p">(</span><span class="s1">&#39;numNotebooks&#39;</span><span class="p">)]</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="n">numNotebooks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.ipynb&#39;</span><span class="p">))</span>
+
+<span class="p">[</span><span class="n">default</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">sos_variable</span><span class="p">(</span><span class="s1">&#39;numNotebooks&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;There are ${numNotebooks} notebooks in this directory&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>There are 14 notebooks in this directory
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Multiple-targets">Multiple targets<a class="anchor-link" href="#Multiple-targets">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can specify multiple targets to the <code>provides</code> option and a step would be triggered if it matches any of them. For example, the <code>temp</code> step is triggered twice in the following example, first time by target <code>text.bak</code> and the second time by target <code>text.tmp</code>.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="o">--</span><span class="n">off</span>
+
+<span class="p">[</span><span class="n">temp</span><span class="p">:</span> <span class="kp">provides</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;{filename}.bak&#39;</span><span class="p">,</span> <span class="s1">&#39;{filename}.tmp&#39;</span><span class="p">]]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Locate ${output}&quot;</span><span class="p">)</span>
+<span class="kn">sh:</span>
+    <span class="n">touch</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span>
+
+<span class="p">[</span><span class="n">default</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="s1">&#39;text.bak&#39;</span><span class="p">,</span> <span class="s1">&#39;text.tmp&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Locate text.bak
+Locate text.tmp
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="output-statement"><code>output</code> statement<a class="anchor-link" href="#output-statement">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As you have noticed, auxiliary steps usually define its own <code>output</code> statement. This is because the step is triggered by <code>output</code> and has a default <code>output</code> statement</p>
+
+<pre><code>output:  __default_output__</code></pre>
+<p>where <code>__default_output__</code> is the matched target. You can cutomize the output of an auxiliary step by defining your own <code>output</code> statement. This technique is usually used for the generating of multiple output files.</p>
+<p>For example, in the following example, step <code>touch</code> is triggered three times for the generation of three targets.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="o">--</span><span class="n">off</span>
+
+<span class="p">[</span><span class="n">touch</span><span class="p">:</span> <span class="kp">provides</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;3.txt&#39;</span><span class="p">]]</span>
+<span class="kn">sh:</span>
+    <span class="n">echo</span> <span class="s2">&quot;Create ${output}&quot;</span>
+    <span class="n">touch</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span>
+
+<span class="p">[</span><span class="n">default</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="s1">&#39;1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;3.txt&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Create 3.txt
+Create 1.txt
+Create 2.txt
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can however design your auxiliary step to generate multiple outputs by specifying a different <code>output</code>:</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="o">%</span><span class="n">preview</span> <span class="o">--</span><span class="n">off</span>
+
+<span class="p">[</span><span class="n">touch</span><span class="p">:</span> <span class="kp">provides</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;3.txt&#39;</span><span class="p">]]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;step triggered by ${__default_output__}&quot;</span><span class="p">)</span>
+<span class="kn">output:</span> <span class="s1">&#39;1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;3.txt&#39;</span>
+<span class="kn">sh:</span>
+    <span class="n">echo</span> <span class="s2">&quot;Write A to ${output}&quot;</span>
+    <span class="n">touch</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="p">}</span>
+
+<span class="p">[</span><span class="n">default</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="s1">&#39;1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;3.txt&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>step triggered by 3.txt
+Write A to 1.txt 2.txt 3.txt
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this example, the <code>touch</code> step is triggered by one of the three files, but it produces three output files <code>1.txt</code>, <code>2.txt</code>, <code>3.txt</code>, and the <code>default</code> step will not look for steps to generate the other two files because they are already generated.</p>
 
 </div>
 </div>
