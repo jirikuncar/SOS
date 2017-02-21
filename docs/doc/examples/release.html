@@ -468,7 +468,7 @@ body {
   <div class="file-info">
       <a href="release" class="commit-tease-sha">release</a>
       <span class="file-info-divider"></span>
-    4.3 KiB
+    4.6 KiB
   </div>
   <div class="file-actions">
   </div>
@@ -671,6 +671,25 @@ sos convert <span class="si">${</span><span class="nv">_input</span><span class=
  
 </pre></div>
 
+<div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">convert</span><span class="o">-</span><span class="n">large</span><span class="o">-</span><span class="n">examples</span><span class="p">]</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">input:</span>  <span class="s1">&#39;../docs/src/examples/*/*.sos&#39;</span><span class="p">,</span> <span class="kp">group_by</span><span class="o">=</span><span class="mi">1</span>
+<span class="kn">output:</span> <span class="s2">&quot;../docs/doc/examples/${_input!db}/${_input!bn}.html&quot;</span>
+ 
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;../docs/doc/examples&#39;</span>
+</pre></div>
+
+<div class="source blob-code sos-script "><pre><span></span><span class="o">[</span> -d <span class="si">${</span><span class="nv">_input</span><span class="p">!db</span><span class="si">}</span> <span class="o">]</span> <span class="o">||</span> mkdir <span class="si">${</span><span class="nv">_input</span><span class="p">!db</span><span class="si">}</span>
+cp <span class="si">${</span><span class="nv">_input</span><span class="p">!a</span><span class="si">}</span> <span class="si">${</span><span class="nv">_input</span><span class="p">!db</span><span class="si">}</span>
+cp <span class="si">${</span><span class="nv">_input</span><span class="p">!da</span><span class="si">}</span>/README.md <span class="si">${</span><span class="nv">_input</span><span class="p">!db</span><span class="si">}</span>
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">_input</span><span class="p">!db</span><span class="si">}</span>
+sos convert <span class="si">${</span><span class="nv">_input</span><span class="p">!b</span><span class="si">}</span> <span class="si">${</span><span class="nv">_output</span><span class="p">!b</span><span class="si">}</span> --raw <span class="si">${</span><span class="nv">_input</span><span class="p">!b</span><span class="si">}</span>
+ 
+</pre></div>
+
 <div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">update</span><span class="o">-</span><span class="n">website</span><span class="p">]</span>
 </pre></div>
 
@@ -683,6 +702,7 @@ sos convert <span class="si">${</span><span class="nv">_input</span><span class=
 <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;convert-tutorials&#39;</span><span class="p">)</span>
 <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;convert-homepage&#39;</span><span class="p">)</span>
 <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;convert-examples&#39;</span><span class="p">)</span>
+<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;convert-large-examples&#39;</span><span class="p">)</span>
  
 </pre></div>
 
