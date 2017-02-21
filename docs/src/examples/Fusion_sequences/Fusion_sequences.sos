@@ -9,13 +9,17 @@
 [DNA]
 #
 # Get DNA sequence for a particular fusion candidate with parameter
-#  row:      a row from the oncofuse output.
+#  break_point:  break point in the format of chr1:pos1>chr2:pos2
+#  gene1:  5-prime gene
+#  gene2:  3-prime gene
 #  filename: a filename to write output
 #  lead:     length of left and right sequence around the breakpoint
 #
-parameter: row=None
-parameter: filename=str
-parameter: lead=int
+parameter: break_point = str
+parameter: gene1 = str
+parameter: gene2 = str
+parameter: filename = str
+parameter: lead = int
 
 break_point = row['GENOMIC']
 five_prime, three_prime = break_point.split('>')
@@ -24,7 +28,7 @@ three_chr, three_pos = three_prime.split(':')
 
 run: allow_error=True
     echo >> ${filename}
-    echo "==> ${row['5_FPG_GENE_NAME']} > ${row['3_FPG_GENE_NAME']}  ${row['GENOMIC']}" >> ${filename}
+    echo "==> ${gene1} > ${gene2}  ${break_point}" >> ${filename}
     vtools_report sequence ${five_chr}:${int(five_pos)-lead}-${five_pos} --zero-based\
          --mark ${five_chr}:${int(five_pos)-lead}-${five_pos} --marked-region -v0 >> ${filename}
     vtools_report sequence ${three_chr}:${three_pos}-${int(three_pos)+lead} --zero-based \
@@ -33,22 +37,23 @@ run: allow_error=True
 [RNA]
 #
 # Get RNA sequence for a particular fusion candidate with parameter
-#  row:      a row from the oncofuse output.
-#  filename: a filename to write output
-#  lead:     length of left and right sequence around the breakpoint
+#  break_point:  break point in the format of chr1:pos1>chr2:pos2
+#  gene1:  5-prime gene
+#  gene2:  3-prime gene
 #
-parameter: row=None
-parameter: filename=str
-parameter: lead=int
+parameter: break_point = str
+parameter: gene1 = str
+parameter: gene2 = str
+parameter: filename = str
+parameter: lead = int
 
-break_point = row['GENOMIC']
 five_prime, three_prime = break_point.split('>')
 five_chr, five_pos = five_prime.split(':')
 three_chr, three_pos = three_prime.split(':')
 
 run: allow_error=True
     echo >> ${filename}
-    echo "==> mRNA sequence (might be on reverse strand)"  >> ${filename}
+    echo "==> ${gene1} > ${gene2}  ${break_point}" >> ${filename}
     vtools_report sequence ${five_chr}:${int(five_pos)-lead}-${five_pos} --transcribe --zero-based \
         --first-transcript \
          --mark ${five_chr}:${int(five_pos)-lead}-${five_pos} --marked-region -v1 >> ${filename}
@@ -76,7 +81,8 @@ run:
 
 fusions = pd.read_csv(fusion_file, sep='\t')
 for idx, row in fusions.iterrows():
-    sos_run('DNA', row=row, filename=filename, lead=lead)
+    sos_run('DNA', break_point=row['GENOMIC'], gene1=row['5_FPG_GENE_NAME'], 
+		gene2=row['3_FPG_GENE_NAME'], filename=filename, lead=lead)
 
 [RNA_all]
 #
@@ -99,7 +105,8 @@ run:
 
 fusions = pd.read_csv(fusion_file, sep='\t')
 for idx, row in fusions.iterrows():
-    sos_run('RNA', row=row, filename=filename, lead=lead)
+    sos_run('RNA', break_point=row['GENOMIC'], gene1=row['5_FPG_GENE_NAME'], 
+		gene2=row['3_FPG_GENE_NAME'], filename=filename, lead=lead)
 
 [default]
 #
