@@ -18,10 +18,9 @@
 parameter: break_point = str
 parameter: gene1 = str
 parameter: gene2 = str
-parameter: filename = str
-parameter: lead = int
+parameter: filename = '/dev/stdout'
+parameter: lead = 50
 
-break_point = row['GENOMIC']
 five_prime, three_prime = break_point.split('>')
 five_chr, five_pos = five_prime.split(':')
 three_chr, three_pos = three_prime.split(':')
@@ -36,7 +35,7 @@ run: allow_error=True
 
 [RNA]
 #
-# Get RNA sequence for a particular fusion candidate with parameter
+#  Get RNA sequence for a particular fusion candidate with parameter
 #  break_point:  break point in the format of chr1:pos1>chr2:pos2
 #  gene1:  5-prime gene
 #  gene2:  3-prime gene
@@ -44,8 +43,8 @@ run: allow_error=True
 parameter: break_point = str
 parameter: gene1 = str
 parameter: gene2 = str
-parameter: filename = str
-parameter: lead = int
+parameter: filename = '/dev/stdout'
+parameter: lead = 50
 
 five_prime, three_prime = break_point.split('>')
 five_chr, five_pos = five_prime.split(':')
@@ -65,8 +64,8 @@ run: allow_error=True
 #
 # Print DNA sequence for all fusions in all fusion report files under current directory
 #
-parameter: filename=str
-parameter: lead=int
+parameter: filename = '/dev/stdout'
+parameter: lead = 50
 
 run:
     echo "DNA sequence (${lead} bp to the left and right of break point)" > ${filename}
@@ -80,7 +79,7 @@ run:
     echo "Sample ID: ${fusion_file!dd}" >> ${filename}
 
 fusions = pd.read_csv(fusion_file, sep='\t')
-for idx, row in fusions.iterrows():
+for idx, mow in fusions.iterrows():
     sos_run('DNA', break_point=row['GENOMIC'], gene1=row['5_FPG_GENE_NAME'], 
 		gene2=row['3_FPG_GENE_NAME'], filename=filename, lead=lead)
 
@@ -88,8 +87,8 @@ for idx, row in fusions.iterrows():
 #
 # Print RNA sequence for all fusions in all fusion report files under current directory
 #
-parameter: filename=str
-parameter: lead=int
+parameter: filename= '/dev/stdout'
+parameter: lead= 50
 
 run:
     echo "mRNA sequence (${lead} bp to the left and right of break point)" > ${filename}
