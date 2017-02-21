@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_python2 {background-color: #F6FAEA !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -179,7 +183,8 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -213,6 +218,7 @@ $( document ).ready(function(){
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -222,7 +228,8 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
@@ -257,6 +264,7 @@ $( document ).ready(function(){
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -266,7 +274,8 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
@@ -292,7 +301,7 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>I just slept 1.01 seconds
+<pre>I just slept 1.00 seconds
 </pre>
 </div>
 </div>
@@ -301,6 +310,7 @@ $( document ).ready(function(){
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -310,7 +320,8 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
@@ -330,6 +341,7 @@ $( document ).ready(function(){
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -368,10 +380,11 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -406,9 +419,11 @@ $( document ).ready(function(){
 </div>
 
 </div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -442,6 +457,7 @@ $( document ).ready(function(){
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -473,7 +489,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
@@ -494,7 +510,7 @@ $( document ).ready(function(){
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Failed to process statement &#39;bash(r&#34;&#34;&#34;&#34;&#34;&#34;, output=\&#39;a.txt\&#39;)\n&#39;: Target a.txt does not exist after execution of action
-Sandbox execution failed.</pre>
+</pre>
 </div>
 </div>
 
@@ -511,10 +527,11 @@ Sandbox execution failed.</pre>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -550,41 +567,11 @@ Sandbox execution failed.</pre>
 </div>
 </div>
 
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## %preview summary.md</font></pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> summary.md (33 B):</font></pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<p>Summary report</p>
-<p>this is step 10</p>
-</div>
-
-</div>
-
 </div>
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -614,10 +601,11 @@ Sandbox execution failed.</pre>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">seq</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -659,6 +647,7 @@ I am active at last group 4
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -677,10 +666,11 @@ I am active at last group 4
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span>
@@ -712,6 +702,7 @@ I am active at last group 4
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -836,10 +827,11 @@ is executed in a docker image. These options include</p>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">bash:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-n ${filename!q}&#39;</span>
@@ -851,6 +843,7 @@ is executed in a docker image. These options include</p>
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -860,10 +853,11 @@ is executed in a docker image. These options include</p>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">python:</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-m timeit ${script}&#39;</span>
@@ -882,7 +876,7 @@ is executed in a docker image. These options include</p>
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>10000 loops, best of 3: 31.2 usec per loop
+<pre>10000 loops, best of 3: 35 usec per loop
 </pre>
 </div>
 </div>
@@ -891,6 +885,121 @@ is executed in a docker image. These options include</p>
 </div>
 
 </div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="allow_error">allow_error<a class="anchor-link" href="#allow_error">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>allow_error</code> tells SoS that the action might fail but this should not stop the workflow from executing. This option essentially turns an error to a warning message and change the return value of action to <code>None</code>.</p>
+<p>For example, in the following example, the wrong shell script would stop the execution of the step so the following action is not executed.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+<span class="kn">run:</span> 
+    <span class="n">This</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">shell</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Step after run&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpi62wxece: line 1: This: command not found
+Failed to process statement run(r&#34;&#34;&#34;This is not shell\n&#34;&#34;&#34;)...fter run&#39;): Failed to execute script (ret=127). 
+Please use command
+    /bin/bash /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpzn3zpjx3/.sos/interactive_0_0
+under /private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpzn3zpjx3 to test it.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>but in this example, the error of <code>run</code> action is turned to a warning message and the later step would still be executed.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span> <span class="n">allow_error</span><span class="o">=</span><span class="bp">True</span>
+    <span class="n">This</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">shell</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Step after run&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpag5371q4: line 1: This: command not found
+<span class="ansi-magenta-intense-fg">WARNING</span>: <span class="ansi-magenta-intense-fg">Failed to execute script (ret=127). 
+Please use command
+    /bin/bash /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpzn3zpjx3/.sos/interactive_0_0
+under /Users/bpeng1/SOS/docs/src/documentation to test it.</span>
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Step after run
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
     </div>
   </div>
 </body>
