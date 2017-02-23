@@ -238,7 +238,16 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>### Check `$PATH`
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Check-$PATH">Check <code>$PATH</code><a class="anchor-link" href="#Check-$PATH">&#182;</a></h3>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -440,7 +449,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-on_host">Option <code>on_host</code><a class="anchor-link" href="#Option-on_host">&#182;</a></h3>
+<h3 id="Option-queue">Option <code>queue</code><a class="anchor-link" href="#Option-queue">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -449,9 +458,9 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you have set up a host in SoS configuration file propertly, you can use option <code>on_host</code> to specify the host on which the task will be executed.</p>
+<p>If you have set up a host in SoS configuration file propertly, you can use option <code>queue</code> to specify the host on which the task will be executed.</p>
 
-<pre><code>task:   on_host='monster'</code></pre>
+<pre><code>task:   queue='monster'</code></pre>
 <p>Here <code>monster</code> is the alias of the host.</p>
 
 </div>
@@ -462,7 +471,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Instead of using a configuration file to save configurations to all hosts, you can also specify all host related information in option <code>on_host</code> as a dictionary. This method is preferred by users who would like to keep everything in the script. A common usage pattern is to define all hosts in the global section of the script:</p>
+<p>Instead of using a configuration file to save configurations to all hosts, you can also specify all host related information in option <code>queue</code> as a dictionary. This method is preferred by users who would like to keep everything in the script. A common usage pattern is to define all hosts in the global section of the script:</p>
 <div class="highlight"><pre><span></span><span class="n">host1</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="s1">&#39;address-of-host1&#39;</span>
         <span class="s1">&#39;path_map&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;path1:remote_path1&#39;</span><span class="p">,</span>
@@ -472,7 +481,7 @@ hosts:
 <span class="n">host2</span> <span class="o">=</span> <span class="o">...</span>
 </pre></div>
 <p>and use the configurations as follows:</p>
-<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="n">host1</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">queue</span><span class="o">=</span><span class="n">host1</span><span class="p">,</span>
           <span class="kp">to_host</span><span class="o">=...</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=...</span>
 </pre></div>
 <p>Or even allows the specification of hosts from command line:</p>
@@ -484,8 +493,27 @@ hosts:
 <span class="kn">parameter:</span> <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
 
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="kn">task:</span>   <span class="kp">on_host</span><span class="o">=</span><span class="n">hosts</span><span class="p">[</span><span class="n">host</span><span class="p">]</span>
+<span class="kn">task:</span>   <span class="kp">queue</span><span class="o">=</span><span class="n">hosts</span><span class="p">[</span><span class="n">host</span><span class="p">]</span>
 </pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Command-line-option--q">Command line option <code>-q</code><a class="anchor-link" href="#Command-line-option--q">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Command line option <code>-q</code> specify a default task queue (or remote host) to which all tasks would be submitted. This option does not override <code>queue</code> options defined in the script so you can submit most jobs to a queue while submitting some jobs to particular servers (e.g. the one with specific software) using task options.</p>
 
 </div>
 </div>
@@ -517,7 +545,7 @@ hosts:
 
 <pre><code>[1]
 task: 
-    on_host: 'monster',
+    queue: 'monster',
     to_host: ['~/projects/data/test1', '/Volumes/Resources/hg19.fasta'],
     from_host: '~/projects/data/test1.res'
 run:
@@ -531,7 +559,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>input, dependent, and output files are automatically transferred</strong> so <code>to_host</code> and <code>from_host</code> are only needed to transfer files or directories in additional to step input and outputs. If there is any problem with file transfer, use option <code>-v3</code> to check if filenames are mapped correctly.</p>
+<p><strong>Input, dependent, and output files are automatically transferred</strong> so <code>to_host</code> and <code>from_host</code> are only needed to transfer files or directories in addition to step input and outputs. If there is any problem with file transfer, use option <code>-v3</code> to check if filenames are mapped correctly.</p>
 
 </div>
 </div>
@@ -582,7 +610,7 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and use variable <code>hg19_fasta</code> to point to fasta file on the remote host, you can add this variable to option <code>preserved_vars</code> so that its value will not be mapped during context switch:</p>
-<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">preserved_vars</span><span class="o">=</span><span class="s1">&#39;hg19_fasta&#39;</span>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">queue</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">preserved_vars</span><span class="o">=</span><span class="s1">&#39;hg19_fasta&#39;</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
         <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
@@ -615,7 +643,7 @@ run:
 <p>With all the pieces put together, you can now execute the task on the remote host using <code>task</code> options</p>
 <div class="highlight"><pre><span></span><span class="kn">depends:</span>  <span class="n">hg19_fasta</span><span class="p">,</span> <span class="n">hg19_genes_gtf</span>
 <span class="kn">output:</span>   <span class="s2">&quot;${hg19_star_index}/chrName.txt&quot;</span>
-<span class="kn">task:</span>     <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
+<span class="kn">task:</span>     <span class="kp">queue</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=</span><span class="n">hg19_star_index</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
         <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
@@ -663,7 +691,7 @@ run:
 <span class="kn">input:</span>    <span class="n">fastq_files</span>
 <span class="kn">output:</span>   <span class="s2">&quot;${output_dir}/tophat_main/alignments.bam&quot;</span>
 
-<span class="kn">task:</span>   <span class="kp">on_host</span><span class="o">=</span><span class="s1">&#39;linux&#39;</span><span class="p">,</span> <span class="kp">to_host</span><span class="o">=</span><span class="n">hg19_Bowtie2_index</span><span class="p">,</span>
+<span class="kn">task:</span>   <span class="kp">queue</span><span class="o">=</span><span class="s1">&#39;linux&#39;</span><span class="p">,</span> <span class="kp">to_host</span><span class="o">=</span><span class="n">hg19_Bowtie2_index</span><span class="p">,</span>
         <span class="kp">from_host</span><span class="o">=</span><span class="s2">&quot;${output_dir}/tophat_main&quot;</span><span class="p">,</span> <span class="kp">preserved_vars</span><span class="o">=</span><span class="s1">&#39;sample_name&#39;</span>
 
 <span class="n">R1</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">input</span> <span class="k">if</span> <span class="s1">&#39;_R1_&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
@@ -731,7 +759,7 @@ run:
 <li><p>Define options <code>send_cmd</code>, <code>received_cmd</code> and <code>execute_cmd</code> for your particular configuration. These variables should be defined with <code>${source}</code> and <code>${dest}</code> which will be replaced by source and destination filenames for each file.</p>
 </li>
 </ol>
-<p>Similar to options <code>path_map</code> and <code>shared</code>, these three options can be defined in configuration file or as keys to <code>on_host</code>.</p>
+<p>Similar to options <code>path_map</code> and <code>shared</code>, these three options can be defined in configuration file or as keys to <code>queue</code>.</p>
 
 </div>
 </div>

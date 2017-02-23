@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_python2 {background-color: #F6FAEA !important }.lan_python3 {background-color: #EAFAF1 !important }.lan_ir {background-color: #FDEDEC !important }.lan_bash {background-color: #E6EEFF !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -440,6 +444,62 @@ For example, command `perl --version` is executed in the following example to ch
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="sos_step-target"><code>sos_step</code> target<a class="anchor-link" href="#sos_step-target">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>sos_step</code> target represents, needless to say, a SoS step. This target provides a straightforward method to specify step dependencies. For example,</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">init</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Initialize&quot;</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">sos_step</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am ${step_name}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Initialize
+I am default_10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
