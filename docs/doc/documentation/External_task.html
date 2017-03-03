@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -165,7 +169,27 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><font color='red'>This document is still under development.</font></p>
+<p>A complex workflow usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them are time- and resource-consuming and are suited to be executed on dedicated servers or cluster systems. There are several approaches in running such workflows, namely,</p>
+<ol>
+<li><p>Execute the entire workflow on the cluster as a single multi-processing job. This is not idea because 1). you would have to allocate enough resource for the most CPU and RAM-demanging step and longest execution time for the most time-consuming step but these resources are not utilized most of the time, and 2). you are limiting yourself to a single node and cannot really execute the workflow in parallel.</p>
+</li>
+<li><p>Separate the workflow by steps and submit them as separate tasks to a queuing system. This approach allows better parallelization but it can be difficult and time consuming to execute a large number of small jobs, because these tasks might spend more time waiting than running.</p>
+</li>
+</ol>
+<p>SoS takes a different approach than most workflow systems in that</p>
+<ol>
+<li><p>It executes most or all steps directly. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph).</p>
+</li>
+<li><p>Part of the steps can be defined as <strong>tasks</strong> that are executed externally. The tasks can be executed locally as separate processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>. SoS can wait for the completion of the tasks or exits (default mode). The tasks could be executed and monitored independent of the workflows, and SoS can resume the execution of the workflow if it depends on the completion of some of the tasks.</p>
+</li>
+</ol>
+<p>This external execution model offers great flexibility in the execution of workflows. For example,</p>
+<ul>
+<li>You can execute a step on a remote server with more resource by specifying parameter <code>queue</code> of a single task.</li>
+<li>You can submit all tasks of a workflow to a cluster by specifying cluster name with the <code>-q</code> option of command <code>sos run</code>.</li>
+<li>You can submit part of the tasks to one machine, and part of the tasks to another task queue using the combination of task-specific option and global <code>-q</code> option.</li>
+<li>You can use SoS as a task-generation tool to generate a bunch of tasks, and send the tasks to different computer systems for execution. SoS automatically handles file synchronization so that you can easily move from one cluster to another cluster or another server.</li>
+</ul>
 
 </div>
 </div>
@@ -175,7 +199,16 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="External-task">External <code>task</code><a class="anchor-link" href="#External-task">&#182;</a></h2><p>If a job is long and time consuming, it is much preferred to submit them as separate tasks to be executed, for example, on a cluster system. These jobs should be specified using the <code>task</code> keyword, which marks the beginning of a task, with optional runtime options to control its execution. For example,</p>
+<h2 id="Specification-of-tasks">Specification of tasks<a class="anchor-link" href="#Specification-of-tasks">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If a job is long and time consuming, it is much preferred to submit them as separate tasks to be executed, for example, on a cluster system. These jobs should be specified using the <code>task</code> keyword, which marks the beginning of a task, with optional runtime options to control its execution. For example,</p>
 
 <pre><code>[10]
 input: group_by='single'
@@ -239,6 +272,285 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Common-host-configuration">Common host configuration<a class="anchor-link" href="#Common-host-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="alias"><code>alias</code><a class="anchor-link" href="#alias">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="address"><code>address</code><a class="anchor-link" href="#address">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="path_map"><code>path_map</code><a class="anchor-link" href="#path_map">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="shared"><code>shared</code><a class="anchor-link" href="#shared">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="send_cmd"><code>send_cmd</code><a class="anchor-link" href="#send_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="receive_cmd"><code>receive_cmd</code><a class="anchor-link" href="#receive_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="execute_cmd"><code>execute_cmd</code><a class="anchor-link" href="#execute_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Common-queue-configuration">Common queue configuration<a class="anchor-link" href="#Common-queue-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="queue_type"><code>queue_type</code><a class="anchor-link" href="#queue_type">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="status_check_interval"><code>status_check_interval</code><a class="anchor-link" href="#status_check_interval">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="max_running_jobs"><code>max_running_jobs</code><a class="anchor-link" href="#max_running_jobs">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="RQ-configuration">RQ configuration<a class="anchor-link" href="#RQ-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="redis_host"><code>redis_host</code><a class="anchor-link" href="#redis_host">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="redis_port"><code>redis_port</code><a class="anchor-link" href="#redis_port">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Celery-configuration">Celery configuration<a class="anchor-link" href="#Celery-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="broker"><code>broker</code><a class="anchor-link" href="#broker">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="backend"><code>backend</code><a class="anchor-link" href="#backend">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PBS/Torch-configuration">PBS/Torch configuration<a class="anchor-link" href="#PBS/Torch-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="job_template"><code>job_template</code><a class="anchor-link" href="#job_template">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="submit_cmd"><code>submit_cmd</code><a class="anchor-link" href="#submit_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="status_cmd"><code>status_cmd</code><a class="anchor-link" href="#status_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="kill_cmd"><code>kill_cmd</code><a class="anchor-link" href="#kill_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Template-variables-such-as-email">Template variables such as <code>email</code><a class="anchor-link" href="#Template-variables-such-as-email">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Resource-options">Resource options<a class="anchor-link" href="#Resource-options">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-walltime">Option <code>walltime</code><a class="anchor-link" href="#Option-walltime">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-nodes">Option <code>nodes</code><a class="anchor-link" href="#Option-nodes">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-ppn">Option <code>ppn</code><a class="anchor-link" href="#Option-ppn">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-mem">Option <code>mem</code><a class="anchor-link" href="#Option-mem">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Execution-options">Execution options<a class="anchor-link" href="#Execution-options">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-queue">Option <code>queue</code><a class="anchor-link" href="#Option-queue">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-workdir">Option <code>workdir</code><a class="anchor-link" href="#Option-workdir">&#182;</a></h3><p>Default to current working directory.</p>
 <p>Option <code>workdir</code> controls the working directory of the process. For example, the following step downloads a file to the <code>resource_dir</code> using command <code>wget</code>.</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -286,7 +598,110 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-walltime">Option <code>walltime</code><a class="anchor-link" href="#Option-walltime">&#182;</a></h3>
+<h3 id="Option-active">Option <code>active</code><a class="anchor-link" href="#Option-active">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Commands-and-Options">Commands and Options<a class="anchor-link" href="#Commands-and-Options">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-run--q"><code>sos run -q</code><a class="anchor-link" href="#sos-run--q">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-status"><code>sos status</code><a class="anchor-link" href="#sos-status">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>sos status -q</code></p>
+<p><code>sos status -v 3</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-kill"><code>sos kill</code><a class="anchor-link" href="#sos-kill">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>sos kill -q</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-execute"><code>sos execute</code><a class="anchor-link" href="#sos-execute">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>sos execute -q</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Remote-execution">Remote execution<a class="anchor-link" href="#Remote-execution">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="PBS-Cluster">PBS Cluster<a class="anchor-link" href="#PBS-Cluster">&#182;</a></h3>
 </div>
 </div>
 </div>

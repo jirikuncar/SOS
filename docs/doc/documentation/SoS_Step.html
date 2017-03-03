@@ -1166,6 +1166,37 @@ group_by=combinations
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>The dictionary syntax also supports multiple keys. This helps customizing groups of variables. For example in the script below we only care for situations where <code>n</code> is greater than <code>p</code>,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">touch</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">parameter:</span> <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">outfile</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;3.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;4.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;5.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;6.txt&#39;</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;a.txt&#39;</span><span class="p">,</span> <span class="kp">for_each</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_n,_p&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="n">_n</span><span class="p">,</span><span class="n">_p</span><span class="p">)</span> <span class="k">for</span> <span class="n">_n</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">_p</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">if</span> <span class="n">_n</span> <span class="o">&gt;</span> <span class="n">_p</span><span class="p">]}</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;${_index} ${outfile[_index]} ${_n} ${_p}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-paired_with">Option <code>paired_with</code><a class="anchor-link" href="#Option-paired_with">&#182;</a></h3>
 </div>
 </div>
