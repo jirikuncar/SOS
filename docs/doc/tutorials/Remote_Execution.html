@@ -288,11 +288,11 @@ $( document ).ready(function(){
 <pre><code>% sos config --global --set hosts.monster.address dcdrlue8ee.yourdomain.com</code></pre>
 <p>where <code>monster</code> is a short alias and <code>dcdrlue8ee.yourdomain.com</code> is the complete address.</p>
 <p>This commands writes to <code>~/.sos/config.yml</code> the following entry</p>
-<div class="highlight"><pre><span></span>$ cat ~/.sos/config.yml
+
+<pre><code>yml
 hosts:
   monster:
-    address: dcdrlue8ee.yourdomain.com
-</pre></div>
+    address: dcdrlue8ee.yourdomain.com</code></pre>
 <p>You can write to this file directly if you are familiar with YML format.</p>
 <p>If your account name differs between the local and remote servers, the complete address should be <code>username@address</code>. In this example <code>john@dcdrlue8ee.yourdomain.com</code> if the remote server account is <code>john</code>.</p>
 
@@ -325,7 +325,7 @@ hosts:
 </pre></div>
 <p>This command will write the following entries to the configuration file</p>
 
-<pre><code>$ cat ~/.sos/config.yml
+<pre><code>yml
 hosts:
   monster:
     address: dcdrlue8ee.yourdomain.com
@@ -404,7 +404,8 @@ hosts:
 <p>The server settings are critically important for the successful execution of commands on remote servers. As an example, I am working on a Mac mini (with limited CPU/RAM) and have access to a Mac Pro workstation and a Linux server, and I use Google Drive to store scripts that shared by the Mac mini and the Mac Pro workstation.</p>
 <p>The hosts configurations for these two machines are</p>
 
-<pre><code>hosts:
+<pre><code>yml
+hosts:
   macpro:
     address: mp-bpeng.mdanderson.edu
     path_map:
@@ -460,7 +461,8 @@ hosts:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you have set up a host in SoS configuration file propertly, you can use option <code>queue</code> to specify the host on which the task will be executed.</p>
 
-<pre><code>task:   queue='monster'</code></pre>
+<pre><code>yml
+task:   queue='monster'</code></pre>
 <p>Here <code>monster</code> is the alias of the host.</p>
 
 </div>
@@ -542,14 +544,14 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>[1]
-task: 
-    queue: 'monster',
-    to_host: ['~/projects/data/test1', '/Volumes/Resources/hg19.fasta'],
-    from_host: '~/projects/data/test1.res'
-run:
-    echo "Hello, World"</code></pre>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="kn">task:</span> 
+    <span class="kp">queue</span><span class="p">:</span> <span class="s1">&#39;monster&#39;</span><span class="p">,</span>
+    <span class="kp">to_host</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;~/projects/data/test1&#39;</span><span class="p">,</span> <span class="s1">&#39;/Volumes/Resources/hg19.fasta&#39;</span><span class="p">],</span>
+    <span class="kp">from_host</span><span class="p">:</span> <span class="s1">&#39;~/projects/data/test1.res&#39;</span>
+<span class="kn">run:</span>
+    <span class="n">echo</span> <span class="s2">&quot;Hello, World&quot;</span>
+</pre></div>
 
 </div>
 </div>
@@ -579,16 +581,16 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Each task has a <em>context</em> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task using local paths, and <strong>define variables for all paths that would differ between local and remote hosts</strong>. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
-
-<pre><code>depends:      hg19_fasta
-run:
-    STAR \
-        --runThreadN 8 \
-        --runMode genomeGenerate \
-        --genomeDir ${hg19_star_index} \
-        --genomeFastaFiles ${hg19_fasta} \
-        --sjdbGTFfile ${hg19_genes_gtf} \
-        --sjdbOverhang 100</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">depends:</span>      <span class="n">hg19_fasta</span>
+<span class="kn">run:</span>
+    <span class="n">STAR</span> \
+        <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
+        <span class="o">--</span><span class="n">runMode</span> <span class="n">genomeGenerate</span> \
+        <span class="o">--</span><span class="n">genomeDir</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_star_index</span><span class="p">}</span> \
+        <span class="o">--</span><span class="n">genomeFastaFiles</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_fasta</span><span class="p">}</span> \
+        <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
+        <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
+</pre></div>
 <p>where  <code>hg19_fasta</code>, <code>hg19_genes_gtf</code> and <code>hg19_star_index</code> are variables pointing to input and output files of this process.</p>
 <p><strong>SoS will by default translate all variables (of type string and list of strings) as if they are local paths</strong>. In this case, all three variables will be translated to remote paths during remote execution. You can view details of variable translation using option <code>-v3</code> (debug output).</p>
 
@@ -725,41 +727,6 @@ run:
 <li>Start the bash script in the docker container.</li>
 </ol>
 <p>With this setup, everything is provided and specified by the local host. The server does not have to have any data and software installed so you are free to make use of any server with docker installed.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Advanced-usages">Advanced usages<a class="anchor-link" href="#Advanced-usages">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Configure-send_cmd,-received_cmd,-and-execute_cmd">Configure <code>send_cmd</code>, <code>received_cmd</code>, and <code>execute_cmd</code><a class="anchor-link" href="#Configure-send_cmd,-received_cmd,-and-execute_cmd">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS uses <code>rsync</code> command to exchange files between hosts, and use <code>ssh</code> to execute command. If the default commands do not work for your configuration (e.g. if you do not have <code>rsync</code> and need to use <code>scp</code>, you can</p>
-<ol>
-<li><p>Use option <code>-v3</code> to display the exact command used to transfer files and execute commands.</p>
-</li>
-<li><p>Define options <code>send_cmd</code>, <code>received_cmd</code> and <code>execute_cmd</code> for your particular configuration. These variables should be defined with <code>${source}</code> and <code>${dest}</code> which will be replaced by source and destination filenames for each file.</p>
-</li>
-</ol>
-<p>Similar to options <code>path_map</code> and <code>shared</code>, these three options can be defined in configuration file or as keys to <code>queue</code>.</p>
 
 </div>
 </div>

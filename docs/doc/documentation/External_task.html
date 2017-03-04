@@ -290,7 +290,32 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><code>alias</code> is the alias of the host and is used to identify a host. The hosts are usually defined in <code>config.yml</code> under <code>hosts</code> as a list of aliases.</p>
+
+<pre><code>hosts:
+    alias:
+        address: username@url.com</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="address"><code>address</code><a class="anchor-link" href="#address">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>IP address or URL to the remote host. Name <code>localhost</code> can be used for localhost. If you have a different user name on the the remote host, specify the <code>address</code> in the format of <code>username@hostaddress</code>.</p>
+<p>Note that SoS does not support username/password authentication and you will have to set up public key authentication between local and remote hosts to  communicate with remote host.</p>
+
 </div>
 </div>
 </div>
@@ -308,7 +333,59 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><code>path_map</code> is a list of directory mappings between local and remote directories. Paths in a <code>path_map</code> should be absolute path and a local path will be converted to absolute path before mapping. For example, a <code>path_map</code></p>
+
+<pre><code>/Users/myuser/:/home/myuser/</code></pre>
+<p>would map <code>test/a.txt</code> under home directory to <code>/home/myuser/test/a.txt</code>, and map <code>/Users/myuser/resources</code> to <code>/home/myuser/resources</code>.</p>
+<p>Multiple <code>path_map</code> could be defined and a path is mapped by the first matching <code>path_map</code>. For example,</p>
+
+<pre><code>/Users/myuser/projects/:/home/myuser/scratch/projects/
+/Users/myuser:/home/myuser</code></pre>
+<p>will map <code>/Users/myuser/projects/input.fastq</code> to <code>/home/myuser/scratch/projects/input.fastq</code>, and <code>/users/myuser/a.txt</code> to <code>/home/myuser/a.txt</code>.</p>
+<p>The order of the map is significant and the second <code>path_map</code> in the following configuration will be ignored because it is shadowed by the first one.</p>
+
+<pre><code>/Users/myuser:/home/myuser
+/Users/myuser/projects/:/home/myuser/scratch/projects/</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="shared"><code>shared</code><a class="anchor-link" href="#shared">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>shared</code> tells SoS which file systems are shared between local and remote hosts so that it does not have to synchronize files under these directories between the hosts.</p>
+<ul>
+<li><p>SoS assumes independent file systems so you do not have to specify option <code>shared</code> if the local and remote hosts does not share any file system.</p>
+</li>
+<li><p>If your local and remote host share all file systems, you should use command</p>
+<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /
+</pre></div>
+<p>to indicate that the root directory is shared so no cross-network copy is needed.</p>
+</li>
+<li><p>If your local and remote host share one or more shared volumes, you can specify them with command</p>
+<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /projects /data
+</pre></div>
+<p>to indicate that files under these directories are available on the remote host.</p>
+</li>
+</ul>
+<p>Shared file systems do not have to be mounted at the same locations. For example, a local file system <code>/projects</code> might be available at the remote host under <code>/scratch/projects</code>. In this case, you should</p>
+<ul>
+<li>Set <code>/projects</code> as <code>shared</code> so that files under <code>/projects</code> will not be copied.</li>
+<li>Set <code>/projects:/scratch/projects</code> in <code>path_map</code> so that the path can be correctly translated between local and remote hosts.</li>
+</ul>
+<p>It is important to remember that <strong>SoS does not copy files under shared directories</strong>. If the local and remote host share a file system but you really would like to copy files to a differenet directory, you can ignore the <code>shared</code> option and let SoS copy files as if they are separate file systems.</p>
+
 </div>
 </div>
 </div>
@@ -326,6 +403,17 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS uses <code>rsync</code> command to exchange files between hosts, and use <code>ssh</code> to execute command. If the default commands do not work for your configuration (e.g. if you do not have <code>rsync</code> and need to use <code>scp</code>, you can define options <code>send_cmd</code> (and <code>received_cmd</code> and <code>execute_cmd</code>) for your particular configuration. These variables should be defined with <code>${source}</code> and <code>${dest}</code> which will be replaced by source and destination filenames for each file.</p>
+<p>It is rather tricky to define <code>send_cmd</code> for all scenarios (files, directories, missing directory on remote host) so it is usually easier to install <code>rsync</code> and use system default <code>send_cmd</code> than defining <code>send_cmd</code> by youself.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="receive_cmd"><code>receive_cmd</code><a class="anchor-link" href="#receive_cmd">&#182;</a></h3>
 </div>
 </div>
@@ -335,7 +423,27 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Command to receive files from remote server. It is usually easier to install <code>rsync</code> than defining this option.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="execute_cmd"><code>execute_cmd</code><a class="anchor-link" href="#execute_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Command to execute a command on remote host. The default value should work in almost all cases.</p>
+
 </div>
 </div>
 </div>
@@ -362,6 +470,22 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>query_type</code> determines the type of remote server or job queue. SoS currently supports the following types of job queues:</p>
+<ol>
+<li><strong><code>process</code></strong>: this is the default queue type. Tasks are executed directly, either on local host or on a server. The maximum number of concurrent processes are controlled by option <code>max_running_jobs</code>.</li>
+<li><strong><code>pbs</code></strong>: A PBS/MOAB cluster system where tasks are submitted using commands such as <code>qsub</code>.</li>
+<li><strong><code>rq</code></strong>: A redis queue where tasks are submitted to the rq server and monitored through rq-dashboard.</li>
+<li><strong><code>celery</code></strong>: A celery queue where tasks are submitted to the celery server and monitored through celery's flower module</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="status_check_interval"><code>status_check_interval</code><a class="anchor-link" href="#status_check_interval">&#182;</a></h3>
 </div>
 </div>
@@ -371,7 +495,53 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Frequency of checking status of jobs. This is set by default to 2 seconds for <code>process</code> queue type, and <code>10</code> seconds for all other types. This number should be set to at least <code>60</code> for remote servers and longer jobs because checking remote job status involves logging to the remote server and executing a <code>sos status</code> command.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="max_running_jobs"><code>max_running_jobs</code><a class="anchor-link" href="#max_running_jobs">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Maximum number of running jobs. This setting controls how SoS releases tasks to job queues and is independent of possible maximum running job settings of individual task queues.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Arbitrary-key-value-pairs">Arbitrary key value pairs<a class="anchor-link" href="#Arbitrary-key-value-pairs">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can define arbitrary key value pairs in the host configuration. These variables could be used for the interpolation of commands and templates. For example, if you define</p>
+
+<pre><code>yml
+queue: long</code></pre>
+<p>You could use</p>
+<div class="highlight"><pre><span></span><span class="c1">#PBS -q ${queue}</span>
+</pre></div>
+<p>in your PBS job templates (configuration <code>template_file</code> or <code>job_template</code>).</p>
+
 </div>
 </div>
 </div>
@@ -398,7 +568,27 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Address of the redis server, default to <code>localhost</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="redis_port"><code>redis_port</code><a class="anchor-link" href="#redis_port">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Port of the redis server, default to <code>6379</code>.</p>
+
 </div>
 </div>
 </div>
@@ -420,6 +610,19 @@ res = some_action()</code></pre>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="sb">`broker`</span> <span class="n">configuration</span> <span class="n">of</span> <span class="n">celery</span> <span class="n">app</span><span class="o">.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -429,12 +632,72 @@ res = some_action()</code></pre>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="sb">`backend`</span> <span class="n">configuration</span> <span class="n">of</span> <span class="n">the</span> <span class="n">celery</span> <span class="n">app</span><span class="o">.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="PBS/Torch-configuration">PBS/Torch configuration<a class="anchor-link" href="#PBS/Torch-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="template_file"><code>template_file</code><a class="anchor-link" href="#template_file">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>template_file</code> should point to the location of a template file (available locally, not on remote host) that will be used to generate a shell script that will be submitted to the PBS system. A typical template would look like</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#PBS -N ${task}</span>
+<span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
+<span class="c1">#PBS -l walltime=${walltime}</span>
+<span class="c1">#PBS -l mem=${mem}</span>
+<span class="c1">#PBS -o ${task}.out</span>
+<span class="c1">#PBS -e ${task}.err</span>
+<span class="c1">#PBS -q long</span>
+<span class="c1">#PBS -m ae</span>
+<span class="c1">#PBS -M your@email.address</span>
+<span class="c1">#PBS -v ${cur_dir}</span>
+
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">cur_dir</span><span class="si">}</span>
+
+sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span>
+</pre></div>
+<p>The template file will be interpolated with the following information</p>
+<ul>
+<li><code>task</code>: task id</li>
+<li><code>nodes</code>, <code>ppn</code>, <code>walltime</code>, <code>mem</code>: resource task options</li>
+<li><code>cur_dir</code>: translated current project directory</li>
+<li><code>verbosity</code> and <code>sig_mode</code>: sos run mode.</li>
+</ul>
+<p>Note that</p>
+<ol>
+<li>You will need to specify all resource options (<code>nodes</code>, <code>ppn</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the template file.</li>
+<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different template files. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster.</li>
+</ol>
+
 </div>
 </div>
 </div>
@@ -452,7 +715,32 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><code>job_template</code> should be the content of the template file if you prefer listing the content directly in the config file, and happen to know how to specify multi-line strings in YAML format.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="submit_cmd"><code>submit_cmd</code><a class="anchor-link" href="#submit_cmd">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A <code>submit_cmd</code> template is the command that will be executed to submit the job. It accepts the same set of variables as <code>job_template</code>, with an additional variable <code>job_file</code> pointing to the location of the job file on the remote host. The <code>submit_cmd</code> is usually as simple as</p>
+<div class="highlight"><pre><span></span>qsub <span class="si">${</span><span class="nv">job_file</span><span class="si">}</span>
+</pre></div>
+<p>but you could specify some options from command line instead of the job file and define <code>submit_cmd</code> as</p>
+<div class="highlight"><pre><span></span>msub -l <span class="si">${</span><span class="nv">walltime</span><span class="si">}</span> &lt; <span class="si">${</span><span class="nv">job_file</span><span class="si">}</span>
+</pre></div>
+
 </div>
 </div>
 </div>
@@ -470,6 +758,19 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>A command to query the status of a submitted task. For a standard PBS system, this option could be</p>
+
+<pre><code>qstat ${job_id}</code></pre>
+<p>where <code>job_id</code> is the output of command <code>submit_cmd</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="kill_cmd"><code>kill_cmd</code><a class="anchor-link" href="#kill_cmd">&#182;</a></h3>
 </div>
 </div>
@@ -479,7 +780,11 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Template-variables-such-as-email">Template variables such as <code>email</code><a class="anchor-link" href="#Template-variables-such-as-email">&#182;</a></h3>
+<p>A command to kill a submitted job on the cluster. For a standard PBS system, this option could be</p>
+
+<pre><code>qdel ${job_id}</code></pre>
+<p>where <code>job_id</code> is the output of command <code>submit_cmd</code>.</p>
+
 </div>
 </div>
 </div>
@@ -497,7 +802,31 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>The resource options will be sent to individual task queues in appropriate format. You do not have to specify all options because task queues can support a subset of these options and some task queues provide default values (and some do not). It is however generally a good idea to specify them all so that your tasks could be executed on all types of task queues.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-walltime">Option <code>walltime</code><a class="anchor-link" href="#Option-walltime">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Estimated maximum running time of the task. This parameter will be sent to different task queues and it is up to the task queue to decide if the task would be killed if the task could not be completed within specified <code>walltime</code>. <code>walltime</code> could be specified</p>
+<ol>
+<li>As an integer number (in seconds).</li>
+<li>As a string in the format of <code>HH:MM:SS</code> where <code>HH</code>, <code>MM</code> and <code>SS</code> are hours, minutes, and seconds. For example, you could use <code>walltime=240:00:00</code> for a job that would run 10 days.</li>
+</ol>
+
 </div>
 </div>
 </div>
@@ -515,6 +844,16 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Number of computing nodes requested.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-ppn">Option <code>ppn</code><a class="anchor-link" href="#Option-ppn">&#182;</a></h3>
 </div>
 </div>
@@ -524,7 +863,27 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Number of processes on each computing node.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-mem">Option <code>mem</code><a class="anchor-link" href="#Option-mem">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (mem=4000MB) or gigabytes (mem=4GB). This option can be specified as a number (bytes) or string such as <code>4GB</code>.</p>
+
 </div>
 </div>
 </div>
@@ -551,6 +910,42 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>queue</code> specifies a task queue to which the current task will be submitted. This option overrides system default (command line option <code>-q</code>) so it is generally a good idea to use command line option <code>-q</code> so that the task could be submitted to different task queues, unless the task has to be executed in a particular server (e.g. with a software that is unavailable elsewhere).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-preserved_vars">Option <code>preserved_vars</code><a class="anchor-link" href="#Option-preserved_vars">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All variables in the task context environment, including implicit SoS variables such as <code>_input</code> and <code>_output</code> are automatically translated if they are string or sequence of strings (list, tuple etc). This would however translate variables such as <code>sample_name</code> with value <code>my_sample</code> to something like <code>/home/myuser/project/my_sample</code>. It is therefore important for you to identify all variables that should be preserved during context-switching in the option <code>preserved_vars</code>.</p>
+<p>This variables takes a list of variable names, but a string can be specified if there is only one name. That is to say, both</p>
+
+<pre><code>preserved_vars='sample_name'</code></pre>
+<p>or</p>
+
+<pre><code>preserved_vars=['sample_name', 'title']</code></pre>
+<p>are acceptable.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-workdir">Option <code>workdir</code><a class="anchor-link" href="#Option-workdir">&#182;</a></h3><p>Default to current working directory.</p>
 <p>Option <code>workdir</code> controls the working directory of the process. For example, the following step downloads a file to the <code>resource_dir</code> using command <code>wget</code>.</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -559,6 +954,7 @@ res = some_action()</code></pre>
 
   <span class="n">wget</span> <span class="n">a_url</span> <span class="o">-</span><span class="n">O</span> <span class="n">filename</span>
 </pre></div>
+<p>Runtime option <code>workdir</code> will be translated to remote host if the task is executed remotely.</p>
 
 </div>
 </div>
@@ -569,12 +965,13 @@ res = some_action()</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-concurrent">Option <code>concurrent</code><a class="anchor-link" href="#Option-concurrent">&#182;</a></h3><p>Default to <code>False</code>.</p>
-<p>If the step process is repeated for different input files or parameters (using input options <code>group_by</code> or <code>for_each</code>), the loop process can be execute in parallel, up to the maximum number of concurrent jobs specified by command line option <code>-j</code>.</p>
+<p>If the step process is repeated for different input files or parameters (using input options <code>group_by</code> or <code>for_each</code>), the loop process can be execute in parallel, up to the maximum number of concurrent jobs specified by <code>max_running_jobs</code> option of the task queue.</p>
 <h3 id="Option-env">Option <code>env</code><a class="anchor-link" href="#Option-env">&#182;</a></h3><p>The <code>env</code> option allow you to modify runtime environment, similar to the <code>env</code> parameter of the <code>subprocess.Popen</code> function. For example, you can execute your command with in a specific directory using</p>
-
-<pre><code>task:  env={'PATH': '/path/to/mycommand' + os.sep + os.environ['PATH']}
-run:
-   mycommand</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>  <span class="kp">env</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/mycommand&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]}</span>
+<span class="kn">run:</span>
+   <span class="n">mycommand</span>
+</pre></div>
+<p>Option <code>env</code> is NOT translated to remote host because it is of type directionay.</p>
 
 </div>
 </div>
@@ -585,10 +982,11 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-prepend_path">Option <code>prepend_path</code><a class="anchor-link" href="#Option-prepend_path">&#182;</a></h3><p>Option <code>prepend_path</code> is a shortcut to option <code>env</code> to prepend one (a string) or more (a list of strings) paths to system path. For example, the above example can be shortened to</p>
-
-<pre><code>task:  prepend_path='/path/to/mycommand'
-run:
-   mycommand</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">task:</span>  <span class="kp">prepend_path</span><span class="o">=</span><span class="s1">&#39;/path/to/mycommand&#39;</span>
+<span class="kn">run:</span>
+   <span class="n">mycommand</span>
+</pre></div>
+<p>Option <code>prepend_path</code> is NOT translated to remote host because it is likely to be host specific.</p>
 
 </div>
 </div>
@@ -599,6 +997,16 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-active">Option <code>active</code><a class="anchor-link" href="#Option-active">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>active</code> specifies the active task within a input loop. It should be an index or a list of indexes when the task will be executed. Negative index is acceptable (e.g. task for only the last input loop will be executed with <code>active=-1</code>).</p>
+
 </div>
 </div>
 </div>
@@ -625,6 +1033,22 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>-q</code> option of command <code>sos run</code> (or <code>sos-runner</code>) sets the default task queue for all tasks. For example,</p>
+<div class="highlight"><pre><span></span>sos run myscript -q shark
+</pre></div>
+<p>would send all tasks in workflow <code>default</code> defined in <code>myscript.sos</code> to a task queue <code>shark</code>, with detailed information about <code>shark</code> defined in either global <code>~/.sos/config.yml</code> or local (<code>./config.yml</code>) formats. You can also save configurations to other configuration files and specify them using option <code>-c</code>. E.g.</p>
+<div class="highlight"><pre><span></span>sos run myscript -q shark -c shark.yml
+</pre></div>
+<p>Note that this option does not override option <code>queue</code> of steps so you could send some tasks to specific queues and all others to the default queue.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="sos-status"><code>sos status</code><a class="anchor-link" href="#sos-status">&#182;</a></h3>
 </div>
 </div>
@@ -634,8 +1058,49 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>sos status -q</code></p>
-<p><code>sos status -v 3</code></p>
+<p>Command</p>
+<div class="highlight"><pre><span></span>sos status <span class="o">[</span>tasks<span class="o">]</span> -q query
+</pre></div>
+<p>checkes the status of tasks. You can specify any number of first characeters of a task to specify a task, for example,</p>
+<div class="highlight"><pre><span></span>sos task <span class="m">7</span>
+sos task 77e
+sos task 7736e
+</pre></div>
+<p>would all work for a task with ID <code>77e36e7404cf6c2ef7079a09e84a4d6d</code>, but multiple tasks could be identifies if they share the same leading digits. Actually,</p>
+
+<pre><code>sos task</code></pre>
+<p>would match all tasks and list the status of all local tasks.</p>
+<p>Option <code>-q</code> specifies the task queue to monitor. It will login to a remote host if the tasks are executed on a remote server. For example,</p>
+
+<pre><code>sos status -q docker</code></pre>
+<p>would check the status of all tasks on a remote host <code>docker</code>.</p>
+<p>Option <code>-v</code> controls the details of the output of command <code>sos status</code>. For example,</p>
+
+<pre><code>sos status e7404cf6c2 -v0</code></pre>
+<p>would print just the status of the task (e.g. <code>running</code>).</p>
+
+<pre><code>sos task 77e -v1</code></pre>
+<p>would print the task id and their status</p>
+
+<pre><code>77e36e7404cf6c2ef7079a09e84a4d6d    running
+77e3c2ef7079a236e7404cf6c2f343d3    completed</code></pre>
+<p>Option <code>-v0</code> and <code>-v1</code> could check the status of multiple tasks, as realized by SoS. Some tasks queues have their own task status command and option <code>-v2</code> (and upper) will use these commands (if specified) to check the status of the jobs. That is to say</p>
+<div class="highlight"><pre><span></span>sos task 77e36 -v2
+</pre></div>
+<p>might return output of a command</p>
+
+<pre><code>qstat 18433 -q shark</code></pre>
+<p>if the task has been submitted to a cluster named <code>shark</code> with a job id <code>18433</code>.</p>
+<p>If you would like to know more about the tasks,</p>
+<div class="highlight"><pre><span></span>sos task 77e36 -v3
+</pre></div>
+<p>would list the script the task is running and all variables in abbreviated format, and</p>
+<div class="highlight"><pre><span></span>sos task 77e36 -v4
+</pre></div>
+<p>would list all variables in complete form.</p>
+<p>Finally, using <code>-q</code> in combination with <code>-v</code> allows you to list the variables used in remote server.</p>
+<div class="highlight"><pre><span></span>sos task 77e36 -v4 -q linux
+</pre></div>
 
 </div>
 </div>
@@ -654,7 +1119,10 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>sos kill -q</code></p>
+<p>Command</p>
+<div class="highlight"><pre><span></span>sos <span class="nb">kill</span> <span class="o">[</span>tasks<span class="o">]</span> <span class="o">[</span>-q queue<span class="o">]</span>
+</pre></div>
+<p>kills specified or all tasks on specified job queue <code>queue</code>. Because the same job could be executed on different queues (you have have done so), you will have to specify the correct queue name to kill the job on different queues.</p>
 
 </div>
 </div>
@@ -673,7 +1141,14 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>sos execute -q</code></p>
+<p>Command</p>
+
+<pre><code>`
+sos execute [tasks] [-q queue]</code></pre>
+<p>is the command that is used internally by <code>sos run</code> to execute tasks but you could use this command to execute tasks externally. For example, if a task failed on a server, you could use command</p>
+
+<pre><code>sos execute task_id -q server</code></pre>
+<p>to execute the command on another server. Note that <code>task_id</code> specifies a local task with local paths. The task will be converted to a remote task (with path names converted for that host) if <code>server</code> specifies a remote host. This makes it easy for you to re-submit tasks to the same server after changing server configuration, or submit the same task to a different server.</p>
 
 </div>
 </div>
@@ -705,18 +1180,95 @@ run:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Host-configuration">Host configuration<a class="anchor-link" href="#Host-configuration">&#182;</a></h4><p><code>~/.sos/config.yml</code></p>
+
+<pre><code>yml
+hosts:
+  nautilus:
+    address: mdarisngc03.mdanderson.edu
+    path_map:
+    - /Users/bpeng1:/scratch/bcb/bpeng1
+    queue_type: pbs
+    status_check_interval: 30
+    template_file: ~/.sos/HPC.tmpl
+    max_running_jobs: 100
+    submit_cmd: msub ${job_file}
+    status_cmd: qstat ${job_id}
+    kill_cmd: qdel ${job_id}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Job-template">Job template<a class="anchor-link" href="#Job-template">&#182;</a></h4><p><code>~/.sos/HPC.tmpl:</code></p>
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#PBS -N ${task}</span>
+<span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
+<span class="c1">#PBS -l walltime=${walltime}</span>
+<span class="c1">#PBS -l mem=${mem}</span>
+<span class="c1">#PBS -o ${cur_dir}/${task}.out</span>
+<span class="c1">#PBS -e ${cur_dir}/${task}.err</span>
+<span class="c1">#PBS -m ae</span>
+<span class="c1">#PBS -M bpeng@mdanderson.org</span>
+<span class="c1">#PBS -v ${cur_dir}</span>
+
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">cur_dir</span><span class="si">}</span>
+
+sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span>
 </pre></div>
 
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Test-script">Test script<a class="anchor-link" href="#Test-script">&#182;</a></h4>
+<pre><code>[10]
+input: for_each={'tid': range(10) }
 
+task: concurrent=True, walltime='00:20:00', mem='100M', nodes=1, ppn=1
+
+run:
+    echo I am task ${tid}
+    sleep ${60  * (tid + 1)}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Commands">Commands<a class="anchor-link" href="#Commands">&#182;</a></h4>
+<pre><code>sos run test -q nautilus
+sos status -q nautilus
+sos kill cb1 -q nautilus</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It can be tricky to get everything working but you only need to do this once for each server or task queue that you would like to use. After that, you are free to submit your tasks to any of the servers without worrying about different file systems, task queues etc.</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>
