@@ -168,11 +168,11 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS allows you to execute tasks on remote hosts with or without their own file systems. For example, you can execute a complex workflow mostly locally, but execute a few jobs on a remote host if it provides more computing power, or if it has some software that cannot be installed locally. The remote host could have its own file system (separate systems), share its file system with the local machine (e.g. nodes on the cluster), or share some storage with the local machine (e.g. have the same shared storage), so file synchronization will be needed in some cases.</p>
+<p>SoS allows you to execute tasks on remote hosts or task queues with or without their own file systems. For example, you can execute a complex workflow mostly locally, but execute a few tasks on a remote host if it provides more computing power, or if it has some software that cannot be installed locally. The remote host could have its own file system (separate systems), share its file system with the local machine (e.g. nodes on the cluster), or share some storage with the local machine (e.g. have the same shared storage), so file synchronization will be needed in some cases.</p>
 <p>With help from a few runtime options (options to <code>task</code>), SoS can</p>
 <ul>
 <li>Copy specified local files to the remote host, possibly to different directories</li>
-<li>Start a SoS task on the remote machine and wait for the completion of the task</li>
+<li>Start a SoS task on the remote machine or submit the tak to a task queue (e.g. PBS or Celery) and wait for the completion of the task</li>
 <li>Copy results back from the remote host if the execution is successful</li>
 </ul>
 
@@ -256,14 +256,14 @@ $( document ).ready(function(){
 <p>Commands that are available in login shell are not necessarily available during remote execution. Basically, remote execution through <code>ssh</code> invokes a non-interactive and non-login shell with basic <code>$PATH</code>. SoS tries to address this problem by executing commands through a login shell</p>
 <div class="highlight"><pre><span></span>% ssh remote-host <span class="s2">&quot;bash --login -c &#39;sos execute task_id&#39;&quot;</span>
 </pre></div>
-<p>but default <code>.bashrc</code> on the remote server might contain a line like</p>
+<p>However, default <code>.bashrc</code> on the remote server might contain a line like</p>
 <div class="highlight"><pre><span></span><span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$PS1</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="k">return</span>
 </pre></div>
 <p>that makes it exit when <code>bash</code> is not running interactively. This line has to be removed in order to have complete <code>$PATH</code> during remote execution.</p>
 <p>Now, fire command</p>
 <div class="highlight"><pre><span></span>% ssh remote-host <span class="s2">&quot;bash --login -c &#39;sos -h&#39;&quot;</span>
 </pre></div>
-<p>from your local machine and see if <code>sos</code> can be invoked. Similarly, check if the command you would like to execute remotely can be executed in this manner.</p>
+<p>from your local machine and see if <code>sos</code> can be invoked. Similarly, verify if the command you would like to execute remotely can be executed in this manner.</p>
 
 </div>
 </div>
@@ -282,8 +282,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This step is optional but is highly recommended. Basically you can save necessary information for each remote host that you would like to use in a SoS configuration file so that you do not have to specify them one by one.</p>
-<p>First, give your host an alias so that you do not have to specify the long URL each time. To do this execute command</p>
+<p>To make it easier to communicate with the remote server, give it an alias so that you do not have to specify the long URL each time. To do this execute command</p>
 
 <pre><code>% sos config --global --set hosts.monster.address dcdrlue8ee.yourdomain.com</code></pre>
 <p>where <code>monster</code> is a short alias and <code>dcdrlue8ee.yourdomain.com</code> is the complete address.</p>
@@ -374,7 +373,7 @@ hosts:
 <li><p>If your local and remote host share one or more shared volumes, you can specify them with command</p>
 <div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /projects /data
 </pre></div>
-<p>to indicate that files under these directories are available on the remote host.</p>
+<p>to indicate that local files under these directories are available on the remote host.</p>
 </li>
 </ul>
 <p>Shared file systems do not have to be mounted at the same locations. For example, a local file system <code>/projects</code> might be available at the remote host under <code>/scratch/projects</code>. In this case, you should</p>
@@ -401,8 +400,7 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The server settings are critically important for the successful execution of commands on remote servers. As an example, I am working on a Mac mini (with limited CPU/RAM) and have access to a Mac Pro workstation and a Linux server, and I use Google Drive to store scripts that shared by the Mac mini and the Mac Pro workstation.</p>
-<p>The hosts configurations for these two machines are</p>
+<p>The server settings are critically important for the successful execution of commands on remote servers. As an example, I am working on a Mac mini (with limited CPU/RAM) and have access to a Mac Pro workstation and a Linux server. The hosts configurations for these two machines are</p>
 
 <pre><code>yml
 hosts:
@@ -410,24 +408,18 @@ hosts:
     address: mp-bpeng.mdanderson.edu
     path_map:
     - /Users/bpeng1/.sos/RNASeq/:/Volumes/Home/.sos/
-    - /Users/bpeng1/Google Drive:/Users/bpeng1/gdrive
-    shared: /Users/bpeng1/Google Drive
   linux:
     address: dcdrlpmcfd.mdanderson.edu
     path_map:
-    - /Users/bpeng1/Google Drive:/home/bpeng1/gdrive
     - /Users/bpeng1/.sos/RNASeq/:/home/bpeng1/.sos/
     - /Users/bpeng1:/home/bpeng1</code></pre>
 <p>For the Macpro,</p>
 <ol>
 <li>Resources under <code>~/.sos/RNASeq</code> is mapped to a separate volume under <code>/Volumes/Home/.sos</code>.</li>
-<li>Local <code>Google Drive</code> is mapped to <code>gdrive</code> on the remote server. This is not required but path with space can cause trouble to a lot of software so I created a symbolic <code>gdrive</code> for <code>Google Drive</code> on the Mac server and use path <code>gdrive</code> to access <code>Google Drive</code>.</li>
-<li><code>~/Google Drive</code> is declared to be <code>shared</code> so files under <code>Google Drive</code> will not be synchronized (but path will still be mapped to <code>gdrive</code>).</li>
 <li>Both systems have <code>/Users/bpeng1</code> so no other mapping is needed.</li>
 </ol>
 <p>For the linux server,</p>
 <ol>
-<li>Scripts under <code>Googld Drive</code> are mapped to <code>/home/bpeng1/gdrive</code> because Linux is even less tolerant to spaces in paths.</li>
 <li>Resources under local <code>~/.sos/RNASeq</code> is mapped to <code>/home/bpeng1/.sos</code> on the server</li>
 <li>Home directory <code>/Users/bpeng1</code> is mapped to <code>/home/bpeng1</code> on the linux server.</li>
 <li>No file system is shared between the Mac mini and the Linux server.</li>
@@ -580,17 +572,17 @@ task:   queue='monster'</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Each task has a <em>context</em> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task using local paths, and <strong>define variables for all paths that would differ between local and remote hosts</strong>. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
-<div class="highlight"><pre><span></span><span class="kn">depends:</span>      <span class="n">hg19_fasta</span>
-<span class="kn">run:</span>
-    <span class="n">STAR</span> \
-        <span class="o">--</span><span class="n">runThreadN</span> <span class="mi">8</span> \
-        <span class="o">--</span><span class="n">runMode</span> <span class="n">genomeGenerate</span> \
-        <span class="o">--</span><span class="n">genomeDir</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_star_index</span><span class="p">}</span> \
-        <span class="o">--</span><span class="n">genomeFastaFiles</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_fasta</span><span class="p">}</span> \
-        <span class="o">--</span><span class="n">sjdbGTFfile</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_genes_gtf</span><span class="p">}</span> \
-        <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
-</pre></div>
+<p>Each task has a <strong>context dictionary</strong> that contains variables that will be used to, for example, compose scripts to be executed. Even if the task will be executed remotely, you should write your task using local paths, and <strong>define variables for all paths that would differ between local and remote hosts</strong>. For example, you might have a script that generates a <code>STAR</code> index from a fasta file. You can have all these files available locally and write the task as:</p>
+
+<pre><code>depends:      hg19_fasta
+run:
+    STAR \
+        --runThreadN 8 \
+        --runMode genomeGenerate \
+        --genomeDir ${hg19_star_index} \
+        --genomeFastaFiles ${hg19_fasta} \
+        --sjdbGTFfile ${hg19_genes_gtf} \
+        --sjdbOverhang 100</code></pre>
 <p>where  <code>hg19_fasta</code>, <code>hg19_genes_gtf</code> and <code>hg19_star_index</code> are variables pointing to input and output files of this process.</p>
 <p><strong>SoS will by default translate all variables (of type string and list of strings) as if they are local paths</strong>. In this case, all three variables will be translated to remote paths during remote execution. You can view details of variable translation using option <code>-v3</code> (debug output).</p>
 
@@ -611,7 +603,7 @@ task:   queue='monster'</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variables contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and use variable <code>hg19_fasta</code> to point to fasta file on the remote host, you can add this variable to option <code>preserved_vars</code> so that its value will not be mapped during context switch:</p>
+<p>Automatic variable translation is convenient but SoS can make mistakes because it does not really know which variable contains path names that need to be converted. For example, if you do not have <code>hg19_fasta</code> locally and use variable <code>hg19_fasta</code> to point to fasta file on the remote host, you can add this variable to option <code>preserved_vars</code> so that its value will not be mapped during context switch:</p>
 <div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">queue</span><span class="o">=</span><span class="s1">&#39;monster&#39;</span><span class="p">,</span> <span class="kp">preserved_vars</span><span class="o">=</span><span class="s1">&#39;hg19_fasta&#39;</span>
 <span class="kn">run:</span>
     <span class="n">STAR</span> \
@@ -623,7 +615,7 @@ task:   queue='monster'</code></pre>
         <span class="o">--</span><span class="n">sjdbOverhang</span> <span class="mi">100</span>
 </pre></div>
 <p>Other variables that need to be preserved include sample names, command line options etc.</p>
-<p>Note that you can write tasks for remote hosts (e.g. use hard-coded paths or preserve related variables) but that will make your task host-dependent. It is recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you would like to execute the task locally or  switch to hosts with differnt configurations.</p>
+<p>Note that you can write tasks for remote hosts (e.g. use hard-coded paths or preserve related variables) but that will make your task host-dependent. It is recommended that you <strong>write your script in local paths</strong> and let SoS do the conversion so that you do not have to change the script itself if you would like to execute the task locally or switch to hosts with differnt configurations.</p>
 
 </div>
 </div>
@@ -667,6 +659,76 @@ task:   queue='monster'</code></pre>
 <li><code>from_host</code> is needed to tranfer <strong>additional output</strong> files or directories from remote host.</li>
 <li><code>preserve_vars</code> is needed to prevent some variables from being translated automatically by SoS.</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Monitor-the-status-of-the-remote-task">Monitor the status of the remote task<a class="anchor-link" href="#Monitor-the-status-of-the-remote-task">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Tasks executed on remote servers are external in the sense that they could be monitored and killed externally. When you submit the task, you will be given a task ID, using which you can query the status of the task or cancel the tak. For example,</p>
+
+<pre><code>sos status task_id -q shark</code></pre>
+<p>can be used to check the status of <code>task_id</code> on a remote server <code>shark</code>, and command</p>
+
+<pre><code>sos kill task_id -q shark</code></pre>
+<p>can be used to kill a running task with ID <code>task_id</code>. You can also use command</p>
+
+<pre><code>sos status task_id -q shark -v 3</code></pre>
+<p>to display the details of task, including the SoS (Python) statements that will be executed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Submit-tasks-to-a-task-queue">Submit tasks to a task queue<a class="anchor-link" href="#Submit-tasks-to-a-task-queue">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of executing the task directly on a remote server, you can submit the task to a task queue (e.g. PBS/Torch of a cluster sytem) where the task could be distributed to working nodes of a cluster system. A little more configuration would be needed, basically, you will need to configure</p>
+<ul>
+<li><code>queue_type</code>: type of the task queue</li>
+</ul>
+<p>and for <code>queue_type = pbs</code>, configurations such as</p>
+<ul>
+<li><code>template_file</code>: A template to generate jobs to be submitted,</li>
+<li><code>submit_cmd</code>: command to submit PBS jobs,</li>
+<li><code>status_cmd</code>: command to check status of jobs, and</li>
+<li><code>kill_cmd</code>: command to cancel/delete pending or running jobs.</li>
+</ul>
+<p>You will also need to specify the resources needed to execute your task, using task options such</p>
+<ul>
+<li><code>walltime</code>: estimated time</li>
+<li><code>mem</code>: estimated memory usage</li>
+<li><code>nodes</code>: number of computing nodes</li>
+<li><code>ppn</code>: number of process per node</li>
+</ul>
+<p>With these configurations and options properly set up, you will be able to execute the task using the same syntax, e.g.</p>
+
+<pre><code>sos run myscript -q pbs
+sos status -q pbs
+sos kill tasks -q pbs</code></pre>
+<p>where <code>pbs</code> is the alias of the cluster system.</p>
 
 </div>
 </div>
