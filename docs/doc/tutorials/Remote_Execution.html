@@ -288,8 +288,7 @@ $( document ).ready(function(){
 <p>where <code>monster</code> is a short alias and <code>dcdrlue8ee.yourdomain.com</code> is the complete address.</p>
 <p>This commands writes to <code>~/.sos/config.yml</code> the following entry</p>
 
-<pre><code>yml
-hosts:
+<pre><code>hosts:
   monster:
     address: dcdrlue8ee.yourdomain.com</code></pre>
 <p>You can write to this file directly if you are familiar with YML format.</p>
@@ -324,8 +323,7 @@ hosts:
 </pre></div>
 <p>This command will write the following entries to the configuration file</p>
 
-<pre><code>yml
-hosts:
+<pre><code>hosts:
   monster:
     address: dcdrlue8ee.yourdomain.com
     path_map:
@@ -402,8 +400,7 @@ hosts:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The server settings are critically important for the successful execution of commands on remote servers. As an example, I am working on a Mac mini (with limited CPU/RAM) and have access to a Mac Pro workstation and a Linux server. The hosts configurations for these two machines are</p>
 
-<pre><code>yml
-hosts:
+<pre><code>hosts:
   macpro:
     address: mp-bpeng.mdanderson.edu
     path_map:
@@ -453,8 +450,7 @@ hosts:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you have set up a host in SoS configuration file propertly, you can use option <code>queue</code> to specify the host on which the task will be executed.</p>
 
-<pre><code>yml
-task:   queue='monster'</code></pre>
+<pre><code>task:   queue='monster'</code></pre>
 <p>Here <code>monster</code> is the alias of the host.</p>
 
 </div>
