@@ -175,14 +175,58 @@ $( document ).ready(function(){
 </li>
 <li><p>Separate the workflow by steps and submit them as separate tasks to a queuing system. This approach allows better parallelization but it can be difficult and time consuming to execute a large number of small jobs, because these tasks might spend more time waiting than running.</p>
 </li>
-</ol>
-<p>SoS takes a different approach than most workflow systems in that</p>
-<ol>
-<li><p>It executes all steps directly as a complete workflow. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
-</li>
-<li><p>Part of the steps can be defined as <strong>tasks</strong> that are executed externally. The tasks can be executed locally as separate  processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>. SoS can wait for the completion of the tasks or exit and resume execution after the tasks are completed (default mode). The tasks could be executed and monitored independent of the workflows.</p>
+<li><p>Running a workflow on a cluster system requires a running server (task dispatcher, corrdinator) to corrdinate the execution of dependent steps. This has posed a problem, at least to our clusters because such processes are not allowed on the head node.</p>
 </li>
 </ol>
+<p>To address these problems, SoS taks a different approach than mose other workflow systems.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="SoS'-task-model">SoS' task model<a class="anchor-link" href="#SoS'-task-model">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Complete-workflow">Complete workflow<a class="anchor-link" href="#Complete-workflow">&#182;</a></h3><p>SoS defines workflows as steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). All steps, regardless of their sizes (requirement for resources), are written as a single workflow. That is to say, a long running sequence alignment step and the relatively quick statistical analysis steps would be defined as a single workflow. <strong>steps are not separated because of their different hardware/software requirements</strong>.</p>
+<p>SoS executes all steps directly as a complete workflow. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
+<h3 id="Generation-of-external-tasks">Generation of external <code>tasks</code><a class="anchor-link" href="#Generation-of-external-tasks">&#182;</a></h3><p>Part of the steps can be defined as tasks that are executed externally. SoS tasks have the following properties:</p>
+<ul>
+<li><strong>Tasks are self-contained</strong> in that they contain all the required information to be executed anywhere. </li>
+<li><strong>Tasks are generated and executed dynamically</strong> in that a task would only be generated when all its dependencies have been met.</li>
+<li><strong>Tasks are independent of workflows and other tasks</strong>. Tasks are defined by the task they are executing. Tasks can be shared by different workflows if they happen to perform exactly the same function.</li>
+<li><strong>Tasks are file system independent</strong> in the sense that sos automatically synchronize input and output of tasks to remote systems so you can easily switch from a remote server to another, or to a cluster system.</li>
+</ul>
+<h3 id="Remote-execution-of-tasks">Remote execution of <code>tasks</code><a class="anchor-link" href="#Remote-execution-of-tasks">&#182;</a></h3><p>SoS tasks can be executed locally as separate  processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>.</p>
+<h3 id="Stop-and-resume-execution-of-workflow">Stop-and-resume execution of workflow<a class="anchor-link" href="#Stop-and-resume-execution-of-workflow">&#182;</a></h3><p>SoS can wait for the completion of the tasks as if they are just long-running jobs executed locally. Alternatively, sos could exit and wait for the completion of external tasks. Command <code>sos status</code> or task-queue-specific methods could be used to monitor the execution of tasks.</p>
+<p>After the completion of the tasks, you could rerun the workflow and SoS would resume execution from the point where it was stopped.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Flexible-design-of-workflows">Flexible design of workflows<a class="anchor-link" href="#Flexible-design-of-workflows">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>This external execution model offers great flexibility in the execution of workflows. For example,</p>
 <ul>
 <li>You can execute a step on a remote server with more resource by specifying parameter <code>queue</code> of a single task.</li>
@@ -190,7 +234,6 @@ $( document ).ready(function(){
 <li>You can submit part of the tasks to one machine, and part of the tasks to another task queue using the combination of task-specific option and global <code>-q</code> option.</li>
 <li>You can use SoS as a task-generation tool to generate a bunch of tasks, and send the tasks to different computer systems for execution. SoS automatically handles file synchronization so that you can easily move from one cluster to another cluster or another server.</li>
 </ul>
-<p>The biggest advantage, however, is that you do not have to rewrite your workflow to disect them into pieces, or change the script for particular host or task queues. SoS handles all these automatically for you.</p>
 
 </div>
 </div>
@@ -209,7 +252,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A <strong>step process</strong> consists of everything after the <code>input</code> statement. It can be repeated with different <strong>input groups</strong> defined by input option <code>group_by</code>, or <code>for_each</code>. For example, if <code>bam_files</code> is a list of bam files,</p>
+<p>A <strong>step process</strong> consists of everything after the <code>input</code> statement. It can be repeated with different <strong>input groups</strong> defined by input options <code>group_by</code> or <code>for_each</code>. For example, if <code>bam_files</code> is a list of bam files,</p>
 
 <pre><code>[10]
 input: bam_files, group_by=1
@@ -234,10 +277,9 @@ input: bam_files, group_by=1
 output: "${_input}.bai"
 
 task:
-
 run:
     samtools index ${_input}</code></pre>
-<p>This statement declares the rest of the step process as a <code>task</code>. For each input file, a task will be created with an unique ID. The task will be by default executed by a <code>process</code> task queue where tasks are started as background processes.</p>
+<p>This statement declares the rest of the step process as a <code>task</code>. For each input file, a task will be created with an ID determined from task content and context (input and output files, variables etc). The task will be by default executed by a <code>process</code> task queue where tasks are started as background processes.</p>
 
 </div>
 </div>
@@ -254,7 +296,6 @@ input: bam_files, group_by=1
 output: "${_input}.bai"
 
 task: concurrent=True
-
 run:
     samtools index ${_input}</code></pre>
 <p>Multiple tasks could be executed in parallel (but on the same machine), and you can use command</p>
@@ -267,7 +308,6 @@ input: bam_files, group_by=1
 output: "${_input}.bai"
 
 task: concurrent=True, queue='cluster'
-
 run:
     samtools index ${_input}</code></pre>
 <p>to submit the commands to a cluster system to be executed on different computing nodes.</p>
@@ -755,10 +795,11 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A command to query the status of a submitted task. For a standard PBS system, this option could be</p>
+<p>An command to query the status of a submitted task. For a standard PBS system, this option could be</p>
 
 <pre><code>qstat ${job_id}</code></pre>
-<p>where <code>job_id</code> is the output of command <code>submit_cmd</code>.</p>
+<p>where <code>job_id</code> is the output of command <code>submit_cmd</code>. The <code>status_cmd</code> is interpolated with variables <code>job_id</code> (PBS job ID), <code>task</code> (SoS task id), and <code>verbosity</code> (command line verbosity level) so you would adjust options for different verbosity level (e.g. <code>${'-f' if verbosity &gt; 2 else ''}</code>).</p>
+<p>Note that the <code>status_cmd</code> is only called with <code>-v 2</code> or higher.</p>
 
 </div>
 </div>
@@ -1096,7 +1137,7 @@ sos task 7736e
 </pre></div>
 <p>might return output of a command</p>
 
-<pre><code>qstat 18433 -q shark</code></pre>
+<pre><code>qstat 18433</code></pre>
 <p>if the task has been submitted to a cluster named <code>shark</code> with a job id <code>18433</code>.</p>
 <p>If you would like to know more about the tasks,</p>
 <div class="highlight"><pre><span></span>sos task 77e36 -v3
