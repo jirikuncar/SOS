@@ -169,18 +169,18 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A complex workflow usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them are time- and resource-consuming and are suited to be executed on dedicated servers or cluster systems. There are several approaches in running such workflows, namely,</p>
+<p>A complex workflow usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them can be time- and resource-consuming and would better be executed on dedicated servers or cluster systems. There are several approaches in running such workflows, namely,</p>
 <ol>
-<li><p>Execute the entire workflow on the cluster as a single multi-processing job. This is not idea because 1). you would have to allocate enough resource for the most CPU and RAM-demanging step and longest execution time for the most time-consuming step but these resources are not utilized most of the time, and 2). you are limiting yourself to a single node and cannot really execute the workflow in parallel.</p>
+<li><p>Execute the entire workflow on the cluster as a single multi-processing job. This is not ideal because 1). you would have to allocate enough resource for the most CPU and RAM-demanging step and longest execution time for the most time-consuming step but these resources are not utilized efficiently, and 2). you are limiting yourself to a single node and cannot really execute the workflow in parallel.</p>
 </li>
 <li><p>Separate the workflow by steps and submit them as separate tasks to a queuing system. This approach allows better parallelization but it can be difficult and time consuming to execute a large number of small jobs, because these tasks might spend more time waiting than running.</p>
 </li>
 </ol>
 <p>SoS takes a different approach than most workflow systems in that</p>
 <ol>
-<li><p>It executes most or all steps directly. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph).</p>
+<li><p>It executes all steps directly as a complete workflow. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
 </li>
-<li><p>Part of the steps can be defined as <strong>tasks</strong> that are executed externally. The tasks can be executed locally as separate processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>. SoS can wait for the completion of the tasks or exits (default mode). The tasks could be executed and monitored independent of the workflows, and SoS can resume the execution of the workflow if it depends on the completion of some of the tasks.</p>
+<li><p>Part of the steps can be defined as <strong>tasks</strong> that are executed externally. The tasks can be executed locally as separate  processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>. SoS can wait for the completion of the tasks or exit and resume execution after the tasks are completed (default mode). The tasks could be executed and monitored independent of the workflows.</p>
 </li>
 </ol>
 <p>This external execution model offers great flexibility in the execution of workflows. For example,</p>
@@ -190,6 +190,7 @@ $( document ).ready(function(){
 <li>You can submit part of the tasks to one machine, and part of the tasks to another task queue using the combination of task-specific option and global <code>-q</code> option.</li>
 <li>You can use SoS as a task-generation tool to generate a bunch of tasks, and send the tasks to different computer systems for execution. SoS automatically handles file synchronization so that you can easily move from one cluster to another cluster or another server.</li>
 </ul>
+<p>The biggest advantage, however, is that you do not have to rewrite your workflow to disect them into pieces, or change the script for particular host or task queues. SoS handles all these automatically for you.</p>
 
 </div>
 </div>
@@ -208,61 +209,69 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If a job is long and time consuming, it is much preferred to submit them as separate tasks to be executed, for example, on a cluster system. These jobs should be specified using the <code>task</code> keyword, which marks the beginning of a task, with optional runtime options to control its execution. For example,</p>
+<p>A <strong>step process</strong> consists of everything after the <code>input</code> statement. It can be repeated with different <strong>input groups</strong> defined by input option <code>group_by</code>, or <code>for_each</code>. For example, if <code>bam_files</code> is a list of bam files,</p>
 
 <pre><code>[10]
-input: group_by='single'
+input: bam_files, group_by=1
+output: "${_input}.bai"
+
+run:
+    samtools index ${_input}</code></pre>
+<p>execute a shell script to process each bam file. This is done sequentially for each input file, and is performed by SoS.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can easily specify part of the step process as <strong>tasks</strong>, by prepending the statements with a <code>task</code> keyword:</p>
+
+<pre><code>[10]
+input: bam_files, group_by=1
+output: "${_input}.bai"
+
+task:
+
+run:
+    samtools index ${_input}</code></pre>
+<p>This statement declares the rest of the step process as a <code>task</code>. For each input file, a task will be created with an unique ID. The task will be by default executed by a <code>process</code> task queue where tasks are started as background processes.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The benefit of executing tasks externally is that you can execute tasks concurrently, on the local machine or a remote server, or be submitted to a task queue. For example, using</p>
+
+<pre><code>[10]
+input: bam_files, group_by=1
+output: "${_input}.bai"
 
 task: concurrent=True
 
-run('''
-samtools index {_input}
-''')</code></pre>
-<p>execute a shell script in parallel (with <code>concurrent=True</code>). The step process can consists of arbitrary python statements and execute multiple step actions. For example,</p>
-<div class="highlight"><pre><span></span><span class="n">task</span><span class="p">:</span>
-<span class="k">try</span><span class="p">:</span>
-   <span class="n">action1</span><span class="p">()</span>
-<span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
-   <span class="n">action2</span><span class="p">()</span>
-</pre></div>
-<p>execute <code>action1</code> and <code>action2</code> if <code>action1</code> raises an error.</p>
-<div class="highlight"><pre><span></span><span class="n">task</span><span class="p">:</span>
-<span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;-4&#39;</span><span class="p">,</span> <span class="s1">&#39;-6&#39;</span><span class="p">]:</span>
-   <span class="n">run</span><span class="p">(</span><span class="s1">&#39;command with ${par}&#39;</span><span class="p">)</span>
-</pre></div>
-<p>executes commands in a loop. This is similar to</p>
+run:
+    samtools index ${_input}</code></pre>
+<p>Multiple tasks could be executed in parallel (but on the same machine), and you can use command</p>
 
-<pre><code>pars = ['-4', '-6']
-input: for_each=pars
-task:
-run('command with ${_pars}')</code></pre>
-<p>but the <code>for</code> loop version would not be able to be executed in parallel. Note that SoS actions can be used outside of <code>step process</code> but only statements specified after the <code>process</code> keyword can have runtime options and be executed in separate processes. That is to say,</p>
+<pre><code>sos run myscript -q cluster</code></pre>
+<p>or use option <code>queue</code></p>
 
-<pre><code>pars = ['-4', '-6']
-input: for_each=pars
-run('command with ${_pars}')</code></pre>
-<p>is equivalent to</p>
+<pre><code>[10]
+input: bam_files, group_by=1
+output: "${_input}.bai"
 
-<pre><code>pars = ['-4', '-6']
-input: for_each=pars
-task:
-run('command with ${_pars}')</code></pre>
-<p>but the latter can have additional runtime options to run commands in parallel</p>
+task: concurrent=True, queue='cluster'
 
-<pre><code>pars = ['-4', '-6']
-input: for_each=pars
-task: concurrent=True
-run('command with ${_pars}')</code></pre>
-<p>Because step tasks are executed outside of SoS, variables assigned in step tasks are not accessible to SoS. For example,</p>
-
-<pre><code>[10: shared='res']
-res = some_action()</code></pre>
-<p>executes <code>some_action()</code> in step process and return its result as a shared variable <code>res</code>. The following script,</p>
-
-<pre><code>[10: shared='res']
-task:
-res = some_action()</code></pre>
-<p>however, does not work because <code>res</code> is assigned in step task and is not accessible from the step.</p>
+run:
+    samtools index ${_input}</code></pre>
+<p>to submit the commands to a cluster system to be executed on different computing nodes.</p>
+<p>This document focuses on the configuration of servers and the use of task options to execute tasks on different types of servers or task queues. It provides a comprehensive list of options while the <a href="../tutorials/Remote_Execution.html">Remote Execution tutorial</a> gives a more step-by-step tutorial on how to configure and use the remote execution features.</p>
 
 </div>
 </div>
@@ -281,20 +290,17 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="alias"><code>alias</code><a class="anchor-link" href="#alias">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>alias</code> is the alias of the host and is used to identify a host. The hosts are usually defined in <code>config.yml</code> under <code>hosts</code> as a list of aliases.</p>
+<p>A server or task queue needs to be defined in SoS configuration file. SoS automatically loads a global configuration file <code>~/.sos/config.yml</code>, and a local configuration file <code>./config.yml</code>. You can also put your settings in any configuration file and specify it with option <code>-c</code>. We recommend that you define all host configuration in global configuration file <code>~/.sos/config.yml</code> so that it can be used by all your projects.</p>
+<p>The configuration file could be edited manually if you are familiar with the YAML format. Otherwise you can use the <code>sos config</code> command to add or modify settings. For example, command</p>
+<div class="highlight"><pre><span></span>sos config --global --set hosts.shark.address username@shark.com
+</pre></div>
+<p>would write to <code>~/.sos/config.yml</code> the following content</p>
 
-<pre><code>hosts:
-    alias:
-        address: username@url.com</code></pre>
+<pre><code>yml
+hosts:
+    shark:
+        address: username@shark.com</code></pre>
+<p>This effectively defines a host with alias <code>shark</code>. All configurations related to this host should be defined under <code>shark</code>.</p>
 
 </div>
 </div>
@@ -365,26 +371,17 @@ res = some_action()</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Option <code>shared</code> tells SoS which file systems are shared between local and remote hosts so that it does not have to synchronize files under these directories between the hosts.</p>
+<p>You will need to</p>
 <ul>
-<li><p>SoS assumes independent file systems so you do not have to specify option <code>shared</code> if the local and remote hosts does not share any file system.</p>
-</li>
-<li><p>If your local and remote host share all file systems, you should use command</p>
-<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /
-</pre></div>
-<p>to indicate that the root directory is shared so no cross-network copy is needed.</p>
-</li>
-<li><p>If your local and remote host share one or more shared volumes, you can specify them with command</p>
-<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /projects /data
-</pre></div>
-<p>to indicate that files under these directories are available on the remote host.</p>
-</li>
+<li>Ignore this option if the local and remote hosts does not share any file system.</li>
+<li>set <code>shared</code> to <code>/</code> (root) if your local and remote host share all file systems</li>
+<li>List volumes that are shared between your local and remote systems</li>
 </ul>
 <p>Shared file systems do not have to be mounted at the same locations. For example, a local file system <code>/projects</code> might be available at the remote host under <code>/scratch/projects</code>. In this case, you should</p>
 <ul>
 <li>Set <code>/projects</code> as <code>shared</code> so that files under <code>/projects</code> will not be copied.</li>
 <li>Set <code>/projects:/scratch/projects</code> in <code>path_map</code> so that the path can be correctly translated between local and remote hosts.</li>
 </ul>
-<p>It is important to remember that <strong>SoS does not copy files under shared directories</strong>. If the local and remote host share a file system but you really would like to copy files to a differenet directory, you can ignore the <code>shared</code> option and let SoS copy files as if they are separate file systems.</p>
 
 </div>
 </div>
@@ -472,7 +469,7 @@ res = some_action()</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Option <code>query_type</code> determines the type of remote server or job queue. SoS currently supports the following types of job queues:</p>
 <ol>
-<li><strong><code>process</code></strong>: this is the default queue type. Tasks are executed directly, either on local host or on a server. The maximum number of concurrent processes are controlled by option <code>max_running_jobs</code>.</li>
+<li><strong><code>process</code></strong>: this is the default queue type. Tasks are executed directly, either on local host or on a server.</li>
 <li><strong><code>pbs</code></strong>: A PBS/MOAB cluster system where tasks are submitted using commands such as <code>qsub</code>.</li>
 <li><strong><code>rq</code></strong>: A redis queue where tasks are submitted to the rq server and monitored through rq-dashboard.</li>
 <li><strong><code>celery</code></strong>: A celery queue where tasks are submitted to the celery server and monitored through celery's flower module</li>
@@ -495,7 +492,7 @@ res = some_action()</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Frequency of checking status of jobs. This is set by default to 2 seconds for <code>process</code> queue type, and <code>10</code> seconds for all other types. This number should be set to at least <code>60</code> for remote servers and longer jobs because checking remote job status involves logging to the remote server and executing a <code>sos status</code> command.</p>
+<p>Option <code>status_check_interval</code> determines frequency at which SoS checks status of jobs. This is set by default to 2 seconds for <code>process</code> queue type, and <code>10</code> seconds for all other types. This number should be set to at least <code>60</code> for remote servers and longer jobs because it can be a burden to query the status of jobs very frequently.</p>
 
 </div>
 </div>
@@ -515,6 +512,7 @@ res = some_action()</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Maximum number of running jobs. This setting controls how SoS releases tasks to job queues and is independent of possible maximum running job settings of individual task queues.</p>
+<p>This option is set to 10 by default.</p>
 
 </div>
 </div>
@@ -610,18 +608,15 @@ queue: long</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="sb">`broker`</span> <span class="n">configuration</span> <span class="n">of</span> <span class="n">celery</span> <span class="n">app</span><span class="o">.</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>broker</code> configuration of celery app.</p>
 
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -632,18 +627,15 @@ queue: long</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="sb">`backend`</span> <span class="n">configuration</span> <span class="n">of</span> <span class="n">the</span> <span class="n">celery</span> <span class="n">app</span><span class="o">.</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>backend</code> configuration of the celery app.</p>
 
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -674,8 +666,8 @@ queue: long</code></pre>
 <span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
 <span class="c1">#PBS -l walltime=${walltime}</span>
 <span class="c1">#PBS -l mem=${mem}</span>
-<span class="c1">#PBS -o ${task}.out</span>
-<span class="c1">#PBS -e ${task}.err</span>
+<span class="c1">#PBS -o ${cur_dir}/${task}.out</span>
+<span class="c1">#PBS -e ${cur_dir}/${task}.err</span>
 <span class="c1">#PBS -q long</span>
 <span class="c1">#PBS -m ae</span>
 <span class="c1">#PBS -M your@email.address</span>
@@ -689,14 +681,19 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <ul>
 <li><code>task</code>: task id</li>
 <li><code>nodes</code>, <code>ppn</code>, <code>walltime</code>, <code>mem</code>: resource task options</li>
-<li><code>cur_dir</code>: translated current project directory</li>
+<li><code>cur_dir</code>:  current project directory, which will be translated to path in remote host if the task is executed remotely</li>
 <li><code>verbosity</code> and <code>sig_mode</code>: sos run mode.</li>
+<li>Other key/value pairs you defined for the server</li>
 </ul>
 <p>Note that</p>
 <ol>
-<li>You will need to specify all resource options (<code>nodes</code>, <code>ppn</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the template file.</li>
-<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different template files. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster.</li>
+<li>You will need to specify resource options (<code>nodes</code>, <code>ppn</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the template file.</li>
+<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different options. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster. These two entries could share the same template file but different <code>queue: name</code> values.</li>
+<li>An often forgotten feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as </li>
 </ol>
+
+<pre><code>${'long' if (walltime &gt; 60*60*24*5 if isinstance(walltime, int) else int(walltime.split(':')[0]) &gt; 120) else 'short'}</code></pre>
+<p>This expression is a bit long because <code>walltime</code> could be specified in seconds (integer) or as a string in the format of <code>HH:MM:SS</code>.</p>
 
 </div>
 </div>
@@ -882,7 +879,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (mem=4000MB) or gigabytes (mem=4GB). This option can be specified as a number (bytes) or string such as <code>4GB</code>.</p>
+<p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (<code>mem=4000MB</code>) or gigabytes (<code>mem=4GB</code>). This option can be specified as a number (bytes) or string such as <code>4GB</code>.</p>
 
 </div>
 </div>
@@ -947,11 +944,12 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-workdir">Option <code>workdir</code><a class="anchor-link" href="#Option-workdir">&#182;</a></h3><p>Default to current working directory.</p>
-<p>Option <code>workdir</code> controls the working directory of the process. For example, the following step downloads a file to the <code>resource_dir</code> using command <code>wget</code>.</p>
+<p>Option <code>workdir</code> controls the working directory of the task. For example, the following step downloads a file to the <code>resource_dir</code> using command <code>wget</code>.</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 
-<span class="n">run</span><span class="p">:</span> <span class="n">workdir</span><span class="o">=</span><span class="n">resource_dir</span>
+<span class="kn">task:</span> <span class="n">workdir</span><span class="o">=</span><span class="n">resource_dir</span>
 
+<span class="kn">run:</span>
   <span class="n">wget</span> <span class="n">a_url</span> <span class="o">-</span><span class="n">O</span> <span class="n">filename</span>
 </pre></div>
 <p>Runtime option <code>workdir</code> will be translated to remote host if the task is executed remotely.</p>
@@ -965,13 +963,22 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-concurrent">Option <code>concurrent</code><a class="anchor-link" href="#Option-concurrent">&#182;</a></h3><p>Default to <code>False</code>.</p>
-<p>If the step process is repeated for different input files or parameters (using input options <code>group_by</code> or <code>for_each</code>), the loop process can be execute in parallel, up to the maximum number of concurrent jobs specified by <code>max_running_jobs</code> option of the task queue.</p>
+<p>If the step process is repeated for multiple input groups (using input options <code>group_by</code> or <code>for_each</code>), the loop process can be execute in parallel by setting <code>concurrent=True</code>. The number of concurrent tasks is controlled by the <code>max_running_jobs</code> option of the task queue.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-env">Option <code>env</code><a class="anchor-link" href="#Option-env">&#182;</a></h3><p>The <code>env</code> option allow you to modify runtime environment, similar to the <code>env</code> parameter of the <code>subprocess.Popen</code> function. For example, you can execute your command with in a specific directory using</p>
 <div class="highlight"><pre><span></span><span class="kn">task:</span>  <span class="kp">env</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/mycommand&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]}</span>
 <span class="kn">run:</span>
    <span class="n">mycommand</span>
 </pre></div>
-<p>Option <code>env</code> is NOT translated to remote host because it is of type directionay.</p>
+<p>Option <code>env</code> is NOT translated to remote host because it is of type directionay. The job template is usually a good place to set host-specific environment.</p>
 
 </div>
 </div>
