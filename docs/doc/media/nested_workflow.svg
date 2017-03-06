@@ -10,8 +10,16 @@
 <title>job_queue</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-551 874,-551 874,4 -4,4"/>
 <text text-anchor="middle" x="435" y="-7.8" font-family="Times,serif" font-size="14.00">SoS step with task</text>
+<g id="clust6" class="cluster"><title>cluster_8</title>
+<polygon fill="none" stroke="black" points="631,-39 631,-311 862,-311 862,-39 631,-39"/>
+<text text-anchor="middle" x="746.5" y="-295.8" font-family="Times,serif" font-size="14.00">Step Worker 2</text>
+</g>
+<g id="clust5" class="cluster"><title>cluster_7</title>
+<polygon fill="none" stroke="black" points="116,-39 116,-202 318,-202 318,-39 116,-39"/>
+<text text-anchor="middle" x="217" y="-186.8" font-family="Times,serif" font-size="14.00">Workflow Executor (with queue)</text>
+</g>
 <g id="clust1" class="cluster"><title>cluster_3</title>
-<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="332,-31 332,-539 610,-539 610,-31 332,-31"/>
+<polygon fill="none" stroke="black" points="332,-31 332,-539 610,-539 610,-31 332,-31"/>
 <text text-anchor="middle" x="471" y="-523.8" font-family="Times,serif" font-size="14.00">Master SoS Process</text>
 </g>
 <g id="clust2" class="cluster"><title>cluster_4</title>
@@ -22,17 +30,9 @@
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="397,-39 397,-202 570,-202 570,-39 397,-39"/>
 <text text-anchor="middle" x="483.5" y="-186.8" font-family="Times,serif" font-size="14.00">Task Engine (with workers)</text>
 </g>
-<g id="clust5" class="cluster"><title>cluster_7</title>
-<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="116,-39 116,-202 318,-202 318,-39 116,-39"/>
-<text text-anchor="middle" x="217" y="-186.8" font-family="Times,serif" font-size="14.00">Workflow Executor (with queue)</text>
-</g>
-<g id="clust6" class="cluster"><title>cluster_8</title>
-<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="631,-39 631,-311 862,-311 862,-39 631,-39"/>
-<text text-anchor="middle" x="746.5" y="-295.8" font-family="Times,serif" font-size="14.00">Step Worker 2</text>
-</g>
 <g id="clust4" class="cluster"><title>cluster_6</title>
-<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-236 8,-508 269,-508 269,-236 8,-236"/>
-<text text-anchor="middle" x="138.5" y="-492.8" font-family="Times,serif" font-size="14.00">Step Worker</text>
+<polygon fill="none" stroke="black" points="8,-236 8,-508 276,-508 276,-236 8,-236"/>
+<text text-anchor="middle" x="142" y="-492.8" font-family="Times,serif" font-size="14.00">Step Worker</text>
 </g>
 <!-- step1 -->
 <g id="node1" class="node"><title>step1</title>
@@ -48,7 +48,7 @@
 <g id="edge1" class="edge"><title>step1&#45;&gt;step2</title>
 <path fill="none" stroke="black" stroke-dasharray="1,5" d="M401,-440.597C401,-428.746 401,-412.817 401,-399.292"/>
 <polygon fill="black" stroke="black" points="404.5,-399.084 401,-389.084 397.5,-399.084 404.5,-399.084"/>
-<text text-anchor="middle" x="408.5" y="-411.3" font-family="Times,serif" font-size="14.00">10</text>
+<text text-anchor="middle" x="408.5" y="-411.3" font-family="Times,serif" font-size="14.00">20</text>
 </g>
 <!-- worker2 -->
 <g id="node6" class="node"><title>worker2</title>
@@ -86,8 +86,8 @@
 </g>
 <!-- executor&#45;&gt;wfworker -->
 <g id="edge17" class="edge"><title>executor&#45;&gt;wfworker</title>
-<path fill="none" stroke="black" d="M368.504,-253.934C342.704,-248.498 305.665,-241.081 273,-236 253.989,-233.043 199.894,-240.28 187,-226 176.245,-214.089 176.025,-196.018 178.478,-180.961"/>
-<polygon fill="black" stroke="black" points="181.914,-181.632 180.508,-171.131 175.058,-180.216 181.914,-181.632"/>
+<path fill="none" stroke="black" d="M368.545,-253.405C344.269,-247.942 310.199,-240.732 280,-236 259.465,-232.782 200.997,-241.367 187,-226 176.193,-214.136 175.973,-196.065 178.44,-180.996"/>
+<polygon fill="black" stroke="black" points="181.877,-181.658 180.48,-171.156 175.023,-180.237 181.877,-181.658"/>
 <text text-anchor="middle" x="244" y="-214.3" font-family="Times,serif" font-size="14.00">5. queue (workflow)</text>
 </g>
 <!-- worker3 -->
@@ -161,7 +161,7 @@
 <g id="edge7" class="edge"><title>workflow&#45;&gt;worker2</title>
 <path fill="none" stroke="black" d="M136.909,-280.21C135.211,-304.556 131.442,-350.39 125,-389 122.676,-402.93 119.217,-418.248 116.109,-430.905"/>
 <polygon fill="black" stroke="black" points="112.66,-430.271 113.614,-440.822 119.448,-431.979 112.66,-430.271"/>
-<text text-anchor="middle" x="184.5" y="-367.3" font-family="Times,serif" font-size="14.00">8 (workflow result)</text>
+<text text-anchor="middle" x="188" y="-367.3" font-family="Times,serif" font-size="14.00">19 (workflow result)</text>
 </g>
 <!-- workflow&#45;&gt;wfworker -->
 <!-- step3 -->
