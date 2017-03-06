@@ -3,7 +3,6 @@ digraph job_queue{
 	 label="SoS step with task";
 	 subgraph cluster_3 {
 		label="Master SoS Process";
-		style=dotted;
 		rankdir = "TB";
 		subgraph cluster_4 {
 			label="Master Workflow Executor (without queue)";
@@ -22,9 +21,7 @@ digraph job_queue{
 		}
 	}
 	subgraph cluster_6 {
-		style=dotted;
 		label="Step Worker";
-		style=dotted;
 		worker2[shape=box, label="Manager"];
 		statement4 [label="statement1"];
 		workflow[label="nested workflow (sos_run)"];
@@ -33,17 +30,13 @@ digraph job_queue{
 		workflow -> worker2 [label="19 (workflow result)"];
 	}
 	subgraph cluster_7 {
-		style=dotted;
 		label="Workflow Executor (with queue)";
-		style=dotted;
 		wfworker[shape=box, label="Executor"];
 		wfworker -> step3[style=dotted, label="6. start workflow"];
 		step3[label="step"];
 	}
 	subgraph cluster_8 {
-		style=dotted;
 		label="Step Worker 2";
-		style=dotted;
 		worker3[shape=box, label="Manager"];
 		worker3->statement5 [label="9. start step"];
 		statement5 [label="statement1"];
