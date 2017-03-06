@@ -8,7 +8,7 @@ digraph job_queue{
 		subgraph cluster_4 {
 			label="Master Workflow Executor (without queue)";
 			style=dotted;
-			step1 -> step2 [style=dotted, label="10"];
+			step1 -> step2 [style=dotted, label="20"];
 			executor[shape=box];
 			step2 -> executor[style=invis];
 		}
@@ -30,7 +30,7 @@ digraph job_queue{
 		workflow[label="nested workflow (sos_run)"];
 		worker2 -> statement4 [label="2"];
 		statement4 -> workflow [label="3"];
-		workflow -> worker2 [label="8 (workflow result)"];
+		workflow -> worker2 [label="19 (workflow result)"];
 	}
 	subgraph cluster_7 {
 		style=dotted;
