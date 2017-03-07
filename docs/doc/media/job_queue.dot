@@ -2,12 +2,12 @@ digraph job_queue {
 	/* source nodes */
     subgraph cluster_0 {
         style=dotted;
+        color=blue;
         label="Local Desktop/Workstation";
 
         subgraph cluster_1 {
             label="SoS Workflow (sos run)";
-            style=dotted;
-            style=dotted;
+            style=solid;
             step2 [label="step2\ntask1\nqueue=localhost"];
             step4 [label="step4\ntask2\nqueue=localhost"];
             step3 [label="step3\ntask3\nqueue=PBS"];
@@ -22,6 +22,7 @@ digraph job_queue {
 
         subgraph cluster_2 {
             label="";
+            style=solid;
             task_engine1 [label="SoS Task Engine (process)",shape=box];
 
             task_engine1 -> start1;
@@ -30,6 +31,7 @@ digraph job_queue {
             start2 [label="sos execute task2", shape=box];
 
             subgraph cluster_3 {
+                style=dotted;
                 label="tasks";
                 task1;
                 task2;
@@ -38,9 +40,11 @@ digraph job_queue {
         }
         subgraph cluster_4 {
             label="";
+            style=solid;
             task_engine2 [label="SoS Task Engine (pbs)",shape=box];
 
             subgraph cluster_5 {
+                style=dotted;
                 label="tasks";
                 task3;
                 task4;
@@ -51,6 +55,7 @@ digraph job_queue {
     subgraph cluster_6 {
         label="PBS/Moab Cluster";
         style=dotted;
+        color=red;
 
             subgraph cluster_7 {
                 label="remote tasks";
@@ -66,7 +71,7 @@ digraph job_queue {
         remote_start3 -> job_queue;
         remote_start4 -> job_queue;
         subgraph cluster_8 {
-            style=dotted;
+            style=solid;
             label="PBS Job Queue";
             job_queue [label="Job Queue", shape=box];
             remote_job3 [label="job3"];
