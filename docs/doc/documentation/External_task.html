@@ -199,14 +199,14 @@ $( document ).ready(function(){
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Complete-workflow">Complete workflow<a class="anchor-link" href="#Complete-workflow">&#182;</a></h3><p>SoS defines workflows as steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). All steps, regardless of their sizes (requirement for resources), are written as a single workflow. That is to say, a long running sequence alignment step and the relatively quick statistical analysis steps would be defined as a single workflow. <strong>steps are not separated because of their different hardware/software requirements</strong>.</p>
 <p>SoS executes all steps directly as a complete workflow. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
-<h3 id="Generation-of-external-tasks">Generation of external <code>tasks</code><a class="anchor-link" href="#Generation-of-external-tasks">&#182;</a></h3><p>Part of the steps can be defined as tasks that are executed externally. SoS tasks have the following properties:</p>
+<h3 id="Generation-of-external-tasks">Generation of external tasks<a class="anchor-link" href="#Generation-of-external-tasks">&#182;</a></h3><p>Part of the steps can be defined as tasks that are executed externally. SoS tasks have the following properties:</p>
 <ul>
 <li><strong>Tasks are self-contained</strong> in that they contain all the required information to be executed anywhere. </li>
 <li><strong>Tasks are generated and executed dynamically</strong> in that a task would only be generated when all its dependencies have been met.</li>
 <li><strong>Tasks are independent of workflows and other tasks</strong>. Tasks are defined by the task they are executing. Tasks can be shared by different workflows if they happen to perform exactly the same function.</li>
 <li><strong>Tasks are file system independent</strong> in the sense that sos automatically synchronize input and output of tasks to remote systems so you can easily switch from a remote server to another, or to a cluster system.</li>
 </ul>
-<h3 id="Remote-execution-of-tasks">Remote execution of <code>tasks</code><a class="anchor-link" href="#Remote-execution-of-tasks">&#182;</a></h3><p>SoS tasks can be executed locally as separate  processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>.</p>
+<h3 id="Remote-execution-of-tasks">Remote execution of tasks<a class="anchor-link" href="#Remote-execution-of-tasks">&#182;</a></h3><p>SoS tasks can be executed locally as separate  processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>.</p>
 <h3 id="Stop-and-resume-execution-of-workflow">Stop-and-resume execution of workflow<a class="anchor-link" href="#Stop-and-resume-execution-of-workflow">&#182;</a></h3><p>SoS can wait for the completion of the tasks as if they are just long-running jobs executed locally. Alternatively, sos could exit and wait for the completion of external tasks. Command <code>sos status</code> or task-queue-specific methods could be used to monitor the execution of tasks.</p>
 <p>After the completion of the tasks, you could rerun the workflow and SoS would resume execution from the point where it was stopped.</p>
 
@@ -234,6 +234,24 @@ $( document ).ready(function(){
 <li>You can submit part of the tasks to one machine, and part of the tasks to another task queue using the combination of task-specific option and global <code>-q</code> option.</li>
 <li>You can use SoS as a task-generation tool to generate a bunch of tasks, and send the tasks to different computer systems for execution. SoS automatically handles file synchronization so that you can easily move from one cluster to another cluster or another server.</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following figure illustrates the task model of SoS</p>
+<p><img src="../media/job_queue.svg" alt="job queue"></p>
+<p>Basically,</p>
+<ol>
+<li>Tasks are part of step processes.</li>
+<li>Tasks are managed by task engines, multiple task engines can be used for a single workflow.</li>
+<li>Task engines generate task files, submit tasks, monitor task status, and return results to SoS workflow.</li>
+<li>Remote task engines synchronize input files, translate and copy tasks to server, and start the tasks on the remote server. Pre-defined <code>submit_cmd</code> could be used to submit tasks to batch systems such as PBS/Moab.</li>
+</ol>
 
 </div>
 </div>
@@ -732,8 +750,8 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <li>An often forgotten feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as </li>
 </ol>
 
-<pre><code>${'long' if (walltime &gt; 60*60*24*5 if isinstance(walltime, int) else int(walltime.split(':')[0]) &gt; 120) else 'short'}</code></pre>
-<p>This expression is a bit long because <code>walltime</code> could be specified in seconds (integer) or as a string in the format of <code>HH:MM:SS</code>.</p>
+<pre><code>${'long' if walltime &gt; 60*60*24*5 else 'short'}</code></pre>
+<p>Note that walltime would be an integer internally even if it is specified in the format of <code>HH:MM:SS</code> in the script.</p>
 
 </div>
 </div>
@@ -864,6 +882,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <li>As an integer number (in seconds).</li>
 <li>As a string in the format of <code>HH:MM:SS</code> where <code>HH</code>, <code>MM</code> and <code>SS</code> are hours, minutes, and seconds. For example, you could use <code>walltime=240:00:00</code> for a job that would run 10 days.</li>
 </ol>
+<p>SoS automatically converts this option to an integer and formats it appropriately for different task engines.</p>
 
 </div>
 </div>
@@ -920,7 +939,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (<code>mem=4000MB</code>) or gigabytes (<code>mem=4GB</code>). This option can be specified as a number (bytes) or string such as <code>4GB</code>.</p>
+<p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (<code>mem=4000MB</code>). gigabytes (<code>mem=4GB</code>) or gibibytes (<code>mem=4GiB</code>), although all inputs would be converted to bytes internally.</p>
 
 </div>
 </div>
