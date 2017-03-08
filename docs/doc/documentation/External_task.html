@@ -733,7 +733,7 @@ queue: long</code></pre>
 
 <span class="nb">cd</span> <span class="si">${</span><span class="nv">cur_dir</span><span class="si">}</span>
 
-sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span>
+sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span> <span class="si">${</span><span class="s1">&#39;--dryrun&#39;</span><span class="p"> if run_mode == </span><span class="s1">&#39;dryrun&#39;</span><span class="p"> else </span><span class="s1">&#39;&#39;</span><span class="si">}</span>
 </pre></div>
 <p>The template file will be interpolated with the following information</p>
 <ul>
@@ -741,6 +741,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <li><code>nodes</code>, <code>ppn</code>, <code>walltime</code>, <code>mem</code>: resource task options</li>
 <li><code>cur_dir</code>:  current project directory, which will be translated to path in remote host if the task is executed remotely</li>
 <li><code>verbosity</code> and <code>sig_mode</code>: sos run mode.</li>
+<li><code>run_mode</code> to allow the script to be executed in dryrun mode, in which mode scripts would be printed instead of executed. It is very important to set this option because the job script would be executed directly (on head node) instead of sent to the PBS queue if sos is running in dryrun mode (<code>sos run -q pbs -n</code>).</li>
 <li>Other key/value pairs you defined for the server</li>
 </ul>
 <p>Note that</p>
@@ -1116,6 +1117,34 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="dryrun-mode"><code>dryrun</code> mode<a class="anchor-link" href="#dryrun-mode">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The dryrun running mode is very useful in checking if your scripts are correctly translated and if your machine settings are correct. <strong>It is strongly recommended that you execute your script in dryrun mode before submitting them to remote hosts and/or task queues</strong>.</p>
+<p>How tasks are executed depends a bit on your configuration but basically,</p>
+<ol>
+<li><p>For local tasks (<code>process</code> task engine), the tasks are executed directly with <code>sos execute task -n</code> (<code>-n</code> for dryrun mode).</p>
+</li>
+<li><p>For direct remote execution (e.g. <code>sos run script -q server -n</code> with <code>queue_type</code> set to <code>process</code> (default)), the tasks will be generated and copied to the remote server, and will be executed with command <code>sos execute task -n</code>.</p>
+</li>
+<li><p>For submitting to a PBS task queue (e.g. <code>sos run script -q pbs -n</code> with <code>queue_type</code> set to <code>pbs</code>), the tasks will be generated, copied to remote host. Job files will also be generated according to <code>template_file</code> or <code>job_template</code> and will be copied to the remote host. However, instead of using <code>submit_cmd</code> to submit the job to the PBS queue, <strong>the job script will be executed directly on the head node</strong>. It is therefore important for you to allow the jobs to be run in <code>dryrun</code> mode and complete in seconds. Otherwise your system admin would hunt you for running large jobs directly on head nodes.</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="sos-status"><code>sos status</code><a class="anchor-link" href="#sos-status">&#182;</a></h3>
 </div>
 </div>
@@ -1141,6 +1170,24 @@ sos task 7736e
 
 <pre><code>sos status -q docker</code></pre>
 <p>would check the status of all tasks on a remote host <code>docker</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-status--v--q"><code>sos status -v -q</code><a class="anchor-link" href="#sos-status--v--q">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Option <code>-v</code> controls the details of the output of command <code>sos status</code>. For example,</p>
 
 <pre><code>sos status e7404cf6c2 -v0</code></pre>
@@ -1290,7 +1337,7 @@ hosts:
 
 <span class="nb">cd</span> <span class="si">${</span><span class="nv">cur_dir</span><span class="si">}</span>
 
-sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span>
+sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span> <span class="si">${</span><span class="s1">&#39;--dryrun&#39;</span><span class="p"> if run_mode==</span><span class="s1">&#39;dryrun&#39;</span><span class="p"> else </span><span class="s1">&#39;&#39;</span><span class="si">}</span>
 </pre></div>
 
 </div>
