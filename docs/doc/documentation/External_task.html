@@ -148,7 +148,7 @@ $( document ).ready(function(){
     });
 </script><style>  /* defined here in case the main.css below cannot be loaded */
 
- .lan_sos {}
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_python3 {background-color: #EAFAF1 !important }.lan_python2 {background-color: #F6FAEA !important }.lan_ir {background-color: #FDEDEC !important }
 
 </style>
 <body>
@@ -169,13 +169,11 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A complex workflow usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them can be time- and resource-consuming and would better be executed on dedicated servers or cluster systems. There are several approaches in running such workflows, namely,</p>
+<p>A complex workflow usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them can be time- and resource-consuming and would better be executed on dedicated servers or cluster systems. It can be challenging to execute such workflows efficiently, for example,</p>
 <ol>
-<li><p>Execute the entire workflow on the cluster as a single multi-processing job. This is not ideal because 1). you would have to allocate enough resource for the most CPU and RAM-demanging step and longest execution time for the most time-consuming step but these resources are not utilized efficiently, and 2). you are limiting yourself to a single node and cannot really execute the workflow in parallel.</p>
+<li><p>Executing the entire workflow on the cluster as a single multi-processing job is not ideal because 1). you would have to allocate enough resource for the most CPU and RAM-demanging step and longest execution time for the most time-consuming step but these resources are not utilized efficiently, and 2). you are limiting yourself to a single node and cannot really execute the workflow in parallel.</p>
 </li>
-<li><p>Separate the workflow by steps and submit them as separate tasks to a queuing system. This approach allows better parallelization but it can be difficult and time consuming to execute a large number of small jobs, because these tasks might spend more time waiting than running.</p>
-</li>
-<li><p>Running a workflow on a cluster system requires a running server (task dispatcher, corrdinator) to corrdinate the execution of dependent steps. This has posed a problem, at least to our clusters because such processes are not allowed on the head node.</p>
+<li><p>Separate the workflow by steps and submit them as separate tasks to a queuing system is much more efficient. This approach allows better parallelization but it can be difficult and time consuming to execute a large number of small jobs, because these tasks might spend more time waiting than running. In addition, it can be difficult to disect a workflow to be executable this way while maintaining all the dependencies. Also, running a workflow on a cluster system requires a running server (task dispatcher, corrdinator) to corrdinate the execution of dependent steps. This has posed a problem, at least to our clusters because such processes are not allowed on the head node.</p>
 </li>
 </ol>
 <p>To address these problems, SoS taks a different approach than mose other workflow systems.</p>
@@ -197,7 +195,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Complete-workflow">Complete workflow<a class="anchor-link" href="#Complete-workflow">&#182;</a></h3><p>SoS defines workflows as steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). All steps, regardless of their sizes (requirement for resources), are written as a single workflow. That is to say, a long running sequence alignment step and the relatively quick statistical analysis steps would be defined as a single workflow. <strong>steps are not separated because of their different hardware/software requirements</strong>.</p>
+<h3 id="Complete-workflow">Complete workflow<a class="anchor-link" href="#Complete-workflow">&#182;</a></h3><p>SoS defines workflows as steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). <strong>All steps, regardless of their sizes (requirement for resources), are written as a single workflow</strong>. That is to say, a long running sequence alignment step and the relatively quick statistical analysis steps would be defined as a single workflow.</p>
 <p>SoS executes all steps directly as a complete workflow. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
 <h3 id="Generation-of-external-tasks">Generation of external tasks<a class="anchor-link" href="#Generation-of-external-tasks">&#182;</a></h3><p>Part of the steps can be defined as tasks that are executed externally. SoS tasks have the following properties:</p>
 <ul>
@@ -307,16 +305,16 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The benefit of executing tasks externally is that you can execute tasks concurrently, on the local machine or a remote server, or be submitted to a task queue. For example, using</p>
+<p>The benefit of executing tasks externally is that the tasks are executedconcurrently, on the local machine or a remote server, or be submitted to a task queue. For example, in the previous example, multiple tasks could be executed in parallel (but on the same machine) unless you specify it otherwise as follows</p>
 
 <pre><code>[10]
 input: bam_files, group_by=1
 output: "${_input}.bai"
 
-task: concurrent=True
+task: concurrent=False
 run:
     samtools index ${_input}</code></pre>
-<p>Multiple tasks could be executed in parallel (but on the same machine), and you can use command</p>
+<p>You can also use command</p>
 
 <pre><code>sos run myscript -q cluster</code></pre>
 <p>or use option <code>queue</code></p>
@@ -325,7 +323,7 @@ run:
 input: bam_files, group_by=1
 output: "${_input}.bai"
 
-task: concurrent=True, queue='cluster'
+task: queue='cluster'
 run:
     samtools index ${_input}</code></pre>
 <p>to submit the commands to a cluster system to be executed on different computing nodes.</p>
@@ -723,7 +721,7 @@ queue: long</code></pre>
 <span class="c1">#PBS -N ${task}</span>
 <span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
 <span class="c1">#PBS -l walltime=${walltime}</span>
-<span class="c1">#PBS -l mem=${mem}</span>
+<span class="c1">#PBS -l mem=${mem//10**6}MB</span>
 <span class="c1">#PBS -o ${cur_dir}/${task}.out</span>
 <span class="c1">#PBS -e ${cur_dir}/${task}.err</span>
 <span class="c1">#PBS -q long</span>
@@ -1023,8 +1021,8 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-concurrent">Option <code>concurrent</code><a class="anchor-link" href="#Option-concurrent">&#182;</a></h3><p>Default to <code>False</code>.</p>
-<p>If the step process is repeated for multiple input groups (using input options <code>group_by</code> or <code>for_each</code>), the loop process can be execute in parallel by setting <code>concurrent=True</code>. The number of concurrent tasks is controlled by the <code>max_running_jobs</code> option of the task queue.</p>
+<h3 id="Option-concurrent">Option <code>concurrent</code><a class="anchor-link" href="#Option-concurrent">&#182;</a></h3><p>Default to <code>True</code>.</p>
+<p>If the step process is repeated for multiple input groups (using input options <code>group_by</code> or <code>for_each</code>), all loop processes will by default be sent to the task engine to be executed in parallel (subject to <code>max_running_jobs</code> of individual task queue). If your tasks are sequential in nature (e.g. the next input group depends on the result of the current input group), you can set <code>concurrent=False</code>, in which case the next task will be generated and sent to the task queue only after the current one has been completed.</p>
 
 </div>
 </div>
@@ -1092,6 +1090,48 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option--q">Option <code>-q</code><a class="anchor-link" href="#Option--q">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>-q</code> can be used by all task-related commands. It specifies a remote server or task queue, with detailed information defined in either global (<code>~/.sos/config.yml</code>) or local (<code>./config.yml</code>) configuration files. You can also save configurations to other configuration files and specify them using option <code>-c</code>. E.g.</p>
+<div class="highlight"><pre><span></span>sos run myscript -q shark -c shark.yml
+</pre></div>
+<p>uses definition of <code>shark</code> defined in <code>shark.yml</code>. You can define hosts in any of the configuration files and definitions loaded later override previous definitions. For example, you could define a set of test servers that is identical to definitions in global definition, but with <code>max_running_jobs</code> set to 1. You can then use</p>
+
+<pre><code>sos run myscript -q shark -c test.yml</code></pre>
+<p>for test runs and</p>
+
+<pre><code>sos run myscript -q shark</code></pre>
+<p>for regular execution.</p>
+<p>It is also possible for you to specify a host without configuration. Such hosts have default values</p>
+
+<pre><code>alias = host
+address = host
+queue_type = process
+path_map = []
+shared = []</code></pre>
+<p>which assumes that the host is a remote machine with identical but not shared file systems and without any task queue.</p>
+<p>Finally, if option <code>-q</code> is specified without value, the <code>sos</code> command will exit with a list of configured hosts so you can use command</p>
+
+<pre><code>sos status -q</code></pre>
+<p>to list all configured queued. Details of each queue will be displayed with option <code>-v3</code> or <code>-v4</code>.</p>
+
+<pre><code>sos status -q -v3</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="sos-run--q"><code>sos run -q</code><a class="anchor-link" href="#sos-run--q">&#182;</a></h3>
 </div>
 </div>
@@ -1104,10 +1144,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <p>The <code>-q</code> option of command <code>sos run</code> (or <code>sos-runner</code>) sets the default task queue for all tasks. For example,</p>
 <div class="highlight"><pre><span></span>sos run myscript -q shark
 </pre></div>
-<p>would send all tasks in workflow <code>default</code> defined in <code>myscript.sos</code> to a task queue <code>shark</code>, with detailed information about <code>shark</code> defined in either global <code>~/.sos/config.yml</code> or local (<code>./config.yml</code>) formats. You can also save configurations to other configuration files and specify them using option <code>-c</code>. E.g.</p>
-<div class="highlight"><pre><span></span>sos run myscript -q shark -c shark.yml
-</pre></div>
-<p>Note that this option does not override option <code>queue</code> of steps so you could send some tasks to specific queues and all others to the default queue.</p>
+<p>would send all tasks in workflow <code>default</code> defined in <code>myscript.sos</code> to a task queue <code>shark</code>. Note that this option does not override option <code>queue</code> of steps so you could send some tasks to specific queues and all others to the default queue.</p>
 
 </div>
 </div>
@@ -1145,7 +1182,33 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="sos-status"><code>sos status</code><a class="anchor-link" href="#sos-status">&#182;</a></h3>
+<p>Dryrun mode allows you to test your workflow on a new server or task queue with the following approach:</p>
+<ol>
+<li>Define a <code>host_test</code> queue that is identical to <code>host</code> but with <code>max_running_jobs</code> set to 1.</li>
+<li><p>Run the script in dryrun mode, which would perform all file synchronization, task translation, submission steps, and execution steps. The only difference is that the scripts are printed instead of executed.</p>
+
+<pre><code> sos run script -q host_test -n</code></pre>
+<p>kill the command with <code>Ctrl-C</code> if the scripts are correct.</p>
+</li>
+<li><p>Submit one job to the task queue using command</p>
+
+<pre><code> sos run script -q host_test</code></pre>
+<p>kill the command if the task gets started and runs correctly.</p>
+</li>
+<li>Submit the rest of the tasks using command
+<pre><code> sos run script -q host</code></pre>
+ The job submitted at step 3 will be recognized and monitored. </li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Command-sos-status">Command <code>sos status</code><a class="anchor-link" href="#Command-sos-status">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -1166,10 +1229,10 @@ sos task 7736e
 
 <pre><code>sos task</code></pre>
 <p>would match all tasks and list the status of all local tasks.</p>
-<p>Option <code>-q</code> specifies the task queue to monitor. It will login to a remote host if the tasks are executed on a remote server. For example,</p>
+<p>Option <code>-q</code> specifies the task queue to monitor. For example,</p>
 
 <pre><code>sos status -q docker</code></pre>
-<p>would check the status of all tasks on a remote host <code>docker</code>.</p>
+<p>would check the status of all tasks on a remote host <code>docker</code>. You can monitor the tasks on <code>docker</code> on any machine with defined host <code>docker</code>.</p>
 
 </div>
 </div>
@@ -1327,8 +1390,8 @@ hosts:
 <div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1">#PBS -N ${task}</span>
 <span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
-<span class="c1">#PBS -l walltime=${walltime}</span>
-<span class="c1">#PBS -l mem=${mem}</span>
+<span class="c1">#PBS -l walltime=${walltime//3600}:${walltime/60%60}:${walltime%60}</span>
+<span class="c1">#PBS -l mem=${mem//1000000}GB</span>
 <span class="c1">#PBS -o ${cur_dir}/${task}.out</span>
 <span class="c1">#PBS -e ${cur_dir}/${task}.err</span>
 <span class="c1">#PBS -m ae</span>
