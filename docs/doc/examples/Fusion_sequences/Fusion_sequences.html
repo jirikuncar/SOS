@@ -468,7 +468,7 @@ body {
   <div class="file-info">
       <a href="Fusion_sequences.sos" class="commit-tease-sha">Fusion_sequences.sos</a>
       <span class="file-info-divider"></span>
-    3.9 KiB
+    2.7 KiB
   </div>
   <div class="file-actions">
   </div>
@@ -483,44 +483,6 @@ body {
 <span class="c1"># break points of fusions.</span>
 <span class="c1">#</span>
  
-</pre></div>
-
-<div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">DNA</span><span class="p">]</span>
-</pre></div>
-
-<div class="source blob-code sos-comment"><pre><span></span><span class="c1">#</span>
-<span class="c1"># Get DNA sequence for a particular fusion candidate with parameter</span>
-<span class="c1">#  break_point:  break point in the format of chr1:pos1&gt;chr2:pos2</span>
-<span class="c1">#  gene1:  5-prime gene</span>
-<span class="c1">#  gene2:  3-prime gene</span>
-<span class="c1">#  filename: a filename to write output</span>
-<span class="c1">#  lead:     length of left and right sequence around the breakpoint</span>
-<span class="c1">#</span>
-</pre></div>
-
-<div class="source blob-code sos-directive"><pre><span></span><span class="kn">parameter:</span> <span class="n">break_point</span> <span class="o">=</span> <span class="nb">str</span>
-<span class="kn">parameter:</span> <span class="n">gene1</span> <span class="o">=</span> <span class="nb">str</span>
-<span class="kn">parameter:</span> <span class="n">gene2</span> <span class="o">=</span> <span class="nb">str</span>
-<span class="kn">parameter:</span> <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/dev/stdout&#39;</span>
-<span class="kn">parameter:</span> <span class="n">lead</span> <span class="o">=</span> <span class="mi">50</span>
- 
-</pre></div>
-
-<div class="source blob-code sos-statement"><pre><span></span><span class="n">five_prime</span><span class="p">,</span> <span class="n">three_prime</span> <span class="o">=</span> <span class="n">break_point</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
-<span class="n">five_chr</span><span class="p">,</span> <span class="n">five_pos</span> <span class="o">=</span> <span class="n">five_prime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
-<span class="n">three_chr</span><span class="p">,</span> <span class="n">three_pos</span> <span class="o">=</span> <span class="n">three_prime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
- 
-</pre></div>
-
-<div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span> <span class="n">allow_error</span><span class="o">=</span><span class="bp">True</span>
-</pre></div>
-
-<div class="source blob-code sos-script "><pre><span></span><span class="nb">echo</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-<span class="nb">echo</span> <span class="s2">&quot;==&gt; </span><span class="si">${</span><span class="nv">gene1</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">${</span><span class="nv">gene2</span><span class="si">}</span><span class="s2">  </span><span class="si">${</span><span class="nv">break_point</span><span class="si">}</span><span class="s2">&quot;</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-vtools_report sequence <span class="si">${</span><span class="nv">five_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">int</span><span class="p">(five_pos)-lead</span><span class="si">}</span>-<span class="si">${</span><span class="nv">five_pos</span><span class="si">}</span> --zero-based<span class="se">\</span>
-     --mark <span class="si">${</span><span class="nv">five_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">int</span><span class="p">(five_pos)-lead</span><span class="si">}</span>-<span class="si">${</span><span class="nv">five_pos</span><span class="si">}</span> --marked-region -v0 &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-vtools_report sequence <span class="si">${</span><span class="nv">three_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">three_pos</span><span class="si">}</span>-<span class="si">${</span><span class="nv">int</span><span class="p">(three_pos)+lead</span><span class="si">}</span> --zero-based <span class="se">\</span>
-     --mark <span class="si">${</span><span class="nv">three_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">three_pos</span><span class="si">}</span>-<span class="si">${</span><span class="nv">int</span><span class="p">(three_pos)+lead</span><span class="si">}</span> --marked-region -v0 &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
  
 </pre></div>
 
@@ -547,66 +509,45 @@ vtools_report sequence <span class="si">${</span><span class="nv">three_chr</spa
 <span class="n">five_chr</span><span class="p">,</span> <span class="n">five_pos</span> <span class="o">=</span> <span class="n">five_prime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
 <span class="n">three_chr</span><span class="p">,</span> <span class="n">three_pos</span> <span class="o">=</span> <span class="n">three_prime</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
  
+ 
+</pre></div>
+
+<div class="source blob-code sos-statement"><pre><span></span><span class="n">gene1_strand</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">(</span><span class="s2">&quot;vtools_report transcript ${five_chr}:${int(five_pos)-lead}-${five_pos} --first-transcript --strand-only -v0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
+
+<div class="source blob-code sos-statement"><pre><span></span><span class="k">if</span> <span class="n">gene1_strand</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+    <span class="c1"># | &lt;==== </span>
+    <span class="n">gene1_range</span> <span class="o">=</span> <span class="s2">&quot;${int(five_pos)}-${int(five_pos)+lead-1}&quot;</span>
+<span class="kn">else:</span>
+    <span class="c1"># =====&gt; |</span>
+    <span class="n">gene1_range</span> <span class="o">=</span> <span class="s2">&quot;${int(five_pos)-lead+1}-${five_pos}&quot;</span>
+ 
+</pre></div>
+
+<div class="source blob-code sos-statement"><pre><span></span><span class="n">gene2_strand</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">(</span><span class="s2">&quot;vtools_report transcript ${three_chr}:${int(three_pos)}-${int(three_pos)+lead} --first-transcript --strand-only -v0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
+
+<div class="source blob-code sos-statement"><pre><span></span><span class="k">if</span> <span class="n">gene2_strand</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+    <span class="c1"># &lt;==== |</span>
+    <span class="n">gene2_range</span> <span class="o">=</span> <span class="s2">&quot;${int(three_pos)-lead+1}-${int(three_pos)}&quot;</span>
+<span class="kn">else:</span>
+    <span class="c1"># | ====&gt;</span>
+    <span class="n">gene2_range</span> <span class="o">=</span> <span class="s2">&quot;${three_pos}-${int(three_pos)+lead - 1}&quot;</span>
+ 
 </pre></div>
 
 <div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span> <span class="n">allow_error</span><span class="o">=</span><span class="bp">True</span>
 </pre></div>
 
 <div class="source blob-code sos-script "><pre><span></span><span class="nb">echo</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-<span class="nb">echo</span> <span class="s2">&quot;==&gt; </span><span class="si">${</span><span class="nv">gene1</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">${</span><span class="nv">gene2</span><span class="si">}</span><span class="s2">  </span><span class="si">${</span><span class="nv">break_point</span><span class="si">}</span><span class="s2">&quot;</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-vtools_report sequence <span class="si">${</span><span class="nv">five_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">int</span><span class="p">(five_pos)-lead</span><span class="si">}</span>-<span class="si">${</span><span class="nv">five_pos</span><span class="si">}</span> --transcribe --zero-based <span class="se">\</span>
-    --first-transcript <span class="se">\</span>
-     --mark <span class="si">${</span><span class="nv">five_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">int</span><span class="p">(five_pos)-lead</span><span class="si">}</span>-<span class="si">${</span><span class="nv">five_pos</span><span class="si">}</span> --marked-region -v1 &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-vtools_report sequence <span class="si">${</span><span class="nv">three_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">three_pos</span><span class="si">}</span>-<span class="si">${</span><span class="nv">int</span><span class="p">(three_pos)+lead</span><span class="si">}</span> --transcribe <span class="se">\</span>
-    --zero-based --first-transcript <span class="se">\</span>
-     --mark <span class="si">${</span><span class="nv">three_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">three_pos</span><span class="si">}</span>-<span class="si">${</span><span class="nv">int</span><span class="p">(three_pos)+lead</span><span class="si">}</span> --marked-region -v1 &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
- 
-</pre></div>
-
-<div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">DNA_all</span><span class="p">]</span>
-</pre></div>
-
-<div class="source blob-code sos-comment"><pre><span></span><span class="c1">#</span>
-<span class="c1"># Print DNA sequence for all fusions in all fusion report files under current directory</span>
-<span class="c1">#</span>
-</pre></div>
-
-<div class="source blob-code sos-directive"><pre><span></span><span class="kn">parameter:</span> <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/dev/stdout&#39;</span>
-<span class="kn">parameter:</span> <span class="n">lead</span> <span class="o">=</span> <span class="mi">50</span>
- 
-</pre></div>
-
-<div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span>
-</pre></div>
-
-<div class="source blob-code sos-script "><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;DNA sequence (</span><span class="si">${</span><span class="nv">lead</span><span class="si">}</span><span class="s2"> bp to the left and right of break point)&quot;</span> &gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-<span class="nb">echo</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
- 
-</pre></div>
-
-<div class="source blob-code sos-statement"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-</pre></div>
-
-<div class="source blob-code sos-statement"><pre><span></span><span class="n">fusion_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*/fusion/fusions_oncofuse.xls&#39;</span><span class="p">)</span>
-</pre></div>
-
-<div class="source blob-code sos-directive"><pre><span></span><span class="kn">input:</span> <span class="kp">for_each</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fusion_file&#39;</span><span class="p">:</span> <span class="n">fusion_files</span><span class="p">}</span>
- 
-</pre></div>
-
-<div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span>
-</pre></div>
-
-<div class="source blob-code sos-script "><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;Sample ID: </span><span class="si">${</span><span class="nv">fusion_file</span><span class="p">!dd</span><span class="si">}</span><span class="s2">&quot;</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
- 
-</pre></div>
-
-<div class="source blob-code sos-statement"><pre><span></span><span class="n">fusions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fusion_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-
-<div class="source blob-code sos-statement"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">mow</span> <span class="ow">in</span> <span class="n">fusions</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;DNA&#39;</span><span class="p">,</span> <span class="n">break_point</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;GENOMIC&#39;</span><span class="p">],</span> <span class="n">gene1</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;5_FPG_GENE_NAME&#39;</span><span class="p">],</span> 
-		<span class="n">gene2</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;3_FPG_GENE_NAME&#39;</span><span class="p">],</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">lead</span><span class="o">=</span><span class="n">lead</span><span class="p">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;==&gt; </span><span class="si">${</span><span class="nv">gene1</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">${</span><span class="nv">gene2</span><span class="si">}</span><span class="s2">  </span><span class="si">${</span><span class="nv">break_point</span><span class="si">}</span><span class="s2"> (</span><span class="si">${</span><span class="nv">gene1_strand</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">gene2_strand</span><span class="si">}</span><span class="s2">)&quot;</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
+vtools_report sequence <span class="si">${</span><span class="nv">five_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">gene1_range</span><span class="si">}</span> --transcribe --zero-based <span class="se">\</span>
+     --show-transcript <span class="se">\</span>
+     --mark <span class="si">${</span><span class="nv">five_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">gene1_range</span><span class="si">}</span> --marked-region -v0 &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
+<span class="nb">echo</span>  &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
+vtools_report sequence <span class="si">${</span><span class="nv">three_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">gene2_range</span><span class="si">}</span> --transcribe <span class="se">\</span>
+    --zero-based --show-transcript <span class="se">\</span>
+     --mark <span class="si">${</span><span class="nv">three_chr</span><span class="si">}</span>:<span class="si">${</span><span class="nv">gene2_range</span><span class="si">}</span> --marked-region -v0 &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
  
 </pre></div>
 
@@ -623,15 +564,6 @@ vtools_report sequence <span class="si">${</span><span class="nv">three_chr</spa
  
 </pre></div>
 
-<div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span>
-</pre></div>
-
-<div class="source blob-code sos-script "><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;mRNA sequence (</span><span class="si">${</span><span class="nv">lead</span><span class="si">}</span><span class="s2"> bp to the left and right of break point)&quot;</span> &gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-<span class="nb">echo</span> <span class="s2">&quot;(sequence might be on reverse strand) &quot;</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
-<span class="nb">echo</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
- 
-</pre></div>
-
 <div class="source blob-code sos-statement"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 </pre></div>
 
@@ -645,7 +577,9 @@ vtools_report sequence <span class="si">${</span><span class="nv">three_chr</spa
 <div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span>
 </pre></div>
 
-<div class="source blob-code sos-script "><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;Sample ID: </span><span class="si">${</span><span class="nv">fusion_file</span><span class="p">!dd</span><span class="si">}</span><span class="s2">&quot;</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
+<div class="source blob-code sos-script "><pre><span></span><span class="nb">echo</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
+<span class="nb">echo</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
+<span class="nb">echo</span> <span class="s2">&quot;Sample ID: </span><span class="si">${</span><span class="nv">fusion_file</span><span class="p">!dd</span><span class="si">}</span><span class="s2">&quot;</span> &gt;&gt; <span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
  
 </pre></div>
 
@@ -658,6 +592,19 @@ vtools_report sequence <span class="si">${</span><span class="nv">three_chr</spa
  
 </pre></div>
 
+<div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">init</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="s1">&#39;fusion.proj&#39;</span><span class="p">]</span>
+</pre></div>
+
+<div class="source blob-code sos-comment"><pre><span></span> 
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">run:</span>
+</pre></div>
+
+<div class="source blob-code sos-script "><pre><span></span>vtools init fusion -f --build hg19
+ 
+</pre></div>
+
 <div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">default</span><span class="p">]</span>
 </pre></div>
 
@@ -666,10 +613,12 @@ vtools_report sequence <span class="si">${</span><span class="nv">three_chr</spa
 <span class="c1">#</span>
 </pre></div>
 
-<div class="source blob-code sos-statement"><pre><span></span><span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;DNA_all&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;DNA50.txt&#39;</span><span class="p">,</span> <span class="n">lead</span><span class="o">=</span><span class="mi">50</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;DNA_all&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;DNA300.txt&#39;</span><span class="p">,</span> <span class="n">lead</span><span class="o">=</span><span class="mi">300</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;RNA_all&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;RNA50.txt&#39;</span><span class="p">,</span> <span class="n">lead</span><span class="o">=</span><span class="mi">50</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;RNA_all&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;RNA300.txt&#39;</span><span class="p">,</span> <span class="n">lead</span><span class="o">=</span><span class="mi">300</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">depends:</span> <span class="s1">&#39;fusion.proj&#39;</span>
+ 
+</pre></div>
+
+<div class="source blob-code sos-statement"><pre><span></span><span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;RNA_all&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;RNA50.txt&#39;</span><span class="p">,</span> <span class="n">lead</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;RNA_all&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;RNA300.txt&#39;</span><span class="p">,</span> <span class="n">lead</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
  
  
 </pre></div>
