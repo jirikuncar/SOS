@@ -337,7 +337,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Common-host-configuration">Common host configuration<a class="anchor-link" href="#Common-host-configuration">&#182;</a></h2>
+<h2 id="~/.sos/hosts.yml"><code>~/.sos/hosts.yml</code><a class="anchor-link" href="#~/.sos/hosts.yml">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -346,17 +346,44 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A server or task queue needs to be defined in SoS configuration file. SoS automatically loads a global configuration file <code>~/.sos/config.yml</code>, and a local configuration file <code>./config.yml</code>. You can also put your settings in any configuration file and specify it with option <code>-c</code>. We recommend that you define all host configuration in global configuration file <code>~/.sos/config.yml</code> so that it can be used by all your projects.</p>
+<p>A server or task queue needs to be defined in SoS configuration file. SoS automatically loads global configuration files <code>~/.sos/hosts.yml</code>, <code>~/.sos/config.yml</code>, and a local configuration file <code>./config.yml</code>. You can also put your settings in any configuration file and specify it with option <code>-c</code>. <code>~/.sos/hosts.yml</code> is designed to record all host-related configurations and should be used for this purpose.</p>
 <p>The configuration file could be edited manually if you are familiar with the YAML format. Otherwise you can use the <code>sos config</code> command to add or modify settings. For example, command</p>
-<div class="highlight"><pre><span></span>sos config --global --set hosts.shark.address username@shark.com
+<div class="highlight"><pre><span></span>sos config --hosts --set hosts.shark.address username@shark.com
 </pre></div>
-<p>would write to <code>~/.sos/config.yml</code> the following content</p>
+<p>would write to <code>~/.sos/hosts.yml</code> the following content</p>
 
-<pre><code>yml
-hosts:
+<pre><code>hosts:
     shark:
         address: username@shark.com</code></pre>
 <p>This effectively defines a host with alias <code>shark</code>. All configurations related to this host should be defined under <code>shark</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Define-localhost">Define <code>localhost</code><a class="anchor-link" href="#Define-localhost">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You will need to configure both localhost and server to be able to send local jobs to remote servers or task queues. A <code>localhost</code> should be defined to point to an existing host definition. For example, if a <code>desktop</code> is defined in <code>~/.sos/hosts.yml</code> as</p>
+
+<pre><code>hosts:
+    OfficeDesktop:
+        paths:
+            home: /Users/myuser</code></pre>
+<p>You should use command</p>
+
+<pre><code>sos config --global --set localhost OfficeDesktop</code></pre>
+<p>to define <code>localhost</code> as <code>OfficeDesktop</code>.</p>
 
 </div>
 </div>
@@ -375,39 +402,12 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>IP address or URL to the remote host. Name <code>localhost</code> can be used for localhost. If you have a different user name on the the remote host, specify the <code>address</code> in the format of <code>username@hostaddress</code>.</p>
-<p>Note that SoS does not support username/password authentication and you will have to set up public key authentication between local and remote hosts to  communicate with remote host.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="path_map"><code>path_map</code><a class="anchor-link" href="#path_map">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>path_map</code> is a list of directory mappings between local and remote directories. Paths in a <code>path_map</code> should be absolute path and a local path will be converted to absolute path before mapping. For example, a <code>path_map</code></p>
-
-<pre><code>/Users/myuser/:/home/myuser/</code></pre>
-<p>would map <code>test/a.txt</code> under home directory to <code>/home/myuser/test/a.txt</code>, and map <code>/Users/myuser/resources</code> to <code>/home/myuser/resources</code>.</p>
-<p>Multiple <code>path_map</code> could be defined and a path is mapped by the first matching <code>path_map</code>. For example,</p>
-
-<pre><code>/Users/myuser/projects/:/home/myuser/scratch/projects/
-/Users/myuser:/home/myuser</code></pre>
-<p>will map <code>/Users/myuser/projects/input.fastq</code> to <code>/home/myuser/scratch/projects/input.fastq</code>, and <code>/users/myuser/a.txt</code> to <code>/home/myuser/a.txt</code>.</p>
-<p>The order of the map is significant and the second <code>path_map</code> in the following configuration will be ignored because it is shadowed by the first one.</p>
-
-<pre><code>/Users/myuser:/home/myuser
-/Users/myuser/projects/:/home/myuser/scratch/projects/</code></pre>
+<p>IP address or URL of the host. Note that</p>
+<ul>
+<li><code>address</code> should be ignored for hosts, for example your desktop, that do not accept remote execution.</li>
+<li>If you have a different user name on the the remote host, specify the <code>address</code> in the format of <code>username@hostaddress</code>.</li>
+<li>SoS does not support username/password authentication and you will have to set up public key authentication between local and remote hosts to communicate with remote host.</li>
+</ul>
 
 </div>
 </div>
@@ -426,18 +426,99 @@ hosts:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Option <code>shared</code> tells SoS which file systems are shared between local and remote hosts so that it does not have to synchronize files under these directories between the hosts.</p>
-<p>You will need to</p>
-<ul>
-<li>Ignore this option if the local and remote hosts does not share any file system.</li>
-<li>set <code>shared</code> to <code>/</code> (root) if your local and remote host share all file systems</li>
-<li>List volumes that are shared between your local and remote systems</li>
-</ul>
-<p>Shared file systems do not have to be mounted at the same locations. For example, a local file system <code>/projects</code> might be available at the remote host under <code>/scratch/projects</code>. In this case, you should</p>
-<ul>
-<li>Set <code>/projects</code> as <code>shared</code> so that files under <code>/projects</code> will not be copied.</li>
-<li>Set <code>/projects:/scratch/projects</code> in <code>path_map</code> so that the path can be correctly translated between local and remote hosts.</li>
-</ul>
+<p>Option <code>shared</code> tells SoS which file systems are shared between localhost and some remote hosts so that it does not have to synchronize files under these directories between the hosts.</p>
+<p>The <code>shared</code> entry should be defined with <code>name</code> and <code>path</code> pairs in the format of</p>
+
+<pre><code>hosts:
+    desktop:
+    server:
+        shared:
+            project: /myprojects
+            HTFS: /
+    worker:
+        shared:
+            HTFS: /
+    server1:
+        shared:
+            project: /scratch/myprojects
+            data: /scratch/data
+`</code></pre>
+<p>The above cooked configuration says:</p>
+<ol>
+<li><code>desktop</code> does not share any volume with any other machine so all files need to be transferred.</li>
+<li><code>server</code> and <code>worker</code> shares <code>HTFS</code> with directory <code>/</code>, so all files are shared.</li>
+<li><code>server</code> and <code>server1</code> share a <code>project</code> volume but the volume is mounted at different locations. So files under <code>myprojects</code> are not synchronized if you are submitting jobs from <code>server</code> to <code>server1</code>, and files under <code>/scratch/myprojects</code> are not synchronized if you are submitting jobs from <code>server1</code> to <code>server</code>.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="paths"><code>paths</code><a class="anchor-link" href="#paths">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>paths</code> defines paths that will be translated when a task is executed remotely. For example, your input file on a mac might be <code>/Users/myuser/project/KS28.fa</code>, but it should be named <code>/home/myuser/project/KS28.fa</code> if it is processed on a remote server. In this case, you should define directories <code>/Users/myuser</code> and <code>/home/myuser</code> as equivalent directories on the two hosts, using</p>
+
+<pre><code>hosts:
+    desktop:
+        paths:
+            home: /Users/myuser
+    server:
+        paths:
+            home: /home/myuser</code></pre>
+<p>Multiple entried could be defined and the files would be mapped by the first mapped path. For example, if you have on the server a shared location for all resources, you could define</p>
+
+<pre><code>hosts:
+    desktop:
+        paths:            
+            resource: /Users/myuser/resources
+            home: /Users/myuser
+    server:
+        paths:
+            home: /home/myuser
+            resource: /shared/resources</code></pre>
+<p>so that <code>/Users/myuser/resources/hg19.fa</code> could be mapped to <code>/shared/resources/hg19.fa</code> on the server. Note that the order of <code>resource</code> and <code>home</code> is important because <code>home</code> would be first applied and translate <code>/Users/myuser/resources/hg19.fa</code> to <code>/home/myuser/resources/hg19.fa</code> if <code>home</code> is defined before <code>resource</code>.</p>
+<p>SoS will not map paths that are not defined in both local and remote hosts so the <code>paths</code> definitions essentially creates <code>path_map</code> between the hosts as described below.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="path_map-(derived)"><code>path_map</code> (derived)<a class="anchor-link" href="#path_map-(derived)">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With definitions of <code>paths</code> on both hosts, SoS would derive a set of <code>path_maps</code> between all hosts. Actually, when you run</p>
+
+<pre><code>sos status -q</code></pre>
+<p>to list all host configurations, SoS would list all hosts accessible from <code>localhost</code>, with host-specific <code>path_map</code>, which is a list of directory mappings between local and remote directories. Paths in a <code>path_map</code> are absolute path and a local path will be converted to absolute path before mapping. For example, a <code>path_map</code></p>
+
+<pre><code>/Users/myuser/:/home/myuser/</code></pre>
+<p>would map <code>test/a.txt</code> under home directory to <code>/home/myuser/test/a.txt</code>, and map <code>/Users/myuser/resources</code> to <code>/home/myuser/resources</code>.</p>
+<p>Multiple <code>path_map</code> might exist between hosts and a path is mapped by the first matching <code>path_map</code>. For example,</p>
+
+<pre><code>/Users/myuser/projects/:/home/myuser/scratch/projects/
+/Users/myuser:/home/myuser</code></pre>
+<p>will map <code>/Users/myuser/projects/input.fastq</code> to <code>/home/myuser/scratch/projects/input.fastq</code>, and <code>/users/myuser/a.txt</code> to <code>/home/myuser/a.txt</code>.</p>
 
 </div>
 </div>
@@ -1362,21 +1443,26 @@ sos execute [tasks] [-q queue]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Host-configuration">Host configuration<a class="anchor-link" href="#Host-configuration">&#182;</a></h4><p><code>~/.sos/config.yml</code></p>
+<h4 id="Host-configuration">Host configuration<a class="anchor-link" href="#Host-configuration">&#182;</a></h4><p><code>~/.sos/hosts.yml</code></p>
 
-<pre><code>yml
-hosts:
+<pre><code>hosts:
   nautilus:
     address: mdarisngc03.mdanderson.edu
-    path_map:
-    - /Users/bpeng1:/scratch/bcb/bpeng1
+    paths:
+      home: /scratch/bcb/bpeng1
     queue_type: pbs
     status_check_interval: 30
     template_file: ~/.sos/HPC.tmpl
     max_running_jobs: 100
     submit_cmd: msub ${job_file}
     status_cmd: qstat ${job_id}
-    kill_cmd: qdel ${job_id}</code></pre>
+    kill_cmd: qdel ${job_id}
+  workstation:
+    paths:
+      home:/Users/bpeng1</code></pre>
+<p><code>~/.sos/config.yml</code></p>
+
+<pre><code>localhost: workstation</code></pre>
 
 </div>
 </div>
