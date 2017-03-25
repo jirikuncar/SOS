@@ -1170,10 +1170,11 @@ group_by=combinations
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -1191,7 +1192,27 @@ group_by=combinations
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 1.txt 100 50
+1 2.txt 300 50
+2 3.txt 300 100
+3 4.txt 300 200
+</pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1214,7 +1235,7 @@ group_by=combinations
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -1267,7 +1288,7 @@ group_by=combinations
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -1310,11 +1331,54 @@ group_by=combinations
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Similar to option <code>for_each</code>, if the variable is an attribute of an object (e.g. <code>aligned.output</code>), the iterator variable will be named without the attribute part (e.g. <code>_aligned</code> for <code>paired_with='aligned.output'</code>).</p>
+<p>In case that the variable you would like to pair has a name with <code>.</code> (e.g. <code>align.output</code> for which name of looping variable <code>_align.outpu</code> is invalid) or if you would like to control the name of the looping variable, you can use the full format of this parameter <code>{var_name: var_value}</code>.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="err">!</span><span class="n">mkdir</span> <span class="n">case</span> <span class="n">ctrl</span>
+<span class="err">!</span><span class="n">touch</span> <span class="n">case</span><span class="o">/</span><span class="n">A1</span><span class="o">.</span><span class="n">bam</span> <span class="n">case</span><span class="o">/</span><span class="n">A2</span><span class="o">.</span><span class="n">bam</span> <span class="n">ctrl</span><span class="o">/</span><span class="n">A1</span><span class="o">.</span><span class="n">bam</span> <span class="n">ctrl</span><span class="o">/</span><span class="n">A2</span><span class="o">.</span><span class="n">bam</span>
+
+<span class="n">bam_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;case/A1.bam&#39;</span><span class="p">,</span> <span class="s1">&#39;case/A2.bam&#39;</span><span class="p">,</span> <span class="s1">&#39;ctrl/A1.bam&#39;</span><span class="p">,</span> <span class="s1">&#39;ctrl/A2.bam&#39;</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="n">bam_files</span><span class="p">,</span> <span class="kp">paired_with</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;mutated&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">,</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;sample_name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">]</span>
+    <span class="p">},</span> <span class="kp">group_by</span><span class="o">=</span><span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;${_index}: _input=${_input} mutated=${mutated}, sample_name=${sample_name}&quot;</span><span class="p">)</span>
+</pre></div>
 
 </div>
 </div>
 </div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0: _input=case/A1.bam mutated=case, sample_name=A1
+1: _input=case/A2.bam mutated=case, sample_name=A2
+2: _input=ctrl/A1.bam mutated=ctrl, sample_name=A1
+3: _input=ctrl/A2.bam mutated=ctrl, sample_name=A2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1337,7 +1401,7 @@ group_by=combinations
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -1396,7 +1460,7 @@ group_by=combinations
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -1544,7 +1608,7 @@ by one so generate multiple <code>output</code> files (<code>'${_input}.bai'</co
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
@@ -1568,7 +1632,7 @@ by one so generate multiple <code>output</code> files (<code>'${_input}.bai'</co
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Output target *.html does not exist after the completion of step default_10 (curdir=/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpjxpmucop)
+<pre>Output target *.html does not exist after the completion of step default_10 (curdir=/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmpgi3r_3pg)
 </pre>
 </div>
 </div>
@@ -1590,7 +1654,7 @@ by one so generate multiple <code>output</code> files (<code>'${_input}.bai'</co
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -1676,7 +1740,7 @@ of input and output files and related variables.</p>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -1706,7 +1770,7 @@ of input and output files and related variables.</p>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
