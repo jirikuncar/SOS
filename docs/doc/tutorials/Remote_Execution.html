@@ -273,6 +273,38 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Configure-local-and-remote-hosts">Configure local and remote hosts<a class="anchor-link" href="#Configure-local-and-remote-hosts">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now you need to configure your local and remote hosts so that SoS knows how to communicate between them. The hosts configurations should be defined in <code>~/.sos/hosts.yml</code>, and should look similar to</p>
+
+<pre><code>hosts:
+    desktop:
+        paths:
+            home: /Users/myuser
+    monster:
+        address: dcdr1ue8ee.yourdomain.com
+        paths:
+            home: /home/myuser</code></pre>
+<p>The format is easy enough to edit directly, but you can also use commands such as</p>
+
+<pre><code>% sos config --hosts --set hosts.monster.address dcdrlue8ee.yourdomain.com</code></pre>
+<p>to add or change key <code>hosts['monster']['address']</code> to <code>dcdrlue8ee.yourdomain.com</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Configure-address">Configure <code>address</code><a class="anchor-link" href="#Configure-address">&#182;</a></h3>
 </div>
 </div>
@@ -282,17 +314,13 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To make it easier to communicate with the remote server, give it an alias so that you do not have to specify the long URL each time. To do this execute command</p>
-
-<pre><code>% sos config --global --set hosts.monster.address dcdrlue8ee.yourdomain.com</code></pre>
-<p>where <code>monster</code> is a short alias and <code>dcdrlue8ee.yourdomain.com</code> is the complete address.</p>
-<p>This commands writes to <code>~/.sos/config.yml</code> the following entry</p>
+<p>You should specify in the <code>hosts</code> section the address of remote host, similar to</p>
 
 <pre><code>hosts:
   monster:
     address: dcdrlue8ee.yourdomain.com</code></pre>
-<p>You can write to this file directly if you are familiar with YML format.</p>
 <p>If your account name differs between the local and remote servers, the complete address should be <code>username@address</code>. In this example <code>john@dcdrlue8ee.yourdomain.com</code> if the remote server account is <code>john</code>.</p>
+<p>You can also specify <code>address</code> for your localhost if you plan to remotely login to the localhost.</p>
 
 </div>
 </div>
@@ -302,7 +330,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Configure-path_map">Configure <code>path_map</code><a class="anchor-link" href="#Configure-path_map">&#182;</a></h3>
+<h3 id="Configure-paths">Configure <code>paths</code><a class="anchor-link" href="#Configure-paths">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -311,35 +339,37 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>path_map</code> is a list of directory mappings between local and remote directories. For example, if you work locally on a Mac machine with home directory <code>/Users/myuser</code>, and the remote server is a Linux machine with home directory <code>/home/myuser</code>, you should define a <code>path_map</code> using command</p>
-
-<pre><code>% sos config --global --set hosts.monster.path_map /Users/myuser/:/home/myuser/</code></pre>
-<p>In this way, if the local data is <code>/User/myuser/projects/input.fastq</code>, the path will be translated to <code>/home/myuser/projects/input.fastq</code> during remote execution.</p>
-<p>In more complicated cases where there are different directories, more than one mapping can be specified. For example, if you have directories under different volumes, you can map them differently using</p>
-<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.path_map <span class="se">\</span>
-    /Users/myuser/projects/:/home/myuser/scratch/projects/  <span class="se">\</span>
-    /Volumes/Resource:/home/myuser/resource <span class="se">\</span>
-    /Users/myuser:/home/myuser
-</pre></div>
-<p>This command will write the following entries to the configuration file</p>
+<p><code>paths</code> is a list of directories that will be translated between hosts. For example, if you work locally on a Mac machine with home directory <code>/Users/myuser</code>, and the remote server is a Linux machine with home directory <code>/home/myuser</code>, you should define a <code>paths</code> with definitions of <code>home</code> as follows:</p>
 
 <pre><code>hosts:
-  monster:
-    address: dcdrlue8ee.yourdomain.com
-    path_map:
-    - /Users/myuser/projects/:/home/myuser/scratch/projects/
-    - /Volumes/Resource:/home/myuser/resource
-    - /Users/myuser:/home/myuser</code></pre>
-<p>and will map your local direcrories as follows</p>
-
-<pre><code>~/projects/data ==&gt; /home/myuser/scratch/projects/data
-/Volumes/Resources/hg19.fasta ==&gt; /home/myuser/resource/hg19.fasta
-~/myscript ==&gt; /home/myuser/myscript.py</code></pre>
+    desktop:
+        paths:
+            home: /Users/myuser
+    monster:
+        address: dcdr1ue8ee.yourdomain.com
+        paths:
+            home: /home/myuser</code></pre>
+<p>In this way, if the local data is <code>/User/myuser/projects/input.fastq</code>, the path will be translated to <code>/home/myuser/projects/input.fastq</code> during remote execution.</p>
+<p>In more complicated cases where there are different directories, more than one <code>paths</code> can be specified. For example, if you have directories under different volumes, you can map them differently using</p>
+<div class="highlight"><pre><span></span>hosts:
+    desktop:
+        paths:
+            home: /Users/myuser
+            project: /Users/myuser/projects
+            resource: /Volumes/Resource
+    monster:
+        address: dcdr1ue8ee.yourdomain.com
+        paths:
+            home: /home/myuser
+            project: /home/myuser/scratch/projects
+            resource: /home/myuser/resource
+</pre></div>
 <p>Note that</p>
 <ol>
-<li>Both source and destination paths should be absolute (starts with <code>/</code> for Linux-like systems).</li>
-<li>SoS expands local directories to absolute path before applying <code>path_map</code>.</li>
-<li>SoS applies path maps at the order in which they are specified, so you should specify general mappings after more specific ones. For example, if you specify <code>/Users/myuser:/home/myuser</code> before <code>/Users/myuser/projects/:/home/myuser/scratch/projects/</code>, path <code>/Users/myuser/projects/input.txt</code> would be mapped to <code>/home/myuser/projects/input</code>, not to the intended directory <code>/home/myuser/scratch/projects/input</code>.</li>
+<li>You can define multiple <code>paths</code> such as <code>home</code>, <code>scratch</code>, <code>working</code>, <code>resource</code>, but <strong>paths should be defined for all hosts</strong>.</li>
+<li>All <code>paths</code> should be absolute (starts with <code>/</code> for Linux-like systems).</li>
+<li>SoS expands local directories to absolute path before matching to a <code>paths</code>.</li>
+<li>If there are multiple matches, SoS choose the longest-matching path. For example, path <code>/Users/myuser/projects/input.txt</code> would be identified as <code>project</code> (not <code>home</code>) and be mapped to <code>/home/myuser/scratch/projects/input.txt</code>.</li>
 </ol>
 
 </div>
@@ -363,23 +393,55 @@ $( document ).ready(function(){
 <ul>
 <li><p>SoS assumes independent file systems so you do not have to specify option <code>shared</code> if the local and remote hosts does not share any file system.</p>
 </li>
-<li><p>If your local and remote host share all file systems, you should use command</p>
-<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /
-</pre></div>
-<p>to indicate that the root directory is shared so no cross-network copy is needed.</p>
-</li>
-<li><p>If your local and remote host share one or more shared volumes, you can specify them with command</p>
-<div class="highlight"><pre><span></span>% sos config --global --set hosts.monster.shared /projects /data
-</pre></div>
-<p>to indicate that local files under these directories are available on the remote host.</p>
+<li><p>If your local and remote host share all file systems, you should list <code>/</code> as shared.</p>
+
+<pre><code>  hosts:
+      desktop:
+          shared:
+              ALL: /
+      monster:
+          shared:
+              ALL: /</code></pre>
+<p>The name <code>ALL</code> does not matter as long as they match between hosts.</p>
 </li>
 </ul>
-<p>Shared file systems do not have to be mounted at the same locations. For example, a local file system <code>/projects</code> might be available at the remote host under <code>/scratch/projects</code>. In this case, you should</p>
 <ul>
-<li>Set <code>/projects</code> as <code>shared</code> so that files under <code>/projects</code> will not be copied.</li>
-<li>Set <code>/projects:/scratch/projects</code> in <code>path_map</code> so that the path can be correctly translated between local and remote hosts.</li>
+<li><p>If your local and remote host share one or more shared volumes, you can specify them with</p>
+
+<pre><code>  hosts:
+      desktop:
+          shared:
+              project: /project
+      monster:
+          shared:
+              project: /scratch/project</code></pre>
+<p>to indicate that local files under <code>/project</code> shared to <code>monster</code>.</p>
+</li>
 </ul>
-<p>It is important to remember that <strong>SoS does not copy files under shared directories</strong>. If the local and remote host share a file system but you really would like to copy files to a differenet directory, you can ignore the <code>shared</code> option and let SoS copy files as if they are separate file systems.</p>
+<p>Items under <code>shared</code> are treated as special <code>paths</code>. Files under these directories are mapped, but not synchronized.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Specify-localhost">Specify <code>localhost</code><a class="anchor-link" href="#Specify-localhost">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After you configure both local and remote host, you will need to tell sos what your <code>localhost</code> is in the <code>hosts</code> list using command</p>
+
+<pre><code>% sos config --global --set localhost desktop</code></pre>
+<p>which actually writes <code>localhost: desktop</code> in the system configuration file.</p>
+<p>If you have defined multiple hosts in the <code>hosts.yml</code> file, you should distribute this file to all hosts and set <code>localhost</code> accordingly, so that all machines know how to communicate with each other.</p>
 
 </div>
 </div>
@@ -398,29 +460,25 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The server settings are critically important for the successful execution of commands on remote servers. As an example, I am working on a Mac mini (with limited CPU/RAM) and have access to a Mac Pro workstation and a Linux server. The hosts configurations for these two machines are</p>
+<p>The server settings are critically important for the successful execution of commands on remote servers. As an example, I am working on a Mac mini (with limited CPU/RAM) and have access to a Mac Pro workstation and a Linux server. The hosts configurations for these machines are</p>
 
 <pre><code>hosts:
+  mini:
+    paths:
+      home: /Users/bpeng1
+      resource: /Users/bpeng1/.sos/resource
   macpro:
     address: mp-bpeng.mdanderson.edu
-    path_map:
-    - /Users/bpeng1/.sos/RNASeq/:/Volumes/Home/.sos/
+    paths:
+      home: /Users/bpeng1
+      resource: /Volumes/HOME/resource
   linux:
     address: dcdrlpmcfd.mdanderson.edu
-    path_map:
-    - /Users/bpeng1/.sos/RNASeq/:/home/bpeng1/.sos/
-    - /Users/bpeng1:/home/bpeng1</code></pre>
-<p>For the Macpro,</p>
-<ol>
-<li>Resources under <code>~/.sos/RNASeq</code> is mapped to a separate volume under <code>/Volumes/Home/.sos</code>.</li>
-<li>Both systems have <code>/Users/bpeng1</code> so no other mapping is needed.</li>
-</ol>
-<p>For the linux server,</p>
-<ol>
-<li>Resources under local <code>~/.sos/RNASeq</code> is mapped to <code>/home/bpeng1/.sos</code> on the server</li>
-<li>Home directory <code>/Users/bpeng1</code> is mapped to <code>/home/bpeng1</code> on the linux server.</li>
-<li>No file system is shared between the Mac mini and the Linux server.</li>
-</ol>
+    paths:
+      home: /home/bpeng1
+      resource: /home/bpeng1/.sos/resource</code></pre>
+<p>I defined two <code>paths</code> named <code>home</code> and <code>resource</code> because although <code>resource</code> is at the same location <code>~/.sos/resource</code>, it is in a dedicated volume <code>/Volumes/HOME/</code> on the macpro.</p>
+<p>With this <code>hosts.yml</code> and proper definition of <code>localhost</code> on each machine, it is possible to submit jobs from <code>mini</code> to <code>macpro</code> and <code>linux</code>, from <code>macpro</code> to <code>linux</code> and from <code>linux</code> to <code>macpro</code>. It is not possible to submit jobs remotely to <code>mini</code> because no <code>address</code> is defined for this host.</p>
 
 </div>
 </div>
@@ -452,39 +510,6 @@ $( document ).ready(function(){
 
 <pre><code>task:   queue='monster'</code></pre>
 <p>Here <code>monster</code> is the alias of the host.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Instead of using a configuration file to save configurations to all hosts, you can also specify all host related information in option <code>queue</code> as a dictionary. This method is preferred by users who would like to keep everything in the script. A common usage pattern is to define all hosts in the global section of the script:</p>
-<div class="highlight"><pre><span></span><span class="n">host1</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="s1">&#39;address-of-host1&#39;</span>
-        <span class="s1">&#39;path_map&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;path1:remote_path1&#39;</span><span class="p">,</span>
-                     <span class="s1">&#39;path2:remote_path2&#39;</span><span class="p">],</span>
-         <span class="s1">&#39;shared&#39;</span><span class="p">:</span>  <span class="s1">&#39;/shared/path&#39;</span>
-         <span class="p">}</span>
-<span class="n">host2</span> <span class="o">=</span> <span class="o">...</span>
-</pre></div>
-<p>and use the configurations as follows:</p>
-<div class="highlight"><pre><span></span><span class="kn">task:</span>     <span class="kp">queue</span><span class="o">=</span><span class="n">host1</span><span class="p">,</span>
-          <span class="kp">to_host</span><span class="o">=...</span><span class="p">,</span> <span class="kp">from_host</span><span class="o">=...</span>
-</pre></div>
-<p>Or even allows the specification of hosts from command line:</p>
-<div class="highlight"><pre><span></span><span class="n">hosts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;host1&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-         <span class="s1">&#39;host2&#39;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span>
-         <span class="s1">&#39;localhost&#39;</span><span class="p">:</span> <span class="bp">None</span>
-         <span class="p">}</span>
-<span class="c1"># by default execute locally        </span>
-<span class="kn">parameter:</span> <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
-
-<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="kn">task:</span>   <span class="kp">queue</span><span class="o">=</span><span class="n">hosts</span><span class="p">[</span><span class="n">host</span><span class="p">]</span>
-</pre></div>
 
 </div>
 </div>

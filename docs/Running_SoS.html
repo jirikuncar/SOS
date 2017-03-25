@@ -109,9 +109,11 @@ server</a> from which you can open our sample notebooks and create your own note
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li><a href="https://github.com/takluyver/bash_kernel">Jupyter Bash Kernel</a></li>
-</ul>
+<p>Install Bash Jupyter kernel using command</p>
+
+<pre><code>pip install bash_kernel
+python -m bash_kernel.install</code></pre>
+<p>or following instructions from <a href="https://github.com/takluyver/bash_kernel">Jupyter Bash Kernel homepage</a>.</p>
 <p>Understandably, it can be tricky to use bash under windows.</p>
 
 </div>
@@ -180,7 +182,11 @@ python -m ipykernel install --user
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The following packages are needed if you are using SoS with R</p>
+<p>If you are using anaconda, you can install R and required packages using</p>
+
+<pre><code>conda install -c r r-essentials
+conda install -c conda-forge feather-format</code></pre>
+<p>Otherwise, you will need to install</p>
 <ul>
 <li><a href="https://www.r-project.org/">R</a> version 3.2 or later (for IRKernel)</li>
 <li><a href="https://github.com/IRkernel/IRkernel">IRKernel</a> R kernel for Jupyter</li>

@@ -169,7 +169,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A complex workflow usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them can be time- and resource-consuming and would better be executed on dedicated servers or cluster systems. It can be challenging to execute such workflows efficiently, for example,</p>
+<p>Complex workflows usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them can be time- and resource-consuming and would better be executed on dedicated servers or cluster systems. It can be challenging to execute such workflows efficiently, for example,</p>
 <ol>
 <li><p>Executing the entire workflow on the cluster as a single multi-processing job is not ideal because 1). you would have to allocate enough resource for the most CPU and RAM-demanging step and longest execution time for the most time-consuming step but these resources are not utilized efficiently, and 2). you are limiting yourself to a single node and cannot really execute the workflow in parallel.</p>
 </li>
@@ -476,19 +476,19 @@ run:
     server:
         paths:
             home: /home/myuser</code></pre>
-<p>Multiple entried could be defined and the files would be mapped by the first mapped path. For example, if you have on the server a shared location for all resources, you could define</p>
+<p>Multiple entried could be defined and the files would be mapped by the longest mapping path. For example, if you have on the server a shared location for all resources, you could define</p>
 
 <pre><code>hosts:
     desktop:
         paths:            
-            resource: /Users/myuser/resources
             home: /Users/myuser
+            resource: /Users/myuser/resources
     server:
         paths:
             home: /home/myuser
             resource: /shared/resources</code></pre>
-<p>so that <code>/Users/myuser/resources/hg19.fa</code> could be mapped to <code>/shared/resources/hg19.fa</code> on the server. Note that the order of <code>resource</code> and <code>home</code> is important because <code>home</code> would be first applied and translate <code>/Users/myuser/resources/hg19.fa</code> to <code>/home/myuser/resources/hg19.fa</code> if <code>home</code> is defined before <code>resource</code>.</p>
-<p>SoS will not map paths that are not defined in both local and remote hosts so the <code>paths</code> definitions essentially creates <code>path_map</code> between the hosts as described below.</p>
+<p>so that <code>/Users/myuser/resources/hg19.fa</code> could be mapped to <code>/shared/resources/hg19.fa</code> on the server. Note that <code>/Users/myuser/resource/hg19.fa</code> would be matched to <code>resource</code> instead of <code>home</code> because <code>resource</code> matches longer piece of the input path.</p>
+<p>Two hosts must have the same set of <code>paths</code> to be connected so although sets of paths can vary (e.g. <code>home</code>, <code>scratch</code>, <code>working</code>, <code>resource</code>), it is important to define the same set of <code>paths</code> for all servers.</p>
 
 </div>
 </div>
@@ -510,15 +510,10 @@ run:
 <p>With definitions of <code>paths</code> on both hosts, SoS would derive a set of <code>path_maps</code> between all hosts. Actually, when you run</p>
 
 <pre><code>sos status -q</code></pre>
-<p>to list all host configurations, SoS would list all hosts accessible from <code>localhost</code>, with host-specific <code>path_map</code>, which is a list of directory mappings between local and remote directories. Paths in a <code>path_map</code> are absolute path and a local path will be converted to absolute path before mapping. For example, a <code>path_map</code></p>
+<p>to list all host configurations, SoS would list all hosts accessible from <code>localhost</code>, with host-specific <code>path_map</code>, which is a list of directory mappings between local and remote directories. For example, the <code>path_map</code> from <code>desktop</code> to <code>server</code> using the above example would be</p>
 
-<pre><code>/Users/myuser/:/home/myuser/</code></pre>
-<p>would map <code>test/a.txt</code> under home directory to <code>/home/myuser/test/a.txt</code>, and map <code>/Users/myuser/resources</code> to <code>/home/myuser/resources</code>.</p>
-<p>Multiple <code>path_map</code> might exist between hosts and a path is mapped by the first matching <code>path_map</code>. For example,</p>
-
-<pre><code>/Users/myuser/projects/:/home/myuser/scratch/projects/
-/Users/myuser:/home/myuser</code></pre>
-<p>will map <code>/Users/myuser/projects/input.fastq</code> to <code>/home/myuser/scratch/projects/input.fastq</code>, and <code>/users/myuser/a.txt</code> to <code>/home/myuser/a.txt</code>.</p>
+<pre><code>/Users/myuser:/home/myuser
+/Users/myuser/resoruces:/shared/resources</code></pre>
 
 </div>
 </div>
@@ -620,6 +615,26 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="wait_for_task"><code>wait_for_task</code><a class="anchor-link" href="#wait_for_task">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Whether or not SoS should wait for the completion of tasks (<code>true/false</code>). By default SoS will wait for the completion of tasks submitted in a queue and complete the workflow in one run. Alternatively, SoS would quit after all tasks have been submitted to a queue with <code>wait_for_task</code> set to <code>false</code>. The workflow can be resumed after tasks have been completed.</p>
+<p>This option is set to <code>True</code> by default and can be overridden by command line option <code>-w</code> (wait) or <code>-W</code> (no wait).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="status_check_interval"><code>status_check_interval</code><a class="anchor-link" href="#status_check_interval">&#182;</a></h3>
 </div>
 </div>
@@ -649,7 +664,26 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Maximum number of running jobs. This setting controls how SoS releases tasks to job queues and is independent of possible maximum running job settings of individual task queues.</p>
-<p>This option is set to 10 by default.</p>
+<p>This option is set to 10 by default and can be overriden by command line option <code>-J</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="description"><code>description</code><a class="anchor-link" href="#description">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An optional short description for the queue that will be displayed with commands such as <code>sos status -q</code>.</p>
 
 </div>
 </div>
@@ -797,7 +831,7 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>template_file</code> should point to the location of a template file (available locally, not on remote host) that will be used to generate a shell script that will be submitted to the PBS system. A typical template would look like</p>
+<p>Option <code>template_file</code> points to the location of a template file (available locally, not on remote host) that will be used to generate a shell script that will be submitted to the PBS system. A typical template would look like</p>
 <div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1">#PBS -N ${task}</span>
 <span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
@@ -827,11 +861,12 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <ol>
 <li>You will need to specify resource options (<code>nodes</code>, <code>ppn</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the template file.</li>
 <li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different options. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster. These two entries could share the same template file but different <code>queue: name</code> values.</li>
-<li>An often forgotten feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as </li>
-</ol>
+<li><p>An useful feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as</p>
 
-<pre><code>${'long' if walltime &gt; 60*60*24*5 else 'short'}</code></pre>
+<pre><code> ${'long' if walltime &gt; 60*60*24*5 else 'short'}</code></pre>
 <p>Note that walltime would be an integer internally even if it is specified in the format of <code>HH:MM:SS</code> in the script.</p>
+</li>
+</ol>
 
 </div>
 </div>
@@ -850,7 +885,19 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>job_template</code> should be the content of the template file if you prefer listing the content directly in the config file, and happen to know how to specify multi-line strings in YAML format.</p>
+<p><code>job_template</code> is the inline version of option <code>template_file</code>. It allows you to specify the content of the template file in the config file using multi-line string literals as follows:</p>
+
+<pre><code>hosts:
+  server:
+    job_template: |
+      #!/bin/bash
+      #PBS -N ${task}
+      #PBS -l nodes=${nodes}:ppn=${ppn}
+      #PBS -l walltime=${walltime}
+      #PBS -l mem=${mem}
+      #
+      # the rest of the template ...
+    other_option: value</code></pre>
 
 </div>
 </div>
@@ -875,6 +922,32 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <p>but you could specify some options from command line instead of the job file and define <code>submit_cmd</code> as</p>
 <div class="highlight"><pre><span></span>msub -l <span class="si">${</span><span class="nv">walltime</span><span class="si">}</span> &lt; <span class="si">${</span><span class="nv">job_file</span><span class="si">}</span>
 </pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="submit_cmd_output"><code>submit_cmd_output</code><a class="anchor-link" href="#submit_cmd_output">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This option specifies the output of the <code>submit_cmd</code> command and let SoS know how to extract <code>job_id</code> and other information from it. For example, for a regular PBS system, the output is simply the <code>job_id</code> (stripping spaces and newlines).</p>
+
+<pre><code>submit_cmd_output='{job_id}'</code></pre>
+<p>On a LSF system, the output should be similar to</p>
+
+<pre><code>submit_cmd_output='Job &lt;{job_id}&gt; is submitted to queue &lt;{queue}&gt;'</code></pre>
+<p>The information extracted (namely variables defined) from <code>submit_cmd</code> can be used for other commands such as <code>status_cmd</code>. Note that this parameter uses pattern matching <code>{ }</code> to extract variable, instead of <code>${ }</code> to use variables.</p>
+<p>This option is defult to <code>{job_id}</code>.</p>
 
 </div>
 </div>
@@ -1447,7 +1520,7 @@ sos execute [tasks] [-q queue]</code></pre>
 
 <pre><code>hosts:
   nautilus:
-    address: mdarisngc03.mdanderson.edu
+    address: nautilus.mdanderson.edu
     paths:
       home: /scratch/bcb/bpeng1
     queue_type: pbs
