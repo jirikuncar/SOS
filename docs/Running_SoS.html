@@ -184,14 +184,13 @@ python -m ipykernel install --user
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you are using anaconda, you can install R and required packages using</p>
 
-<pre><code>conda install -c r r-essentials
+<pre><code>conda install -c r r-essentials r-feather
 conda install -c conda-forge feather-format</code></pre>
 <p>Otherwise, you will need to install</p>
 <ul>
 <li><a href="https://www.r-project.org/">R</a> version 3.2 or later (for IRKernel)</li>
 <li><a href="https://github.com/IRkernel/IRkernel">IRKernel</a> R kernel for Jupyter</li>
-<li>Python <a href="https://github.com/wesm/feather">feather-format</a> module for exchanging data frames between SoS/Python DataFrame and R data.frame. This
-module is not installed by default because it need to compile from source or <a href="https://pypi.python.org/pypi/feather-format">install from conda</a>.</li>
+<li>Python <a href="https://github.com/wesm/feather">feather-format</a> module and R <a href="https://cran.r-project.org/web/packages/feather/index.html">feather</a> library for exchanging data frames between SoS/Python DataFrame and R data.frame.</li>
 </ul>
 <p>Hint:</p>
 <ul>
