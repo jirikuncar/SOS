@@ -10,7 +10,7 @@ digraph task_status {
             label="SoS Task Queue";
             rankdir=TB;
 
-            pending_task [label="pendng", style=filled];
+            pending_task [label="pending", style=filled];
         }
 
         completed_task [label="completed", style=filled];

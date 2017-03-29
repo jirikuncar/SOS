@@ -10,7 +10,7 @@ digraph task_status {
             label="SoS Task Queue";
             rankdir=TB;
 
-            pending_task [label="pendng", style=filled];
+            pending_task [label="pending", style=filled];
         }
 
         completed_task [label="completed", style=filled];
@@ -30,18 +30,18 @@ digraph task_status {
             submitted_task -> running_task [label="scheduler", style=bold, color=blue];
         }
 
-        completed_remote_task [label="completed-remote", style=filled];
+        result_ready_task [label="result-ready", style=filled];
         result_mismatch [label="result-mismatch"];
         failed_task [label="failed"];
         aborted_task [label="aborted"];
-        running_task -> completed_remote_task [label="completed\nwith result", style=bold, color=blue];
+        running_task -> result_ready_task [label="completed\nwith result", style=bold, color=blue];
         running_task -> aborted_task [label="killed or self-aborted\nwithout result", color=red];
         running_task -> failed_task [label="failed\nwith result", color=red];
-        completed_remote_task -> result_mismatch [label="Result removed\nor changed", color=red];
+        result_ready_task -> result_mismatch [label="Result removed\nor changed", color=red];
     }
-    pending_task -> completed_remote_task [label="Reuse existing result\n(resume without -s force)", style=bold, color=green];
+    pending_task -> result_ready_task [label="Reuse existing result\n(resume without -s force)", style=bold, color=green];
     pending_task -> submitted_task [label="Submit task\n(w/o existing result)", style=bold, color=blue];
-    completed_remote_task -> completed_task [label="Transmit result\n(-w mode)", style=bold, color=blue];
+    result_ready_task -> completed_task [label="Transmit result\n(-w mode)", style=bold, color=blue];
     pending_task -> completed_task [style=invis];
     pending_task -> running_task [style=invis];
 }
