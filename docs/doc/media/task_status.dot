@@ -3,16 +3,16 @@ digraph task_status {
     subgraph cluster_0 {
         label="Local";
 
-        pending_task [label="pending", style=filled, rank=min]
 
         subgraph cluster_1 {
-            style=dotted;
-            label="Task Queue";
+            style=filled;
+            color=pink;
+            label="SoS Task Queue";
+            rankdir=TB;
 
-            submitted_task [label="submitted", style=filled];
+            pending_task [label="pendng", style=filled];
         }
 
-        pending_task -> submitted_task [label="< max_running_jobs", style=bold, color=blue];
         completed_task [label="completed", style=filled];
 
     }
@@ -20,32 +20,29 @@ digraph task_status {
         label="Remote";
 
         subgraph cluster_2 {
-            style=dotted;
+            style=filled;
+            color=pink;
             label="PBS Job Queue";
 
-            queued_task [label="queued", style=filled];
+            submitted_task [label="submitted", style=filled];
             running_task [ label="running", style=filled];
 
-            queued_task -> running_task [label="scheduler", style=bold, color=blue];
+            submitted_task -> running_task [label="scheduler", style=bold, color=blue];
         }
 
         completed_remote_task [label="completed-remote", style=filled];
-        failed_missing_output [label="failed-missing-output"];
-        completed_old [label="completed-old"];
-        failed_old_missing_output [label="failed-old-missing-output"];
+        result_mismatch [label="result-mismatch"];
         failed_task [label="failed"];
-        killed_task [label="killed"];
-        dead_task [label="dead"];
-        running_task -> completed_remote_task [label="job completed\nwith result", style=bold, color=blue];
-        running_task -> dead_task [label="aborted\nwithout result", color=red];
+        aborted_task [label="aborted"];
+        running_task -> completed_remote_task [label="completed\nwith result", style=bold, color=blue];
+        running_task -> aborted_task [label="killed or self-aborted\nwithout result", color=red];
         running_task -> failed_task [label="failed\nwith result", color=red];
-        running_task -> killed_task [label="sos kill\nwithout result", color=red];
-        completed_remote_task -> completed_old [label="compared to\nre-submitted task"];
-        completed_remote_task -> failed_missing_output [label="Result removed", color=red];
-        failed_missing_output -> failed_old_missing_output [label="Compared to\nre-submitted task"];
+        completed_remote_task -> result_mismatch [label="Result removed\nor changed", color=red];
     }
-    submitted_task -> queued_task [label="task translation \nand transmission", style=bold, color=blue];
-    completed_remote_task -> completed_task [label="Result transmitted\n(-w mode)", style=bold, color=blue];
-    completed_old -> completed_task [label="not -s force"];
+    pending_task -> completed_remote_task [label="Reuse existing result\n(resume without -s force)", style=bold, color=green];
+    pending_task -> submitted_task [label="Submit task\n(w/o existing result)", style=bold, color=blue];
+    completed_remote_task -> completed_task [label="Transmit result\n(-w mode)", style=bold, color=blue];
+    pending_task -> completed_task [style=invis];
+    pending_task -> running_task [style=invis];
 }
 
