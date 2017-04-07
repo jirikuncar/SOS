@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_python2 {background-color: #F6FAEA !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -232,7 +236,7 @@ parameter: var_name = default_value</code></pre>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span>
 <span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
 <span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
 </pre></div>
@@ -273,7 +277,7 @@ parameter: var_name = default_value</code></pre>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">gatk_path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">--</span><span class="n">gatk_path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
 <span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
 <span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
 </pre></div>
@@ -314,7 +318,7 @@ parameter: var_name = default_value</code></pre>
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">gatk</span><span class="o">-</span><span class="n">path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">--</span><span class="n">gatk</span><span class="o">-</span><span class="n">path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
 <span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
 <span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
 </pre></div>
@@ -357,7 +361,7 @@ parameter: var_name = default_value</code></pre>
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
 
-<span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">cutoff</span> <span class="n">zero</span>
+<span class="o">%</span><span class="n">runcell</span> <span class="o">--</span><span class="n">cutoff</span> <span class="n">zero</span>
 <span class="kn">parameter:</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 
@@ -397,7 +401,7 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">sample</span><span class="o">-</span><span class="n">names</span> <span class="n">A</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">--</span><span class="n">sample</span><span class="o">-</span><span class="n">names</span> <span class="n">A</span>
 <span class="kn">parameter:</span> <span class="n">sample_names</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">print</span><span class="p">(</span><span class="n">sample_names</span><span class="p">)</span>
 </pre></div>
@@ -438,7 +442,7 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">trim</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">trim</span>
 <span class="kn">parameter:</span> <span class="n">trim</span><span class="o">=</span><span class="bp">True</span>
 <span class="k">print</span><span class="p">(</span><span class="n">trim</span><span class="p">)</span>
 </pre></div>
@@ -531,7 +535,7 @@ Sandbox execution failed.</pre>
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">bam</span><span class="o">-</span><span class="n">files</span> <span class="n">A</span><span class="o">.</span><span class="n">bam</span> <span class="n">B</span><span class="o">.</span><span class="n">bam</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">--</span><span class="n">bam</span><span class="o">-</span><span class="n">files</span> <span class="n">A</span><span class="o">.</span><span class="n">bam</span> <span class="n">B</span><span class="o">.</span><span class="n">bam</span>
 <span class="c1"># input bam files</span>
 <span class="kn">parameter:</span> <span class="n">bam_files</span> <span class="o">=</span> <span class="nb">list</span>
 <span class="k">print</span><span class="p">(</span><span class="n">bam_files</span><span class="p">)</span>

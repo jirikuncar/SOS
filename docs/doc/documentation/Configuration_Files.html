@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_python2 {background-color: #F6FAEA !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -205,7 +209,7 @@ $( document ).ready(function(){
     <span class="n">cat</span> <span class="o">&lt;&lt;</span> <span class="n">EOF</span> <span class="o">&gt;</span> <span class="n">myconfig</span><span class="o">.</span><span class="n">yml</span>
     <span class="c1"># A list of tasty fruits</span>
     <span class="n">martin</span><span class="p">:</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">Martin</span> <span class="n">D</span><span class="s1">&#39;vloper</span>
+        <span class="kp">name</span><span class="p">:</span> <span class="n">Martin</span> <span class="n">D</span><span class="s1">&#39;vloper</span>
         <span class="n">job</span><span class="p">:</span> <span class="n">Developer</span>
         <span class="n">skill</span><span class="p">:</span> <span class="n">Elite</span>
     <span class="n">manager</span><span class="p">:</span> <span class="n">martin</span>
@@ -276,7 +280,7 @@ manager: martin
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">c</span> <span class="n">myconfig</span><span class="o">.</span><span class="n">yml</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">c</span> <span class="n">myconfig</span><span class="o">.</span><span class="n">yml</span>
 <span class="k">print</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;martin&#39;</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">CONFIG</span><span class="o">.</span><span class="n">martin</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">CONFIG</span><span class="o">.</span><span class="n">manager</span><span class="p">)</span>
@@ -320,7 +324,7 @@ martin
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">c</span> <span class="n">myconfig</span><span class="o">.</span><span class="n">yml</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">c</span> <span class="n">myconfig</span><span class="o">.</span><span class="n">yml</span>
 <span class="n">manager</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="o">.</span><span class="n">manager</span>
 </pre></div>
 
@@ -384,7 +388,7 @@ martin
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">c</span> <span class="n">myconfig</span><span class="o">.</span><span class="n">yml</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">c</span> <span class="n">myconfig</span><span class="o">.</span><span class="n">yml</span>
 <span class="n">manager</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manager&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span>
 </pre></div>
