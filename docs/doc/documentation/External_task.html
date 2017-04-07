@@ -417,6 +417,25 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="port"><code>port</code><a class="anchor-link" href="#port">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>ssh port of the remote host, which is <code>22</code> by default.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="shared"><code>shared</code><a class="anchor-link" href="#shared">&#182;</a></h3>
 </div>
 </div>
@@ -833,7 +852,7 @@ queue: long</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Option <code>template_file</code> points to the location of a template file (available locally, not on remote host) that will be used to generate a shell script that will be submitted to the PBS system. A typical template would look like</p>
 <div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#PBS -N ${task}</span>
+<span class="c1">#PBS -N ${job_name}</span>
 <span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
 <span class="c1">#PBS -l walltime=${walltime}</span>
 <span class="c1">#PBS -l mem=${mem//10**6}MB</span>
@@ -851,6 +870,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <p>The template file will be interpolated with the following information</p>
 <ul>
 <li><code>task</code>: task id</li>
+<li><code>job_name</code>: Interpolated value of runtime option <code>name</code>, or task id if <code>name</code> is not provided. For example, <code>name='${step_name}_${_index}'</code> would assign names with step name and index to submitted jobs.</li>
 <li><code>nodes</code>, <code>ppn</code>, <code>walltime</code>, <code>mem</code>: resource task options</li>
 <li><code>cur_dir</code>:  current project directory, which will be translated to path in remote host if the task is executed remotely</li>
 <li><code>verbosity</code> and <code>sig_mode</code>: sos run mode.</li>
@@ -1103,6 +1123,26 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Execution-options">Execution options<a class="anchor-link" href="#Execution-options">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-name">Option <code>name</code><a class="anchor-link" href="#Option-name">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Name of the task, which can be a string such as <code>'${step_name}_${_index}'</code> that would be interpolated when a task is generated. The value of this parameter has to be single quoted because otherwise the string would be interpolated before it is passed to task engine.</p>
+<p>Name of task is currently only used to produce variable <code>job_name</code> for job template.</p>
+
 </div>
 </div>
 </div>
@@ -1547,7 +1587,7 @@ sos execute [tasks] [-q queue]</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Job-template">Job template<a class="anchor-link" href="#Job-template">&#182;</a></h4><p><code>~/.sos/HPC.tmpl:</code></p>
 <div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#PBS -N ${task}</span>
+<span class="c1">#PBS -N ${job_name}</span>
 <span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
 <span class="c1">#PBS -l walltime=${walltime//3600}:${walltime/60%60}:${walltime%60}</span>
 <span class="c1">#PBS -l mem=${mem//1000000}GB</span>

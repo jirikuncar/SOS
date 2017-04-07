@@ -269,7 +269,7 @@ $( document ).ready(function(){
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">qc</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">qc</span>
 <span class="kn">parameter:</span> <span class="n">qc</span> <span class="o">=</span> <span class="bp">True</span>
 <span class="p">[</span><span class="mi">10</span> <span class="p">(</span><span class="n">quality</span> <span class="n">check</span><span class="p">):</span> <span class="kp">skip</span><span class="o">=</span><span class="ow">not</span> <span class="n">qc</span><span class="p">]</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;${step_name} is executed&quot;</span><span class="p">)</span>
@@ -666,7 +666,7 @@ with different <code>_input</code>. Here <code>_input</code> is a temporary vari
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS by default passes all input files to step process as a single list. Option <code>group_by</code> pass input files in groups, each time with a subset of input files named <code>_input</code>. SoS allows you to group input by <code>single</code> (individual file), <code>pairs</code> (match first half of files with the second half),  <code>combinations</code> (all unordered combinations of 2-sets), <code>pairwise</code> (all adjacent 2-sets), or chunks of size <code>N</code> (integer <code>group_by=3</code> or string <code>group_by='4'</code>). For example, with the following sos script</p>
+<p>SoS by default passes all input files to step process as a single list. Option <code>group_by</code> pass input files in groups, each time with a subset of input files named <code>_input</code>. SoS allows you to group input by <code>single</code> (individual file), <code>pairs</code> (match first half of files with the second half),  <code>combinations</code> (all unordered combinations of 2-sets), <code>pairwise</code> (all adjacent 2-sets), or chunks of size <code>N</code> (integer <code>group_by=3</code> or string <code>group_by='4'</code>, the last group might have few files if the number of input files is not a multiple of <code>group_by</code>). For example, with the following sos script</p>
 
 </div>
 </div>
@@ -1038,7 +1038,7 @@ group_by=combinations
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The variable passed to option <code>for_each</code> can a sequence, or a Pandas dataframe. In this case, each <code>_loop</code> variable presents a line in the dataframe and you can access single values using format <code>_loop["header"]</code>. For example</p>
+<p>The variable passed to option <code>for_each</code> can a sequence (<code>list</code>, <code>tuple</code>, <code>set</code>, etc), a Pandas <code>Series</code>, <code>Index</code>, or <code>DataFrame</code>. In the last case, each <code>_loop</code> variable presents a line in the dataframe and you can access single values using format <code>_loop["header"]</code>. For example</p>
 
 </div>
 </div>
