@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_python2 {background-color: #F6FAEA !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -166,11 +170,12 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A SoS script can specify one or more workflows. Each workflow consists of one or more numbered steps. The numbers (should be non-negative) specify the <strong>logical order</strong> by which the steps are executed, but a later step might be executed before the completion of previous steps if it does not depend on the output of these steps.</p>
-<p>This tutorial shows you how to define steps in a workflow and how to construct nested and combined workflows from single workflows. Although a Jupyter notebook, because of its interactive nature, is rarely used to execute complete workflows, we define workflows in notebook cells and execute them with options passed from cell magics such as <code>%set</code> and <code>%run</code>. Briefly speaking, <code>%set</code> sets persistent and global command line options and <code>%run</code> sets additional temporary options for the current cell. For example, the following command sets verbosity level to 2 so that SoS would display log messages of steps executed for the rest of this tutorial.</p>
+<p>This tutorial shows you how to define steps in a workflow and how to construct nested and combined workflows from single workflows. Although a Jupyter notebook, because of its interactive nature, is rarely used to execute complete workflows, we define workflows in notebook cells and execute them with options passed from cell magics such as <code>%set</code> and <code>%runcell</code>. Briefly speaking, <code>%set</code> sets persistent and global command line options and <code>%runcell</code> sets additional temporary options for the current cell. For example, the following command sets verbosity level to 2 so that SoS would display log messages of steps executed for the rest of this tutorial.</p>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -192,7 +197,189 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sos options is set to &#34;-v2&#34;
+<pre>Set sos options to &#34;-v2&#34;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Global-step">Global step<a class="anchor-link" href="#Global-step">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A SoS script can have one and only one <code>global</code> section, with definitions shared by all steps in this script. A global section is usually defined implicitly as all statements before the first named step. For example, the <code>a=1</code> statement before the definition of <code>[10]</code> is visible to all steps.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Executing <span class="ansi-green-fg">default_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1
+2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The global section can also be defined with a <code>[global]</code> section header, and in which case the section does not have to be the first section.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="p">[</span><span class="k">global</span><span class="p">]</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: Executing <span class="ansi-green-fg">default_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1
+2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that a script can only have one global section so the following would script would trigger an error</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="p">[</span><span class="k">global</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>File contains parsing errors: &lt;string&gt;
+	[line  3]: [global]
+
+Cannot define a global section with a non-empty implicit global section
 </pre>
 </div>
 </div>
@@ -219,10 +406,11 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
@@ -243,10 +431,18 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_5</span>: 
-INFO: Running <span class="ansi-green-fg">default_10</span>: 
-INFO: Running <span class="ansi-green-fg">default_20</span>: 
-INFO: Running <span class="ansi-green-fg">default_100</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">default_5</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_100</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -255,6 +451,7 @@ INFO: Running <span class="ansi-green-fg">default_100</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -264,10 +461,11 @@ INFO: Running <span class="ansi-green-fg">default_100</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mapping_5</span><span class="p">]</span>
@@ -288,10 +486,18 @@ INFO: Running <span class="ansi-green-fg">default_100</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">mapping_5</span>: 
-INFO: Running <span class="ansi-green-fg">mapping_10</span>: 
-INFO: Running <span class="ansi-green-fg">mapping_20</span>: 
-INFO: Running <span class="ansi-green-fg">mapping_100</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">mapping_5</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mapping_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mapping_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mapping_100</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -300,6 +506,7 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -319,10 +526,11 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">process</span><span class="o">-</span><span class="n">doc_20</span><span class="p">]</span>
@@ -340,7 +548,9 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">process-doc_20</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">process-doc_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -349,6 +559,7 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -358,10 +569,11 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mapping</span><span class="p">]</span>
@@ -379,7 +591,9 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">mapping_0</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">mapping_0</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -388,6 +602,7 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -406,10 +621,11 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">20</span> <span class="p">(</span><span class="n">mapping</span> <span class="n">reads</span><span class="p">)]</span>
@@ -428,8 +644,12 @@ INFO: Running <span class="ansi-green-fg">mapping_100</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_10 (initialize)</span>: 
-INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">default_10 (initialize)</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_20 (mapping reads)</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -438,6 +658,7 @@ INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -447,10 +668,11 @@ INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span> <span class="p">(</span><span class="n">initialize</span><span class="p">)]</span>
@@ -475,8 +697,12 @@ INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_10 (initialize)</span>: Validate input files and check available tools
-INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>: Map reads using specified alignment tool
+<pre>INFO: Executing <span class="ansi-green-fg">default_10 (initialize)</span>: Validate input files and check available tools
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_20 (mapping reads)</span>: Map reads using specified alignment tool
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -485,6 +711,7 @@ INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>: Map
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -503,13 +730,14 @@ INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>: Map
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="n">mouse_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_30</span><span class="p">]</span>
@@ -530,9 +758,15 @@ INFO: Running <span class="ansi-green-fg">default_20 (mapping reads)</span>: Map
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">mouse_10</span>: 
-INFO: Running <span class="ansi-green-fg">mouse_20</span>: 
-INFO: Running <span class="ansi-green-fg">mouse_30</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">mouse_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mouse_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mouse_30</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -541,6 +775,7 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -562,10 +797,11 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -588,9 +824,15 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
-INFO: Running <span class="ansi-green-fg">default_20</span>: 
-INFO: Running <span class="ansi-green-fg">default_30</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">default_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_30</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -599,6 +841,7 @@ INFO: Running <span class="ansi-green-fg">default_30</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -632,13 +875,14 @@ INFO: Running <span class="ansi-green-fg">default_30</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="n">mouse_10</span><span class="p">,</span><span class="n">human_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">human_20</span><span class="p">]</span>
@@ -657,9 +901,15 @@ INFO: Running <span class="ansi-green-fg">default_30</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">mouse_10</span>: 
-INFO: Running <span class="ansi-green-fg">mouse_20</span>: 
-INFO: Running <span class="ansi-green-fg">mouse_30</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">mouse_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mouse_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mouse_30</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -668,6 +918,7 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -677,13 +928,14 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="o">*</span><span class="n">_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">human_20</span><span class="p">]</span>
@@ -702,9 +954,15 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">mouse_10</span>: 
-INFO: Running <span class="ansi-green-fg">mouse_20</span>: 
-INFO: Running <span class="ansi-green-fg">mouse_30</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">mouse_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mouse_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">mouse_30</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -713,12 +971,15 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 </div>
 
 </div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">fly</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">#local run</span>
+<span class="o">%</span><span class="n">runcell</span> <span class="n">fly</span>
 <span class="p">[</span><span class="o">*</span><span class="n">_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">,</span><span class="n">human_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">fly_20</span><span class="p">]</span>
@@ -738,11 +999,21 @@ INFO: Running <span class="ansi-green-fg">mouse_30</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">fly_10</span>: 
-INFO: Running <span class="ansi-green-fg">fly_20</span>: 
-INFO: Running <span class="ansi-green-fg">fly_30</span>: 
-INFO: Running <span class="ansi-green-fg">fly_40</span>: 
-INFO: Running <span class="ansi-green-fg">fly_50</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">fly_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">fly_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">fly_30</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">fly_40</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">fly_50</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -751,6 +1022,7 @@ INFO: Running <span class="ansi-green-fg">fly_50</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -760,13 +1032,14 @@ INFO: Running <span class="ansi-green-fg">fly_50</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">,</span><span class="n">human_20</span><span class="p">]</span>
 <span class="n">reference</span> <span class="o">=</span> <span class="s2">&quot;/path/to/mouse/reference&quot;</span> <span class="k">if</span> \
   <span class="n">step_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;mouse&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;/path/to/human/reference&quot;</span>
@@ -786,7 +1059,9 @@ INFO: Running <span class="ansi-green-fg">fly_50</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">mouse_20</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">mouse_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -804,6 +1079,7 @@ INFO: Running <span class="ansi-green-fg">fly_50</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -857,13 +1133,14 @@ INFO: Running <span class="ansi-green-fg">fly_50</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">default</span><span class="p">:</span><span class="o">-</span><span class="mi">20</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">default</span><span class="p">:</span><span class="o">-</span><span class="mi">20</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
 <span class="p">[</span><span class="mi">30</span><span class="p">]</span>
@@ -881,8 +1158,12 @@ INFO: Running <span class="ansi-green-fg">fly_50</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_10</span>: 
-INFO: Running <span class="ansi-green-fg">default_20</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">default_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">default_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -891,6 +1172,7 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -922,17 +1204,19 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 <p>This syntax can be used from the command line, e.g.</p>
 <div class="highlight"><pre><span></span>sos-runner myscript align+call
 </pre></div>
-<p>or from the <code>%run</code> magic of Jupyter notebook</p>
+<p>or from the <code>%runcell</code> magic of Jupyter notebook</p>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">check</span><span class="o">+</span><span class="n">align</span><span class="o">+</span><span class="n">call</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">#local run</span>
+<span class="o">%</span><span class="n">runcell</span> <span class="n">check</span><span class="o">+</span><span class="n">align</span><span class="o">+</span><span class="n">call</span>
 <span class="p">[</span><span class="n">check_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">align_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">align_20</span><span class="p">]</span>
@@ -952,11 +1236,21 @@ INFO: Running <span class="ansi-green-fg">default_20</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">check_10</span>: 
-INFO: Running <span class="ansi-green-fg">align_10</span>: 
-INFO: Running <span class="ansi-green-fg">align_20</span>: 
-INFO: Running <span class="ansi-green-fg">call_10</span>: 
-INFO: Running <span class="ansi-green-fg">call_20</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">check_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">align_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">align_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">call_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">call_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -965,6 +1259,7 @@ INFO: Running <span class="ansi-green-fg">call_20</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1002,10 +1297,11 @@ The workflow is execute by SoS action <code>sos_run</code>, e.g.</p>
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">align_10</span><span class="p">]</span>
@@ -1028,12 +1324,22 @@ The workflow is execute by SoS action <code>sos_run</code>, e.g.</p>
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_0</span>: 
-INFO: Executing workflow <span class="ansi-green-fg">align+call</span> with input <span class="ansi-green-fg">[]</span>
-INFO: Running <span class="ansi-green-fg">align_10</span>: 
-INFO: Running <span class="ansi-green-fg">align_20</span>: 
-INFO: Running <span class="ansi-green-fg">call_10</span>: 
-INFO: Running <span class="ansi-green-fg">call_20</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">default_0</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: Executing workflow <span class="ansi-green-fg">align+call</span> with input <span class="ansi-green-fg">[]</span> and no args
+INFO: Executing <span class="ansi-green-fg">align_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">align_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">call_10</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">call_20</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -1042,6 +1348,7 @@ INFO: Running <span class="ansi-green-fg">call_20</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1072,10 +1379,11 @@ INFO: Running <span class="ansi-green-fg">call_20</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">b_1</span><span class="p">]</span>
@@ -1102,15 +1410,29 @@ INFO: Running <span class="ansi-green-fg">call_20</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">default_0</span>: 
-INFO: Executing workflow <span class="ansi-green-fg">b</span> with input <span class="ansi-green-fg">[]</span>
-INFO: Running <span class="ansi-green-fg">b_1</span>: 
-INFO: Running <span class="ansi-green-fg">b_2</span>: 
-INFO: Running <span class="ansi-green-fg">b_3</span>: 
-INFO: Executing workflow <span class="ansi-green-fg">b</span> with input <span class="ansi-green-fg">[]</span>
-INFO: Running <span class="ansi-green-fg">b_1</span>: 
-INFO: Running <span class="ansi-green-fg">b_2</span>: 
-INFO: Running <span class="ansi-green-fg">b_3</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">default_0</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: Executing workflow <span class="ansi-green-fg">b</span> with input <span class="ansi-green-fg">[]</span> and no args
+INFO: Executing <span class="ansi-green-fg">b_1</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">b_2</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">b_3</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing workflow <span class="ansi-green-fg">b</span> with input <span class="ansi-green-fg">[]</span> and no args
+INFO: Executing <span class="ansi-green-fg">b_1</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">b_2</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">b_3</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -1119,8 +1441,8 @@ INFO: Running <span class="ansi-green-fg">b_3</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>My seed is 1644767069
-My seed is 2465458130
+<pre>My seed is 6257357302
+My seed is 7764430190
 </pre>
 </div>
 </div>
@@ -1129,6 +1451,7 @@ My seed is 2465458130
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1148,13 +1471,14 @@ My seed is 2465458130
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">align</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">align</span>
 <span class="kn">parameter:</span> <span class="n">aligner</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;aligner&#39;</span><span class="p">,</span> <span class="s1">&#39;bwa&#39;</span><span class="p">)</span>
 
 <span class="p">[</span><span class="n">bwa_1</span><span class="p">]</span>
@@ -1178,10 +1502,16 @@ My seed is 2465458130
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">align_0</span>: 
-INFO: Executing workflow <span class="ansi-green-fg">bwa</span> with input <span class="ansi-green-fg">[]</span>
-INFO: Running <span class="ansi-green-fg">bwa_1</span>: 
-INFO: Running <span class="ansi-green-fg">bwa_2</span>: 
+<pre>INFO: Executing <span class="ansi-green-fg">align_0</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: Executing workflow <span class="ansi-green-fg">bwa</span> with input <span class="ansi-green-fg">[]</span> and no args
+INFO: Executing <span class="ansi-green-fg">bwa_1</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Executing <span class="ansi-green-fg">bwa_2</span>: 
+INFO: input:    <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre>
 </div>
 </div>
@@ -1190,6 +1520,7 @@ INFO: Running <span class="ansi-green-fg">bwa_2</span>:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1218,16 +1549,17 @@ INFO: Running <span class="ansi-green-fg">bwa_2</span>:
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
 
 <span class="err">!</span><span class="n">touch</span> <span class="n">test</span><span class="o">.</span><span class="n">bam</span>
-<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">t</span> <span class="n">test</span><span class="o">.</span><span class="n">vcf</span>
+<span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">t</span> <span class="n">test</span><span class="o">.</span><span class="n">vcf</span>
 
 <span class="c1"># this step provides variable `var`</span>
 <span class="p">[</span><span class="n">index</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="s1">&#39;{filename}.bam.bai&#39;</span><span class="p">]</span>
@@ -1257,11 +1589,14 @@ INFO: Running <span class="ansi-green-fg">bwa_2</span>:
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>INFO: Resolving 1 objects from 0 nodes
-INFO: Adding step call with output test.vcf
-INFO: Running <span class="ansi-green-fg">call</span>: 
+INFO: Adding step call with output [&#39;test.vcf&#39;]
+INFO: Executing <span class="ansi-green-fg">call</span>: 
+INFO: input:    <span class="ansi-green-fg">[&#39;test.bam&#39;]</span>
+INFO: Target unavailable: test.bam.bai
 INFO: Resolving 1 objects from 1 nodes
-INFO: Adding step index with output test.bam.bai
-INFO: Running <span class="ansi-green-fg">index</span>: 
+INFO: Adding step index with output [&#39;test.bam.bai&#39;]
+INFO: Executing <span class="ansi-green-fg">index</span>: 
+INFO: input:    <span class="ansi-green-fg">[&#39;test.bam&#39;]</span>
 </pre>
 </div>
 </div>
@@ -1279,7 +1614,10 @@ INFO: Running <span class="ansi-green-fg">index</span>:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Running <span class="ansi-green-fg">call</span>: 
+<pre>INFO: output:   <span class="ansi-green-fg">[&#39;test.bam.bai&#39;]</span>
+INFO: Executing <span class="ansi-green-fg">call</span>: 
+INFO: input:    <span class="ansi-green-fg">[&#39;test.bam&#39;]</span>
+INFO: _depends: <span class="ansi-green-fg">[&#39;test.bam.bai&#39;]</span>
 </pre>
 </div>
 </div>
@@ -1296,39 +1634,17 @@ INFO: Running <span class="ansi-green-fg">index</span>:
 <div class="output_area">
 <div class="prompt"></div>
 
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">## -- Preview output --</font></pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre> input: test.bam
-output: test.vcf
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO: output:   <span class="ansi-green-fg">[&#39;test.vcf&#39;]</span>
 </pre>
 </div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> test.vcf (0 B):</font></pre>
-</div>
-
 </div>
 
 </div>
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
