@@ -542,64 +542,6 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="send_cmd"><code>send_cmd</code><a class="anchor-link" href="#send_cmd">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS uses <code>rsync</code> command to exchange files between hosts, and use <code>ssh</code> to execute command. If the default commands do not work for your configuration (e.g. if you do not have <code>rsync</code> and need to use <code>scp</code>, you can define options <code>send_cmd</code> (and <code>received_cmd</code> and <code>execute_cmd</code>) for your particular configuration. These variables should be defined with <code>${source}</code> and <code>${dest}</code> which will be replaced by source and destination filenames for each file.</p>
-<p>It is rather tricky to define <code>send_cmd</code> for all scenarios (files, directories, missing directory on remote host) so it is usually easier to install <code>rsync</code> and use system default <code>send_cmd</code> than defining <code>send_cmd</code> by youself.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="receive_cmd"><code>receive_cmd</code><a class="anchor-link" href="#receive_cmd">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Command to receive files from remote server. It is usually easier to install <code>rsync</code> than defining this option.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="execute_cmd"><code>execute_cmd</code><a class="anchor-link" href="#execute_cmd">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Command to execute a command on remote host. The default value should work in almost all cases.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Common-queue-configuration">Common queue configuration<a class="anchor-link" href="#Common-queue-configuration">&#182;</a></h2>
 </div>
 </div>
@@ -728,7 +670,7 @@ queue: long</code></pre>
 <p>You could use</p>
 <div class="highlight"><pre><span></span><span class="c1">#PBS -q ${queue}</span>
 </pre></div>
-<p>in your PBS job templates (configuration <code>template_file</code> or <code>job_template</code>).</p>
+<p>in your PBS job templates (configuration <code>job_template</code>).</p>
 
 </div>
 </div>
@@ -841,61 +783,6 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="template_file"><code>template_file</code><a class="anchor-link" href="#template_file">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Option <code>template_file</code> points to the location of a template file (available locally, not on remote host) that will be used to generate a shell script that will be submitted to the PBS system. A typical template would look like</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#PBS -N ${job_name}</span>
-<span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
-<span class="c1">#PBS -l walltime=${walltime}</span>
-<span class="c1">#PBS -l mem=${mem//10**6}MB</span>
-<span class="c1">#PBS -o ${cur_dir}/${task}.out</span>
-<span class="c1">#PBS -e ${cur_dir}/${task}.err</span>
-<span class="c1">#PBS -q long</span>
-<span class="c1">#PBS -m ae</span>
-<span class="c1">#PBS -M your@email.address</span>
-<span class="c1">#PBS -v ${cur_dir}</span>
-
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">cur_dir</span><span class="si">}</span>
-
-sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span> <span class="si">${</span><span class="s1">&#39;--dryrun&#39;</span><span class="p"> if run_mode == </span><span class="s1">&#39;dryrun&#39;</span><span class="p"> else </span><span class="s1">&#39;&#39;</span><span class="si">}</span>
-</pre></div>
-<p>The template file will be interpolated with the following information</p>
-<ul>
-<li><code>task</code>: task id</li>
-<li><code>job_name</code>: Interpolated value of runtime option <code>name</code>, or task id if <code>name</code> is not provided. For example, <code>name='${step_name}_${_index}'</code> would assign names with step name and index to submitted jobs.</li>
-<li><code>nodes</code>, <code>ppn</code>, <code>walltime</code>, <code>mem</code>: resource task options</li>
-<li><code>cur_dir</code>:  current project directory, which will be translated to path in remote host if the task is executed remotely</li>
-<li><code>verbosity</code> and <code>sig_mode</code>: sos run mode.</li>
-<li><code>run_mode</code> to allow the script to be executed in dryrun mode, in which mode scripts would be printed instead of executed. It is very important to set this option because the job script would be executed directly (on head node) instead of sent to the PBS queue if sos is running in dryrun mode (<code>sos run -q pbs -n</code>).</li>
-<li>Other key/value pairs you defined for the server</li>
-</ul>
-<p>Note that</p>
-<ol>
-<li>You will need to specify resource options (<code>nodes</code>, <code>ppn</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the template file.</li>
-<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different options. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster. These two entries could share the same template file but different <code>queue: name</code> values.</li>
-<li><p>An useful feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as</p>
-
-<pre><code> ${'long' if walltime &gt; 60*60*24*5 else 'short'}</code></pre>
-<p>Note that walltime would be an integer internally even if it is specified in the format of <code>HH:MM:SS</code> in the script.</p>
-</li>
-</ol>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="job_template"><code>job_template</code><a class="anchor-link" href="#job_template">&#182;</a></h3>
 </div>
 </div>
@@ -905,19 +792,47 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>job_template</code> is the inline version of option <code>template_file</code>. It allows you to specify the content of the template file in the config file using multi-line string literals as follows:</p>
-
-<pre><code>hosts:
+<p>Option <code>job_template</code> is a template of a shell script that will be submitted to the PBS system. A typical template would be specified as (using a multi-line string literal of YAML format)</p>
+<div class="highlight"><pre><span></span>hosts:
   server:
-    job_template: |
-      #!/bin/bash
-      #PBS -N ${task}
-      #PBS -l nodes=${nodes}:ppn=${ppn}
-      #PBS -l walltime=${walltime}
-      #PBS -l mem=${mem}
-      #
-      # the rest of the template ...
-    other_option: value</code></pre>
+    job_template: <span class="p">|</span>
+      <span class="c1">#!/bin/bash</span>
+      <span class="c1">#PBS -N ${job_name}</span>
+      <span class="c1">#PBS -l nodes=1:ppn=${procs}</span>
+      <span class="c1">#PBS -l walltime=${walltime}</span>
+      <span class="c1">#PBS -l mem=${mem//10**6}MB</span>
+      <span class="c1">#PBS -o ${cur_dir}/${task}.out</span>
+      <span class="c1">#PBS -e ${cur_dir}/${task}.err</span>
+      <span class="c1">#PBS -q long</span>
+      <span class="c1">#PBS -m ae</span>
+      <span class="c1">#PBS -M your@email.address</span>
+      <span class="c1">#PBS -v ${cur_dir}</span>
+
+      <span class="nb">cd</span> <span class="si">${</span><span class="nv">cur_dir</span><span class="si">}</span>
+
+      sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span> <span class="se">\</span>
+        <span class="si">${</span><span class="s1">&#39;--dryrun&#39;</span><span class="p"> if run_mode == </span><span class="s1">&#39;dryrun&#39;</span><span class="p"> else </span><span class="s1">&#39;&#39;</span><span class="si">}</span>
+</pre></div>
+<p>The template will be interpolated with the following information</p>
+<ul>
+<li><code>task</code>: task id</li>
+<li><code>job_name</code>: Interpolated value of runtime option <code>name</code>, or task id if <code>name</code> is not provided. For example, <code>name='${step_name}_${_index}'</code> would assign names with step name and index to submitted jobs.</li>
+<li><code>nodes</code>, <code>procs</code>, <code>walltime</code>, <code>mem</code>: resource task options</li>
+<li><code>cur_dir</code>:  current project directory, which will be translated to path in remote host if the task is executed remotely</li>
+<li><code>verbosity</code> and <code>sig_mode</code>: sos run mode.</li>
+<li><code>run_mode</code> to allow the script to be executed in dryrun mode, in which mode scripts would be printed instead of executed. It is very important to set this option because the job script would be executed directly (on head node) instead of sent to the PBS queue if sos is running in dryrun mode (<code>sos run -q pbs -n</code>).</li>
+<li>Other key/value pairs you defined for the server</li>
+</ul>
+<p>Note that</p>
+<ol>
+<li>You will need to specify resource options (<code>nodes</code>, <code>procs</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the template file.</li>
+<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different options. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster. These two entries could share the same template file but different <code>queue: name</code> values.</li>
+<li><p>An useful feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as</p>
+
+<pre><code> ${'long' if walltime &gt; 60*60*24*5 else 'short'}</code></pre>
+<p>Note that walltime would be an integer internally even if it is specified in the format of <code>HH:MM:SS</code> in the script.</p>
+</li>
+</ol>
 
 </div>
 </div>
@@ -1065,7 +980,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-nodes">Option <code>nodes</code><a class="anchor-link" href="#Option-nodes">&#182;</a></h3>
+<h3 id="Option-procs">Option <code>procs</code><a class="anchor-link" href="#Option-procs">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -1074,26 +989,8 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Number of computing nodes requested.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-ppn">Option <code>ppn</code><a class="anchor-link" href="#Option-ppn">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Number of processes on each computing node.</p>
+<p>Number of processes on each computing node, which corrsponds to the <code>ppn</code> option of a PBS system.</p>
+<p>PBS task queue also accepts a parameer <code>nodes</code> (corresponds to PBS resource option <code>nodes</code>, default to 1) but it is currently unused because SoS does not yet support multi-node tasks.</p>
 
 </div>
 </div>
@@ -1112,7 +1009,7 @@ sos execute <span class="si">${</span><span class="nv">task</span><span class="s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (<code>mem=4000MB</code>). gigabytes (<code>mem=4GB</code>) or gibibytes (<code>mem=4GiB</code>), although all inputs would be converted to bytes internally.</p>
+<p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (<code>mem=4000MB</code>). gigabytes (<code>mem=4GB</code>) or gibibytes (<code>mem=4GiB</code>), although all inputs are converted to bytes internally. To use this option in a <code>job_template</code>, you generally need to use expressions such as <code>${mem//1e9}GB</code>.</p>
 
 </div>
 </div>
@@ -1364,7 +1261,7 @@ shared = []</code></pre>
 </li>
 <li><p>For direct remote execution (e.g. <code>sos run script -q server -n</code> with <code>queue_type</code> set to <code>process</code> (default)), the tasks will be generated and copied to the remote server, and will be executed with command <code>sos execute task -n</code>.</p>
 </li>
-<li><p>For submitting to a PBS task queue (e.g. <code>sos run script -q pbs -n</code> with <code>queue_type</code> set to <code>pbs</code>), the tasks will be generated, copied to remote host. Job files will also be generated according to <code>template_file</code> or <code>job_template</code> and will be copied to the remote host. However, instead of using <code>submit_cmd</code> to submit the job to the PBS queue, <strong>the job script will be executed directly on the head node</strong>. It is therefore important for you to allow the jobs to be run in <code>dryrun</code> mode and complete in seconds. Otherwise your system admin would hunt you for running large jobs directly on head nodes.</p>
+<li><p>For submitting to a PBS task queue (e.g. <code>sos run script -q pbs -n</code> with <code>queue_type</code> set to <code>pbs</code>), the tasks will be generated, copied to remote host. Job files will also be generated according to <code>job_template</code> and will be copied to the remote host. However, instead of using <code>submit_cmd</code> to submit the job to the PBS queue, <strong>the job script will be executed directly on the head node</strong>. It is therefore important for you to allow the jobs to be run in <code>dryrun</code> mode and complete in seconds. Otherwise your system admin would hunt you for running large jobs directly on head nodes.</p>
 </li>
 </ol>
 
@@ -1565,7 +1462,20 @@ sos execute [tasks] [-q queue]</code></pre>
       home: /scratch/bcb/bpeng1
     queue_type: pbs
     status_check_interval: 30
-    template_file: ~/.sos/HPC.tmpl
+    job_template: |
+      #!/bin/bash
+      #PBS -N ${job_name}
+      #PBS -l nodes=1:ppn=${procs}
+      #PBS -l walltime=${walltime//3600}:${walltime/60%60}:${walltime%60}
+      #PBS -l mem=${mem//1000000}GB
+      #PBS -o ${cur_dir}/${task}.out
+      #PBS -e ${cur_dir}/${task}.err
+      #PBS -m ae
+      #PBS -M bpeng@mdanderson.org
+      #PBS -v ${cur_dir}
+      cd ${cur_dir}
+      sos execute ${task} -v ${verbosity} -s ${sig_mode} \
+        ${'--dryrun' if run_mode=='dryrun' else ''}
     max_running_jobs: 100
     submit_cmd: msub ${job_file}
     status_cmd: qstat ${job_id}
@@ -1585,36 +1495,11 @@ sos execute [tasks] [-q queue]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Job-template">Job template<a class="anchor-link" href="#Job-template">&#182;</a></h4><p><code>~/.sos/HPC.tmpl:</code></p>
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#PBS -N ${job_name}</span>
-<span class="c1">#PBS -l nodes=${nodes}:ppn=${ppn}</span>
-<span class="c1">#PBS -l walltime=${walltime//3600}:${walltime/60%60}:${walltime%60}</span>
-<span class="c1">#PBS -l mem=${mem//1000000}GB</span>
-<span class="c1">#PBS -o ${cur_dir}/${task}.out</span>
-<span class="c1">#PBS -e ${cur_dir}/${task}.err</span>
-<span class="c1">#PBS -m ae</span>
-<span class="c1">#PBS -M bpeng@mdanderson.org</span>
-<span class="c1">#PBS -v ${cur_dir}</span>
-
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">cur_dir</span><span class="si">}</span>
-
-sos execute <span class="si">${</span><span class="nv">task</span><span class="si">}</span> -v <span class="si">${</span><span class="nv">verbosity</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">sig_mode</span><span class="si">}</span> <span class="si">${</span><span class="s1">&#39;--dryrun&#39;</span><span class="p"> if run_mode==</span><span class="s1">&#39;dryrun&#39;</span><span class="p"> else </span><span class="s1">&#39;&#39;</span><span class="si">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Test-script">Test script<a class="anchor-link" href="#Test-script">&#182;</a></h4>
 <pre><code>[10]
 input: for_each={'tid': range(10) }
 
-task: concurrent=True, walltime='00:20:00', mem='100M', nodes=1, ppn=1
+task: concurrent=True, walltime='00:20:00', mem='100M', procs=1
 
 run:
     echo I am task ${tid}
