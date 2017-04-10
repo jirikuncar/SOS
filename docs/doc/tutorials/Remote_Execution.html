@@ -419,6 +419,7 @@ $( document ).ready(function(){
 </li>
 </ul>
 <p>Items under <code>shared</code> are treated as special <code>paths</code>. Files under these directories are mapped, but not synchronized.</p>
+<p>Note that it is a bad idea to use dropbox or google drive as shared drives because files under these directories are not actually shared so a file created locally will not be available instantly on the remote host.</p>
 
 </div>
 </div>
@@ -732,7 +733,7 @@ run:
 </ul>
 <p>and for <code>queue_type = pbs</code>, configurations such as</p>
 <ul>
-<li><code>template_file</code>: A template to generate jobs to be submitted,</li>
+<li><code>job_template</code>: A template to generate jobs to be submitted,</li>
 <li><code>submit_cmd</code>: command to submit PBS jobs,</li>
 <li><code>status_cmd</code>: command to check status of jobs, and</li>
 <li><code>kill_cmd</code>: command to cancel/delete pending or running jobs.</li>
@@ -741,8 +742,7 @@ run:
 <ul>
 <li><code>walltime</code>: estimated time</li>
 <li><code>mem</code>: estimated memory usage</li>
-<li><code>nodes</code>: number of computing nodes</li>
-<li><code>ppn</code>: number of process per node</li>
+<li><code>procs</code>: number of process needed for the task</li>
 </ul>
 <p>With these configurations and options properly set up, you will be able to execute the task using the same syntax, e.g.</p>
 
