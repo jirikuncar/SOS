@@ -840,7 +840,7 @@ Process with cutoff=8
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="n">batch</span>
+<span class="o">%</span><span class="kp">run</span> <span class="n">batch</span>
 
 <span class="p">[</span><span class="n">default</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">cutoff</span><span class="o">=</span><span class="mi">10</span>
@@ -1050,7 +1050,7 @@ Runing default_20
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
 <span class="o">%</span><span class="n">preview</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">r</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="kp">report</span><span class="o">.</span><span class="n">txt</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="kn">report:</span> 
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
@@ -1123,7 +1123,7 @@ Runing default_20
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
 <span class="o">%</span><span class="n">preview</span> <span class="n">default_10</span><span class="o">.</span><span class="n">txt</span> <span class="n">default_20</span><span class="o">.</span><span class="n">txt</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">r</span> <span class="s1">&#39;${step_name}.txt&#39;</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">r</span> <span class="s1">&#39;${step_name}.txt&#39;</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="kn">report:</span> 
     <span class="n">Runing</span> <span class="err">$</span><span class="p">{</span><span class="n">step_name</span><span class="p">}</span>
@@ -2452,7 +2452,7 @@ Output of last step is 1.txt 3.txt 5.txt 7.txt 9.txt
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">v2</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v2</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at ${step_name}&quot;</span><span class="p">)</span>
 </pre></div>
@@ -2498,7 +2498,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">v1</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v1</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;I am at ${step_name}&quot;</span><span class="p">)</span>
 </pre></div>

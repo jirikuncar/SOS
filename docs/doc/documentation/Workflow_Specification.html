@@ -170,7 +170,7 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A SoS script can specify one or more workflows. Each workflow consists of one or more numbered steps. The numbers (should be non-negative) specify the <strong>logical order</strong> by which the steps are executed, but a later step might be executed before the completion of previous steps if it does not depend on the output of these steps.</p>
-<p>This tutorial shows you how to define steps in a workflow and how to construct nested and combined workflows from single workflows. Although a Jupyter notebook, because of its interactive nature, is rarely used to execute complete workflows, we define workflows in notebook cells and execute them with options passed from cell magics such as <code>%set</code> and <code>%runcell</code>. Briefly speaking, <code>%set</code> sets persistent and global command line options and <code>%runcell</code> sets additional temporary options for the current cell. For example, the following command sets verbosity level to 2 so that SoS would display log messages of steps executed for the rest of this tutorial.</p>
+<p>This tutorial shows you how to define steps in a workflow and how to construct nested and combined workflows from single workflows. Although a Jupyter notebook, because of its interactive nature, is rarely used to execute complete workflows, we define workflows in notebook cells and execute them with options passed from cell magics such as <code>%set</code> and <code>%run</code>. Briefly speaking, <code>%set</code> sets persistent and global command line options and <code>%run</code> sets additional temporary options for the current cell. For example, the following command sets verbosity level to 2 so that SoS would display log messages of steps executed for the rest of this tutorial.</p>
 
 </div>
 </div>
@@ -737,7 +737,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="n">mouse_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_30</span><span class="p">]</span>
@@ -882,7 +882,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="n">mouse_10</span><span class="p">,</span><span class="n">human_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">human_20</span><span class="p">]</span>
@@ -935,7 +935,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="o">*</span><span class="n">_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">human_20</span><span class="p">]</span>
@@ -979,7 +979,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">#local run</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="n">fly</span>
+<span class="o">%</span><span class="kp">run</span> <span class="n">fly</span>
 <span class="p">[</span><span class="o">*</span><span class="n">_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">,</span><span class="n">human_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">fly_20</span><span class="p">]</span>
@@ -1039,7 +1039,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">mouse</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">,</span><span class="n">human_20</span><span class="p">]</span>
 <span class="n">reference</span> <span class="o">=</span> <span class="s2">&quot;/path/to/mouse/reference&quot;</span> <span class="k">if</span> \
   <span class="n">step_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;mouse&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;/path/to/human/reference&quot;</span>
@@ -1140,7 +1140,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">default</span><span class="p">:</span><span class="o">-</span><span class="mi">20</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">default</span><span class="p">:</span><span class="o">-</span><span class="mi">20</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
 <span class="p">[</span><span class="mi">30</span><span class="p">]</span>
@@ -1204,7 +1204,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <p>This syntax can be used from the command line, e.g.</p>
 <div class="highlight"><pre><span></span>sos-runner myscript align+call
 </pre></div>
-<p>or from the <code>%runcell</code> magic of Jupyter notebook</p>
+<p>or from the <code>%run</code> magic of Jupyter notebook</p>
 
 </div>
 </div>
@@ -1216,7 +1216,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">#local run</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="n">check</span><span class="o">+</span><span class="n">align</span><span class="o">+</span><span class="n">call</span>
+<span class="o">%</span><span class="kp">run</span> <span class="n">check</span><span class="o">+</span><span class="n">align</span><span class="o">+</span><span class="n">call</span>
 <span class="p">[</span><span class="n">check_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">align_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">align_20</span><span class="p">]</span>
@@ -1478,7 +1478,7 @@ My seed is 7764430190
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">runcell</span> <span class="n">align</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">align</span>
 <span class="kn">parameter:</span> <span class="n">aligner</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;aligner&#39;</span><span class="p">,</span> <span class="s1">&#39;bwa&#39;</span><span class="p">)</span>
 
 <span class="p">[</span><span class="n">bwa_1</span><span class="p">]</span>
@@ -1559,7 +1559,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
 
 <span class="err">!</span><span class="n">touch</span> <span class="n">test</span><span class="o">.</span><span class="n">bam</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">t</span> <span class="n">test</span><span class="o">.</span><span class="n">vcf</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">t</span> <span class="n">test</span><span class="o">.</span><span class="n">vcf</span>
 
 <span class="c1"># this step provides variable `var`</span>
 <span class="p">[</span><span class="n">index</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="s1">&#39;{filename}.bam.bai&#39;</span><span class="p">]</span>

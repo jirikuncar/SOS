@@ -254,7 +254,7 @@ $( document ).ready(function(){
 
 <pre><code>[compress: provides = '{filename}.bam']</code></pre>
 <p>would be triggered with target <code>sample_A.bam</code> and <code>sample_B.bam</code>. When the step is triggered by <code>sample_A.bam</code>, it defines variable <code>filename</code> as <code>sample_A</code> and sets the output of the step as <code>sample_A.bam</code>.</p>
-<p>The following example removes all local <code>*.bam</code> and <code>*.bam.bi</code> file before it executes three workflows defined by <code>targets</code>. We use magic <code>%runcell</code> to execute it, which is equivalent to executing it from command line using commands such as</p>
+<p>The following example removes all local <code>*.bam</code> and <code>*.bam.bi</code> file before it executes three workflows defined by <code>targets</code>. We use magic <code>%run</code> to execute it, which is equivalent to executing it from command line using commands such as</p>
 <div class="highlight"><pre><span></span>sos run myscript -t TS1.bam
 </pre></div>
 
@@ -268,7 +268,7 @@ $( document ).ready(function(){
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
 <span class="o">%</span><span class="n">preview</span> <span class="o">--</span><span class="n">off</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">t</span> <span class="n">TS1</span><span class="o">.</span><span class="n">bam</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">t</span> <span class="n">TS1</span><span class="o">.</span><span class="n">bam</span>
 
 <span class="p">[</span><span class="n">compress</span><span class="p">:</span> <span class="kp">provides</span> <span class="o">=</span> <span class="s1">&#39;{filename}.bam&#39;</span><span class="p">]</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&gt; ${step_name} input to ${output}&quot;</span><span class="p">)</span>
@@ -870,7 +870,7 @@ Sandbox execution failed.</pre>
 <span class="o">%</span><span class="n">preview</span> <span class="n">dag</span><span class="o">.</span><span class="n">dot</span> <span class="n">dag_2</span><span class="o">.</span><span class="n">dot</span>
 
 <span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="n">A</span><span class="err">?</span><span class="o">.</span><span class="n">txt</span> <span class="n">B</span><span class="err">?</span><span class="o">.</span><span class="n">txt</span> <span class="n">C</span><span class="err">?</span><span class="o">.</span><span class="n">txt</span>
-<span class="o">%</span><span class="n">runcell</span>  <span class="o">-</span><span class="n">t</span> <span class="n">B2</span><span class="o">.</span><span class="n">txt</span> <span class="n">C2</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">d</span> <span class="n">dag</span>
+<span class="o">%</span><span class="kp">run</span>  <span class="o">-</span><span class="n">t</span> <span class="n">B2</span><span class="o">.</span><span class="n">txt</span> <span class="n">C2</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">d</span> <span class="n">dag</span>
 <span class="p">[</span><span class="n">A_1</span><span class="p">]</span>
 <span class="kn">input:</span> <span class="s1">&#39;B1.txt&#39;</span>
 <span class="kn">output:</span> <span class="s1">&#39;A1.txt&#39;</span>

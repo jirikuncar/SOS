@@ -173,7 +173,7 @@ $( document ).ready(function(){
 <p>Comparing to a regular Jupyter notebook, the SoS Jupyter notebook provides the following features:</p>
 <ul>
 <li><strong>Enhanced Python3 kernel</strong> The SoS kernel is based on Python 3 but it provides additional features such as string interpolation.</li>
-<li><strong>Full-blown workflow system</strong> SoS is a workflow system that defines many functions (actions) to execute scripts in different languages.</li>
+<li><strong>Full-blown workflow system</strong> SoS is a workflow system that defines many functions (actions) to execute scripts in different languages. In addition to running steps and workflows defined in single cells (magic <code>%run</code>), magics such as <code>%sosrun</code> and <code>%sossave</code> can be used to execute workflows defined in the entire notebook. </li>
 <li><strong>Multi-Kernel notebook</strong> In addition to the ability to execute SoS workflows within Jupyter, the SoS kernel allows you to start subkernels (e.g. <a href="https://github.com/IRkernel/IRkernel"><code>irkernel</code></a> for <a href="https://www.r-project.org/">the R langauage</a>) and switch between the subkernels in the same notebook. This allows for truly integrated data analysis using different langauages.</li>
 <li><strong>Data-exchange between kernels</strong> Using a data exchange mechanism, SoS allows you to exchange variables between supported languages either explicitly, or implicitly for variables with names starting with <code>sos</code>.</li>
 <li><strong>Scratch-pad</strong> You can evaluate any statement in a side panel without effecting the main notebook. This provides a scratch pad for you to test your scripts before incorporating them to the main notebook.</li>
@@ -291,7 +291,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Single-cell-operation">Single cell operation<a class="anchor-link" href="#Single-cell-operation">&#182;</a></h3>
+<h3 id="cell-content">cell content<a class="anchor-link" href="#cell-content">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -300,8 +300,23 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A cell can either be a Markdown cell or a code cell. The markdown cells accept texts in markdown format and are used to generate descriptions of your notebook. The code cell starts with comments (lines starting with <code>#</code>), SoS magics (lines starting with <code>%</code>), shell commands (lines  starting with <code>!</code>), followed by statements that can be evaluated by either a SoS kernel (based on Python3), or any of the subkernels that Jupyter supports.</p>
+<p>A cell can either be a <strong>Markdown cell</strong> or a <strong>code cell</strong>.</p>
+<ul>
+<li>A markdown cell accepts texts in markdown format and is rendered to generate descriptions of a notebook.</li>
+<li>A code cell starts with comments (lines starting with <code>#</code>), SoS magics (lines starting with <code>%</code>), shell commands (lines  starting with <code>!</code>), followed by statements that can be evaluated by the SoS kernel.</li>
+</ul>
+<p>The content of a code cell can be either <strong>SoS statements</strong> (Python syntax with SoS directives) or <strong>statement for any subkernel</strong>, marked by the kernel used to execute the cell. Baiscally, the SoS kernel executes SoS cells through the SoS engine, and sends subkernel cells to their respective kernels (with certain pre- and post-processing).</p>
+<p>A SoS cell can define a <strong>scratch step</strong> or a <strong>formal SoS step</strong>, with the latter starts with a <strong>section header</strong> (after comments and magics). Whereas scratch steps are local to the cells they are defined, all sos steps defined in step cells of a notebook forms a <strong>workflow</strong> that can be saved by magic <code>%sossave</code> or executed by magic <code>%sosrun</code>.</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Single-cell-operation">Single cell operation<a class="anchor-link" href="#Single-cell-operation">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -5233,6 +5248,31 @@ Name: one, dtype: float64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>If ooption <code>--workflow</code> is specified, sos collects workflow steps from the current notebook and preview it in the side panel. This would give you a better sense of what would be saved with magic <code>%sossave</code> or executed with magic <code>%sosrun</code>. This magic would automatically be executed with magic <code>%sossave</code> and <code>%sosrun</code>.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="o">--</span><span class="n">workflow</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Magic <code>%preview</code> also accepts an option <code>--off</code>, in which case it turns off the preview of output files from the SoS workflow.</p>
 
 </div>
@@ -6105,7 +6145,7 @@ TRUE
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="%runcell"><code>%runcell</code><a class="anchor-link" href="#%runcell">&#182;</a></h3>
+<h3 id="%run"><code>%run</code><a class="anchor-link" href="#%run">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -6114,7 +6154,7 @@ TRUE
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>%runcell</code> magic allows you to run the content of a cell as a SoS workflow with specify SoS options such as <code>-v</code> (verbosity), <code>-j</code> (max number of jobs), and workflow options as defined by <code>parameter:</code> keyword. A complete list of arguments can be shown using the <code>-h</code> option.</p>
+<p>The <code>%run</code> magic allows you to run the content of a cell as a SoS workflow with specify SoS options such as <code>-v</code> (verbosity), <code>-j</code> (max number of jobs), and workflow options as defined by <code>parameter:</code> keyword. A complete list of arguments can be shown using the <code>-h</code> option.</p>
 
 </div>
 </div>
@@ -6126,7 +6166,7 @@ TRUE
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">sos</span>
-<span class="o">%</span><span class="n">runcell</span> <span class="o">-</span><span class="n">h</span>
+<span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
 
 </div>
@@ -6252,7 +6292,7 @@ specified in the script. Single value parameters should be passed using option
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="%run"><code>%run</code><a class="anchor-link" href="#%run">&#182;</a></h3>
+<h3 id="%sosrun"><code>%sosrun</code><a class="anchor-link" href="#%sosrun">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -6261,11 +6301,10 @@ specified in the script. Single value parameters should be passed using option
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>%run</code> option is a very special magic in that it <strong>executes SoS steps defined in the entire notebook</strong>. Essentially speaking, this magic</p>
+<p>The <code>%sosrun</code> option is a very special magic in that it <strong>executes SoS steps defined in the entire notebook</strong>. Essentially speaking, this magic</p>
 <ul>
-<li>Collect the content of all SoS cells in the notebook that starts with a section header. Comments and magics before section header is allowed and is ignored.</li>
-<li>Append the steps to the content of the step.</li>
-<li>Execute the entire workflow with options specified by magic <code>%run</code>, as if executed from command <code>sos run</code>.</li>
+<li>Collect the content of all SoS cells in the notebook (including the present cell) that starts with a section header. Comments and magics before section header is allowed and is ignored.</li>
+<li>Execute the entire workflow with options specified by magic <code>%sosrun</code>. Default options specified by magic <code>%set</code> is honored.</li>
 </ul>
 <p>For example,</p>
 
@@ -6359,7 +6398,7 @@ specified in the script. Single value parameters should be passed using option
 <div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">workflow</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sosrun</span> <span class="n">workflow</span>
 </pre></div>
 
 </div>
@@ -6438,7 +6477,7 @@ This is step workflow_20
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># this step will execute the previous cell multiple times</span>
-<span class="o">%</span><span class="kp">run</span> <span class="n">batch</span>
+<span class="o">%</span><span class="n">sosrun</span> <span class="n">batch</span>
 <span class="p">[</span><span class="n">batch</span><span class="p">]</span>
 <span class="kn">input:</span> <span class="kp">for_each</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)}</span>
 <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;worker&#39;</span><span class="p">,</span><span class="n">val</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
@@ -6470,6 +6509,55 @@ process 4
 
 </div>
 	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="%sossave"><code>%sossave</code><a class="anchor-link" href="#%sossave">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Magic <code>%sossave</code> saves the <strong>workflow</strong> defined in the notebook to specified file. The workflow consists of steps that starts with section header (ignoring leading comments and magics). The content of the workflow will be displayed in the side panel if the panel is visible.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Magic <code>%sossave</code> accepts a filename and an option <code>--force</code> (<code>-f</code>). If no filename is specified, a sos script with identical name as the notebook would be saved. If the script already exists, this magic will quit with a warning unless option <code>--force</code> is specified to overwrite existing file.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>%sossave</code> magic allows easy creation of SoS workflows in <code>.sos</code> file so that you can execute it from command line. A usage pattern is</p>
+
+<pre><code>%sossave myworkflow.sos
+!sos run myworkflow</code></pre>
+<p>Note that</p>
+
+<pre><code>!sos run workflow</code></pre>
+<p>and</p>
+
+<pre><code>%sosrun</code></pre>
+<p>are different in that the former is executed in Jupyter in single-process mode and the latter is executed in a shell that is indepedent of the Jupyter notebook.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
