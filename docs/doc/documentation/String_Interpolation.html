@@ -870,9 +870,9 @@ under &#34;/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmp0q6rm6bx&
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">name</span> <span class="n">filename</span> <span class="n">basefilename</span> <span class="n">expanded</span> <span class="n">parparname</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="kp">name</span> <span class="n">filename</span> <span class="n">basefilename</span> <span class="n">expanded</span> <span class="n">parparname</span>
 <span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;~/sos/examples/update_toc.sos&#39;</span>
-<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;${file!n}&quot;</span>
+<span class="kp">name</span> <span class="o">=</span> <span class="s2">&quot;${file!n}&quot;</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;${file!b}&quot;</span>
 <span class="n">basefilename</span> <span class="o">=</span> <span class="s2">&quot;${file!bn}&quot;</span>
 <span class="n">expanded</span> <span class="o">=</span> <span class="s2">&quot;${file!u}&quot;</span>
@@ -1229,7 +1229,7 @@ Processing c.txt ...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If your SoS script contains long bash, perl, or other scripts in which <code>${ }</code> are frequently used, it can be tedious and error prone to backquote all sigils in these script. In this case you can assign an alternative sigil to a script, even assign a different sigil for your entire SOS script.</p>
+<p>If your SoS script contains long bash, perl, or other scripts in which <code>${ }</code> are frequently used, it can be tedious and error prone to backquote all sigils in these script. In this case you can assign an alternative sigil to the steps using a <code>sigil</code> section option.</p>
 <p>For example, the example above could be written as</p>
 
 </div>
@@ -1281,180 +1281,21 @@ Processing c.txt ...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>to use an alternative sigil for this particular step using a step option <code>sigil</code>, or change the system default sigil</p>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">set_options</span> <span class="kp">sigil</span><span class="o">=</span><span class="s1">&#39;%( )&#39;</span>
-
-<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Sample %(sample_names[0]) results&quot;</span>
-<span class="kn">run:</span>
-    <span class="n">echo</span> <span class="o">%</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span> <span class="n">b</span><span class="o">.</span><span class="n">txt</span> <span class="n">c</span><span class="o">.</span><span class="n">txt</span>
-    <span class="n">do</span>
-        <span class="n">echo</span> <span class="n">Processing</span> <span class="err">$</span><span class="p">{</span><span class="nb">file</span><span class="p">}</span> <span class="o">...</span>
-    <span class="n">done</span>
-</pre></div>
+<p>to use an alternative sigil for this particular step using a step option <code>sigil</code>.</p>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Sample A results
-Processing a.txt ...
-Processing b.txt ...
-Processing c.txt ...
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can define any sigil as long as it has a left sigil and a right sigil separated by a space. You can even use sigils with identical left and right sigil (e.g. <code># #</code>). However, unequal left and right sigils allows the use of nested expressions as shown in the following example, equal left and right sigils cannot be used in this way.</p>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">set_options</span> <span class="kp">sigil</span><span class="o">=</span><span class="s1">&#39;${ }&#39;</span>
-</pre></div>
+<p>You can define any sigil as long as it has a left sigil and a right sigil separated by a space. You can even use sigils with identical left and right sigil (e.g. <code># #</code>), although the latter is more prone to errors</p>
 
 </div>
 </div>
 </div>
-
-</div>
-	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="nb">file</span>
-<span class="n">idx</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;b.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;c.txt&#39;</span><span class="p">]</span>
-<span class="nb">file</span> <span class="o">=</span> <span class="s2">&quot;${idx}-th file is ${filenames[${idx}]}&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">%preview file</font></pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> file:</font> str of length 18</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-
-<div class="output_text output_subarea ">
-<pre>&#39;1-th file is b.txt&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Finally, if you feel that the Python's own string functions are good enough, you can set <code>None</code> as sigil and completely disable the string interpolation function of SoS.</p>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">set_options</span> <span class="kp">sigil</span><span class="o">=</span><span class="bp">None</span>
-<span class="n">price</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="s2">&quot;The price is ${}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[21]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;The price is $1000&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
     </div>
   </div>
 </body>
