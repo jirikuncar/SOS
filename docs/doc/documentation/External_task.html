@@ -635,6 +635,64 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="max_procs"><code>max_procs</code><a class="anchor-link" href="#max_procs">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Maximum number of processes (an integer) allowed for the queue. A task would fail immediately if it specifies more <code>procs</code> than this option. For queues that do not require a <code>procs</code> option (e.g. a <code>process</code> queue), tasks that use more processes than <code>max_procs</code> will be automatically killed.</p>
+<p>This option, along with <code>max_walltime</code> and <code>max_mem</code> that are described below, help prevent the submission of erraneous tasks to the queue. It also helps prevent the execution large jobs on wrong servers, such as the headnode of a cluster system on which only job preparation and submission steps are allowed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="max_walltime"><code>max_walltime</code><a class="anchor-link" href="#max_walltime">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Maximum walltime allowed for the queue. <code>max_walltime</code> could be specified as an integer (seconds) or a string in the format of <code>HH:MM:SS</code>. A task would fail immediately if it specifies more <code>walltime</code> than this option. For queues that do not require a <code>walltime</code> option (e.g. a <code>process</code> queue), tasks that has exceeded <code>max_walltime</code> will be automatically killed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="max_mem"><code>max_mem</code><a class="anchor-link" href="#max_mem">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Maximum memory comsumption allowed for the queue. <code>max_mem</code> could be specified as an integer (bytes) or a string with units such as <code>M</code>, <code>G</code>, <code>MB</code> etc. A task would fail immediately if it specifies more <code>mem</code> than this option. For queues that do not require a <code>mem</code> option (e.g. a <code>process</code> queue), tasks that use more RAM than <code>max_mem</code> will be automatically killed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="description"><code>description</code><a class="anchor-link" href="#description">&#182;</a></h3>
 </div>
 </div>

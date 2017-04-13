@@ -146,7 +146,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_python2 {background-color: #F6FAEA !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -181,6 +185,87 @@ with one or more step names and optional options. The body of a SoS step consist
 <strong>statements</strong>, <strong>input</strong>, <strong>output</strong>, <strong>depends</strong> files, <strong>parameter</strong> definitions, followed by step <strong>process</strong>. The following figure 
 shows a sample script that defines a workflow with two steps:</p>
 <p><img src="../media/sample_script.jpg" alt="sample_script"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The above workflow is defined in a plain-text <code>.sos</code> file and displayed in a browser with syntax highlighting. The same workflow could be defined in a Jupyter notebook, with cells starting with section headers as follows:</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
+<span class="n">local_resource</span> <span class="o">=</span> <span class="s1">&#39;~/Resource/&#39;</span>
+<span class="n">data_dir</span>       <span class="o">=</span> <span class="s1">&#39;~/Data/bams/&#39;</span>
+<span class="n">resource_dir</span>   <span class="o">=</span> <span class="s1">&#39;${local_resource}/resources/hg19/Ensembl/Genes&#39;</span>
+
+<span class="c1"># samples to be processed</span>
+<span class="kn">parameter:</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s312&#39;</span><span class="p">,</span> <span class="s1">&#39;s315&#39;</span><span class="p">,</span> <span class="s1">&#39;s312a&#39;</span><span class="p">,</span> <span class="s1">&#39;s315a&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
+<span class="c1"># download gene models from the MISO website</span>
+<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/Home_sapiens.GRCh37.65.gff.zip&#39;</span>
+<span class="kn">download:</span> <span class="n">dest_dir</span><span class="o">=</span><span class="n">resource_dir</span><span class="p">,</span> <span class="n">decompress</span><span class="o">=</span><span class="bp">True</span>
+    <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">genes</span><span class="o">.</span><span class="n">mit</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">burgelab</span><span class="o">/</span><span class="n">miso</span><span class="o">/</span><span class="n">annotations</span><span class="o">/</span><span class="n">gene</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">Homo_sapiens</span><span class="o">.</span><span class="n">GRCh37</span><span class="o">.</span><span class="mf">65.</span><span class="n">gff</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">gff_1</span><span class="p">]</span>
+<span class="c1"># Index gtf file using index_gff</span>
+<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/${hg19_gff_index}/genes.gff&#39;</span>
+<span class="kn">task:</span>   <span class="n">working_dir</span><span class="o">=</span><span class="n">resource_dir</span>
+<span class="kn">run:</span>    <span class="n">docker_image</span><span class="o">=</span><span class="s1">&#39;mdabioinfo/miso:latest&#39;</span>
+    <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
+    <span class="n">index_gff</span> <span class="o">--</span><span class="n">index</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_file</span><span class="p">}</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that a SoS Jupyter notebook can contain markdown cells and cells with other kernels but only cells starting with section headers (ignoring magics and comments etc) are parts of the workflow definition.</p>
 
 </div>
 </div>
@@ -491,148 +576,6 @@ option         = name, "=", expression</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A section can have arbitrary Python statements and SoS-specific statements that define the input, output, and dependent targets, and external tasks of the step. These statements starts with keywords <code>input:</code>, <code>output:</code>, <code>depends:</code>, and <code>task:</code>. Please refer to <a href="SoS_Step.html">SoS step</a> for more details about these statements.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Precessors">Precessors<a class="anchor-link" href="#Precessors">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="%include"><code>%include</code><a class="anchor-link" href="#%include">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS allows you to include variables and steps of another script into the current script using preprocessor <code>%include</code>. The <code>%include</code> statement should be used before any other SoS statements and follows the same syntax as the python <code>import</code> keyword. For example, the following statements are allowed</p>
-<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">include</span> <span class="n">alignment</span>
-<span class="o">%</span><span class="n">include</span> <span class="n">alignment</span> <span class="k">as</span> <span class="n">ag</span>
-<span class="o">%</span><span class="n">include</span> <span class="n">alignment</span><span class="p">,</span> <span class="n">calling</span>
-<span class="o">%</span><span class="n">include</span> <span class="n">alignment</span> <span class="k">as</span> <span class="n">ag</span><span class="p">,</span> <span class="n">calling</span> <span class="k">as</span> <span class="n">ca</span>
-
-<span class="o">%</span><span class="kn">from</span> <span class="nn">alignment</span> <span class="nn">include</span> <span class="o">*</span>
-<span class="o">%</span><span class="kn">from</span> <span class="nn">alignment</span> <span class="nn">include</span> <span class="nn">var1</span><span class="p">,</span> <span class="n">workflow1</span>
-<span class="o">%</span><span class="kn">from</span> <span class="nn">alignment</span> <span class="nn">include</span> <span class="nn">workflow1</span> <span class="nn">as</span> <span class="nn">wf</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Similar to python <code>import</code> statement, variables and workflows included using the <code>%include ... as ...</code> syntax can be accessed using <code>module.name</code> (e.g. <code>alignment.var1</code>, <code>ag.var1</code> (for <code>include alignment as ag</code>)), whereas variables and workflows included using the <code>from ... include ...</code> syntax are available directly (e.g. <code>var1</code>, <code>workflow1</code>, and <code>wf</code> (for <code>workflow1 as wf</code>).</p>
-<p>For example</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env sos-runner</span>
-<span class="c1">#fileformat=SOS1.0</span>
-
-<span class="o">%</span><span class="n">include</span> <span class="n">alignment</span>
-<span class="o">%</span><span class="n">include</span> <span class="n">call</span>
-<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
-<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;alignment.default + call.default&#39;</span><span class="p">)</span>
-</pre></div>
-<p>would execute two workflows defined in <code>alignment.sos</code> and <code>call.sos</code>. The files should be in SoS search path to be included.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="%if,-%elif,-%else,-and-%endif"><code>%if</code>, <code>%elif</code>, <code>%else</code>, and <code>%endif</code><a class="anchor-link" href="#%if,-%elif,-%else,-and-%endif">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS allows you to conditionally include part of the script using macos <code>%if</code>, <code>%elif</code>, <code>%else</code>, and <code>%endif</code>. The condition in <code>%if cond</code> and <code>elif cond</code> should be valid python expression. Because the conditions are evaluated at parsing time, they cannot use any SoS variables and can only use functions from basic modules such as <code>sys</code>, <code>os</code>, and <code>glob</code> (automatically imported). The condition should not expand multiple lines and should not have trailing <code>:</code>. For example,</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;darwin&#39;</span>
-<span class="p">[</span><span class="n">step</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;This is Mac OS X&#39;</span><span class="p">)</span>
-<span class="o">%</span><span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;posix&#39;</span>
-<span class="p">[</span><span class="n">step</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;This is Linux&#39;</span><span class="p">)</span>
-<span class="o">%</span><span class="k">else</span>
-<span class="p">[</span><span class="n">step</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;This is windows&#39;</span><span class="p">)</span>
-<span class="o">%</span><span class="n">endif</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This is Mac OS X
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="%set_options"><code>%set_options</code><a class="anchor-link" href="#%set_options">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can set global SoS options using preprocessor <code>%set_options</code>. Currently SoS only support option <code>sigil</code>, which sets global default sigil. You can either set it to a valid sigil (e.g. <code>'{ }'</code>, <code>'[ ]'</code>), or <code>None</code> if you would like to disable string interpolation. Please refer to section <a href="String_Interpolation.html">string interpolation</a> for details of this option.</p>
 
 </div>
 </div>

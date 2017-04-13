@@ -145,7 +145,11 @@ $( document ).ready(function(){
 
 
     });
-</script>
+</script><style>  /* defined here in case the main.css below cannot be loaded */
+
+ .lan_sos {}.lan_bash {background-color: #E6EEFF !important }.lan_python2 {background-color: #F6FAEA !important }.lan_ir {background-color: #FDEDEC !important }.lan_python3 {background-color: #EAFAF1 !important }
+
+</style>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -390,7 +394,11 @@ optional arguments:
 
 <pre><code>$ sos convert myscript.sos myscript.ipynb</code></pre>
 <p>and open the resulting notebook from the web interface.</p>
-<p>The converter uses lines that starts with <code>%cell</code> to split a SoS script into cells of a Jupyter notebook. If you have a long script and would like to split it into several cells, you can manually insert <code>%cell</code> lines to a <code>.sos</code> script before conversion (which would be ignored in batch mode), or split the cells in Jupyter by selecting <code>Edit -&gt; Split Cell</code>, or using a keyboard shortcut (<code>Cmd-Shift-"-"</code> under Mac).</p>
+<p>Depending on how the sos file was written (or converted from <code>.ipynb</code> file), sos takes different approach in splitting content of the script into cells of ipython notebook. More specifically,</p>
+<ol>
+<li>If the script contains cell spliting magic <code>%cell</code>, sos would split the sos script according to <code>%cell</code>, and restore proper metadata (e.g. kernel used for each cell) and execution index. Such a <code>.sos</code> file is usually exported from command <code>sos convert ipynb sos --all</code>.</li>
+<li>If the script does not contain cell spliting magic, sos will split each step into a separate cell.</li>
+</ol>
 
 </div>
 </div>
@@ -404,16 +412,6 @@ optional arguments:
 
 <pre><code>$ sos convert myscript.sos myscript.ipynb --execute</code></pre>
 <p>You would get a notebook with both input and output cells, as if you have opened the non-executed <code>ipynb</code> file and selected <code>Cell -&gt; Run all</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It is easy to convert a SoS script to <code>ipynb</code> format so that it can be opened from Jupyter notebook. However, without proper preparation, the entire script would appear in Jupyter notebook as a single cell. It would be helpful then to ed</p>
 
 </div>
 </div>
@@ -465,10 +463,24 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="ipynb--&gt;-SoS">ipynb -&gt; SoS<a class="anchor-link" href="#ipynb--&gt;-SoS">&#182;</a></h2><p>You can save a Jupyter notebook with SoS kernel to a SoS script using <code>File -&gt; Download As -&gt; SoS</code> from the browser, or using command</p>
+<h2 id="ipynb--&gt;-SoS">ipynb -&gt; SoS<a class="anchor-link" href="#ipynb--&gt;-SoS">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A Jupyter notebook can contain markdown cell and code cell with different kernels, and a sos cell might or might not contain a real sos step (with section header).</p>
+<p>You can save a Jupyter notebook with SoS kernel to a SoS script using <code>File -&gt; Download As -&gt; SoS</code> from the browser, or using command</p>
 
 <pre><code>$ sos convert myscript.ipynb myscript.sos</code></pre>
-<p>The conversion process will strip all results (which can be useful if you would like to version control your notebook without results) but keep cell information and SoS magics. <strong>SoS files converted from Jupyter notebook might not be executable by the <code>sos</code> command in batch mode</strong> if they contain SoS magics such as <code>%use R</code> because these are not supported by non-interactive execution of SoS scripts.</p>
+<p>The conversion process will export the workflow defined in the jupyter notebook in the resulting <code>.sos</code> file, ignoring all cell magics, non-sos cells, and sos cells that do not start with section headers. The resulting <code>.sos</code> file is a proper SoS workflow and can be executed by the <code>sos</code> command in batch mode.</p>
+<p>If you would like to keep most of the information of the Jupyter notebook, you can convert the notebook using option <code>--all</code> (or <code>-a</code>),</p>
+
+<pre><code>$ sos convert myscript.ipynb myscript.sos --all</code></pre>
+<p>This option will export each cell with a <code>%cell</code> magic and record meta data in the <code>.sos</code> file. The resulting file can be converted back to <code>ipynb</code> format with minimal lose of information (without result), but might not be able to be executed in batch mode.</p>
 
 </div>
 </div>
