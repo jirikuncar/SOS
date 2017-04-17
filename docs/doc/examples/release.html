@@ -468,7 +468,7 @@ body {
   <div class="file-info">
       <a href="release" class="commit-tease-sha">release</a>
       <span class="file-info-divider"></span>
-    4.6 KiB
+    4.7 KiB
   </div>
   <div class="file-actions">
   </div>
@@ -718,7 +718,7 @@ sos convert <span class="si">${</span><span class="nv">_input</span><span class=
 
 <div class="source blob-code sos-script "><pre><span></span>git add --all docs/doc/documentation docs/doc/tutorials docs/doc/examples docs/doc/media docs/js/docs.js docs/*.html
 git commit docs/*.html docs/doc/* --no-verify -m <span class="s1">&#39;${msg}&#39;</span>
-git push --no-verify
+git push --no-verify <span class="o">||</span> <span class="nb">true</span>
  
 </pre></div>
 
