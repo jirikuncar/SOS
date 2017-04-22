@@ -306,7 +306,7 @@ $( document ).ready(function(){
 <li>A code cell starts with comments (lines starting with <code>#</code>), SoS magics (lines starting with <code>%</code>), shell commands (lines  starting with <code>!</code>), followed by statements that can be evaluated by the SoS kernel.</li>
 </ul>
 <p>The content of a code cell can be either <strong>SoS statements</strong> (Python syntax with SoS directives) or <strong>statement for any subkernel</strong>, marked by the kernel used to execute the cell. Baiscally, the SoS kernel executes SoS cells through the SoS engine, and sends subkernel cells to their respective kernels (with certain pre- and post-processing).</p>
-<p>A SoS cell can define a <strong>scratch step</strong> or a <strong>formal SoS step</strong>, with the latter starts with a <strong>section header</strong> (after comments and magics). Whereas scratch steps are local to the cells they are defined, all sos steps defined in step cells of a notebook forms a <strong>workflow</strong> that can be saved by magic <code>%sossave</code> or executed by magic <code>%sosrun</code>.</p>
+<p>A SoS cell can define a <strong>scratch step</strong> or a <strong>SoS step</strong>, with the latter starts with a <strong>section header</strong> (after comments and magics). Whereas scratch steps are local to the cells they are defined, all sos steps defined in step cells of a notebook forms a <strong>workflow</strong> that can be saved by magic <code>%sossave</code> or executed by magic <code>%sosrun</code>, or from command line using commands such as <code>sos run</code> and <code>sos-runer</code>.</p>
 
 </div>
 </div>
@@ -518,7 +518,7 @@ I am in default_30
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Technically speaking, SoS prefixes input with a default header if no header is present, and execute all input as SoS workflows. The major differences between running SoS scripts in batch mode and Jupyter notebook is the scope of variables. Whereas in Jupyter notebook all scripts are executed in the same namespace (SoS dictionary) with shared variables, SoS batch mode executes each step in separate processes with their own namespaces, with additional rules such as readonly global variables.</p>
+<p>The major differences between running SoS scripts in batch mode and Jupyter notebook is the scope of variables. Whereas in Jupyter notebook all scripts are executed in the same namespace (SoS dictionary) with shared variables, SoS batch mode executes each step in separate processes with their own namespaces, with additional rules such as scope of step variables.</p>
 
 </div>
 </div>
@@ -6543,17 +6543,7 @@ process 4
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>%sossave</code> magic allows easy creation of SoS workflows in <code>.sos</code> file so that you can execute it from command line. A usage pattern is</p>
-
-<pre><code>%sossave myworkflow.sos
-!sos run myworkflow</code></pre>
-<p>Note that</p>
-
-<pre><code>!sos run workflow</code></pre>
-<p>and</p>
-
-<pre><code>%sosrun</code></pre>
-<p>are different in that the former is executed in Jupyter in single-process mode and the latter is executed in a shell that is indepedent of the Jupyter notebook.</p>
+<p>The <code>%sossave</code> magic allows easy creation of SoS workflows in <code>.sos</code> file so that you can edit it with your favorite text editor.</p>
 
 </div>
 </div>
@@ -7379,6 +7369,104 @@ lFKqFTQxKKWUOoMmBqWUUmfQxKCUUuoMmhiUUkqdQRODUkqpM2hiUEopdQZNDEoppc7w/wAgk0Qi
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="%cd"><code>%cd</code><a class="anchor-link" href="#%cd">&#182;</a></h3><p>Change the current working directory of the SoS kernel to <code>dir</code>. The working directory of started subkernels is not affected.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="%taskinfo"><code>%taskinfo</code><a class="anchor-link" href="#%taskinfo">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When you execute a SoS workflow with external task, one or more tasks would be displayed in the notebook.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="../media/tasks.png" alt="tasks"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When you click on the task ID, a <code>%taskinfo</code> magic would be executed at the side panel, displaying the detailed information of the task, including a plot of the CPU and memory usage of the task during its execution.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="../media/resource_history.png" alt="resource_history"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also execute the magic directly by running it in the side panel or a regular cell, with command</p>
+
+<pre><code>%taskinfo 6dbe51a2c129f02e34e454be5f0cbcd9 -q queue</code></pre>
+<p>Note that the <code>-q</code> (<code>--queue</code>) option specifies the task queue in which the task is being executed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="tasks"><code>tasks</code><a class="anchor-link" href="#tasks">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>tasks</code> magic lists all or selected tasks in local or remote task queue so that you can monitor them using the notebook interface. The tasks would be listed as shown above and you can</p>
+<ol>
+<li>select the icon to stop a running or pending task, or resume failed or aborted tasks.</li>
+<li>select the task ID to retrieve the details of the task.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This magic accepts parameters <code>-q</code> (<code>--queue</code>), and option <code>-e</code> (<code>--exclude</code>) to exclude tasks in certain status. For example, you can use magic</p>
+
+<pre><code>%tasks -q host -e completed</code></pre>
+<p>to list all tasks on a remote task queue named <code>host</code>, excluding those that have been completed.</p>
 
 </div>
 </div>
