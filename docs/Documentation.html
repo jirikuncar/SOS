@@ -33,37 +33,18 @@ The University of Texas, MD Anderson Cancer Center. Jan 23, 2017.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="doc/tutorials/Quick_Start_Guide.html">Quick Start Guide</a><br>
-    Brief introduction to the SoS format and basic usages</p>
-<p><a href="doc/tutorials/Using_SoS_Interactively.html">Using SoS interactively</a><br>
-Interactive execution of SoS workflows</p>
-<ul>
-<li><a href="doc/tutorials/Using_SoS_with_Jupyter_Notebook.html">Using SoS with Jupyter notebook</a><br>
-  For interactive data analysis in a notebook interface</li>
-<li><a href="doc/tutorials/Using_SoS_with_Spyder.html">Using Spyder as SoS IDE</a><br>
-  For data analysis and workflow development with an IDE</li>
-<li><a href="doc/tutorials/Using_SoS_with_IPython.html">Using Spyder with iPython</a><br>
-  For experienced iPyhton user</li>
-<li><a href="doc/tutorials/Using_SoS_with_VIM.html">using SoS with VIM</a><br>
-  For hard-core vim user</li>
-</ul>
-<p><a href="doc/tutorials/Execution_of_Workflow.html">Running SoS workflows</a><br>
-   Make effective use of SoS in batch mode</p>
-<ul>
-<li><p><a href="doc/tutorials/SoS_Docker_Guide.html">SoS Docker Guide</a><br>
- Running commands in docker containers</p>
-</li>
-<li><p><a href="doc/tutorials/Remote_Execution.html">Remote_Execution</a><br>
- Execute tasks on remote hosts with or without shared file systems</p>
-</li>
-</ul>
-<p><a href="doc/tutorials/Generating_Reports.html">Generating Reports</a><br>
-   Generate reports using <a href="http://pandoc.org/">pandoc</a> or <a href="http://rmarkdown.rstudio.com/">Rmarkdown</a></p>
-<p><a href="doc/tutorials/File_Conversion.html">File Conversion</a><br>
-   Conversion between <code>.sos</code>, <code>.ipynb</code>, <code>.html</code> and other formats</p>
-<p><a href="doc/tutorials/Project_Management.html">Project Management</a><br>
-   Manage files and archive projects.</p>
+<h3 id="Overview-of-SoS">Overview of SoS<a class="anchor-link" href="#Overview-of-SoS">&#182;</a></h3><table class="doc-table">
+  <tr>
+    <td>SoS engine and its Jupyter frontend<br>
+        <small>Basic concept, <code>.sos</code> and <code>.ipynb</code> files.</small>
+    </td>
+    <td>
+    [Quick Start Guide](doc/tutorials/Quick_Start_Guide.html)<br>
+     Brief introduction to the SoS format and basic usages
+    </td>
+  </tr>
 
+</table>
 </div>
 </div>
 </div>
@@ -72,40 +53,260 @@ Interactive execution of SoS workflows</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">&#182;</a></h1><p><a href="doc/documentation/SoS_Syntax.html">SoS Syntax</a><br>
-   An overview of the SoS syntax and key components of SoS scripts</p>
-<ul>
-<li><a href="doc/documentation/String_Interpolation.html">String Interpolation</a><br>
-  Compose scripts in other languages using SoS variables</li>
+<h3 id="SoS-as-an-interative-working-environment">SoS as an interative working environment<a class="anchor-link" href="#SoS-as-an-interative-working-environment">&#182;</a></h3><table class="doc-table">
+  <tr>
+    <td>
+    [Working with multiple kernels](doc/tutorials/multi_kernel.html)<br>
+    Using multiple languages in the same notebook
+    </td>
+    <td>
+    [Preview of expressions and files](doc/tutorials/preview_magic.html)<br>
+    Preview of variables, expressions, and files in different formats
+    </td>
+  </tr>
+   <tr>
+    <td>
+    [Workflows in notebooks](doc/tutorials/workflow_in_jupyter.html)<br>
+    Execute steps of workflows in Jupyter
+    </td>
+    <td>
+    [Task management in Jupyter](doc/tutorials/task_management.html)<br>
+    Check, stop and resume tasks.
+    </td>
+  </tr>
+
+
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SoS-as-an-interative-working-environment">SoS as an interative working environment<a class="anchor-link" href="#SoS-as-an-interative-working-environment">&#182;</a></h3><table class="doc-table">
+  <tr>
+    <td>
+    [Command line options](doc/documentation/Command_Line_Options.html)<br>
+  Customize workflow with command line options
+
+
+    </td>
+    <td>
+    [Configuration files](doc/documentation/Configuration_Files.html)<br>
+  Use of global, local and user-specified configuration files
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+[User Interface](doc/documentation/User_Interface.html)<br>
+Command line and notebook interface
+
+    </td>
+    <td>
+     </td>
+  </tr>
+
+
+
+
+
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SoS-as-an-workflow-engine">SoS as an workflow engine<a class="anchor-link" href="#SoS-as-an-workflow-engine">&#182;</a></h3><table class="doc-table">
+  <tr>
+    <td>
+    [Single workflow](doc/documentation/Workflow_Specification.html)<br>
+
+    </td>
+    <td>
+   [Multiple workflows in a file]<br>
+  Define more workflows in a SoS script
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    [Nested workflows]()<br>
+
+    </td>
+    <td>
+  [Makefile-style workflows](doc/documentation/Auxiliary_Steps.html)<br>
+  Steps that are executed only when needed
+    </td>
+  </tr>
+    <tr>
+    <td>
+ [Steps of workflow](doc/documentation/SoS_Step.html)<br>
+  Step input, depends, output, and process
+
+    </td>
+    <td>
+  [Understanding Targets](doc/documentation/Understanding_Targets.html)<br>
+  Beyond file targets
+    </td>
+  </tr>
+
+
+      <tr>
+    <td>
+  [SoS Actions](doc/documentation/SoS_Actions.html)<br>
+  How to use and define SoS actions
+
+    </td>
+    <td>
+    </td>
+  </tr>
+
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="SoS-in-action">SoS in action<a class="anchor-link" href="#SoS-in-action">&#182;</a></h2><table class="doc-table">
+  <tr>
+    <td>
+
+[Running SoS workflows](doc/tutorials/Execution_of_Workflow.html)<br>
+   Make effective use of SoS in batch mode
+
+    </td>
+    <td>
+
+[SoS Docker Guide](doc/tutorials/SoS_Docker_Guide.html)<br>
+   Running commands in docker containers
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+[Generating Reports](doc/tutorials/Generating_Reports.html)<br>
+   Generate reports using [pandoc](http://pandoc.org/) or [Rmarkdown](http://rmarkdown.rstudio.com/)
+
+    </td>
+    <td>
+
+
+
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Working-with-external-tasks">Working with external tasks<a class="anchor-link" href="#Working-with-external-tasks">&#182;</a></h3><table class="doc-table">
+  <tr>
+    <td>
+    [Remote_Execution](doc/tutorials/Remote_Execution.html)<br>
+   Execute tasks on remote hosts with or without shared file systems
+
+
+    </td>
+    <td>
+
+    </td>
+  </tr>
+
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Project-and-file-management">Project and file management<a class="anchor-link" href="#Project-and-file-management">&#182;</a></h3><table class="doc-table">
+  <tr>
+    <td>
+   [File Conversion](doc/tutorials/File_Conversion.html)<br>
+   <small>Conversion between `.sos`, `.ipynb`, `.html` and other formats</small>
+    </td>
+    <td>
+   [Project Management](doc/tutorials/Project_Management.html)<br>
+    <small>Manage files and archive projects.</small>
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Experimental-features-and-tools">Experimental features and tools<a class="anchor-link" href="#Experimental-features-and-tools">&#182;</a></h3><table class="doc-table">
+  <tr>
+    <td>
+[Using Spyder as SoS IDE](doc/tutorials/Using_SoS_with_Spyder.html)<br>
+<smalle>For data analysis and workflow development with an IDE</smalle>
+    </td>
+    <td>
+[Using Spyder with iPython](doc/tutorials/Using_SoS_with_IPython.html)<br>
+    For experienced iPyhton user
+   </td>
+  </tr>
+  <tr>
+  <td>
+ [using SoS with VIM](doc/tutorials/Using_SoS_with_VIM.html)<br>
+   <smalle> For hard-core vim user  </smalle>
+   </td>
+  <td>
+  </td>
+  </tr>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="SoS-Reference">SoS Reference<a class="anchor-link" href="#SoS-Reference">&#182;</a></h1><ul>
+<li><p><a href="doc/documentation/SoS_Syntax.html">SoS Syntax</a><br>
+ An overview of the SoS syntax and key components of SoS scripts</p>
+</li>
+<li><p><a href="doc/documentation/Notebook_Interface.html">SoS Jupyter kernel</a><br>
+Using SoS with Jupyter notebook</p>
+</li>
+<li><p><a href="doc/documentation/String_Interpolation.html">String Interpolation</a><br>
+  Compose scripts in other languages using SoS variables</p>
+</li>
+<li><p><a href="doc/documentation/External_task.html">Host configuration and task options</a><br>
+Running and monitoring tasks externally</p>
+</li>
+<li><p><a href="doc/documentation/Reference_Manual.html">SoS actions</a><br>
+ Complete references to all SoS functions, actions, and objects.</p>
+</li>
+<li><p><a href="doc/documentation/Extending_SoS.html">Extending SoS</a><br>
+Define your own target, language, converter.</p>
+</li>
 </ul>
-<p><a href="doc/documentation/Workflow_Specification.html">Defining workflows</a><br>
-  Define one or more workflows in a SoS script</p>
-<ul>
-<li><a href="doc/documentation/Understanding_Targets.html">Understanding Targets</a><br>
-Beyond file targets</li>
-<li><a href="doc/documentation/SoS_Actions.html">SoS Actions</a><br>
-How to use and define SoS actions</li>
-<li><a href="doc/documentation/SoS_Step.html">Steps of workflow</a><br>
-Step input, depends, output, and process</li>
-<li><a href="doc/documentation/Auxiliary_Steps.html">Makefile-style workflows</a><br>
-Steps that are executed only when needed</li>
-<li><a href="doc/documentation/External_task.html">External tasks and job queues</a><br>
-Running and monitoring tasks externally</li>
-</ul>
-<p><a href="doc/documentation/User_Interface.html">User Interface</a><br>
-Command line and notebook interface</p>
-<ul>
-<li><a href="doc/documentation/Command_Line_Options.html">Command line options</a><br>
-Customize workflow with command line options</li>
-<li><a href="doc/documentation/Configuration_Files.html">Configuration files</a><br>
-Use of global, local and user-specified configuration files</li>
-<li><a href="doc/documentation/Notebook_Interface.html">Jupyter notebook interface</a><br>
-Using SoS with Jupyter notebook</li>
-</ul>
-<p><a href="doc/documentation/Reference_Manual.html">Reference Manual</a><br>
-   Complete references to all SoS functions, actions, and objects.</p>
-<p><a href="doc/documentation/Extending_SoS.html">Extending SoS</a><br>
-  Define your own target, language, converter.</p>
 
 </div>
 </div>
@@ -132,5 +333,3 @@ Using SoS with Jupyter notebook</li>
 </div>
 </div>
 </div>
- 
-
