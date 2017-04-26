@@ -169,14 +169,17 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Complex workflows usually have a large number of steps, most of them are light-weight and can be executed locally, but some of them can be time- and resource-consuming and would better be executed on dedicated servers or cluster systems. It can be challenging to execute such workflows efficiently, for example,</p>
-<ol>
-<li><p>Executing the entire workflow on the cluster as a single multi-processing job is not ideal because 1). you would have to allocate enough resource for the most CPU and RAM-demanging step and longest execution time for the most time-consuming step but these resources are not utilized efficiently, and 2). you are limiting yourself to a single node and cannot really execute the workflow in parallel.</p>
-</li>
-<li><p>Separate the workflow by steps and submit them as separate tasks to a queuing system is much more efficient. This approach allows better parallelization but it can be difficult and time consuming to execute a large number of small jobs, because these tasks might spend more time waiting than running. In addition, it can be difficult to disect a workflow to be executable this way while maintaining all the dependencies. Also, running a workflow on a cluster system requires a running server (task dispatcher, corrdinator) to corrdinate the execution of dependent steps. This has posed a problem, at least to our clusters because such processes are not allowed on the head node.</p>
-</li>
-</ol>
-<p>To address these problems, SoS taks a different approach than mose other workflow systems.</p>
+<h2 id="SoS-Workflows">SoS Workflows<a class="anchor-link" href="#SoS-Workflows">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="All-inclusive-workflows">All-inclusive workflows<a class="anchor-link" href="#All-inclusive-workflows">&#182;</a></h3><p>A SoS workflow consists of steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). As a first step, you can include all steps, regardless of their sizes (requirement for resources), in a single workflow**.</p>
+<p>A workflow is usually executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
 
 </div>
 </div>
@@ -186,27 +189,13 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="SoS'-task-model">SoS' task model<a class="anchor-link" href="#SoS'-task-model">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Complete-workflow">Complete workflow<a class="anchor-link" href="#Complete-workflow">&#182;</a></h3><p>SoS defines workflows as steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). <strong>All steps, regardless of their sizes (requirement for resources), are written as a single workflow</strong>. That is to say, a long running sequence alignment step and the relatively quick statistical analysis steps would be defined as a single workflow.</p>
-<p>SoS executes all steps directly as a complete workflow. The workflow is executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
-<h3 id="Generation-of-external-tasks">Generation of external tasks<a class="anchor-link" href="#Generation-of-external-tasks">&#182;</a></h3><p>Part of the steps can be defined as tasks that are executed externally. SoS tasks have the following properties:</p>
+<h3 id="External-but-local-tasks">External but local tasks<a class="anchor-link" href="#External-but-local-tasks">&#182;</a></h3><p>You can easily define part of step processes as tasks and execute them externally. The tasks are</p>
 <ul>
-<li><strong>Tasks are self-contained</strong> in that they contain all the required information to be executed anywhere. </li>
-<li><strong>Tasks are generated and executed dynamically</strong> in that a task would only be generated when all its dependencies have been met.</li>
-<li><strong>Tasks are independent of workflows and other tasks</strong>. Tasks are defined by the task they are executing. Tasks can be shared by different workflows if they happen to perform exactly the same function.</li>
-<li><strong>Tasks are file system independent</strong> in the sense that sos automatically synchronize input and output of tasks to remote systems so you can easily switch from a remote server to another, or to a cluster system.</li>
+<li><strong>self-contained</strong> in that they contain all the required information to be executed anywhere.</li>
+<li><strong>generated and executed dynamically</strong> in that a task would only be generated when all its dependencies have been met.</li>
+<li><strong>independent of workflows and other tasks</strong>. Tasks are defined by the task they are executing. Tasks can be shared by different workflows if they happen to perform exactly the same function.</li>
 </ul>
-<h3 id="Remote-execution-of-tasks">Remote execution of tasks<a class="anchor-link" href="#Remote-execution-of-tasks">&#182;</a></h3><p>SoS tasks can be executed locally as separate  processes, remotely on a remote server, sent to distributed task-queues (such as <a href="http://python-rq.org/">rq</a> or <a href="http://www.celeryproject.org/">Celery</a>, or cluster systems based on PBS, Torch, or SunGrid. SoS handles file synchronization so <strong>tasks could be submitted to queues with their own file systems</strong>.</p>
-<h3 id="Stop-and-resume-execution-of-workflow">Stop-and-resume execution of workflow<a class="anchor-link" href="#Stop-and-resume-execution-of-workflow">&#182;</a></h3><p>SoS can wait for the completion of the tasks as if they are just long-running jobs executed locally. Alternatively, sos could exit and wait for the completion of external tasks. Command <code>sos status</code> or task-queue-specific methods could be used to monitor the execution of tasks.</p>
-<p>After the completion of the tasks, you could rerun the workflow and SoS would resume execution from the point where it was stopped.</p>
+<p>You will notice that tasks with unique IDs are generated and executed externally (independent of SoS). The SoS process can wait for the completion of tasks, or quit (in no-wait mode) and resume later after the tasks are completed.</p>
 
 </div>
 </div>
@@ -216,22 +205,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Flexible-design-of-workflows">Flexible design of workflows<a class="anchor-link" href="#Flexible-design-of-workflows">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This external execution model offers great flexibility in the execution of workflows. For example,</p>
-<ul>
-<li>You can execute a step on a remote server with more resource by specifying parameter <code>queue</code> of a single task.</li>
-<li>You can submit all tasks of a workflow to a cluster by specifying cluster name with the <code>-q</code> option of command <code>sos run</code>.</li>
-<li>You can submit part of the tasks to one machine, and part of the tasks to another task queue using the combination of task-specific option and global <code>-q</code> option.</li>
-<li>You can use SoS as a task-generation tool to generate a bunch of tasks, and send the tasks to different computer systems for execution. SoS automatically handles file synchronization so that you can easily move from one cluster to another cluster or another server.</li>
-</ul>
+<h3 id="Remote-execution-of-tasks">Remote execution of tasks<a class="anchor-link" href="#Remote-execution-of-tasks">&#182;</a></h3><p>The real power of external tasks, however, lies in the fact that the tasks can be executed on remote hosts or task queues. Moreoever, SoS tasks are <strong>file system independent</strong> in the sense that sos automatically synchronize input, output files and specified files between local and remote systems so you can easily switch from one remote host to another.</p>
 
 </div>
 </div>
@@ -248,7 +222,7 @@ $( document ).ready(function(){
 <li>Tasks are part of step processes.</li>
 <li>Tasks are managed by task engines, multiple task engines can be used for a single workflow.</li>
 <li>Task engines generate task files, submit tasks, monitor task status, and return results to SoS workflow.</li>
-<li>Remote task engines synchronize input files, translate and copy tasks to server, and start the tasks on the remote server. Pre-defined <code>submit_cmd</code> could be used to submit tasks to batch systems such as PBS/Moab.</li>
+<li>Remote task engines synchronize input files, translate and copy tasks to server, and start the tasks on the remote server.</li>
 </ol>
 
 </div>
@@ -305,7 +279,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The benefit of executing tasks externally is that the tasks are executedconcurrently, on the local machine or a remote server, or be submitted to a task queue. For example, in the previous example, multiple tasks could be executed in parallel (but on the same machine) unless you specify it otherwise as follows</p>
+<p>The benefit of executing tasks externally is that the tasks are executed concurrently, on the local machine or a remote server, or be submitted to a task queue. For example, in the previous example, multiple tasks could be executed in parallel (but on the same machine) unless you specify it otherwise as follows</p>
 
 <pre><code>[10]
 input: bam_files, group_by=1
@@ -327,7 +301,6 @@ task: queue='cluster'
 run:
     samtools index ${_input}</code></pre>
 <p>to submit the commands to a cluster system to be executed on different computing nodes.</p>
-<p>This document focuses on the configuration of servers and the use of task options to execute tasks on different types of servers or task queues. It provides a comprehensive list of options while the <a href="../tutorials/Remote_Execution.html">Remote Execution tutorial</a> gives a more step-by-step tutorial on how to configure and use the remote execution features.</p>
 
 </div>
 </div>
@@ -374,16 +347,20 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You will need to configure both localhost and server to be able to send local jobs to remote servers or task queues. A <code>localhost</code> should be defined to point to an existing host definition. For example, if a <code>desktop</code> is defined in <code>~/.sos/hosts.yml</code> as</p>
+<p>You will need to configure both localhost and server to be able to send local jobs to remote servers or task queues. A <code>localhost</code> should be defined to point to an existing host definition. For example, if a <code>OfficeDesktop</code> is defined in <code>~/.sos/hosts.yml</code> as</p>
 
 <pre><code>hosts:
     OfficeDesktop:
         paths:
-            home: /Users/myuser</code></pre>
+            home: /Users/myuser
+    cluster:
+        address: url@cluster
+        paths:
+            home: /home/myuser</code></pre>
 <p>You should use command</p>
 
 <pre><code>sos config --global --set localhost OfficeDesktop</code></pre>
-<p>to define <code>localhost</code> as <code>OfficeDesktop</code>.</p>
+<p>to define <code>localhost</code> as <code>OfficeDesktop</code> on your office desktop, and define <code>localhost</code> as <code>cluster</code> on the cluster if you would like to submit jobs also from the cluster.</p>
 
 </div>
 </div>
@@ -543,6 +520,16 @@ run:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Common-queue-configuration">Common queue configuration<a class="anchor-link" href="#Common-queue-configuration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Options such as <code>address</code> and <code>paths</code> specify on to access, synchronize files and execute commands on a remote host. The following options specify how tasks should be executed on it.</p>
+
 </div>
 </div>
 </div>
@@ -738,7 +725,7 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="RQ-configuration">RQ configuration<a class="anchor-link" href="#RQ-configuration">&#182;</a></h2>
+<h2 id="RQ-configuration-(pending)">RQ configuration (pending)<a class="anchor-link" href="#RQ-configuration-(pending)">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -785,7 +772,7 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Celery-configuration">Celery configuration<a class="anchor-link" href="#Celery-configuration">&#182;</a></h2>
+<h2 id="Celery-configuration-(pending)">Celery configuration (pending)<a class="anchor-link" href="#Celery-configuration-(pending)">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -883,8 +870,8 @@ queue: long</code></pre>
 </ul>
 <p>Note that</p>
 <ol>
-<li>You will need to specify resource options (<code>nodes</code>, <code>cores</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the template file.</li>
-<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different options. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster. These two entries could share the same template file but different <code>queue: name</code> values.</li>
+<li>You will need to specify resource options (<code>nodes</code>, <code>cores</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the job template.</li>
+<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different options. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster.</li>
 <li><p>An useful feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as</p>
 
 <pre><code> ${'long' if walltime &gt; 60*60*24*5 else 'short'}</code></pre>
@@ -995,7 +982,7 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Resource-options">Resource options<a class="anchor-link" href="#Resource-options">&#182;</a></h2>
+<h2 id="Task-options">Task options<a class="anchor-link" href="#Task-options">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1004,7 +991,22 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The resource options will be sent to individual task queues in appropriate format. You do not have to specify all options because task queues can support a subset of these options and some task queues provide default values (and some do not). It is however generally a good idea to specify them all so that your tasks could be executed on all types of task queues.</p>
+<p>The following options are options to keyword <code>task:</code> and specify how tasks should be executed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><p>The resource options such as <code>walltime</code> and <code>cores</code> will be sent to individual task queues in appropriate format. You do not have to specify all options because task queues can support a subset of these options and some task queues provide default values (and some do not). It is however generally a good idea to specify them all so that your tasks could be executed on all types of task queues.</p>
+</li>
+<li><p>The execution options such as <code>workdir</code>, <code>env</code>, <code>concurrent</code> specify environments in which tasks will be submitted and executed.</p>
+</li>
+</ul>
 
 </div>
 </div>
@@ -1069,15 +1071,6 @@ queue: long</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The total amount of memory needed across all nodes. Default units are bytes; can also be expressed in megabytes (<code>mem=4000MB</code>). gigabytes (<code>mem=4GB</code>) or gibibytes (<code>mem=4GiB</code>), although all inputs are converted to bytes internally. To use this option in a <code>job_template</code>, you generally need to use expressions such as <code>${mem//1e9}GB</code>.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Execution-options">Execution options<a class="anchor-link" href="#Execution-options">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1484,7 +1477,7 @@ sos execute [tasks] [-q queue]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h2>
+<h2 id="A-simple-example">A simple example<a class="anchor-link" href="#A-simple-example">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1493,16 +1486,8 @@ sos execute [tasks] [-q queue]</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Remote-execution">Remote execution<a class="anchor-link" href="#Remote-execution">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="PBS-Cluster">PBS Cluster<a class="anchor-link" href="#PBS-Cluster">&#182;</a></h3>
+<p>The following example demonstrates how to configure a remote host (with a PBS queue system) and submit your tasks to it. It can be tricky to set up public key access, configure host, and get everything working but you only need to do this once for each server or task queue that you would like to use. After that, you are free to submit your tasks to any of the servers without worrying about different file systems, task queues etc.</p>
+
 </div>
 </div>
 </div>
@@ -1575,16 +1560,6 @@ run:
 <pre><code>sos run test -q nautilus
 sos status -q nautilus
 sos kill cb1 -q nautilus</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It can be tricky to get everything working but you only need to do this once for each server or task queue that you would like to use. After that, you are free to submit your tasks to any of the servers without worrying about different file systems, task queues etc.</p>
 
 </div>
 </div>
