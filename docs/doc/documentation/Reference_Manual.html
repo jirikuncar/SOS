@@ -160,7 +160,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Reference-of-SoS-actions-and-functions">Reference of SoS actions and functions<a class="anchor-link" href="#Reference-of-SoS-actions-and-functions">&#182;</a></h1>
+<h1 id="SoS-actions,-targets,-and-functions">SoS actions, targets, and functions<a class="anchor-link" href="#SoS-actions,-targets,-and-functions">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -2186,6 +2186,187 @@ Output of last step is 1.txt 3.txt 5.txt 7.txt 9.txt
 
 </div>
 	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Core-Targets">Core Targets<a class="anchor-link" href="#Core-Targets">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Targets are objects that a SoS step can input, output, or dependent on. They are usually files that are presented by filenames, but can also be other targets.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Target-executable">Target <code>executable</code><a class="anchor-link" href="#Target-executable">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="sb">`executable`</span> <span class="n">targets</span> <span class="n">are</span> <span class="n">commands</span> <span class="n">that</span> <span class="n">should</span> <span class="n">be</span> <span class="n">accessible</span> <span class="ow">and</span> <span class="n">executable</span> <span class="n">by</span> <span class="n">SoS</span><span class="o">.</span> <span class="n">These</span> <span class="n">targets</span> <span class="n">are</span> <span class="n">usually</span> <span class="n">listed</span> <span class="ow">in</span> <span class="n">the</span> <span class="sb">`depends`</span> <span class="n">section</span> <span class="n">of</span> <span class="n">a</span> <span class="n">SoS</span> <span class="n">step</span><span class="o">.</span> <span class="n">For</span> <span class="n">example</span><span class="p">,</span> <span class="n">SoS</span> <span class="n">would</span> <span class="n">stop</span> <span class="k">if</span> <span class="n">a</span> <span class="n">command</span> <span class="sb">`fastqc`</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">found</span><span class="o">.</span>
+
+<span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">input:</span>     <span class="s1">&#39;a.txt&#39;</span>
+<span class="kn">depends:</span>   <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;some_command&#39;</span><span class="p">)</span>
+<span class="kn">sh:</span>
+    <span class="n">some_command</span> <span class="err">$</span><span class="p">{</span><span class="nb">input</span><span class="p">}</span>
+
+<span class="sb">`executable`</span> <span class="n">target</span> <span class="n">can</span> <span class="n">also</span> <span class="n">be</span> <span class="n">output</span> <span class="n">of</span> <span class="n">a</span> <span class="n">step</span> <span class="n">but</span> <span class="n">installing</span> <span class="n">executables</span> <span class="n">can</span> <span class="n">be</span> <span class="n">tricky</span> <span class="n">because</span> <span class="n">the</span> <span class="n">commands</span> <span class="n">should</span> <span class="n">be</span> <span class="n">installed</span> <span class="n">to</span> <span class="n">existing</span> <span class="sb">`$PATH`</span> <span class="n">so</span> <span class="n">that</span> <span class="n">they</span> <span class="n">can</span> <span class="n">be</span> <span class="n">immediately</span> <span class="n">accessible</span> <span class="n">by</span> <span class="n">SoS</span><span class="o">.</span> <span class="n">Because</span> <span class="n">SoS</span> <span class="n">automatically</span> <span class="n">adds</span> <span class="sb">`~/.sos/bin`</span> <span class="n">to</span> <span class="sb">`$PATH`</span> <span class="p">(</span><span class="n">option</span> <span class="sb">`-b`</span><span class="p">),</span> <span class="n">an</span> <span class="n">environment</span><span class="o">-</span><span class="n">neutral</span> <span class="n">way</span> <span class="k">for</span> <span class="n">on</span><span class="o">-</span><span class="n">the</span><span class="o">-</span><span class="n">fly</span> <span class="n">installation</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">install</span> <span class="n">commands</span> <span class="n">to</span> <span class="n">this</span> <span class="n">directory</span><span class="o">.</span> <span class="n">For</span> <span class="n">example</span>
+
+<span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+
+<span class="p">[</span><span class="n">lls</span><span class="p">:</span> <span class="kp">provides</span><span class="o">=</span><span class="n">executable</span><span class="p">(</span><span class="s1">&#39;lls&#39;</span><span class="p">)]</span>
+<span class="kn">sh:</span>
+    <span class="n">echo</span> <span class="s2">&quot;#!/usr/bin/env bash&quot;</span> <span class="o">&gt;</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+    <span class="n">echo</span> <span class="s2">&quot;echo I am lls&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+    <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="o">~/.</span><span class="n">sos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lls</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;lls&#39;</span><span class="p">)</span>
+<span class="kn">sh:</span>
+    <span class="n">lls</span>
+
+<span class="n">creates</span> <span class="n">an</span> <span class="n">executable</span> <span class="n">command</span> <span class="sb">`lls`</span> <span class="n">under</span> <span class="sb">`~/.sos/bin`</span> <span class="n">when</span> <span class="n">this</span> <span class="n">executable</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">exist</span><span class="o">.</span>
+
+<span class="n">You</span> <span class="n">can</span> <span class="n">also</span> <span class="n">have</span> <span class="n">finer</span> <span class="n">control</span> <span class="n">over</span> <span class="n">which</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="n">command</span> <span class="ow">is</span> <span class="n">eligible</span> <span class="n">by</span> <span class="n">checking</span> <span class="n">the</span> <span class="n">output</span> <span class="n">of</span> <span class="n">commands</span><span class="o">.</span> <span class="n">The</span> <span class="n">trick</span> <span class="n">here</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">provide</span> <span class="n">a</span> <span class="n">complete</span> <span class="n">command</span> <span class="ow">and</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">version</span> <span class="n">strings</span> <span class="k">as</span> <span class="n">the</span> <span class="n">string</span> <span class="n">that</span> <span class="n">should</span> <span class="n">appear</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">output</span> <span class="n">of</span> <span class="n">the</span> <span class="n">command</span><span class="o">.</span>
+
+<span class="n">For</span> <span class="n">example</span><span class="p">,</span> <span class="n">command</span> <span class="sb">`perl --version`</span> <span class="ow">is</span> <span class="n">executed</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">following</span> <span class="n">example</span> <span class="n">to</span> <span class="n">check</span> <span class="k">if</span> <span class="n">the</span> <span class="n">output</span> <span class="n">contains</span> <span class="n">string</span> <span class="sb">`5.18`</span><span class="o">.</span> <span class="n">The</span> <span class="n">step</span> <span class="n">would</span> <span class="n">only</span> <span class="n">be</span> <span class="n">executed</span> <span class="k">if</span> <span class="n">the</span> <span class="n">right</span> <span class="n">version</span> <span class="n">exists</span><span class="o">.</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">executable</span><span class="p">(</span><span class="s1">&#39;perl --version&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;5.18&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;ok&#39;</span><span class="p">)</span>
+
+<span class="n">If</span> <span class="n">no</span> <span class="n">verion</span> <span class="n">string</span> <span class="ow">is</span> <span class="n">provided</span><span class="p">,</span> <span class="n">SoS</span> <span class="n">will</span> <span class="n">only</span> <span class="n">check</span> <span class="n">the</span> <span class="n">existence</span> <span class="n">of</span> <span class="n">the</span> <span class="n">command</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">actually</span> <span class="n">execute</span> <span class="n">the</span> <span class="n">command</span><span class="o">.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Target-sos_variable">Target <code>sos_variable</code><a class="anchor-link" href="#Target-sos_variable">&#182;</a></h3><p><code>sos_variable(name)</code> targets represent SoS variables that are created by a SoS step and shared to other steps. These targets can be used to provide information to other steps. For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
+<span class="p">[</span><span class="n">counts</span><span class="p">:</span> <span class="kp">shared</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="s1">&#39;result.txt&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">ifile</span><span class="p">:</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ifile</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+
+<span class="c1"># perform some task and create a file with some statistics</span>
+<span class="kn">output:</span> <span class="s1">&#39;result.txt&#39;</span>
+<span class="kn">run:</span>
+   <span class="n">echo</span> <span class="mi">100</span> <span class="o">&gt;&gt;</span> <span class="n">result</span><span class="o">.</span><span class="n">txt</span> 
+
+<span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">sos_variable</span><span class="p">(</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+<span class="kn">report:</span>
+    <span class="n">There</span> <span class="n">are</span> <span class="err">$</span><span class="p">{</span><span class="n">counts</span><span class="p">}</span> <span class="n">objects</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Step <code>100</code> needed some information extracted from output of another step (step <code>10</code>). You can either parse the information in step <code>100</code> or use another step to provide the information. The latter is recommended because the information could be requested by multiple steps. Note that <code>counts</code> is an auxiliary step that provides <code>sos_variable('counts')</code> through its <code>shared</code> section option.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Target-env_variable">Target <code>env_variable</code><a class="anchor-link" href="#Target-env_variable">&#182;</a></h3><p>SoS keeps tract of runtime environment and creates signatures of executed steps so that they do not have to be executed again. Some commands, especially shell scripts, could however behave differently with different environmental variables. To make sure a step would be re-executed with changing environments, you should list the variables that affects the output of these commands as dependencies of the step. For example</p>
+<p>%sandbox --expect-error
+[10]
+depends:   env_variable('DEBUG')
+sh:
+    echo DEBUG is set to $DEBUG</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Target-sos_step">Target <code>sos_step</code><a class="anchor-link" href="#Target-sos_step">&#182;</a></h3><p>The <code>sos_step</code> target represents, needless to say, a SoS step. This target provides a straightforward method to specify step dependencies. For example,</p>
+<p>[init]
+print("Initialize")</p>
+<p>[10]
+depends: sos_step("init")
+print("I am ${step_name}")</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Target-dynamic">Target <code>dynamic</code><a class="anchor-link" href="#Target-dynamic">&#182;</a></h3><p>A <code>dynamic</code> target is a target that can only be determined when the step is actually executed.</p>
+<p>For example,</p>
+<p>%sandbox --expect-error
+[10]
+output: '*.txt'
+sh:
+    touch a.txt</p>
+<p>[20]
+print('Last output is ${input}')</p>
+<p>To address this problem, you should try to expand the output file after the completion of the step, using a <code>dynamic</code> target.</p>
+<p>%sandbox
+[10]
+output: dynamic('*.txt')
+sh:
+    touch a.txt</p>
+<p>[20]
+print("Last output is ${input}")</p>
+<p>Please refer to chapter <a href="SoS_Step.html">SoS Step</a> for details of such targets.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
