@@ -265,7 +265,7 @@ shows a sample script that defines a workflow with two steps:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that a SoS Jupyter notebook can contain markdown cells and cells with other kernels but only cells starting with section headers (ignoring magics and comments etc) are parts of the workflow definition.</p>
+<p>Note that a SoS Jupyter notebook can contain markdown cells and cells with other kernels but only cells starting with section headers (ignoring magics and comments etc) are parts of the workflow definition. Workflows in Jupyter notebook can be executed within the notebook using SoS magics, or executed from command line using commands such as <code>sos run</code>.</p>
 
 </div>
 </div>
@@ -343,7 +343,7 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Syntax">Syntax<a class="anchor-link" href="#Syntax">&#182;</a></h2>
+<h2 id="Basic-Syntax">Basic Syntax<a class="anchor-link" href="#Basic-Syntax">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -432,11 +432,11 @@ option         = name, "=", expression</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>SoS allows you to write SoS <code>action</code> (basically a Python function) that accept a script (string) as the first parameter in a special script format. For example,</p>
-<div class="highlight"><pre><span></span><span class="n">R</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">pdf(&#39;${input}&#39;)</span>
-<span class="s1">plot(0, 0)</span>
-<span class="s1">dev.off()</span>
-<span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">R</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">pdf(&#39;${input}&#39;)</span>
+<span class="s2">plot(0, 0)</span>
+<span class="s2">dev.off()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
 </pre></div>
 <p>can be written as</p>
 <div class="highlight"><pre><span></span><span class="kn">R:</span>     <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
@@ -527,7 +527,7 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Global-definitions">Global definitions<a class="anchor-link" href="#Global-definitions">&#182;</a></h3>
+<h3 id="Global-section-and-default-variables">Global section and default variables<a class="anchor-link" href="#Global-section-and-default-variables">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -536,13 +536,31 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Python functions, classes, variables can be defined or imported (using Python <code>import</code> statement) before any SoS step is defined. These definitions usually contains variables such as version and date of the script, paths to various resources, and utility functions that will be used by later steps. <strong>These definitions are visible to all steps of workflows and are assumed to be readonly</strong> (except for <a href="Command_Line_Options.html"><code>parameters</code></a> defined by the <code>parameter:</code> keyword.</p>
+<p>Python functions, classes, variables can be defined or imported (using Python <code>import</code> statement) before any SoS step is defined. These definitions usually contains variables such as version and date of the script, paths to various resources, and utility functions that will be used by later steps. <strong>These definitions are visible to all steps of workflows</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A global section can be defined without section header in a <code>.sos</code> file as statements before any sos step, or with a section <code>[global]</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>SoS defines the following variables before any variables are defined</p>
 <ul>
 <li><strong><code>SOS_VERSION</code></strong>: version of SoS command.</li>
 <li><strong><code>CONFIG</code></strong>: A dictionary of configurations specified by the global sos configuration file (<code>~/.sos/config.yml</code>), local configuration file (<code>./config.yaml</code>) and command line option <code>-c config_file</code>. </li>
 </ul>
-<p>Please refer to sections <a href="Command_Line_Options.html">command line options</a> and <a href="Configuration_Files.html">configuration files</a> for the use of <code>parameter</code> keyword and <code>CONFIG</code> variable.</p>
 
 </div>
 </div>
