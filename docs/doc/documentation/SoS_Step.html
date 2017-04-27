@@ -473,7 +473,26 @@ output 2: b.txt
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Option-provides">Option <code>provides</code><a class="anchor-link" href="#Option-provides">&#182;</a></h3><p>This option lists files or targets a step generates so that it can be called if the target is required but does not exist. Please see section <a href="Auxiliary_Steps.html">auxiliary step</a> for details. A step can be treated as both a forward step and an auxiliary step despite of the differences on how they are invoked.</p>
+<h3 id="Option-provides">Option <code>provides</code><a class="anchor-link" href="#Option-provides">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This option lists files or targets a step generates so that it can be called if the target is required but does not exist. Steps with option <code>procides</code> are called <strong>auxiliary steps</strong> and are building blocks of makefile style workflows.</p>
+<p>Option <code>provides</code> accepts</p>
+<ul>
+<li>A filename or file pattern such as <code>"{sample}.bam.idx"</code></li>
+<li>Other types of targets such as <code>executable("ms")</code></li>
+<li>A list (sequence) of one or more file patterns and targets.</li>
+</ul>
+<p>A file pattern is a filename with optional patterns with variable names enbraced in <code>{ }</code>. SoS matches filenames with the patterns and, if successful, assign variables with matched parts of the names. For example,</p>
+
+<pre><code>[compress: provides = '{filename}.bam']</code></pre>
+<p>would be triggered with target <code>sample_A.bam</code> and <code>sample_B.bam</code>. When the step is triggered by <code>sample_A.bam</code>, it defines variable <code>filename</code> as <code>sample_A</code> and sets the output of the step as <code>sample_A.bam</code>.</p>
 
 </div>
 </div>
