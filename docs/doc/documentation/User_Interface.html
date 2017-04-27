@@ -54,7 +54,7 @@
 <link rel="stylesheet" type="text/css" href="../../css/jt.css">
 <link rel="stylesheet" type="text/css" href="../../css/toc2.css">
 
-<script src="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/toc2.js"></script>
+<script src="../../js/doc_toc.js"></script>
 
  <script src="../../js/docs.js"></script>
 
@@ -160,7 +160,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="User-interface">User interface<a class="anchor-link" href="#User-interface">&#182;</a></h1>
+<h1 id="Command-Line-User-Interface">Command Line User Interface<a class="anchor-link" href="#Command-Line-User-Interface">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -185,7 +185,8 @@ $( document ).ready(function(){
 
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -207,7 +208,8 @@ $( document ).ready(function(){
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos [-h] [--version]
-           {run,dryrun,convert,remove,config,pack,unpack,patch-spyder} ...
+           {run,dryrun,execute,status,kill,convert,remove,config,pack,unpack,patch-spyder}
+           ...
 
 A workflow system for the execution of commands and scripts in different
 languages.
@@ -217,10 +219,21 @@ optional arguments:
   --version             show program&#39;s version number and exit
 
 subcommands:
-  {run,dryrun,convert,remove,config,pack,unpack,patch-spyder}
+  {run,dryrun,execute,status,kill,convert,remove,config,pack,unpack,patch-spyder}
     run                 Execute default or specified workflow defined in
                         script
-    dryrun              Inspect specified script for syntax errors
+    dryrun              Execute workflow in dryrun mode. This mode is
+                        identical to run mode except that 1). Actions might
+                        behavior differently. In particular, script-running
+                        steps would print instead of execute script. 2). Steps
+                        will generate empty output files if specified output
+                        do not exist after execution. 3). Signature mode is
+                        set to ignore. 4). Option -q is ignored so all tasks
+                        are executed locally. 5). Tasks are generated but not
+                        executed.
+    execute             Execute a packages task
+    status              Check the status of specified tasks
+    kill                Stop the execution of running task
     convert             Converts .sos to various formats including .html for
                         web display, to jupyter notebook (.ipynb), and to
                         terminal for syntax highlighted viewing on terminal.
@@ -257,6 +270,7 @@ Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Pe
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -282,7 +296,7 @@ Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Pe
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="kp">run</span> <span class="o">-</span><span class="n">h</span>
@@ -300,21 +314,22 @@ Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Pe
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos run [-h] [-j JOBS] [-c CONFIG_FILE] [-t FILE [FILE ...]]
-               [-b [BIN_DIR [BIN_DIR ...]]] [-q QUEUE] [-w] [-r [REPORT_FILE]]
-               [-n] [-s SIGMODE] [-d [DAG]] [-v {0,1,2,3,4}]
+<pre>usage: sos run [-h] [-j JOBS] [-J EXTERNAL_JOBS] [-c CONFIG_FILE]
+               [-t FILE [FILE ...]] [-b [BIN_DIR [BIN_DIR ...]]] [-q [QUEUE]]
+               [-w] [-W] [-r] [-n] [-s SIGMODE] [-d [DAG]] [-v {0,1,2,3,4}]
                SCRIPT [WORKFLOW]
 
 Execute default or specified workflow defined in script
 
 positional arguments:
-  SCRIPT                A SoS script that defines one or more workflows. The
-                        script can be a filename or a URL from which the
-                        content of a SoS will be read. If a valid file cannot
-                        be located or downloaded, SoS will search for the
-                        script in a search path specified by variable
-                        `sos_path` defined in the global SoS configuration
-                        file (~/.sos/config.yml).
+  SCRIPT                A SoS script that defines one or more workflows, in
+                        format .sos or .ipynb. The script can be a filename or
+                        a URL from which the content of a SoS will be read. If
+                        a valid file cannot be located or downloaded, SoS will
+                        search for the script, with specified name, and with
+                        added extension .sos and .ipynb, in a search path
+                        specified by variable `sos_path` defined in the global
+                        SoS configuration file (~/.sos/config.yml).
   WORKFLOW              Name of the workflow to execute. This option can be
                         ignored if the script defines a default workflow (with
                         no name or with name `default`) or defines only a
@@ -328,13 +343,14 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -j JOBS               Number of concurrent process allowed. A workflow is by
-                        default executed sequentially (-j 1). If a greater
-                        than 1 number is specified SoS will execute the
-                        workflow in parallel mode and execute up to specified
-                        processes concurrently. These include looped processes
-                        within a step (with runtime option `concurrent=True`)
-                        and steps with non-missing required files.
+  -j JOBS               Maximum number of worker processes for the execution
+                        of the workflow if the workflow can be executed in
+                        parallel (namely having multiple starting points or
+                        execution branches).
+  -J EXTERNAL_JOBS      Maximum number of externally running tasks. This
+                        option overrides option &#34;max_running_jobs&#34; of a task
+                        queue (option -q) so that you can, for example, submit
+                        one job at a time (with -J 1) to test the task queue.
   -c CONFIG_FILE        A configuration file in the format of YAML/JSON. The
                         content of the configuration file will be available as
                         a dictionary CONF in the SoS script being executed.
@@ -350,31 +366,32 @@ optional arguments:
                         default directory for commands that are installed by
                         SoS. You can use option &#39;-b&#39; without value to disallow
                         commands under ~/.sos/bin.
-  -q QUEUE              host (server) or job queues to execute all tasks in
-                        the workflow. The queue should be defined in global or
-                        local configuration file with queue type (remote
-                        server, cluster job queue etc), file synchronization
-                        (e.g. path_map), and methods to interaction with
-                        remote host or queuing systems. This option provides
-                        default queue for all tasks but it does not override
-                        task option queue defined in the workflow.
-  -w                    Whether or not wait for the completion of external
-                        jobs. By default, a sos step will return immediately
-                        after submitting a task, and the master process would
-                        exit after all tasks have been submitted and there is
-                        no more step to execute. Specifying option &#34;-w&#34; will
-                        make SoS wait for the completion of all tasks.
-  -r [REPORT_FILE]      Default output of action report, which is by default
-                        the standard output but you can redirect it to another
-                        file with this option. Files specified by this option
-                        will be interpolated so you can use names such as
-                        &#39;out_${step_name}.md&#39; to out to step-depedent files.
+  -q [QUEUE]            host (server) or job queues to execute all tasks in
+                        the workflow. The queue can be defined in global or
+                        local sos configuration file, or a file specified by
+                        option --config. A host is assumed to be a remote
+                        machine with process type if no configuration is
+                        found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
+  -w                    Wait for the completion of external tasks regardless
+                        of the setting of individual task queue.
+  -W                    Do not wait for the completion of external tasks and
+                        quit SoS if all tasks are being executed by external
+                        task queues. This option overrides the default wait
+                        setting of task queues.
+  -r                    Resume the execution of a workflow that exited with
+                        running tasks. sos would report the status of running
+                        tasks and exit directly if none of the tasks have been
+                        completed. This option would also prevent the option
+                        -s force from re-executing completed tasks if the task
+                        has been re-executed.
 
 Run mode options:
   Control how sos scirpt is executed.
 
-  -n                    Execute a workflow without executing any actions. This
-                        can be used to check the syntax of a SoS file.
+  -n                    Execute a workflow in dryrun mode. Please check
+                        command sos dryrun for details of the dryrun mode.
   -s SIGMODE            How runtime signature would be handled, which can be
                         &#34;default&#34; (save and use signature, default mode in
                         batch mode), &#34;ignore&#34; (ignore runtime signature,
@@ -537,10 +554,11 @@ specified in the script. Single value parameters should be passed using option
 <h2 id="subcommand-convert">subcommand <code>convert</code><a class="anchor-link" href="#subcommand-convert">&#182;</a></h2>
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="o">-</span><span class="n">h</span>
@@ -559,7 +577,7 @@ specified in the script. Single value parameters should be passed using option
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos convert [-h] [-v {0,1,2,3,4}]
-                   {ipynb-md,sos-term,ipynb-html,sos-html,sos-md,sos-ipynb,ipynb-sos,ipynb-pdf}
+                   {sos-html,sos-term,sos-md,sos-ipynb,ipynb-sos,ipynb-html,ipynb-pdf,ipynb-md}
                    ...
 
 Converts .sos to various formats including .html for web display, to jupyter
@@ -574,21 +592,11 @@ optional arguments:
                         2).
 
 converters (name of converter is not needed from command line):
-  {ipynb-md,sos-term,ipynb-html,sos-html,sos-md,sos-ipynb,ipynb-sos,ipynb-pdf}
-    ipynb-md            Export Jupyter notebook with a SoS kernel to a
-                        markdown file. Additional command line arguments are
-                        passed directly to command &#34;jupyter nbconvert --to
-                        markdown&#34; so please refer to nbconvert manual for
-                        available options.
-    sos-term            Write script to terminal with syntax highlighting.
-    ipynb-html          Export Jupyter notebook with a SoS kernel to a .html
-                        file. Additional command line arguments are passed
-                        directly to command &#34;jupyter nbconvert --to html&#34; so
-                        please refer to nbconvert manual for available
-                        options.
+  {sos-html,sos-term,sos-md,sos-ipynb,ipynb-sos,ipynb-html,ipynb-pdf,ipynb-md}
     sos-html            Convert sos file to html format with syntax
                         highlighting, and save the output either to a HTML
                         file or view it in a broaser.
+    sos-term            Write script to terminal with syntax highlighting.
     sos-md              Convert SOS scriot to a markdown format with scripts
                         quoted in markdown syntax.
     sos-ipynb           Convert a sos script to Jupyter notebook (.ipynb) so
@@ -597,11 +605,21 @@ converters (name of converter is not needed from command line):
                         file. The cells are presented in the .sos file as cell
                         structure lines, which will be ignored if executed in
                         batch mode
+    ipynb-html          Export Jupyter notebook with a SoS kernel to a .html
+                        file. Additional command line arguments are passed
+                        directly to command &#34;jupyter nbconvert --to html&#34; so
+                        please refer to nbconvert manual for available
+                        options.
     ipynb-pdf           Export Jupyter notebook with a SoS kernel to a .pdf
                         file. Additional command line arguments are passed
                         directly to command &#34;jupyter nbconvert --to pdf&#34; so
                         please refer to nbconvert manual for available
                         options.
+    ipynb-md            Export Jupyter notebook with a SoS kernel to a
+                        markdown file. Additional command line arguments are
+                        passed directly to command &#34;jupyter nbconvert --to
+                        markdown&#34; so please refer to nbconvert manual for
+                        available options.
 
 Extra command line argument could be specified to customize the style of html,
 markdown, and terminal output.
@@ -613,6 +631,7 @@ markdown, and terminal output.
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -631,10 +650,11 @@ markdown, and terminal output.
 <h2 id="subcommand-config">subcommand <code>config</code><a class="anchor-link" href="#subcommand-config">&#182;</a></h2>
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">config</span> <span class="o">-</span><span class="n">h</span>
@@ -652,7 +672,7 @@ markdown, and terminal output.
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos config [-h] [-g] [-c CONFIG_FILE]
+<pre>usage: sos config [-h] [-g | --hosts | -c CONFIG_FILE]
                   (--get [OPTION [OPTION ...]] | --unset OPTION [OPTION ...] | --set KEY VALUE [KEY VALUE ...])
                   [-v {0,1,2,3,4}]
 
@@ -662,6 +682,8 @@ configuration files.
 optional arguments:
   -h, --help            show this help message and exit
   -g, --global          If set, change global (~/.sos/config.yml) instead of
+                        local (.sos/config.yml) configuration
+  --hosts               If set, change hosts (~/.sos/hosts.yml) instead of
                         local (.sos/config.yml) configuration
   -c CONFIG_FILE, --config CONFIG_FILE
                         User specified configuration file in YAML format. This
@@ -701,6 +723,7 @@ optional arguments:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -719,10 +742,11 @@ optional arguments:
 <h2 id="subcommand-remove">subcommand <code>remove</code><a class="anchor-link" href="#subcommand-remove">&#182;</a></h2>
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">remove</span> <span class="o">-</span><span class="n">h</span>
@@ -740,7 +764,7 @@ optional arguments:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos remove [-h] [-t | -u] [-n] [-y] [-v {0,1,2,3,4}]
+<pre>usage: sos remove [-h] [-t | -u] [-s] [-n] [-y] [-v {0,1,2,3,4}]
                   [FILE_OR_DIR [FILE_OR_DIR ...]]
 
 Remove specified files and directories and their signatures (if available).
@@ -754,15 +778,21 @@ positional arguments:
                         or untracked files will be removed depending on other
                         options (&#39;-t&#39; or &#39;-u&#39;). For safety reasons, files
                         under the current directory have to be listed (not as
-                        files under .) to be removed.
+                        files under .) to be removed. Signatures related to
+                        these files will be removed unless if option &#39;-s&#39; (&#39;--
+                        signature&#39;) is specified, in which case only the
+                        signatures of these files will be removed.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -t                    Remove tracked files and their signatures from
+  -t, --tracked         Remove tracked files and their signatures from
                         specified files and directories.
-  -u                    Remove untracked files from specified files and
+  -u, --untracked       Remove untracked files from specified files and
                         directories.
-  -n                    List files or directories to be removed, without
+  -s, --signature       Remove signatures of specified files (not files
+                        themselves) or all runtime signatures of executed
+                        workflows under the current directory.
+  -n, --dryrun          List files or directories to be removed, without
                         actually removing them.
   -y, --yes             Remove files without confirmation, suitable for batch
                         removal of files.
@@ -778,6 +808,7 @@ optional arguments:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -796,10 +827,11 @@ optional arguments:
 <h2 id="subcommand-pack">subcommand <code>pack</code><a class="anchor-link" href="#subcommand-pack">&#182;</a></h2>
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">pack</span> <span class="o">-</span><span class="n">h</span>
@@ -874,6 +906,7 @@ optional arguments:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -892,10 +925,11 @@ optional arguments:
 <h2 id="subcommand-unpack">subcommand <code>unpack</code><a class="anchor-link" href="#subcommand-unpack">&#182;</a></h2>
 </div>
 </div>
-</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">unpack</span> <span class="o">-</span><span class="n">h</span>
@@ -964,6 +998,7 @@ optional arguments:
 </div>
 
 </div>
+	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -986,7 +1021,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">execute</span> <span class="o">-</span><span class="n">h</span>
@@ -1004,7 +1039,8 @@ optional arguments:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos execute [-h] [-s SIGMODE] [-v {0,1,2,3,4}] [-q QUEUE] [-c CONFIG]
+<pre>usage: sos execute [-h] [-s SIGMODE] [-v {0,1,2,3,4}] [-n] [-q [QUEUE]]
+                   [-c CONFIG] [-w]
                    tasks [tasks ...]
 
 Execute a packages task
@@ -1028,19 +1064,25 @@ optional arguments:
   -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
                         trace (4) information to standard output (default to
                         2).
-  -q QUEUE, --queue QUEUE
-                        Execute the task on the specified tasks queue or
-                        remote host if the tasks . The queue must be defined
-                        in SoS config file (system default or specified with
-                        option --config). SoS would perform necessary file
-                        synchronization and path translation according to
-                        queue configuration, and send the task to appropriate
-                        queue for execution. Please check SoS documentation
-                        for details.
+  -n, --dryrun          Dryrun mode, which will cause actions to print scripts
+                        instead of executing them.
+  -q [QUEUE], --queue [QUEUE]
+                        Check the status of job on specified tasks queue or
+                        remote host if the tasks . The queue can be defined in
+                        global or local sos configuration file, or a file
+                        specified by option --config. A host is assumed to be
+                        a remote machine with process type if no configuration
+                        is found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
   -c CONFIG, --config CONFIG
                         A configuration file with host definitions, in case
                         the definitions are not defined in global or local sos
                         config.yml files.
+  -w, --wait            Wait for the completion of the task, and retrieve job
+                        results if needed after the completion of the task.
+                        This option is only valid with the specification of
+                        the -q option.
 </pre>
 </div>
 </div>
@@ -1062,7 +1104,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">status</span> <span class="o">-</span><span class="n">h</span>
@@ -1080,7 +1122,7 @@ optional arguments:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos status [-h] [-q QUEUE] [-c CONFIG] [-v {0,1,2,3,4}]
+<pre>usage: sos status [-h] [-q [QUEUE]] [-c CONFIG] [-v {0,1,2,3,4}] [--html]
                   [tasks [tasks ...]]
 
 Check the status of specified tasks
@@ -1093,13 +1135,15 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -q QUEUE, --queue QUEUE
+  -q [QUEUE], --queue [QUEUE]
                         Check the status of job on specified tasks queue or
-                        remote host if the tasks . The queue must be defined
-                        in SoS config file. Please check SoS documentation for
-                        details. Note that this parameter must be specified to
-                        check the status of jobs if they are executed on that
-                        host.
+                        remote host if the tasks . The queue can be defined in
+                        global or local sos configuration file, or a file
+                        specified by option --config. A host is assumed to be
+                        a remote machine with process type if no configuration
+                        is found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
   -c CONFIG, --config CONFIG
                         A configuration file with host definitions, in case
                         the definitions are not defined in global or local sos
@@ -1107,6 +1151,9 @@ optional arguments:
   -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
                         trace (4) information to standard output (default to
                         2).
+  --html                Output results in HTML format. This option will
+                        override option verbosity and output detailed status
+                        information in HTML tables and figures.
 </pre>
 </div>
 </div>
@@ -1128,7 +1175,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">kill</span> <span class="o">-</span><span class="n">h</span>
@@ -1146,17 +1193,36 @@ optional arguments:
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos kill [-h] [-v {0,1,2,3,4}] task
+<pre>usage: sos kill [-h] [-a] [-q [QUEUE]] [-c CONFIG] [-v {0,1,2,3,4}]
+                [tasks [tasks ...]]
 
 Stop the execution of running task
 
 positional arguments:
-  task            ID of the task.
+  tasks                 IDs of the tasks that will be killed. There is no need
+                        to specify compelte task IDs because SoS will match
+                        specified name with tasks starting with these names.
 
 optional arguments:
-  -h, --help      show this help message and exit
-  -v {0,1,2,3,4}  Output error (0), warning (1), info (2), debug (3) and trace
-                  (4) information to standard output (default to 2).
+  -h, --help            show this help message and exit
+  -a, --all             Kill all tasks in local or specified remote task queue
+  -q [QUEUE], --queue [QUEUE]
+                        Kill jobs on specified tasks queue or remote host if
+                        the tasks . The queue can be defined in global or
+                        local sos configuration file, or a file specified by
+                        option --config. A host is assumed to be a remote
+                        machine with process type if no configuration is
+                        found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
+  -c CONFIG, --config CONFIG
+                        A configuration file with host definitions, in case
+                        the definitions are not defined in global or local sos
+                        config.yml files.
+  -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
+                        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
 </pre>
 </div>
 </div>
