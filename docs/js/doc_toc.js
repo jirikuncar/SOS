@@ -318,7 +318,7 @@ var make_link = function(h, num_lbl) {
           if(liveNotebook){
             $('#toc-wrapper').css('height',$('#site').height());}
           else{  
-          $('#toc-wrapper').css('height','96%');}
+          $('#toc-wrapper').css('height','100%');}
           $('#toc').css('height', $('#toc-wrapper').height()-$('#toc-header').height());         
         }
         if (ui.position.left<=0) {      
@@ -432,7 +432,7 @@ var make_link = function(h, num_lbl) {
         if (!liveNotebook) {
             $('#toc-wrapper').css('width', '202px');
             $('#notebook-container').css('margin-left', '212px');
-            $('#toc-wrapper').css('height', '96%');
+            $('#toc-wrapper').css('height', '100%');
             $('#toc').css('height', $('#toc-wrapper').height() - $('#toc-header').height())
         } else {
             if (cfg.toc_window_display) {
