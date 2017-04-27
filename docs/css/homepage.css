@@ -1289,14 +1289,14 @@ div.rendered_html h5 {
 .text_cell_render h2 {
  text-align: left;
  font-size: 170%;
- color: #126dce;
+ color: #008cba;
  font-style: normal;
  font-weight: lighter;
 }
 .rendered_html h3,
 .text_cell_render h3 {
  font-size: 150%;
- color: #126dce;
+ color: #008cba;
  font-weight: lighter;
  text-decoration: italic;
  font-style: normal;
@@ -1304,7 +1304,7 @@ div.rendered_html h5 {
 .rendered_html h4,
 .text_cell_render h4 {
  font-size: 120%;
- color: #126dce;
+ color: #008cba;
  font-weight: underline;
  font-style: normal;
 }
@@ -1436,23 +1436,24 @@ div.widget-hbox .widget-label,
 .rendered_html :link {
  font-family: "Droid Sans", sans-serif;
  font-size: 100%;
- color: #2c85f7;
- text-decoration: underline;
+ color: #008cba;
+ text-decoration: none;
 }
 .rendered_html :visited,
 .rendered_html :visited:active,
 .rendered_html :visited:focus {
- color: #2e6eb2;
+ color: #008cba;
 }
 .rendered_html :visited:hover,
 .rendered_html :link:hover {
  font-family: "Droid Sans", sans-serif;
  font-size: 100%;
- color: #eb6a18;
+ color: #008cba;
+ text-decoration: underline;
 }
 a.anchor-link:link:hover {
  font-size: inherit;
- color: #eb6a18;
+ color: #008cba;
 }
 a.anchor-link:link {
  font-size: inherit;
