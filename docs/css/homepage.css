@@ -1341,6 +1341,20 @@ table.dataframe,
  border: 1px solid #c4c4c4;
  background: #eeeeee;
 }
+.doc-table th {
+	/* remove background and border to override .rendered_html th */
+    background: #ffffff;
+    border: 0pt;
+    font-size: 14pt !important;
+    padding-bottom: 5pt;
+	font-family: "Open Sans","Helvetica Neue", Helvetica,Arial,sans-serif;
+    line-height: 1.4;
+    color: #222222;
+}
+.doc-table td {
+    padding-left: 30pt;
+}
+
 .dataframe td,
 .rendered_html td {
  font-family: "Fira Code", monospace;
