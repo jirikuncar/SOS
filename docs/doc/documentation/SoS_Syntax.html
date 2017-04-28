@@ -180,7 +180,7 @@ $( document ).ready(function(){
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A SoS <strong>script</strong> defines one or more <strong>workflows</strong>, and each workflow consists of one or more <strong>steps</strong>.</p>
 <p><img src="../media/workflow.png" alt="workflow"></p>
-<p>A SoS script contains one or more SoS <strong>steps</strong>. A SoS <strong>step</strong> consists of a <strong>header</strong> with one or more step names and optional options. The body of a SoS step consists of optional <strong>comments</strong>, 
+<p>SoS steps are defined by SoS <strong>sections</strong>. A SoS <strong>section</strong> consists of a <strong>header</strong> with one or more step names and optional options. The body of a SoS section consists of optional <strong>comments</strong>, 
 <strong>statements</strong>, <strong>input</strong>, <strong>output</strong>, <strong>depends</strong> directives, <strong>parameter</strong> definitions, and external <strong>task</strong>.</p>
 <p><img src="../media/sos_step.png" alt="sos_step"></p>
 
@@ -286,7 +286,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>SoS allows you to write SoS <strong>actions</strong> (basically a Python function) that accept a script (string) as the first parameter in a special script format. For example, an action <code>R</code> that executes a script</p>
 <div class="highlight"><pre><span></span><span class="n">R</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">pdf(&#39;${input}&#39;)</span>
+<span class="s2">pdf(&#39;${_input}&#39;)</span>
 <span class="s2">plot(0, 0)</span>
 <span class="s2">dev.off()</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
@@ -328,7 +328,6 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
 </pre></div>
-<p>Although the script format is more concise and easier to read, it is limited to actions that accept a string as its first parameter and cannot return value or be used within <code>try/except</code> of <code>if/else</code> statements.</p>
 
 </div>
 </div>
@@ -516,7 +515,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -537,7 +536,16 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Random number is 2
+<pre>Random number is 6
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>echo &#34;Random number is 6&#34;
 </pre>
 </div>
 </div>
@@ -620,7 +628,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;James&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Kathy&#39;</span><span class="p">]</span>
@@ -636,7 +644,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[5]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -654,7 +662,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">salary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;James&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Kathy&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">}</span>
@@ -670,7 +678,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[6]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 
@@ -862,7 +870,7 @@ files=['a.txt', 'b.txt']</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="kp">name</span> <span class="n">filename</span> <span class="n">basefilename</span> <span class="n">expanded</span> <span class="n">parparname</span>
@@ -1025,7 +1033,7 @@ files=['a.txt', 'b.txt']</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">salary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;James&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Kathy&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">}</span>
@@ -1046,7 +1054,7 @@ files=['a.txt', 'b.txt']</code></pre>
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1] &#34;Bob&#34;   &#34;James&#34; &#34;Kathy&#34;
+<pre>Generating myfigure.pdf
 </pre>
 </div>
 </div>
@@ -1069,7 +1077,7 @@ files=['a.txt', 'b.txt']</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="s2">&quot;${salary!,r}&quot;</span>
@@ -1084,7 +1092,7 @@ files=['a.txt', 'b.txt']</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[14]:</div>
+<div class="prompt output_prompt">Out[12]:</div>
 
 
 
@@ -1112,7 +1120,7 @@ files=['a.txt', 'b.txt']</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">r_list</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
@@ -1130,12 +1138,12 @@ files=['a.txt', 'b.txt']</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[15]:</div>
+<div class="prompt output_prompt">Out[13]:</div>
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#34;c(&#39;James&#39;,&#39;Kathy&#39;,&#39;Bob&#39;)&#34;</pre>
+<pre>&#34;c(&#39;Kathy&#39;,&#39;Bob&#39;,&#39;James&#39;)&#34;</pre>
 </div>
 
 </div>
@@ -1172,7 +1180,7 @@ files=['a.txt', 'b.txt']</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -1205,6 +1213,19 @@ Processing c.txt ...
 </div>
 </div>
 
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>echo Sample A results
+for file in a.txt b.txt c.txt
+do
+    echo Processing ${file} ...
+done
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -1233,7 +1254,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">:</span> <span class="kp">sigil</span><span class="o">=</span><span class="s1">&#39;%( )&#39;</span><span class="p">]</span>
@@ -1262,6 +1283,19 @@ Processing c.txt ...
 Processing a.txt ...
 Processing b.txt ...
 Processing c.txt ...
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>echo Sample A results
+for file in a.txt b.txt c.txt
+do
+    echo Processing ${file} ...
+done
 </pre>
 </div>
 </div>
@@ -1296,7 +1330,7 @@ Processing c.txt ...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Native-SoS-file-format-(.sos)">Native SoS file format (<code>.sos</code>)<a class="anchor-link" href="#Native-SoS-file-format-(.sos)">&#182;</a></h2>
+<h2 id="Native-SoS-file-format">Native SoS file format<a class="anchor-link" href="#Native-SoS-file-format">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1610,7 +1644,7 @@ Processing c.txt ...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Jupyter-notebook-format-(.ipynb-)">Jupyter notebook format (<code>.ipynb</code> )<a class="anchor-link" href="#Jupyter-notebook-format-(.ipynb-)">&#182;</a></h2>
+<h2 id="Jupyter-notebook-format">Jupyter notebook format<a class="anchor-link" href="#Jupyter-notebook-format">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1637,7 +1671,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
@@ -1658,10 +1692,11 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">skip</span>
+<span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
 <span class="c1"># download gene models from the MISO website</span>
 <span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/Home_sapiens.GRCh37.65.gff.zip&#39;</span>
 <span class="kn">download:</span> <span class="n">dest_dir</span><span class="o">=</span><span class="n">resource_dir</span><span class="p">,</span> <span class="n">decompress</span><span class="o">=</span><span class="bp">True</span>
@@ -1677,11 +1712,11 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># This is step 1 of the gff workflow</span>
-
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">skip</span>
+<span class="c1"># This is step 1 of the gff workflow</span>
 <span class="p">[</span><span class="n">gff_1</span><span class="p">]</span>
 <span class="c1"># Index gtf file using index_gff</span>
 <span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/${hg19_gff_index}/genes.gff&#39;</span>
@@ -1705,7 +1740,7 @@ Processing c.txt ...
 <p>Note that</p>
 <ol>
 <li>The <code>[global]</code> section header is needed for the cell to be recognized as part of a workflow.</li>
-<li>Section headers can be defined after comments, magics, and empty lines.</li>
+<li>Section headers can be defined after comments, magics, and empty lines. Here we use <code>%skip</code> magic to stop Jupyter from executing the cell (for example, when you execute the complete notebook using Cell -&gt; Run all), but the steps would still be part of the workflow the notebook defines.</li>
 <li>A cell can define one or more steps, even a complete workflow.</li>
 </ol>
 <p>SoS commands such as <code>sos run</code> and <code>sos-runner</code> can execute workflows defined in <code>.ipynb</code> files directly.</p>
@@ -1745,7 +1780,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
@@ -1773,7 +1808,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mapping_5</span> <span class="p">(</span><span class="n">get</span> <span class="n">data</span><span class="p">)]</span>
@@ -1801,7 +1836,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
@@ -1844,7 +1879,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -1861,23 +1896,20 @@ Processing c.txt ...
 
 </div>
 	</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Multiple</span> <span class="n">steps</span> <span class="n">can</span> <span class="n">share</span> <span class="n">a</span> <span class="n">single</span> <span class="n">step</span> <span class="k">as</span> <span class="n">follows</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Multiple steps can share a single step as follows</p>
 
 </div>
 </div>
-</div>
-
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
@@ -1906,7 +1938,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
@@ -1935,7 +1967,7 @@ Processing c.txt ...
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span> <span class="o">-</span><span class="n">v2</span>
@@ -1961,6 +1993,7 @@ Processing c.txt ...
 <pre>INFO: Executing <span class="ansi-green-fg">mouse_20</span>: 
 INFO: input:    <span class="ansi-green-fg">[]</span>
 INFO: output:   <span class="ansi-green-fg">[]</span>
+INFO: Workflow mouse (ID=1c1c40b443326c19) is executed successfully.
 </pre>
 </div>
 </div>
@@ -2026,7 +2059,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">default</span><span class="p">:</span><span class="o">-</span><span class="mi">20</span>
@@ -2036,27 +2069,6 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Executing <span class="ansi-green-fg">default_10</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">default_20</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -2101,7 +2113,7 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">#local run</span>
@@ -2114,36 +2126,6 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Executing <span class="ansi-green-fg">check_10</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">align_10</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">align_20</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">call_10</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">call_20</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -2190,7 +2172,7 @@ The workflow is execute by SoS action <code>sos_run</code>, e.g.</p>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v2</span>
@@ -2303,7 +2285,7 @@ INFO: Workflow default (ID=37dcbb4fce3d5473) is executed successfully.
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -2342,6 +2324,38 @@ INFO: Workflow default (ID=37dcbb4fce3d5473) is executed successfully.
 Calling variants from test.bam with test.bam.bai to test.vcf
 </pre>
 </div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">%preview test.vcf</font></pre>
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre> input: test.bam
+output: test.vcf
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+<pre><font color="green">> test.vcf (0 B):</font></pre>
+</div>
+
 </div>
 
 </div>
