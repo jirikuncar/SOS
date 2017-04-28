@@ -180,9 +180,9 @@ $( document ).ready(function(){
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A SoS <strong>script</strong> defines one or more <strong>workflows</strong>, and each workflow consists of one or more <strong>steps</strong>.</p>
 <p><img src="../media/workflow.png" alt="workflow"></p>
-<p>A SoS script contains <strong>comments</strong>, <strong>statements</strong>, and one or more SoS <strong>steps</strong>. A SoS <strong>step</strong> consists of a <strong>header</strong>
-with one or more step names and optional options. The body of a SoS step consists of optional <strong>comments</strong>, 
-<strong>statements</strong>, <strong>input</strong>, <strong>output</strong>, <strong>depends</strong> directives, <strong>parameter</strong> definitions, followed by step <strong>process</strong>.</p>
+<p>A SoS script contains one or more SoS <strong>steps</strong>. A SoS <strong>step</strong> consists of a <strong>header</strong> with one or more step names and optional options. The body of a SoS step consists of optional <strong>comments</strong>, 
+<strong>statements</strong>, <strong>input</strong>, <strong>output</strong>, <strong>depends</strong> directives, <strong>parameter</strong> definitions, and external <strong>task</strong>.</p>
+<p><img src="../media/sos_step.png" alt="sos_step"></p>
 
 </div>
 </div>
@@ -192,7 +192,7 @@ with one or more step names and optional options. The body of a SoS step consist
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>More precisely,</p>
+<p>The following terms will be used throughout this documentation:</p>
 <ul>
 <li><strong>Script</strong>: A SoS script that defines one or more workflows.</li>
 <li><strong>section</strong>: A group of statements with a header that defines one or more SoS steps.</li>
@@ -203,7 +203,7 @@ with one or more step names and optional options. The body of a SoS step consist
 <li><strong>Step input</strong>: Specifies the input files of the step.</li>
 <li><strong>Step output</strong>: Specifies the output files and targets of the step.</li>
 <li><strong>Step dependencies</strong>: Specifies the files and targets that are required by the step.</li>
-<li><strong>Step process</strong>: The process that a step executes to complete specified work, specified as one or more Python statements. </li>
+<li><strong>Step process</strong>: The process that a step executes to complete specified work, specified as one or more Python statements. It consists of all statements after step input specification, or all statements in a step if no input is specified.</li>
 <li><strong>Task</strong>: Part or all step process that will be executed and monitored outside of SoS. These are usually resource intensive jobs that will take long time to complete.</li>
 <li><strong>Action</strong>: SoS or user-defined Python functions. They differ from regular Python functions in that they may behave differently in different running mode of SoS (e.g. ignore when executed in dryrun mode).</li>
 </ul>
@@ -218,15 +218,15 @@ with one or more step names and optional options. The body of a SoS step consist
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>More formally defined, the SoS syntax obeys the following grammar, given in extended Backus-Naur form (EBNF):</p>
 
-<pre><code>Script         = {comment}, {statement}, {step};
+<pre><code>Script         = {comment}, {step};
 comment        = "#", text, NEWLINE
 assignment     = name, "=", expression, NEWLINE</code></pre>
 <p>with SoS steps defined as</p>
 
-<pre><code>step           = step_header,
+<pre><code>step           = [step_header],
                  {comment}, {{statement}, [input | output | depends ]},
                  [process, NEWLINE, {script} ]
-step_header    = "[", section_names, [":", names | options], "]", NEWLINE
+step_header    = "[", step_names, [":", names | options], "]", NEWLINE
 parameter      = "parameter", ":", assignment
 input          = "input", ":", [expressions], [",", options], NEWLINE
 output         = "output", ":", [expressions], [",", options], NEWLINE
@@ -235,305 +235,17 @@ task           = "task", ":",  [options]
 action         = func_format | script_format
 func_format    = name, "(", [options], ")"
 script_format  = name, ":", [options], NEWLINE, script 
-section_names  = section_name, ",", section_name
-section_name   = name, "(", text, ")"
+step_names     = step_name | step_pattern, ["(", text, ")"],
+                 {",", step_name | steo_pattern, ["(", text, ")"]}
 names          = name, {",", name}
 workflow       = name, ['_', steps], {"+", name, ['_', steps}
 assignment     = name, "=", expression, NEWLINW
 expressions    = expression, {",", expression}
 options        = option, {"," option}
-option         = name, "=", expression</code></pre>
+option         = name, "=", expression
+step_name      = letter, { letter | digit | "-" | "_" }
+step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 <p>Here <code>name</code>, <code>expression</code> and <code>statement</code> are arbitrary <a href="http://www.python.org">Python 3</a> names, expression and statements with added SoS features.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Native-SoS-file-format-(.sos)">Native SoS file format (<code>.sos</code>)<a class="anchor-link" href="#Native-SoS-file-format-(.sos)">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A sos script can be defined in a plain text file. A <code>.sos</code> suffix is recommended but not required. A SoS script consists of <strong>sections</strong> that define <strong>steps</strong> of one or more <strong>workflows</strong>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A SoS script usually starts with lines</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env sos-runner</span>
-<span class="c1">#fileformat=SOS1.0</span>
-</pre></div>
-<p>The first line allows the script to be executed by command <code>sos-runner</code> if it is executed as an executable script. The second line tells SoS the format of the script. The <code>#fileformat</code> line does not have to be the first or second line but should be in the first comment block. The latest version of SOS format is assumed if no format line is present so it is a good practice to specify version of file format to make sure the script is interpreted correctly.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Global-section-and-default-variables">Global section and default variables<a class="anchor-link" href="#Global-section-and-default-variables">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A global section can be defined without section header in a <code>.sos</code> file as statements before any section, or as a regular section with header <code>[global]</code>. The global section is usually the first section in the script although it can be defined anywhere in the script if it contains a header.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Definitions in the global section are shared by all sections so it is usually used to define global variables and parameters. SoS implicitly defines the following variables in the global section:</p>
-<ul>
-<li><strong><code>SOS_VERSION</code></strong>: version of SoS interpreter.</li>
-<li><strong><code>CONFIG</code></strong>: A dictionary of configurations specified by the global sos configuration file (<code>~/.sos/config.yml</code>), host configuration file (<code>~/.sos/hosts.yml</code>), local configuration file (<code>./config.yml</code>) and a configuration file specified by command line option <code>-c</code>. The configuration files should be in <a href="http://www.yaml.org/start.html">YAML format</a>. Dictionaries defined in all these configuration files are merged to form a single dictionary <code>CONFIG</code>. Local and user-specified configurations override global configurations if a dictionary values conflict.</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="SoS-Sections">SoS Sections<a class="anchor-link" href="#SoS-Sections">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A SoS section is marked by a section header in the format of</p>
-
-<pre><code>[names: options]</code></pre>
-<p>The header should start with a <code>[</code> from the beginning of a line and end with a <code>]</code>. It can contain one or more names with optional description (for each step) and section options (for all steps).</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Section names of a section follow the following rules:</p>
-<table>
-<thead><tr>
-<th>format</th>
-<th>example</th>
-<th>usage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong><code>name_index</code></strong></td>
-<td><code>human_10</code></td>
-<td>Defines step <code>index</code> of workflow <code>name</code>. Here <code>name</code> can be any name with alpha-numeric characters and <code>-</code> and <code>_</code>. <code>index</code> should be a non-negative number.</td>
-</tr>
-<tr>
-<td><strong><code>name</code></strong></td>
-<td><code>update-website</code></td>
-<td>Section name without index is equivalent to <code>name_0</code></td>
-</tr>
-<tr>
-<td><strong><code>index</code></strong></td>
-<td><code>10</code></td>
-<td>Section name without workflow name is equivalent to <code>default_index</code></td>
-</tr>
-<tr>
-<td><strong><code>pattern_index</code></strong></td>
-<td><code>*_0</code>, <code>human*_10</code></td>
-<td>Equivalent to step <code>index</code> of all matching workflows defined in the script. The <code>pattern</code> should follow <a href="https://docs.python.org/2/library/fnmatch.html">Unix filename matching</a></td>
-</tr>
-<tr>
-<td><strong><code>stepname (desc)</code></strong></td>
-<td><code>10 (align)</code></td>
-<td>Optional short description can be used to describe the goal of the step</td>
-</tr>
-<tr>
-<td><strong><code>name1,name2,...</code></strong></td>
-<td><code>human_10,mouse_10</code></td>
-<td>Comma separated names define multiple steps for one or more workflows</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A section can have arbitrary Python statements and SoS-specific statements that define the input, output, and dependent targets, and external tasks of the step. These statements starts with keywords <code>input:</code>, <code>output:</code>, <code>depends:</code>, and <code>task:</code>. Please refer to <a href="SoS_Step.html">SoS step</a> for more details about different types of steps, step options and these statements.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For example, the following script defines a workflow with a global section without header, and a workflow <code>gff</code> with two steps</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env sos-runner</span>
-<span class="c1">#fileformat=SOS1.0</span>
-
-<span class="n">local_resource</span> <span class="o">=</span> <span class="s1">&#39;~/Resource/&#39;</span>
-<span class="n">data_dir</span>       <span class="o">=</span> <span class="s1">&#39;~/Data/bams/&#39;</span>
-<span class="n">resource_dir</span>   <span class="o">=</span> <span class="s1">&#39;${local_resource}/resources/hg19/Ensembl/Genes&#39;</span>
-
-<span class="c1"># samples to be processed</span>
-<span class="kn">parameter:</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s312&#39;</span><span class="p">,</span> <span class="s1">&#39;s315&#39;</span><span class="p">,</span> <span class="s1">&#39;s312a&#39;</span><span class="p">,</span> <span class="s1">&#39;s315a&#39;</span><span class="p">]</span>
-
-<span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
-<span class="c1"># download gene models from the MISO website</span>
-<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/Home_sapiens.GRCh37.65.gff.zip&#39;</span>
-<span class="kn">download:</span> <span class="n">dest_dir</span><span class="o">=</span><span class="n">resource_dir</span><span class="p">,</span> <span class="n">decompress</span><span class="o">=</span><span class="bp">True</span>
-    <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">genes</span><span class="o">.</span><span class="n">mit</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">burgelab</span><span class="o">/</span><span class="n">miso</span><span class="o">/</span><span class="n">annotations</span><span class="o">/</span><span class="n">gene</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">Homo_sapiens</span><span class="o">.</span><span class="n">GRCh37</span><span class="o">.</span><span class="mf">65.</span><span class="n">gff</span><span class="o">.</span><span class="n">zip</span>
-
-<span class="p">[</span><span class="n">gff_1</span><span class="p">]</span>
-<span class="c1"># Index gtf file using index_gff</span>
-<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/${hg19_gff_index}/genes.gff&#39;</span>
-<span class="kn">task:</span>   <span class="n">working_dir</span><span class="o">=</span><span class="n">resource_dir</span>
-<span class="kn">run:</span>    <span class="n">docker_image</span><span class="o">=</span><span class="s1">&#39;mdabioinfo/miso:latest&#39;</span>
-    <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
-    <span class="n">index_gff</span> <span class="o">--</span><span class="n">index</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_file</span><span class="p">}</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Jupyter-notebook-format-(.ipynb-)">Jupyter notebook format (<code>.ipynb</code> )<a class="anchor-link" href="#Jupyter-notebook-format-(.ipynb-)">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS provides a Jupyter frontend in which you can execute sos steps and workflows interactively or in batch mode. The Jupyter notebook format <code>.ipynb</code> can contain <strong>markdown cells</strong> and <strong>code cells</strong> with statements in SoS and any other supported languages (e.g. <code>R</code>).</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>One or more SoS workflows can be defined in a <code>.ipynb</code> file from <strong>code cells in SoS kernel that start with section headers</strong>. For example, the same workflow defined in the <code>.sos</code> file could be defined in a Jupyter notebook, with cells starting with section headers as follows:</p>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
-<span class="n">local_resource</span> <span class="o">=</span> <span class="s1">&#39;~/Resource/&#39;</span>
-<span class="n">data_dir</span>       <span class="o">=</span> <span class="s1">&#39;~/Data/bams/&#39;</span>
-<span class="n">resource_dir</span>   <span class="o">=</span> <span class="s1">&#39;${local_resource}/resources/hg19/Ensembl/Genes&#39;</span>
-
-<span class="c1"># samples to be processed</span>
-<span class="kn">parameter:</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s312&#39;</span><span class="p">,</span> <span class="s1">&#39;s315&#39;</span><span class="p">,</span> <span class="s1">&#39;s312a&#39;</span><span class="p">,</span> <span class="s1">&#39;s315a&#39;</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
-<span class="c1"># download gene models from the MISO website</span>
-<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/Home_sapiens.GRCh37.65.gff.zip&#39;</span>
-<span class="kn">download:</span> <span class="n">dest_dir</span><span class="o">=</span><span class="n">resource_dir</span><span class="p">,</span> <span class="n">decompress</span><span class="o">=</span><span class="bp">True</span>
-    <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">genes</span><span class="o">.</span><span class="n">mit</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">burgelab</span><span class="o">/</span><span class="n">miso</span><span class="o">/</span><span class="n">annotations</span><span class="o">/</span><span class="n">gene</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">Homo_sapiens</span><span class="o">.</span><span class="n">GRCh37</span><span class="o">.</span><span class="mf">65.</span><span class="n">gff</span><span class="o">.</span><span class="n">zip</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># This is step 1 of the gff workflow</span>
-
-<span class="p">[</span><span class="n">gff_1</span><span class="p">]</span>
-<span class="c1"># Index gtf file using index_gff</span>
-<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/${hg19_gff_index}/genes.gff&#39;</span>
-<span class="kn">task:</span>   <span class="n">working_dir</span><span class="o">=</span><span class="n">resource_dir</span>
-<span class="kn">run:</span>    <span class="n">docker_image</span><span class="o">=</span><span class="s1">&#39;mdabioinfo/miso:latest&#39;</span>
-    <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
-    <span class="n">index_gff</span> <span class="o">--</span><span class="n">index</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_file</span><span class="p">}</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that</p>
-<ol>
-<li>The <code>[global]</code> section header is needed for the cell to be recognized as part of a workflow.</li>
-<li>Section headers can be defined after comments, magics, and empty lines.</li>
-<li>A cell can define one or more steps, even a complete workflow.</li>
-</ol>
-<p>SoS commands such as <code>sos run</code> and <code>sos-runner</code> can execute workflows defined in <code>.ipynb</code> files directly.</p>
 
 </div>
 </div>
@@ -552,8 +264,71 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS is based on the Python 3 programming language. If you are unfamiliar with Python, you can learn some basics of Python, usually in less than half a day, by reading some Python tutorials (e.g. <a href="https://docs.python.org/3/tutorial/">the official python tutorial</a>). This <a href="https://docs.python.org/3/tutorial/introduction.html">short introduction</a> is good enough for you to get started.</p>
+<p><strong>SoS is based on the Python 3 programming language</strong>. If you are unfamiliar with Python, you can learn some basics of Python, usually in less than half a day, by reading some Python tutorials (e.g. <a href="https://docs.python.org/3/tutorial/">the official python tutorial</a>). This <a href="https://docs.python.org/3/tutorial/introduction.html">short introduction</a> is good enough for you to get started.</p>
 <p>SoS addes the following syntax to standard Python syntax:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Script-style-function">Script style function<a class="anchor-link" href="#Script-style-function">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS allows you to write SoS <strong>actions</strong> (basically a Python function) that accept a script (string) as the first parameter in a special script format. For example, an action <code>R</code> that executes a script</p>
+<div class="highlight"><pre><span></span><span class="n">R</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">pdf(&#39;${input}&#39;)</span>
+<span class="s2">plot(0, 0)</span>
+<span class="s2">dev.off()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
+</pre></div>
+<p>can be written as</p>
+<div class="highlight"><pre><span></span><span class="kn">R:</span>     <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
+<span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>The script is a string without quotation marks</strong> and the normal string interpolation will take place. You can also indent the script (add equal amount of leading white spaces to all lines) and write the action as</p>
+<div class="highlight"><pre><span></span><span class="kn">R:</span>  <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
+   <span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
+   <span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+   <span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+</pre></div>
+<p>The latter is much preferred because it avoids trouble if your script contains strings such as <code>[1]</code> and <code>option:</code> (and be treated as SoS directives), and more importantly, allows starting a new statement from a non-indented line. For example, <code>print('Hello world')</code> would be considered part of a R script in</p>
+<div class="highlight"><pre><span></span><span class="kn">R:</span>  <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
+<span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+</pre></div>
+<p>but a separate statement in</p>
+<div class="highlight"><pre><span></span><span class="kn">R:</span>  <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
+   <span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
+   <span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+   <span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+</pre></div>
+<p>Although the script format is more concise and easier to read, it is limited to actions that accept a string as its first parameter and cannot return value or be used within <code>try/except</code> of <code>if/else</code> statements.</p>
 
 </div>
 </div>
@@ -572,13 +347,14 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>On top of Python's <code>format</code> function, SoS uses string interpolation to format strings with expressions. Unlike Python format string, SoS string interpolation <strong>does not require any prefix</strong>, and is <strong>applied to only double quoted strings</strong> (<code>" "</code>, <code>""" """</code>, <code>r" "</code>, and <code>r""" """</code>). Compared to python <code>format</code> function and the new format string (<code>f" "</code>), SoS' string interpolation feature</p>
-<ol>
-<li>Does not always use the default <code>__format__</code> function. For example, <code>${[1,2]}</code> would be interpolated as <code>1 2</code> instead of <code>[1, 2]</code> as a result of <code>{}'.format([1,2])</code> or <code>f'{[1, 2]}</code>.</li>
+<p>On top of Python's <code>format</code> function, SoS uses string interpolation to format strings with expressions. Compared to other python string format methods, SoS' string interpolation feature</p>
+<ul>
+<li>Does not require any prefix and is applied to only double quoted strings (<code>" "</code>, <code>""" """</code>, <code>r" "</code>, and <code>r""" """</code>).</li>
+<li>Does not always use the default <code>__format__</code> function to get string represent objects. For example, <code>${[1,2]}</code> is interpolated as <code>1 2</code> instead of <code>[1, 2]</code> as other format methods do.</li>
 <li>Allows more string converters, mostly for the conversion of filenames. For example, <code>'${"filename.txt"!a}'</code> would return the absolute path name of <code>filename.txt</code>.</li>
 <li>Uses backslash to disable interpolation, and</li>
 <li>Allows the use of alternative sigils.</li>
-</ol>
+</ul>
 
 </div>
 </div>
@@ -588,7 +364,7 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Although configurable, the default sigil for SoS string interpolation is <code>'${ }'</code>, which means by default any expression between <code>${</code> and <code>}</code> would be evaluated by SoS. For example, expressions <code>resource_path</code>, <code>sample_names[0]</code> and <code>sample_names</code> would be replaced by their values in variables <code>ref_genome</code>, <code>title</code>, and <code>all_names</code>, but not in <code>single_quoted</code> because the string literal is quoted by single quotes. For convenience, we use a magic <code>%preview</code> of the SoS kernel to display the values of variables after the evaluation of the cell content.</p>
+<p>Although configurable, the default sigil for SoS string interpolation is <code>'${ }'</code>, which means by default any expression between <code>${</code> and <code>}</code> would be evaluated by SoS. For example,</p>
 
 </div>
 </div>
@@ -599,16 +375,8 @@ option         = name, "=", expression</code></pre>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">ref_genome</span> <span class="n">title</span> <span class="n">all_names</span> <span class="n">single_quoted</span>
-
-<span class="n">resource_path</span> <span class="o">=</span> <span class="s1">&#39;~/.sos/resources&#39;</span>
-<span class="n">ref_genome</span>    <span class="o">=</span> <span class="s2">&quot;${resource_path}/hg19/refGenome.fasta&quot;</span>
-
-<span class="n">sample_names</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span>
-<span class="n">title</span>         <span class="o">=</span> <span class="s2">&quot;Sample ${sample_names[0]} results&quot;</span>
-<span class="n">all_names</span>     <span class="o">=</span> <span class="s2">&quot;Samples ${sample_names}&quot;</span>
-
-<span class="n">single_quoted</span> <span class="o">=</span> <span class="s1">&#39;${sample_names} is not interpolated&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">resource_path</span> <span class="o">=</span> <span class="s1">&#39;~/.sos/resources&#39;</span>
+<span class="s2">&quot;${resource_path}/hg19/refGenome.fasta&quot;</span>
 </pre></div>
 
 </div>
@@ -620,94 +388,111 @@ option         = name, "=", expression</code></pre>
 
 
 <div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">%preview ref_genome title all_names single_quoted</font></pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> ref_genome:</font> str of length 37</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[1]:</div>
 
 
 
-<div class="output_text output_subarea ">
+<div class="output_text output_subarea output_execute_result">
 <pre>&#39;~/.sos/resources/hg19/refGenome.fasta&#39;</pre>
 </div>
 
 </div>
 
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> title:</font> str of length 16</pre>
+</div>
 </div>
 
 </div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sample_names</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span>
+<span class="s2">&quot;Sample ${sample_names[0]} results&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area">
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[2]:</div>
 
 
 
-<div class="output_text output_subarea ">
+<div class="output_text output_subarea output_execute_result">
 <pre>&#39;Sample A results&#39;</pre>
 </div>
 
 </div>
 
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> all_names:</font> str of length 13</pre>
+</div>
 </div>
 
 </div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="s2">&quot;Samples ${sample_names}&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area">
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
 
-<div class="output_text output_subarea ">
+<div class="output_text output_subarea output_execute_result">
 <pre>&#39;Samples A B C&#39;</pre>
 </div>
 
 </div>
 
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> single_quoted:</font> str of length 35</pre>
+</div>
 </div>
 
 </div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="s1">&#39;${sample_names} is not interpolated&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area">
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[4]:</div>
 
 
 
-<div class="output_text output_subarea ">
+<div class="output_text output_subarea output_execute_result">
 <pre>&#39;${sample_names} is not interpolated&#39;</pre>
 </div>
 
@@ -767,151 +552,75 @@ option         = name, "=", expression</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>because the code is equivalent to</p>
+<p>As you might have noticed, SoS interpolation results do not always agree with what <code>format</code> function would produce. The biggest difference is that <strong>string formatting and conversion are applied to elements of sequences</strong> and joined by <code>' '</code> or <code>','</code>.</p>
+<table>
+<thead><tr>
+<th>type</th>
+<th>string representation</th>
+<th>example</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>string</code></td>
+<td><code>format(x)</code></td>
+<td><code>'abc'</code></td>
+<td><code>abc</code></td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>format(x)</code></td>
+<td><code>True</code></td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>format(x)</code></td>
+<td><code>123</code></td>
+<td><code>123</code></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td><code>format(x)</code></td>
+<td><code>1.23</code></td>
+<td><code>1.23</code></td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td><code>sep.join(format(k) for k in x)</code></td>
+<td><code>['A.txt']</code></td>
+<td><code>A.txt</code></td>
+</tr>
+<tr>
+<td><code>tuple</code></td>
+<td><code>sep.join(format(k) for k in x)</code></td>
+<td><code>(1, 2, 3)</code></td>
+<td><code>1 2 3</code></td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td><code>sep.join(format(k) for k in x)</code></td>
+<td><code>['{1, '3'}</code></td>
+<td><code>1 3</code> or <code>3 1</code></td>
+</tr>
+<tr>
+<td><code>dict</code></td>
+<td><code>sep.join(format(k) for k in x.keys())</code></td>
+<td><code>{'A': 'A.txt', 'B': 'B.txt'}</code></td>
+<td><code>A B</code> or <code>B A</code></td>
+</tr>
+</tbody>
+</table>
+<p>For example,</p>
 
 </div>
 </div>
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="n">num</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-<span class="kp">run</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">echo &quot;Random number is ${num}&quot;</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Random number is 4
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="String-representation-of-Objects">String representation of Objects<a class="anchor-link" href="#String-representation-of-Objects">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS evaluate an expression and returns the string representation of the value.</p>
-<p>If the value is of simple Python types such as string, boolean, and numbers, the standard Python representation of the value (<code>repr(obj)</code>) will be returned.</p>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="s2">&quot;${2**10}&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[4]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;1024&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
-<span class="s2">&quot;${</span><span class="se">\&quot;</span><span class="s2">Hi, </span><span class="se">\&quot;</span><span class="s2"> + user}&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;Hi, Bob&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For objects with an iterator interface (e.g. Python <code>list</code>, <code>tuple</code>, <code>dict</code>, and <code>set</code>), SoS join the string representation of each item by a space (or comma with <code>,</code> conversion flag). For example,</p>
-<ul>
-<li>List of strings will be converted to a string by joining strings with a space or comma.</li>
-<li>Dictionary of strings will be converted to a string by joining dictionary keys with no guarantee on the order of values.</li>
-</ul>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;James&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Kathy&#39;</span><span class="p">]</span>
@@ -927,7 +636,7 @@ option         = name, "=", expression</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[6]:</div>
+<div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -945,7 +654,7 @@ option         = name, "=", expression</code></pre>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">salary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;James&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Kathy&#39;</span><span class="p">:</span> <span class="mi">18</span><span class="p">}</span>
@@ -961,7 +670,7 @@ option         = name, "=", expression</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[7]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -976,16 +685,6 @@ option         = name, "=", expression</code></pre>
 
 </div>
 	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It is worth noting that the step input and output variables (<code>input</code>, <code>output</code>, <code>depends</code>, and its looped version <code>_input</code>, <code>_output</code>, and <code>_depends</code>) are always list of targets. However, if the list contains only one filename, <code>"${input}"</code> would be the same as <code>"${input[0]}"</code>.</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1150,119 +849,6 @@ files=['a.txt', 'b.txt']</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For example, if we need to create a file called <code>Bon Jovi.txt</code> and run</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;Bon Jovi.txt&#39;</span>
-<span class="kn">run:</span>
-    <span class="n">echo</span> <span class="s2">&quot;test&quot;</span> <span class="o">&gt;</span> <span class="err">$</span><span class="p">{</span><span class="n">filename</span><span class="p">}</span>
-    <span class="n">cat</span> <span class="err">$</span><span class="p">{</span><span class="n">filename</span><span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>test Jovi.txt
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>cat: Jovi.txt: No such file or directory
-Failed to process statement run(r&#34;&#34;&#34;echo &#34;test&#34; &gt; ${filena...name}&#34;&#34;&#34;)\n (RuntimeError): Failed to execute script (ret=1).
-Please use command
-	``/bin/bash \
-	  /var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmp0q6rm6bx/.sos/interactive_0_0_2b5a234c``
-under &#34;/private/var/folders/ys/gnzk0qbx5wbdgm531v82xxljv5yqy8/T/tmp0q6rm6bx&#34; to test it.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We would get two files <code>Bon</code> and <code>Jovi.txt</code> because the command executed was actually</p>
-
-<pre><code>    echo "test" &gt; Bon Jovi.txt
-    cat Bon Jovi.txt</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To avoid such problems, you can quote the filename using the <code>q</code> (quoted) convertor</p>
-
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">run:</span>
-   <span class="n">echo</span> <span class="s2">&quot;test&quot;</span> <span class="o">&gt;</span> <span class="err">$</span><span class="p">{</span><span class="n">filename</span><span class="err">!</span><span class="n">q</span><span class="p">}</span>
-   <span class="n">cat</span> <span class="err">$</span><span class="p">{</span><span class="n">filename</span><span class="err">!</span><span class="n">q</span><span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>test
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1710,7 +1296,7 @@ Processing c.txt ...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Script-style-function">Script style function<a class="anchor-link" href="#Script-style-function">&#182;</a></h3>
+<h2 id="Native-SoS-file-format-(.sos)">Native SoS file format (<code>.sos</code>)<a class="anchor-link" href="#Native-SoS-file-format-(.sos)">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1719,19 +1305,7 @@ Processing c.txt ...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SoS allows you to write SoS <code>action</code> (basically a Python function) that accept a script (string) as the first parameter in a special script format. For example,</p>
-<div class="highlight"><pre><span></span><span class="n">R</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">pdf(&#39;${input}&#39;)</span>
-<span class="s2">plot(0, 0)</span>
-<span class="s2">dev.off()</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
-</pre></div>
-<p>can be written as</p>
-<div class="highlight"><pre><span></span><span class="kn">R:</span>     <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
-<span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
-</pre></div>
+<p>A sos script can be defined in a plain text file. A <code>.sos</code> suffix is recommended but not required. A SoS script consists of <strong>sections</strong> that define <strong>steps</strong> of one or more <strong>workflows</strong>.</p>
 
 </div>
 </div>
@@ -1741,29 +1315,400 @@ Processing c.txt ...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>The script is a string without quotation marks</strong> and the normal string interpolation will take place. You can also indent the script (add equal amount of leading white spaces to all lines) and write the action as</p>
-<div class="highlight"><pre><span></span><span class="kn">R:</span>  <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
-   <span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
-   <span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-   <span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+<p>A SoS script usually starts with lines</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env sos-runner</span>
+<span class="c1">#fileformat=SOS1.0</span>
 </pre></div>
-<p>The latter is much preferred because it avoids trouble if your script contains strings such as <code>[1]</code> and <code>option:</code> (and be treated as SoS directives), and more importantly, allows starting a new statement from a non-indented line. For example, <code>print('Hello world')</code> would be considered part of a R script in</p>
-<div class="highlight"><pre><span></span><span class="kn">R:</span>  <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
-<span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+<p>The first line allows the script to be executed by command <code>sos-runner</code> if it is executed as an executable script. The second line tells SoS the format of the script. The <code>#fileformat</code> line does not have to be the first or second line but should be in the first comment block. The latest version of SOS format is assumed if no format line is present so it is a good practice to specify version of file format to make sure the script is interpreted correctly.</p>
 
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
-</pre></div>
-<p>but a separate statement in</p>
-<div class="highlight"><pre><span></span><span class="kn">R:</span>  <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
-   <span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
-   <span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-   <span class="n">dev</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Global-section-and-default-variables">Global section and default variables<a class="anchor-link" href="#Global-section-and-default-variables">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A global section can be defined without section header in a <code>.sos</code> file as statements before any other section, or as a regular section with header <code>[global]</code>. The global section is usually the first section in the script although it can be defined anywhere in the script if it contains a header.</p>
 
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Definitions in the global section are shared by all sections so it is usually used to define global variables and parameters. SoS implicitly defines the following variables in the global section:</p>
+<ul>
+<li><strong><code>SOS_VERSION</code></strong>: version of SoS interpreter.</li>
+<li><strong><code>CONFIG</code></strong>: A dictionary of configurations specified by the global sos configuration file (<code>~/.sos/config.yml</code>), host configuration file (<code>~/.sos/hosts.yml</code>), local configuration file (<code>./config.yml</code>) and a configuration file specified by command line option <code>-c</code>. The configuration files should be in <a href="http://www.yaml.org/start.html">YAML format</a>. Dictionaries defined in all these configuration files are merged to form a single dictionary <code>CONFIG</code>. Local and user-specified configurations override global configurations if a dictionary values conflict.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SoS-Sections">SoS Sections<a class="anchor-link" href="#SoS-Sections">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A SoS section is marked by a section header in the format of</p>
+
+<pre><code>[names: options]</code></pre>
+<p>The header should start with a <code>[</code> from the beginning of a line and end with a <code>]</code>. It can contain one or more names with optional description (for each step) and section options (for all steps defined in the section).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Section names of a section follow the following rules:</p>
+<table>
+<thead><tr>
+<th>Format</th>
+<th>Example</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>name_index</code></strong></td>
+<td><code>human_10</code></td>
+<td>Defines step <code>index</code> of workflow <code>name</code>. Here <code>name</code> can be any name with alpha-numeric characters and <code>-</code> and <code>_</code>. <code>index</code> should be a non-negative number.</td>
+</tr>
+<tr>
+<td><strong><code>name</code></strong></td>
+<td><code>update-website</code></td>
+<td>Section name without index is equivalent to <code>name_0</code></td>
+</tr>
+<tr>
+<td><strong><code>index</code></strong></td>
+<td><code>10</code></td>
+<td>Section name without workflow name is equivalent to <code>default_index</code></td>
+</tr>
+<tr>
+<td><strong><code>pattern_index</code></strong></td>
+<td><code>*_0</code>, <code>human*_10</code></td>
+<td>Equivalent to step <code>index</code> of all matching workflows defined in the script. The <code>pattern</code> should follow <a href="https://docs.python.org/2/library/fnmatch.html">Unix filename matching</a></td>
+</tr>
+<tr>
+<td><strong><code>stepname (desc)</code></strong></td>
+<td><code>10 (align)</code></td>
+<td>Optional short description can be used to describe the goal of the step</td>
+</tr>
+<tr>
+<td><strong><code>name1,name2,...</code></strong></td>
+<td><code>human_10,mouse_10</code></td>
+<td>Comma separated names define multiple steps for one or more workflows</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A SoS step accepts the following options:</p>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Example</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>skip</code></strong></td>
+<td><code>skip</code></td>
+<td>Skip step</td>
+</tr>
+<tr>
+<td></td>
+<td><code>skip=False</code></td>
+<td>Conditional skip, <code>expr</code> should be evaluated as <code>True</code> or <code>False</code></td>
+</tr>
+<tr>
+<td><strong><code>sigil</code></strong></td>
+<td><code>sigil='%( )'</code></td>
+<td>Use specified sigil for string interpolation for this section.</td>
+</tr>
+<tr>
+<td><strong><code>shared</code></strong></td>
+<td><code>shared='K'</code></td>
+<td>Variable that will be made available to the workflow after completion of the step</td>
+</tr>
+<tr>
+<td></td>
+<td><code>shared={'K': 'output[0]'}</code></td>
+<td>Variable as result of expression</td>
+</tr>
+<tr>
+<td><strong><code>provides</code></strong></td>
+<td><code>provides='filename'</code></td>
+<td>File that will be generated after the completion of the step. This option turns the step to an auxiliary step that will be executed when the provided target is needed.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>provides=executable('fastqc')</code></td>
+<td>Target that will be generated by the step</td>
+</tr>
+<tr>
+<td></td>
+<td><code>provides='{filename}.bam.gz'</code></td>
+<td>Pattern of files so that the step could be executed to generate any file that matches the pattern.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>provides=['A1.txt', 'A2.txt']</code></td>
+<td>List of files or targets.</td>
+</tr>
+</tbody>
+</table>
+<p>Please refer to section <a href="SoS_Step.html">SoS Step</a> for more details on the options.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A section can have arbitrary Python statements and SoS-specific statements that define the input, output, and dependent targets, and external tasks of the step.</p>
+<table>
+<thead><tr>
+<th>Keyword</th>
+<th>Example</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>input</code></strong></td>
+<td>(unspecified)</td>
+<td>Use output from previous step for a numbered step</td>
+</tr>
+<tr>
+<td></td>
+<td><code>input: 'test1.txt', 'text2.txt'</code></td>
+<td>Specified input files. List of files are flattened and joined.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>input: '*.txt'</code></td>
+<td>All files that match specified pattern when the script is parsed</td>
+</tr>
+<tr>
+<td></td>
+<td><code>input: dynamic('*.txt')</code></td>
+<td>All files that match specified pattern when the step is executed</td>
+</tr>
+<tr>
+<td><strong><code>depends</code></strong></td>
+<td><code>depends: 'hg19.fa'</code></td>
+<td>Step depends on a specified file</td>
+</tr>
+<tr>
+<td></td>
+<td><code>depends: "${_input}.idx"</code></td>
+<td>Step depends on a file derived from input filename</td>
+</tr>
+<tr>
+<td></td>
+<td><code>depends: R_library('ggplot2')</code></td>
+<td>Step depends on a specific target</td>
+</tr>
+<tr>
+<td><strong><code>output</code></strong></td>
+<td>(unspecified)</td>
+<td>Step has no defined output</td>
+</tr>
+<tr>
+<td></td>
+<td><code>output: 'output.bam'</code></td>
+<td>Step generates specific output file</td>
+</tr>
+<tr>
+<td></td>
+<td><code>output: '${_input}.idx'</code></td>
+<td>Step generates output derived from input filename</td>
+</tr>
+<tr>
+<td><strong><code>task</code></strong></td>
+<td><code>task:</code></td>
+<td>Statements following the statement will be executed as an external task</td>
+</tr>
+</tbody>
+</table>
+<p>These statements accept a large number of options to specify how input, output targets are processed and how external tasks are executed. Please refer to section <a href="SoS_Step.html">SoS step</a> for more details about different types of steps and step options, and section <a href="External_Task.html">External Task</a> on topics related to external tasks.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As an example for a complete script, the following script defines a workflow with a global section without header, and a workflow <code>gff</code> with two steps</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env sos-runner</span>
+<span class="c1">#fileformat=SOS1.0</span>
+
+<span class="n">local_resource</span> <span class="o">=</span> <span class="s1">&#39;~/Resource/&#39;</span>
+<span class="n">data_dir</span>       <span class="o">=</span> <span class="s1">&#39;~/Data/bams/&#39;</span>
+<span class="n">resource_dir</span>   <span class="o">=</span> <span class="s1">&#39;${local_resource}/resources/hg19/Ensembl/Genes&#39;</span>
+
+<span class="c1"># samples to be processed</span>
+<span class="kn">parameter:</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s312&#39;</span><span class="p">,</span> <span class="s1">&#39;s315&#39;</span><span class="p">,</span> <span class="s1">&#39;s312a&#39;</span><span class="p">,</span> <span class="s1">&#39;s315a&#39;</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
+<span class="c1"># download gene models from the MISO website</span>
+<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/Home_sapiens.GRCh37.65.gff.zip&#39;</span>
+<span class="kn">download:</span> <span class="n">dest_dir</span><span class="o">=</span><span class="n">resource_dir</span><span class="p">,</span> <span class="n">decompress</span><span class="o">=</span><span class="bp">True</span>
+    <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">genes</span><span class="o">.</span><span class="n">mit</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">burgelab</span><span class="o">/</span><span class="n">miso</span><span class="o">/</span><span class="n">annotations</span><span class="o">/</span><span class="n">gene</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">Homo_sapiens</span><span class="o">.</span><span class="n">GRCh37</span><span class="o">.</span><span class="mf">65.</span><span class="n">gff</span><span class="o">.</span><span class="n">zip</span>
+
+<span class="p">[</span><span class="n">gff_1</span><span class="p">]</span>
+<span class="c1"># Index gtf file using index_gff</span>
+<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/${hg19_gff_index}/genes.gff&#39;</span>
+<span class="kn">task:</span>   <span class="n">working_dir</span><span class="o">=</span><span class="n">resource_dir</span>
+<span class="kn">run:</span>    <span class="n">docker_image</span><span class="o">=</span><span class="s1">&#39;mdabioinfo/miso:latest&#39;</span>
+    <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
+    <span class="n">index_gff</span> <span class="o">--</span><span class="n">index</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_file</span><span class="p">}</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
 </pre></div>
-<p>Although the script format is more concise and easier to read, it is limited to actions that accept a string as its first parameter and cannot return value or be used within <code>try/except</code> of <code>if/else</code> statements.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Jupyter-notebook-format-(.ipynb-)">Jupyter notebook format (<code>.ipynb</code> )<a class="anchor-link" href="#Jupyter-notebook-format-(.ipynb-)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS provides a Jupyter frontend in which you can execute sos steps and workflows interactively or in batch mode. The Jupyter notebook format <code>.ipynb</code> can contain <strong>markdown cells</strong> and <strong>code cells</strong> with statements in SoS and any other supported languages (e.g. <code>R</code>).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One or more SoS workflows can be defined in a <code>.ipynb</code> file from <strong>code cells in SoS kernel that start with section headers</strong>. For example, the same workflow defined in the <code>.sos</code> file could be defined in a Jupyter notebook, with cells starting with section headers as follows:</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
+<span class="n">local_resource</span> <span class="o">=</span> <span class="s1">&#39;~/Resource/&#39;</span>
+<span class="n">data_dir</span>       <span class="o">=</span> <span class="s1">&#39;~/Data/bams/&#39;</span>
+<span class="n">resource_dir</span>   <span class="o">=</span> <span class="s1">&#39;${local_resource}/resources/hg19/Ensembl/Genes&#39;</span>
+
+<span class="c1"># samples to be processed</span>
+<span class="kn">parameter:</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s312&#39;</span><span class="p">,</span> <span class="s1">&#39;s315&#39;</span><span class="p">,</span> <span class="s1">&#39;s312a&#39;</span><span class="p">,</span> <span class="s1">&#39;s315a&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
+<span class="c1"># download gene models from the MISO website</span>
+<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/Home_sapiens.GRCh37.65.gff.zip&#39;</span>
+<span class="kn">download:</span> <span class="n">dest_dir</span><span class="o">=</span><span class="n">resource_dir</span><span class="p">,</span> <span class="n">decompress</span><span class="o">=</span><span class="bp">True</span>
+    <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">genes</span><span class="o">.</span><span class="n">mit</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">burgelab</span><span class="o">/</span><span class="n">miso</span><span class="o">/</span><span class="n">annotations</span><span class="o">/</span><span class="n">gene</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">Homo_sapiens</span><span class="o">.</span><span class="n">GRCh37</span><span class="o">.</span><span class="mf">65.</span><span class="n">gff</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># This is step 1 of the gff workflow</span>
+
+<span class="p">[</span><span class="n">gff_1</span><span class="p">]</span>
+<span class="c1"># Index gtf file using index_gff</span>
+<span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/${hg19_gff_index}/genes.gff&#39;</span>
+<span class="kn">task:</span>   <span class="n">working_dir</span><span class="o">=</span><span class="n">resource_dir</span>
+<span class="kn">run:</span>    <span class="n">docker_image</span><span class="o">=</span><span class="s1">&#39;mdabioinfo/miso:latest&#39;</span>
+    <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
+    <span class="n">index_gff</span> <span class="o">--</span><span class="n">index</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_file</span><span class="p">}</span> <span class="err">$</span><span class="p">{</span><span class="n">hg19_gff_index</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that</p>
+<ol>
+<li>The <code>[global]</code> section header is needed for the cell to be recognized as part of a workflow.</li>
+<li>Section headers can be defined after comments, magics, and empty lines.</li>
+<li>A cell can define one or more steps, even a complete workflow.</li>
+</ol>
+<p>SoS commands such as <code>sos run</code> and <code>sos-runner</code> can execute workflows defined in <code>.ipynb</code> files directly.</p>
 
 </div>
 </div>
@@ -2133,8 +2078,8 @@ INFO: output:   <span class="ansi-green-fg">[]</span>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span>          <span class="c1"># workflow A, followed by B</span>
-<span class="n">A</span><span class="p">:</span><span class="mi">0</span> <span class="o">+</span> <span class="n">B</span>        <span class="c1"># step 0 of A, followed by B</span>
-<span class="n">A</span><span class="p">:</span><span class="o">-</span><span class="mi">50</span> <span class="o">+</span> <span class="n">B</span> <span class="o">+</span> <span class="n">C</span>  <span class="c1"># up to step 50 of workflow A, followed by B, and C</span>
+<span class="kn">A:</span><span class="mi">0</span> <span class="o">+</span> <span class="n">B</span>        <span class="c1"># step 0 of A, followed by B</span>
+<span class="kn">A:</span><span class="o">-</span><span class="mi">50</span> <span class="o">+</span> <span class="n">B</span> <span class="o">+</span> <span class="n">C</span>  <span class="c1"># up to step 50 of workflow A, followed by B, and C</span>
 </pre></div>
 
 </div>
