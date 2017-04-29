@@ -306,7 +306,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>The script is a string without quotation marks</strong> and the normal string interpolation will take place. You can also indent the script (add equal amount of leading white spaces to all lines) and write the action as</p>
+<p><strong>The script is a string without quotation marks</strong> that subject to string interpolation (see below). You can also indent the script (add equal amount of leading white spaces to all lines) and write the action as</p>
 <div class="highlight"><pre><span></span><span class="kn">R:</span>  <span class="kp">workdir</span><span class="o">=</span><span class="s1">&#39;result&#39;</span>
    <span class="n">pdf</span><span class="p">(</span><span class="s1">&#39;${_input}&#39;</span><span class="p">)</span>
    <span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -475,7 +475,8 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="s1">&#39;${sample_names} is not interpolated&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># single quoted strings are not interpolated</span>
+<span class="s1">&#39;${sample_names} is not interpolated&#39;</span>
 </pre></div>
 
 </div>
@@ -520,7 +521,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="n">num</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-<span class="kn">run:</span>
+<span class="kn">sh:</span>
     <span class="n">echo</span> <span class="s2">&quot;Random number is ${num}&quot;</span>
 </pre></div>
 
@@ -536,16 +537,7 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Random number is 6
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>echo &#34;Random number is 6&#34;
+<pre>Random number is 2
 </pre>
 </div>
 </div>
@@ -886,128 +878,6 @@ files=['a.txt', 'b.txt']</code></pre>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">%preview name filename basefilename expanded parparname</font></pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> name:</font> str of length 25</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-
-<div class="output_text output_subarea ">
-<pre>&#39;~/sos/examples/update_toc&#39;</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> filename:</font> str of length 14</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-
-<div class="output_text output_subarea ">
-<pre>&#39;update_toc.sos&#39;</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> basefilename:</font> str of length 10</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-
-<div class="output_text output_subarea ">
-<pre>&#39;update_toc&#39;</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> expanded:</font> str of length 41</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-
-<div class="output_text output_subarea ">
-<pre>&#39;/Users/bpeng1/sos/examples/update_toc.sos&#39;</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> parparname:</font> str of length 3</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-
-<div class="output_text output_subarea ">
-<pre>&#39;sos&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 	</div>
 <div class="cell border-box-sizing text_cell rendered">
@@ -1054,7 +924,7 @@ files=['a.txt', 'b.txt']</code></pre>
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Generating myfigure.pdf
+<pre>[1] &#34;Bob&#34;   &#34;James&#34; &#34;Kathy&#34;
 </pre>
 </div>
 </div>
@@ -1143,7 +1013,7 @@ files=['a.txt', 'b.txt']</code></pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#34;c(&#39;Kathy&#39;,&#39;Bob&#39;,&#39;James&#39;)&#34;</pre>
+<pre>&#34;c(&#39;James&#39;,&#39;Bob&#39;,&#39;Kathy&#39;)&#34;</pre>
 </div>
 
 </div>
@@ -1183,9 +1053,9 @@ files=['a.txt', 'b.txt']</code></pre>
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sample_names</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span>
 <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Sample ${sample_names[0]} results&quot;</span>
-<span class="kn">run:</span>
+<span class="kn">sh:</span>
     <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">title</span><span class="p">}</span>
     <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span> <span class="n">b</span><span class="o">.</span><span class="n">txt</span> <span class="n">c</span><span class="o">.</span><span class="n">txt</span>
     <span class="n">do</span>
@@ -1209,19 +1079,6 @@ files=['a.txt', 'b.txt']</code></pre>
 Processing a.txt ...
 Processing b.txt ...
 Processing c.txt ...
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>echo Sample A results
-for file in a.txt b.txt c.txt
-do
-    echo Processing ${file} ...
-done
 </pre>
 </div>
 </div>
@@ -1257,9 +1114,10 @@ done
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">:</span> <span class="kp">sigil</span><span class="o">=</span><span class="s1">&#39;%( )&#39;</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span> <span class="kp">sigil</span><span class="o">=</span><span class="s1">&#39;%( )&#39;</span><span class="p">]</span>
 <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Sample %(sample_names[0]) results&quot;</span>
-<span class="kn">run:</span>
+<span class="kn">sh:</span>
     <span class="n">echo</span> <span class="o">%</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
     <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">txt</span> <span class="n">b</span><span class="o">.</span><span class="n">txt</span> <span class="n">c</span><span class="o">.</span><span class="n">txt</span>
     <span class="n">do</span>
@@ -1287,19 +1145,6 @@ Processing c.txt ...
 </div>
 </div>
 
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>echo Sample A results
-for file in a.txt b.txt c.txt
-do
-    echo Processing ${file} ...
-done
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -1321,6 +1166,437 @@ done
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You can define any sigil as long as it has a left sigil and a right sigil separated by a space. You can even use sigils with identical left and right sigil (e.g. <code># #</code>), although the latter is more prone to errors</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Command-line-options">Command line options<a class="anchor-link" href="#Command-line-options">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS allows you to define parameters that accept values from command line options easily.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Optional-arguments">Optional arguments<a class="anchor-link" href="#Optional-arguments">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Any variable assignment prefixed with <code>parameter:</code> can accept values from command  line. The format of such lines are</p>
+
+<pre><code># comment
+parameter: var_name = default_value</code></pre>
+<p>The default value can be number, string, list of string, or expressions that return values of these types. Other types can be used as long as they can be converted to these types from user-provided values. For example</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># path to tool gatk</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>defines a variable <code>gatk_path</code> with default value <code>'~/bin/GATK'</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you execute a workflow without defining <code>gatk_path</code>, the default value will be used</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>~/bin/GATK
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can set this parameter from command line using option <code>--gatk_path</code></p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">gatk_path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/my/GATK
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also use <code>-</code> in place of <code>_</code> in command line, although the variable name cannot have <code>-</code> in it.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">gatk</span><span class="o">-</span><span class="n">path</span> <span class="o">/</span><span class="n">my</span><span class="o">/</span><span class="n">GATK</span>
+<span class="kn">parameter:</span> <span class="n">gatk_path</span> <span class="o">=</span> <span class="s1">&#39;~/bin/GATK&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gatk_path</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/my/GATK
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The default value of the parameter determines the type of values it accepts. For example, the following command yields an error because the parameter expects an integer (from default value <code>0</code>) but a string is passed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+
+<span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">cutoff</span> <span class="n">zero</span>
+<span class="kn">parameter:</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Failed to process statement if &#34;sos_handle_parameter_&#34; in ...ff&#39;,  0\n)\n (ArgumentError): argument --cutoff: invalid int value: &#39;zero&#39;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Simiarly, a list would be created if the parameter has a default value of type list</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">sample</span><span class="o">-</span><span class="n">names</span> <span class="n">A</span>
+<span class="kn">parameter:</span> <span class="n">sample_names</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sample_names</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;A&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, the convention to specify <code>True</code> or <code>False</code> of a boolean parameter is to use <code>--no-PARAM</code> for <code>PARAM=False</code>. For example,</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">trim</span>
+<span class="kn">parameter:</span> <span class="n">trim</span><span class="o">=</span><span class="bp">True</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trim</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>False
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Required-arguments">Required arguments<a class="anchor-link" href="#Required-arguments">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In cases where there is no suitable default values and/or command line arguments are mandatary, you can list the type of arguments (e.g. <code>int</code>, <code>bool</code>, <code>str</code>, <code>list</code> of strings) in place of default values. This will force SoS to get a parameter from command line, and yield an error if no value is specified for this parameter.</p>
+<p>For example, if an integer parameter <code>cutoff</code> is required, you can define it as</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span> <span class="o">--</span><span class="n">expect</span><span class="o">-</span><span class="n">error</span>
+
+<span class="c1"># cutoff value</span>
+<span class="kn">parameter:</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="nb">int</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Failed to process statement if &#34;sos_handle_parameter_&#34; in ...&#39;,  int\n)\n (ArgumentError): Argument cutoff of type int is required
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and execute the workflow without parameter, SoS would fail with an error message. This will force the users to provide an integer to this parameter. You can do the same for lists but SoS assumes that you need a <strong>list of strings</strong>. For example, the following definition</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">--</span><span class="n">bam</span><span class="o">-</span><span class="n">files</span> <span class="n">A</span><span class="o">.</span><span class="n">bam</span> <span class="n">B</span><span class="o">.</span><span class="n">bam</span>
+<span class="c1"># input bam files</span>
+<span class="kn">parameter:</span> <span class="n">bam_files</span> <span class="o">=</span> <span class="nb">list</span>
+<span class="k">print</span><span class="p">(</span><span class="n">bam_files</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;A.bam&#39;, &#39;B.bam&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>request a list of strings from command line. SoS will return a list even if only one value is provided.</p>
 
 </div>
 </div>
@@ -1671,7 +1947,7 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
@@ -1692,11 +1968,10 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">skip</span>
-<span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">gff_0</span><span class="p">]</span>
 <span class="c1"># download gene models from the MISO website</span>
 <span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/Home_sapiens.GRCh37.65.gff.zip&#39;</span>
 <span class="kn">download:</span> <span class="n">dest_dir</span><span class="o">=</span><span class="n">resource_dir</span><span class="p">,</span> <span class="n">decompress</span><span class="o">=</span><span class="bp">True</span>
@@ -1712,11 +1987,10 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">skip</span>
-<span class="c1"># This is step 1 of the gff workflow</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># This is step 1 of the gff workflow</span>
 <span class="p">[</span><span class="n">gff_1</span><span class="p">]</span>
 <span class="c1"># Index gtf file using index_gff</span>
 <span class="kn">output:</span> <span class="s1">&#39;${resource_dir}/${hg19_gff_index}/genes.gff&#39;</span>
@@ -1780,7 +2054,7 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
@@ -1808,7 +2082,7 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mapping_5</span> <span class="p">(</span><span class="n">get</span> <span class="n">data</span><span class="p">)]</span>
@@ -1836,11 +2110,10 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
-<span class="p">[</span><span class="n">mouse_10</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mouse_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_30</span><span class="p">]</span>
 <span class="p">[</span><span class="n">human_10</span><span class="p">]</span>
@@ -1879,7 +2152,7 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
@@ -1909,11 +2182,10 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
-<span class="p">[</span><span class="n">mouse_10</span><span class="p">,</span><span class="n">human_10</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mouse_10</span><span class="p">,</span><span class="n">human_10</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">human_20</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mouse_30</span><span class="p">,</span><span class="n">human_30</span><span class="p">]</span>
@@ -1938,7 +2210,7 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span>
@@ -1967,11 +2239,10 @@ done
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">mouse</span> <span class="o">-</span><span class="n">v2</span>
-<span class="p">[</span><span class="n">mouse_20</span><span class="p">,</span><span class="n">human_20</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mouse_20</span><span class="p">,</span><span class="n">human_20</span><span class="p">]</span>
 <span class="n">reference</span> <span class="o">=</span> <span class="s2">&quot;/path/to/mouse/reference&quot;</span> <span class="k">if</span> \
   <span class="n">step_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;mouse&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;/path/to/human/reference&quot;</span>
 
@@ -1979,34 +2250,6 @@ done
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Executing <span class="ansi-green-fg">mouse_20</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Workflow mouse (ID=1c1c40b443326c19) is executed successfully.
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Reference genome /path/to/mouse/reference is used
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -2037,10 +2280,10 @@ INFO: Workflow mouse (ID=1c1c40b443326c19) is executed successfully.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div class="highlight"><pre><span></span><span class="n">A</span>              <span class="c1"># complete workflow A</span>
-  <span class="n">A</span><span class="p">:</span><span class="mi">5</span><span class="o">-</span><span class="mi">10</span>         <span class="c1"># step 5 to 10 of A</span>
-  <span class="n">A</span><span class="p">:</span><span class="mi">50</span><span class="o">-</span>          <span class="c1"># step 50 up</span>
-  <span class="n">A</span><span class="p">:</span><span class="o">-</span><span class="mi">10</span>          <span class="c1"># up to step 10 of A</span>
-  <span class="n">A</span><span class="p">:</span><span class="mi">10</span>           <span class="c1"># step 10 of workflow A</span>
+<span class="kn">A:</span><span class="mi">5</span><span class="o">-</span><span class="mi">10</span>         <span class="c1"># step 5 to 10 of A</span>
+<span class="kn">A:</span><span class="mi">50</span><span class="o">-</span>          <span class="c1"># step 50 up</span>
+<span class="kn">A:</span><span class="o">-</span><span class="mi">10</span>          <span class="c1"># up to step 10 of A</span>
+<span class="kn">A:</span><span class="mi">10</span>           <span class="c1"># step 10 of workflow A</span>
 </pre></div>
 
 </div>
@@ -2059,16 +2302,36 @@ INFO: Workflow mouse (ID=1c1c40b443326c19) is executed successfully.
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="n">default</span><span class="p">:</span><span class="o">-</span><span class="mi">20</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="mi">30</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>default_10
+default_20
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -2113,19 +2376,44 @@ INFO: Workflow mouse (ID=1c1c40b443326c19) is executed successfully.
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">#local run</span>
 <span class="o">%</span><span class="kp">run</span> <span class="n">check</span><span class="o">+</span><span class="n">align</span><span class="o">+</span><span class="n">call</span>
 <span class="p">[</span><span class="n">check_10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">align_10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">align_20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">call_10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">call_20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>check_10
+align_10
+align_20
+call_10
+call_20
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -2172,14 +2460,18 @@ The workflow is execute by SoS action <code>sos_run</code>, e.g.</p>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span> <span class="o">-</span><span class="n">v2</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span>
 <span class="p">[</span><span class="n">align_10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">align_20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">call_10</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">call_20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step_name</span><span class="p">)</span>
 <span class="p">[</span><span class="n">default</span><span class="p">]</span>
 <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;align+call&#39;</span><span class="p">)</span>
 </pre></div>
@@ -2195,25 +2487,11 @@ The workflow is execute by SoS action <code>sos_run</code>, e.g.</p>
 <div class="output_area">
 <div class="prompt"></div>
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>INFO: Executing <span class="ansi-green-fg">default_0</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: Executing workflow <span class="ansi-green-fg">align+call</span> with input <span class="ansi-green-fg">[]</span> and no args
-INFO: Executing <span class="ansi-green-fg">align_10</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">align_20</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">call_10</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Executing <span class="ansi-green-fg">call_20</span>: 
-INFO: input:    <span class="ansi-green-fg">[]</span>
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Workflow align+call (ID=bae5d90c45edd864) is executed successfully.
-INFO: output:   <span class="ansi-green-fg">[]</span>
-INFO: Workflow default (ID=37dcbb4fce3d5473) is executed successfully.
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>align_10
+align_20
+call_10
+call_20
 </pre>
 </div>
 </div>
@@ -2268,6 +2546,89 @@ INFO: Workflow default (ID=37dcbb4fce3d5473) is executed successfully.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>parameter</code> statement usually gets its value from command line. However, when a workflow is executed as a subworkflow by action <code>sos_run</code>, the <code>parameter</code> statement can get its value from the <code>args</code> or <code>**kwargs</code> parameters of <code>sos_run</code>.</p>
+<p>For example, when the <code>default</code> workflow of the following script is executed, <code>cutoff</code> takes its default value of <code>10</code>.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">default_1</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">cutoff</span><span class="o">=</span><span class="mi">10</span>
+<span class="kn">sh:</span>
+  <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">cutoff</span><span class="p">}</span>
+
+<span class="p">[</span><span class="n">batch</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">cutoff</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A command line argument can be used to set this parameter to <code>8</code>,</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="o">--</span><span class="n">cutoff</span> <span class="mi">8</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, if the workflow is called as a subworkflow of step <code>batch</code>, <code>sos_run</code> set up the environment so that the statement <code>parameter: cutoff=10</code> gets a different cutoff value pass by  <code>sos_run</code>.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">rerun</span> <span class="n">batch</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Makefile-style-workflow">Makefile-style workflow<a class="anchor-link" href="#Makefile-style-workflow">&#182;</a></h3>
 </div>
 </div>
@@ -2285,7 +2646,7 @@ INFO: Workflow default (ID=37dcbb4fce3d5473) is executed successfully.
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sandbox</span>
@@ -2324,38 +2685,6 @@ INFO: Workflow default (ID=37dcbb4fce3d5473) is executed successfully.
 Calling variants from test.bam with test.bam.bai to test.vcf
 </pre>
 </div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">%preview test.vcf</font></pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre> input: test.bam
-output: test.vcf
-</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-
-<div class="output_html rendered_html output_subarea ">
-<pre><font color="green">> test.vcf (0 B):</font></pre>
-</div>
-
 </div>
 
 </div>

@@ -299,12 +299,12 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are several different types of cells in a Jupyter notebook</p>
+<p>A SoS Jupyter notebook accepts the following types of cells:</p>
 <table>
 <thead><tr>
 <th>Cell type</th>
 <th>Content</th>
-<th>Kernel</th>
+<th>Interpreted by</th>
 <th>Behavior</th>
 </tr>
 </thead>
@@ -312,14 +312,14 @@ $( document ).ready(function(){
 <tr>
 <td><strong>Markdown</strong></td>
 <td>Markdown text</td>
-<td>None</td>
+<td>Jupyter</td>
 <td>can be evaluated to have title, table etc</td>
 </tr>
 <tr>
 <td><strong>Subkernel</strong></td>
 <td>Statements in other languages with optional SoS magics</td>
-<td>Subkernels such as R</td>
-<td>SoS prepares statements and evaluate them in subkernels.</td>
+<td>Subkernels</td>
+<td>SoS prepares statements and evaluate them in subkernels such as R.</td>
 </tr>
 <tr>
 <td><strong>SoS</strong></td>
@@ -519,7 +519,7 @@ output: <a target="_blank" href="rand.txt">rand.txt</a>
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">test_20</span><span class="p">]</span>
@@ -580,7 +580,7 @@ output: <a target="_blank" href="rand.txt">rand.txt</a>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>What is even more magic about these cells is that they form workflows in the Jupyter notebook and can be executed together. For example, a <code>%sosrun</code> magic would collect content of all workflow cells in a notebook and execute it.</p>
+<p>What is even more magical about these cells is that they form workflows in the Jupyter notebook and can be executed together. For example, a <code>%sosrun</code> magic would collect content of all workflow cells in a notebook and execute it.</p>
 
 </div>
 </div>
@@ -619,6 +619,21 @@ This is step wf_30 of a workflow
 
 </div>
 	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS provides a rich environment for you to analyze data in different languages. Generally speaking, you can</p>
+<ul>
+<li>Use subkernels to analyze data interactively using different languages.</li>
+<li>Use SoS cells to execute complete (and separate) scripts to analyze data or test steps of workflows, and</li>
+<li>If needed, convert SoS cells to workflow cells to create complete workflows to analyze data in batch mode.</li>
+</ul>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -4529,7 +4544,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">use</span> <span class="n">R</span>
@@ -4541,14 +4556,14 @@ d
 </div>
 
 </div>
-	</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	</div><div class="cell border-box-sizing code_cell rendered lan_python3">
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">Python</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="k">with</span> <span class="n">Python3</span>
 <span class="n">sos_var</span> <span class="o">+=</span> <span class="mi">100</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;sos_var is changed to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sos_var</span><span class="p">))</span>
 </pre></div>
@@ -4560,15 +4575,6 @@ d
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Failed to start kernel &#34;Python&#34;. Use &#34;jupyter kernelspec list&#34; to check if it is installed: No such kernel named Python
-</pre>
-</div>
-</div>
 
 <div class="output_area">
 <div class="prompt"></div>
@@ -4587,7 +4593,7 @@ d
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># I am still in R</span>
@@ -4683,7 +4689,7 @@ d
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="SOS-Magics">SOS Magics<a class="anchor-link" href="#SOS-Magics">&#182;</a></h2>
+<h2 id="SoS-Magics">SoS Magics<a class="anchor-link" href="#SoS-Magics">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -7460,7 +7466,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="tasks"><code>tasks</code><a class="anchor-link" href="#tasks">&#182;</a></h3>
+<h3 id="%tasks"><code>%tasks</code><a class="anchor-link" href="#%tasks">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -7469,7 +7475,7 @@ khL/H8l2CQCToQGcAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>tasks</code> magic lists all or selected tasks in local or remote task queue so that you can monitor them using the notebook interface. The tasks would be listed as shown above and you can</p>
+<p>The <code>%tasks</code> magic lists all or selected tasks in local or remote task queue so that you can monitor them using the notebook interface. The tasks would be listed as shown above and you can</p>
 <ol>
 <li>select the icon to stop a running or pending task, or resume failed or aborted tasks.</li>
 <li>select the task ID to retrieve the details of the task.</li>
