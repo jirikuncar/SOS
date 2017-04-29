@@ -86,14 +86,11 @@ $( document ).ready(function(){
             $('a[href="'+path+'/doc/documentation/'+file+'.html'+'"]').css("color","#126dce");
 
 
-            $('<li id="indexHome" style="margin-bottom:10pt"> <a href="http://vatlab.github.io/SOS/index.html#documentation"> <img height="32" width="32" style="border:0px;margin-right:5px;vertical-align:bottom" src="http://vatlab.github.io/SOS/img/sos_icon.svg"> <b>Home</b></a> </li>').insertBefore("#toc-level0 li:eq(0)");
-
             // $('<li id="indexHome"><a href="/Users/jma7/Development/SOS/docs/index.html#documentation"><b>Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
             for (var a=pos+1;a<docs.length;a++){
                   var name=docs[a]
                   $(".toc #toc-level0").append('<li><a href="'+path+'/doc/documentation/'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
             }
-            $("#toc-header").hide();
 
             // var path="file:///Users/jma7/Development/SOS/website"
             // $(".toc #toc-level0").append('<li id="indexHome"><a href="'+path+'/index.html" ><b>Home<b></a></li>');
@@ -106,7 +103,6 @@ $( document ).ready(function(){
             // var home=$("#toc-level0 #indexHome");
           
             // home.insertBefore("#toc-level0 li:eq(0)");
-            // $("#toc-header").hide();
 
             // $("#toc-level0 li").filter(".home").insertBefore($("#toc-level0 li").filter(':nth-child(1)'));
             $("#toc").attr("style","max-height:938px")
