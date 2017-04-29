@@ -266,6 +266,62 @@ step_pattern   = {letter | digit | "*" | "?" | "-" | "_"}</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>SoS is based on the Python 3 programming language</strong>. If you are unfamiliar with Python, you can learn some basics of Python, usually in less than half a day, by reading some Python tutorials (e.g. <a href="https://docs.python.org/3/tutorial/">the official python tutorial</a>). This <a href="https://docs.python.org/3/tutorial/introduction.html">short introduction</a> is good enough for you to get started.</p>
 <p>SoS addes the following syntax to standard Python syntax:</p>
+<table>
+<thead><tr>
+<th>syntax</th>
+<th>Example</th>
+<th>Main Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>String interpolation</strong></td>
+<td><code>"Sample size: ${len(samples)}"</code></td>
+<td>Compose scripts from SoS variables</td>
+</tr>
+<tr>
+<td><strong>Script format function call</strong></td>
+<td><code>R:</code></td>
+<td>Verbatim inclusion of scripts with indentation</td>
+</tr>
+<tr>
+<td></td>
+<td><code>data &lt;- read.csv("${_input}")</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Section specification</strong></td>
+<td><code>[align_20]</code></td>
+<td>Define steps of workflows</td>
+</tr>
+<tr>
+<td><strong>Parameter statement</strong></td>
+<td><code>parameter: cutoff=10</code></td>
+<td>Obtain option from command line or workflow caller</td>
+</tr>
+<tr>
+<td><strong>Input statement</strong></td>
+<td><code>input: fastq_files</code></td>
+<td>Specify input files of a step</td>
+</tr>
+<tr>
+<td><strong>Output statement</strong></td>
+<td><code>output: "${_input}.idx"</code></td>
+<td>Specify output files of a step</td>
+</tr>
+<tr>
+<td><strong>Depends statement</strong></td>
+<td><code>depends: hg19_fa</code></td>
+<td>Specify step dependencies</td>
+</tr>
+<tr>
+<td><strong>Task statement</strong></td>
+<td><code>task: queue='cluster'</code></td>
+<td>Specify external tasks</td>
+</tr>
+</tbody>
+</table>
+<p>This chapter demonstrates general features such as string interpolation, section specification, and parameter speficication, please refer to chapters <a href="SoS_Step.html">SoS Step</a> and <a href="External_Task.html">External Task</a> for more details on <code>input</code>, <code>output</code>, <code>depends</code>, and <code>task</code> statements.</p>
 
 </div>
 </div>
