@@ -172,7 +172,7 @@ var create_toc_div = function(cfg, st) {
     $('#toc-wrapper').resizable({
 		handles: 'e',
         resize: function(event, ui) {
-                setNotebookWidth(cfg, st)
+            setNotebookWidth(cfg, st)
 			$(this).css('height', '100%');
         },
         start: function(event, ui) {
@@ -183,6 +183,8 @@ var create_toc_div = function(cfg, st) {
             // Ensure position is fixed (again)
             //$(this).css('position', 'fixed');
 			$(this).css('height', '100%');
+            $('#toc').css('height', $('#toc-wrapper').height() - $("#toc-header").height());
+			
         }
     })
 
@@ -205,7 +207,7 @@ var create_toc_div = function(cfg, st) {
     $('#toc-wrapper').css('width', '202px');
     $('#notebook-container').css('margin-left', '212px');
     $('#toc-wrapper').css('height', '100%');
-    $('#toc').css('height', $('#toc-wrapper').height() - 20);
+    $('#toc').css('height', $('#toc-wrapper').height() - $("#toc-header").height());
 
     setTimeout(function() {
         $('#toc-wrapper').css('top', 0);
