@@ -126,14 +126,14 @@
  src: local('PT Mono'), url('fonts/ptmono.ttf') format('truetype');
 }
 div#notebook {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  line-height: 170%;
  color: #303030;
 }
 body,
 div.body {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  color: #303030;
  background-color: #ffffff;
@@ -147,7 +147,7 @@ body.notebook_app {
  overflow-y: hidden;
 }
 a {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  color: #303030;
 }
 a:hover,
@@ -238,11 +238,11 @@ div.running_list_info.toolbar_info {
  vertical-align: text-top;
 }
 div#notebook_toolbar div.dynamic-instructions {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
 }
 .toolbar_info {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
  color: #303030;
  text-shadow: none;
@@ -330,7 +330,7 @@ div.list_item:hover {
  text-shadow: none !important;
 }
 ul#tabs a {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  font-weight: normal;
  font-style: normal;
@@ -338,7 +338,7 @@ ul#tabs a {
  text-shadow: none !important;
 }
 .nav-tabs {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  font-weight: normal;
  font-style: normal;
@@ -375,7 +375,7 @@ ul#tabs a {
  color: #aaaaaa;
 }
 div#notebook {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  padding-top: 4px;
 }
@@ -409,7 +409,7 @@ div#ipython-main-app.container {
  border-bottom: 2px solid rgba(180,180,180,.14);
 }
 #header {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  box-shadow: none;
  background-color: #ffffff;
@@ -434,7 +434,7 @@ body > #header .header-bar {
  border: none;
 }
 .navbar-default {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  background-color: #ffffff;
  border-color: rgba(180,180,180,.14);
@@ -442,7 +442,7 @@ body > #header .header-bar {
  padding-bottom: 0px;
 }
 .navbar-default .navbar-nav > li > a {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  color: #303030;
  display: block;
@@ -545,13 +545,13 @@ div#ipython_notebook {
 }
 .fa {
  display: inline-block;
- font: normal normal normal 12pt/1 "FontAwesome", "Droid Sans", sans-serif;
+ font: normal normal normal 12pt/1 "FontAwesome", "Source Sans Pro", sans-serif;
  text-rendering: auto;
  -webkit-font-smoothing: antialiased;
  -moz-osx-font-smoothing: grayscale;
 }*/
 .dropdown-menu {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  box-shadow: none;
  padding: 0px;
@@ -563,7 +563,7 @@ div#ipython_notebook {
  margin: 0px;
 }
 .dropdown-menu:hover {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  border: 2px solid rgba(180,180,180,.30);
  background-color: #ffffff;
@@ -571,7 +571,7 @@ div#ipython_notebook {
  line-height: 1.3;
 }
 .dropdown-header {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  display: block;
  color: #ff7823;
@@ -581,7 +581,7 @@ div#ipython_notebook {
  line-height: 1.3;
 }
 .dropdown-menu > li > a {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
  line-height: 1.3;
  display: block;
@@ -612,7 +612,7 @@ div#ipython_notebook {
 .dropdown-menu > .disabled > a,
 .dropdown-menu > .disabled > a:hover,
 .dropdown-menu > .disabled > a:focus {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
  font-weight: normal;
  color: #aaaaaa;
@@ -640,7 +640,7 @@ div.kse-dropdown > .dropdown-menu,
 }
 .btn,
 .btn-default {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  color: #303030;
  background: #ebebeb;
  background-color: #ebebeb;
@@ -846,7 +846,7 @@ div.modal-footer > button:hover {
  border-color: #e9e9e9;
 }
 .modal-content {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
  position: relative;
  background: #eeeeee;
@@ -857,7 +857,7 @@ div.modal-footer > button:hover {
  outline: none;
 }
 .modal-header {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  color: #303030;
  background: #eeeeee;
@@ -867,7 +867,7 @@ div.modal-footer > button:hover {
  min-height: 16.4286px;
 }
 .modal-content h4 {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 16pt;
  color: #303030;
  padding: 5px;
@@ -901,7 +901,7 @@ div.panel,
 div.panel-default,
 .panel,
 .panel-default {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
  background-color: #f8f8f8;
  color: #303030;
@@ -929,7 +929,7 @@ div.container-fluid {
 }
 div.form-control,
 .form-control {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: inherit;
  color: #303030;
  background-color: #ffffff;
@@ -1131,7 +1131,7 @@ div.out_prompt_overlay.prompt:hover {
 div.text_cell,
 div.text_cell_render pre,
 div.text_cell_render {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  line-height: 170% !important;
  color: #353535;
@@ -1140,7 +1140,7 @@ div.text_cell_render {
  border-radius: 2px;
 }
 div.cell.text_cell.rendered.selected {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  border: medium solid #126dce;
  line-height: 170% !important;
  background: #ffffff;
@@ -1148,7 +1148,7 @@ div.cell.text_cell.rendered.selected {
  border-radius: 2px;
 }
 div.cell.text_cell.unrendered.selected {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  line-height: 170% !important;
  background: #ffffff;
  background-color: #ffffff;
@@ -1156,7 +1156,7 @@ div.cell.text_cell.unrendered.selected {
  border-radius: 2px;
 }
 div.cell.text_cell.selected {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  line-height: 170% !important;
  border: medium solid #126dce;
  background: #ffffff;
@@ -1164,7 +1164,7 @@ div.cell.text_cell.selected {
  border-radius: 2px;
 }
 .edit_mode div.cell.text_cell.selected {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  line-height: 170% !important;
  background: #ffffff;
  background-color: #ffffff;
@@ -1174,7 +1174,7 @@ div.cell.text_cell.selected {
 div.text_cell.unrendered,
 div.text_cell.unrendered.selected,
 div.edit_mode div.text_cell.unrendered {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  line-height: 170% !important;
  background: #ffffff;
  background-color: #ffffff;
@@ -1268,7 +1268,7 @@ div.text_cell_render h4,
 div.rendered_html h4,
 div.text_cell_render h5,
 div.rendered_html h5 {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
 }
 .rendered_html h1:first-child,
 .rendered_html h2:first-child,
@@ -1335,7 +1335,7 @@ table.dataframe,
 }
 .dataframe th,
 .rendered_html th {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11pt !important;
  font-weight: bold;
  border: 1px solid #c4c4c4;
@@ -1367,7 +1367,7 @@ table.dataframe,
 }
 .dataframe-summary-row tr:last-child,
 .dataframe-summary-col td:last-child {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11pt !important;
  font-weight: bold;
  color: #353535;
@@ -1380,7 +1380,7 @@ div.widget-area {
  color: #303030;
 }
 div.widget-area a {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
  font-weight: normal;
  font-style: normal;
@@ -1389,7 +1389,7 @@ div.widget-area a {
 }
 div.widget-area a:hover,
 div.widget-area a:focus {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 11.0pt;
  font-weight: normal;
  font-style: normal;
@@ -1434,7 +1434,7 @@ div.widget-hbox .widget-label,
  box-shadow: none;
 }
 .rendered_html :link {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 100%;
  color: #008cba;
  text-decoration: none;
@@ -1446,7 +1446,7 @@ div.widget-hbox .widget-label,
 }
 .rendered_html :visited:hover,
 .rendered_html :link:hover {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 100%;
  color: #008cba;
  text-decoration: underline;
@@ -1468,11 +1468,11 @@ div#nbextensions-configurator-container.container {
  margin-left: 0;
 }
 div.nbext-selector > nav > .nav > li > a {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
 }
 div.nbext-readme > .nbext-readme-contents > .rendered_html {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  line-height: 145%;
  padding: 1em 1em;
@@ -1642,7 +1642,7 @@ video {
  z-index: 1;
 }
 .typeahead-field input {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  color: #303030;
  border: none;
  font-size: 28pt;
@@ -1660,7 +1660,7 @@ body > div.modal.cmd-palette.typeahead-field {
  background-color: #f8f8f8;
 }
 .typeahead-container button {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 28pt;
  background-color: #d0d0d0;
  border: none;
@@ -1695,7 +1695,7 @@ body > div.modal.cmd-palette.typeahead-field {
 }
 .typeahead-dropdown,
 .typeahead-list {
- font-family: "Droid Sans", sans-serif;
+ font-family: "Source Sans Pro", sans-serif;
  font-size: 12pt;
  color: #303030;
  background-color: #ffffff;
