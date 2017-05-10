@@ -480,7 +480,7 @@ run:
             home: /home/myuser
             resource: /shared/resources</code></pre>
 <p>so that <code>/Users/myuser/resources/hg19.fa</code> could be mapped to <code>/shared/resources/hg19.fa</code> on the server. Note that <code>/Users/myuser/resource/hg19.fa</code> would be matched to <code>resource</code> instead of <code>home</code> because <code>resource</code> matches longer piece of the input path.</p>
-<p>Two hosts must have the same set of <code>paths</code> to be connected so although sets of paths can vary (e.g. <code>home</code>, <code>scratch</code>, <code>working</code>, <code>resource</code>), it is important to define the same set of <code>paths</code> for all servers.</p>
+<p>A remote host can be accessible from a local host only if the remote host defines all paths defined by the local host. More specifically, if host A defines path <code>home</code> and host B defines paths <code>home</code> and <code>resource</code>, it is possible to connect from host A to host B using <code>home</code>, but not from host B to A because SoS does not know how to map paths under <code>resource</code>.</p>
 
 </div>
 </div>
@@ -504,8 +504,8 @@ run:
 <pre><code>sos status -q</code></pre>
 <p>to list all host configurations, SoS would list all hosts accessible from <code>localhost</code>, with host-specific <code>path_map</code>, which is a list of directory mappings between local and remote directories. For example, the <code>path_map</code> from <code>desktop</code> to <code>server</code> using the above example would be</p>
 
-<pre><code>/Users/myuser:/home/myuser
-/Users/myuser/resoruces:/shared/resources</code></pre>
+<pre><code>/Users/myuser -&gt; /home/myuser
+/Users/myuser/resoruces -&gt; /shared/resources</code></pre>
 
 </div>
 </div>
@@ -647,7 +647,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Maximum walltime allowed for the queue. <code>max_walltime</code> could be specified as an integer (seconds) or a string in the format of <code>HH:MM:SS</code>. A task would fail immediately if it specifies more <code>walltime</code> than this option. For queues that do not require a <code>walltime</code> option (e.g. a <code>process</code> queue), tasks that has exceeded <code>max_walltime</code> will be automatically killed.</p>
+<p>Maximum walltime allowed for the queue. <code>max_walltime</code> could be specified as a string in the format of <code>HH:MM:SS</code>. A task would fail immediately if it specifies more <code>walltime</code> than this option. For queues that do not require a <code>walltime</code> option (e.g. a <code>process</code> queue), tasks that has exceeded <code>max_walltime</code> will be automatically killed.</p>
 
 </div>
 </div>
@@ -706,12 +706,17 @@ run:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You can define arbitrary key value pairs in the host configuration. These variables could be used for the interpolation of commands and templates. For example, if you define</p>
 
-<pre><code>yml
-queue: long</code></pre>
+<pre><code>queue: long</code></pre>
 <p>You could use</p>
 <div class="highlight"><pre><span></span><span class="c1">#PBS -q ${queue}</span>
 </pre></div>
 <p>in your PBS job templates (configuration <code>job_template</code>).</p>
+<p>If the name of a variable matches a runtime variable (e.g. <code>mem</code>, <code>walltime</code>), its value would be overriden by corresponding runtime variable. This feature can be used to define default values for runtime variables. For example,</p>
+
+<pre><code>walltime = '10:00:00'
+job_template = |
+    #PBS -l walltime=${walltime}</code></pre>
+<p>would set a default <code>walltime</code> of 10 hours for tasks without specified <code>walltime</code>.</p>
 
 </div>
 </div>
@@ -866,12 +871,11 @@ queue: long</code></pre>
 </ul>
 <p>Note that</p>
 <ol>
-<li>You will need to specify resource options (<code>nodes</code>, <code>cores</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the job template.</li>
-<li>If you need to specify more options (e.g. queue name), you will have to define multiple host entries with different options. For example, you could define two queue entries as <code>cluster-short</code> and <code>cluster-long</code> for two queues on the same cluster.</li>
-<li><p>An useful feature is that SoS string interpolation accepts arbitrary Python expressions so it is possible to specify <code>queue</code> by <code>walltime</code>, using expressions such as</p>
+<li>You will need to specify resource options (<code>nodes</code>, <code>cores</code>, <code>walltime</code>, and <code>mem</code>) as task options if they are used in the job template without default values.</li>
+<li>If you need to specify more options (e.g. queue name), you can define multiple host entries with different options, for example, a <code>cluster-short</code> and a <code>cluster-long</code> on the same cluster.</li>
+<li><p>Alternatively, it is possible to derive the options from existing runtime options. For example, you could put a task to long queue if it runs more than 24 hours</p>
 
-<pre><code> ${'long' if walltime &gt; 60*60*24*5 else 'short'}</code></pre>
-<p>Note that walltime would be an integer internally even if it is specified in the format of <code>HH:MM:SS</code> in the script.</p>
+<pre><code> #PBS -q ${'long' if int(walltime.split(':')[0]) &gt; 24 else 'short'}</code></pre>
 </li>
 </ol>
 
@@ -1021,12 +1025,7 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Estimated maximum running time of the task. This parameter will be sent to different task queues and it is up to the task queue to decide if the task would be killed if the task could not be completed within specified <code>walltime</code>. <code>walltime</code> could be specified</p>
-<ol>
-<li>As an integer number (in seconds).</li>
-<li>As a string in the format of <code>HH:MM:SS</code> where <code>HH</code>, <code>MM</code> and <code>SS</code> are hours, minutes, and seconds. For example, you could use <code>walltime=240:00:00</code> for a job that would run 10 days.</li>
-</ol>
-<p>SoS automatically converts this option to an integer and formats it appropriately for different task engines.</p>
+<p>Estimated maximum running time of the task. This parameter will be sent to different task queues and it is up to the task queue to decide if the task would be killed if the task could not be completed within specified <code>walltime</code>. <code>walltime</code> could be specified as a string in the format of <code>HH:MM:SS</code> where <code>HH</code>, <code>MM</code> and <code>SS</code> are hours, minutes, and seconds. For example, you could use <code>walltime=240:00:00</code> for a job that would run 10 days.</p>
 
 </div>
 </div>
@@ -1084,8 +1083,8 @@ queue: long</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Name of the task, which can be a string such as <code>'${step_name}_${_index}'</code> that would be interpolated when a task is generated. The value of this parameter has to be single quoted because otherwise the string would be interpolated before it is passed to task engine.</p>
-<p>Name of task is currently only used to produce variable <code>job_name</code> for job template.</p>
+<p>Name of the task, which can be a string such as <code>'task'</code> (for task ID) that would be interpolated when a task is generated. The value of this parameter has to be single quoted because otherwise the string would be interpolated before it is passed to task engine.</p>
+<p>This option has default <code>'${step_name}_${_index}'</code> and is currently only used to produce variable <code>job_name</code> for job template.</p>
 
 </div>
 </div>
@@ -1144,9 +1143,9 @@ queue: long</code></pre>
 <p>Option <code>workdir</code> controls the working directory of the task. For example, the following step downloads a file to the <code>resource_dir</code> using command <code>wget</code>.</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 
-<span class="kn">task:</span> <span class="n">workdir</span><span class="o">=</span><span class="n">resource_dir</span>
+<span class="n">task</span><span class="p">:</span> <span class="n">workdir</span><span class="o">=</span><span class="n">resource_dir</span>
 
-<span class="kn">run:</span>
+<span class="n">run</span><span class="p">:</span>
   <span class="n">wget</span> <span class="n">a_url</span> <span class="o">-</span><span class="n">O</span> <span class="n">filename</span>
 </pre></div>
 <p>Runtime option <code>workdir</code> will be translated to remote host if the task is executed remotely.</p>
