@@ -2206,6 +2206,27 @@ Output of last step is 1.txt 3.txt 5.txt 7.txt 9.txt
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Target-FileTarget">Target <code>FileTarget</code><a class="anchor-link" href="#Target-FileTarget">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Targets of type <code>FileTarget</code> represents files on a file system. The type <code>FileTarget</code> should not be used explicitly because SoS treats string type targets as <code>FileTarget</code>.</p>
+<p>SoS uses md5 signature to detect changes of the content of files. To reduce the time to generate signature for large files, SoS extracts strips of data from large files to calculate partial MD5. The resulting signatures are different from md5 signature of complete files calcualted from other tools.</p>
+<p>A file can be <strong>zapped</strong> by command <code>sos remove --zap</code> and still be considered available by SoS. This command removes a <code>file</code> and generates <code>${file}.zapped</code> with essential information such as signature and size of the original file. A step would not be rerun if its input, dependent, or output files are zapped instead of removed. This feature is useful for the removal of large intermediate files generated from the execution of workflows, whiling still keeping the complete runtime information of the workflow.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Target-executable">Target <code>executable</code><a class="anchor-link" href="#Target-executable">&#182;</a></h3>
 </div>
 </div>
