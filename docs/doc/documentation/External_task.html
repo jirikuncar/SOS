@@ -1139,6 +1139,71 @@ job_template = |
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-trunk_size">Option <code>trunk_size</code><a class="anchor-link" href="#Option-trunk_size">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Options <code>trunk_size</code> and <code>trunk_workers</code> are useful for dividing a large number of small tasks into several larger tasks so that they can be executed efficiently on a cluster system.</p>
+<p>Option <code>trunk_size</code> groups concurrent tasks into trunks of specified size, allowing multiple (small) tasks to be executed as a few larger tasks. For example, if you need to run 10000 simulations that each lasts about 1 minute, you can group the tasks into <code>10</code>  umbrella tasks, each running <code>1000</code> simulations.</p>
+
+<pre><code>[10]
+import random
+input: for_each={'seed': [random.randint(1, 10000000) for x in range(10000)]}
+task: trunk_size=1000, mem=`1G`, walltime='00:01:00'
+sh:
+    run_simulation --seed $(seed) &gt;&gt; res_${seed}.res</code></pre>
+<p>The unbrella tasks have the following properties:</p>
+<ol>
+<li>Tasks embedded by a umbrella task are executed normally in the sense that they have their own input, output, task ID, signatures etc.</li>
+<li>Umbrella task IDs are prefixed by <code>M#_</code> where <code>#</code> is the number of embedded tasks.</li>
+<li>Umbrella tasks adjust resource options such as <code>walltime</code> automatically so in the above example, each umbrella task will have <code>walltime='16:40:00'</code> (1000 minutes). </li>
+<li>Name of PBS jobs would be <code>${name)_##</code> (e.g. <code>default_10_6000_1000</code> if default <code>name='${step_name}_${_index}'</code> is used) where <code>${name}</code> is the value of option <code>name</code> and <code>##</code> is the number of subtasks.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-trunk_workers">Option <code>trunk_workers</code><a class="anchor-link" href="#Option-trunk_workers">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Option <code>trunk_workers</code> specified number of workers for an unbrella task. If this option is specified, an umbrella task will be executed by a master process that dispatches embedded tasks to <code>trunk_workers</code> workers. For example,</p>
+
+<pre><code>import random
+input: for_each={'seed': [random.randint(1, 10000000) for x in range(10000)]}
+task: trunk_size=1000, mem=`1G`, walltime='00:01:00', cores=2, trunk_workers=5
+sh:
+    run_simulation --seed $(seed) &gt;&gt; res_${seed}.res</code></pre>
+<ul>
+<li>There would be <code>10000 / 1000 = 10</code> umbrealla tasks each with <code>1000</code> (<code>trunk_size</code>) subtasks.</li>
+<li>Each umbrella task would use <code>2 * 5 + 1 = 11</code> cores where the extra core is used by the master process.</li>
+<li>Each umbrella task would use 5G of RAM (<code>5 * 1G</code>).</li>
+<li>Each umbrella task would have a <code>walltime</code> of <code>1000 / 5 = 200 * 1</code> minutes (<code>walltime='03:20:00'</code>).</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-workdir">Option <code>workdir</code><a class="anchor-link" href="#Option-workdir">&#182;</a></h3><p>Default to current working directory.</p>
 <p>Option <code>workdir</code> controls the working directory of the task. For example, the following step downloads a file to the <code>resource_dir</code> using command <code>wget</code>.</p>
 <div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
