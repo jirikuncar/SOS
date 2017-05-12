@@ -1163,7 +1163,7 @@ sh:
 <li>Umbrella task IDs are prefixed by <code>M#_</code> where <code>#</code> is the number of embedded tasks.</li>
 <li>Umbrella tasks adjust resource options such as <code>walltime</code> automatically so in the above example, each umbrella task will have <code>walltime='16:40:00'</code> (1000 minutes). </li>
 <li>Option <code>name</code> (job name on PBS systems) will be adjusted to <code>${name)_##</code> (e.g. <code>default_10_6000_1000</code> if default <code>name='${step_name}_${_index}'</code> is used) where <code>##</code> is the number of subtasks.</li>
-<li>The entire umbrella will fail if any of the subtasks fails. However, since each subtask has its own signature, completed tasks will be ignored when you rerun the umbrella task (unless <code>-s force</code> is specified.</li>
+<li>The entire umbrella will fail if any of the subtasks fails. However, since each subtask has its own signature, completed tasks will be ignored when you rerun the umbrella task (unless <code>-s force</code> is specified to forcefully re-execute all tasks).</li>
 </ol>
 
 </div>
@@ -1183,7 +1183,7 @@ sh:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Option <code>trunk_workers</code> specifies number of workers for umbrella tasks. If this option is specified, an umbrella task will be executed by a master process that dispatches embedded tasks to <code>trunk_workers</code> workers. Using the same simulation example,</p>
+<p>Option <code>trunk_workers</code> specifies number of workers for umbrella tasks. If this option is specified, an umbrella task will be executed by a master process that dispatches embedded tasks to <code>trunk_workers</code> workers. Using the same simulation example with <code>trunk_workers=5</code>,</p>
 
 <pre><code>import random
 input: for_each={'seed': [random.randint(1, 10000000) for x in range(10000)]}
