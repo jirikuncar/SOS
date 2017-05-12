@@ -7467,7 +7467,7 @@ sCQAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This magic accepts parameters <code>-q</code> (<code>--queue</code>), and option <code>-s</code> (<code>--status</code>) to limit tasks in certain status and <code>-t</code> (<code>--time</code>) to limit tasks older or newer than specified age. Option <code>time</code> accepts a number with unit <code>s</code> (second), <code>m</code> (minute), <code>h</code> (hour), or <code>d</code> (day, default), with an optional prefix <code>+</code> for older than specified time. For example, you can use magic</p>
+<p>This magic accepts parameters <code>-q</code> (<code>--queue</code>), and option <code>-s</code> (<code>--status</code>) to limit tasks in certain status and <code>--age</code>) to limit tasks older or newer than specified age. Option <code>age</code> accepts a number with unit <code>s</code> (second), <code>m</code> (minute), <code>h</code> (hour), or <code>d</code> (day, default), or hours, minutes and seconds in the <code>HH:MM:SS</code> format, with an optional prefix <code>+</code> for older than specified time. For example, you can use magic</p>
 
 <pre><code>%tasks -q host -s running</code></pre>
 <p>to list all running tasks on a remote task queue named <code>host</code>, or</p>

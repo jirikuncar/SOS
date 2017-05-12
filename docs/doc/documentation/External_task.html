@@ -647,7 +647,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Maximum walltime allowed for the queue. <code>max_walltime</code> could be specified as a string in the format of <code>HH:MM:SS</code>. A task would fail immediately if it specifies more <code>walltime</code> than this option. For queues that do not require a <code>walltime</code> option (e.g. a <code>process</code> queue), tasks that has exceeded <code>max_walltime</code> will be automatically killed.</p>
+<p>Maximum walltime allowed for the queue. <code>max_walltime</code> could be specified as a string in the format of <code>HH:MM:SS</code>, or an integer with units <code>s</code> (second), <code>m</code> (minute), <code>h</code> (hour), or <code>d</code> (day). A task would fail immediately if it specifies more <code>walltime</code> than this option. For queues that do not require a <code>walltime</code> option (e.g. a <code>process</code> queue), tasks that has exceeded <code>max_walltime</code> will be automatically killed.</p>
 
 </div>
 </div>
@@ -1025,7 +1025,7 @@ job_template = |
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Estimated maximum running time of the task. This parameter will be sent to different task queues and it is up to the task queue to decide if the task would be killed if the task could not be completed within specified <code>walltime</code>. <code>walltime</code> could be specified as a string in the format of <code>HH:MM:SS</code> where <code>HH</code>, <code>MM</code> and <code>SS</code> are hours, minutes, and seconds. For example, you could use <code>walltime=240:00:00</code> for a job that would run 10 days.</p>
+<p>Estimated maximum running time of the task. This parameter will be sent to different task queues and it is up to the task queue to decide if the task would be killed if the task could not be completed within specified <code>walltime</code>. <code>walltime</code> could be specified as a string in the format of <code>HH:MM:SS</code> where <code>HH</code>, <code>MM</code> and <code>SS</code> are hours, minutes, and seconds, or an integer with units <code>s</code> (second), <code>m</code> (minute), <code>h</code> (hour), or <code>d</code> (day), although the internal format of <code>walltime</code> (when you use <code>walltime</code> in <code>job_template</code> etc) is always <code>HH:MM:SS</code>. For example, you could use <code>walltime='240:00:00'</code> or <code>walltime='10d'</code> for a job that would run 10 days.</p>
 
 </div>
 </div>
@@ -1154,7 +1154,7 @@ job_template = |
 <pre><code>[10]
 import random
 input: for_each={'seed': [random.randint(1, 10000000) for x in range(10000)]}
-task: mem=`1G`, walltime='00:01:00', cores=2, trunk_size=1000
+task: mem=`1G`, walltime='1m', cores=2, trunk_size=1000
 sh:
     run_simulation --seed $(seed) &gt;&gt; res_${seed}.res</code></pre>
 <p>The unbrella tasks have the following properties:</p>
@@ -1187,7 +1187,7 @@ sh:
 
 <pre><code>import random
 input: for_each={'seed': [random.randint(1, 10000000) for x in range(10000)]}
-task: mem=`1G`, walltime='00:01:00', cores=2, trunk_size=1000, trunk_workers=5
+task: mem=`1G`, walltime='1m', cores=2, trunk_size=1000, trunk_workers=5
 sh:
     run_simulation --seed $(seed) &gt;&gt; res_${seed}.res</code></pre>
 <ul>
@@ -1570,7 +1570,7 @@ sos execute [tasks] [-q queue]</code></pre>
       #!/bin/bash
       #PBS -N ${job_name}
       #PBS -l nodes=1:ppn=${cores}
-      #PBS -l walltime=${walltime//3600}:${walltime/60%60}:${walltime%60}
+      #PBS -l walltime=${walltime}
       #PBS -l mem=${mem//1000000}GB
       #PBS -o ${cur_dir}/${task}.out
       #PBS -e ${cur_dir}/${task}.err
@@ -1603,7 +1603,7 @@ sos execute [tasks] [-q queue]</code></pre>
 <pre><code>[10]
 input: for_each={'tid': range(10) }
 
-task: concurrent=True, walltime='00:20:00', mem='100M', cores=1
+task: concurrent=True, walltime='20m', mem='100M', cores=1
 
 run:
     echo I am task ${tid}
