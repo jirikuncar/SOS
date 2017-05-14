@@ -96,7 +96,9 @@ padding-left: 20px;
 .sidebar-wrapper {
     height: 100%;
     left: 5px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
     position: fixed !important;
     width: 212px;
     max-width: 28%;
