@@ -216,42 +216,18 @@ optional arguments:
 
 subcommands:
   {run,resume,dryrun,execute,status,kill,purge,convert,remove,config,pack,unpack,patch-spyder}
-    run                 Execute default or specified workflow defined in
-                        script
-    resume              Resume the execution of a suspended workflow.
-    dryrun              Execute workflow in dryrun mode. This mode is
-                        identical to run mode except that 1). Actions might
-                        behavior differently. In particular, script-running
-                        steps would print instead of execute script. 2). Steps
-                        will generate empty output files if specified output
-                        do not exist after execution. 3). Signature mode is
-                        set to ignore. 4). Option -q is ignored so all tasks
-                        are executed locally. 5). Tasks are generated but not
-                        executed.
+    run                 Execute default or specified workflow in script
+    resume              Resume the execution of a suspended workflow
+    dryrun              Execute workflow in dryrun mode
     execute             Execute a packages task
     status              Check the status of specified tasks
     kill                Stop the execution of running task
     purge               Remove local or remote tasks
-    convert             Converts .sos to various formats including .html for
-                        web display, to jupyter notebook (.ipynb), and to
-                        terminal for syntax highlighted viewing on terminal.
-                        It also allows converting from jupyter notebook
-                        (.ipynb) to sos script (.sos).
-    remove              Remove specified files and/or their signatures.
-    config              Displays, set, and unset configuration variables
-                        defined in global or local configuration files.
-    pack                Collect sos scripts, all input, output, and tracked
-                        intermediate files related to a workflow run and
-                        bundle them into a single archive. The archive can be
-                        examined (without unpacking) with command &#34;sos show&#34;
-                        and be unpacked with command &#34;sos unpack&#34;. This
-                        command does not include files outside of the current
-                        working directory unless they are specified by option
-                        --include, or --all.
-    unpack              Unpack a sos archive to a specified directory. For
-                        security reasons, files that were outside of the
-                        project directory would be extracted in this directory
-                        unless option -e is specified.
+    convert             Convert between .sos, .ipynb and other formats
+    remove              Remove specified files and/or their signatures
+    config              Read and write sos configuration files
+    pack                Pack workflow related files into an archive
+    unpack              Unpack workflow related files from an SoS archive
     patch-spyder        Patch spyder to work with SoS kernel
 
 Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Peng
@@ -497,9 +473,10 @@ specified in the script. Single value parameters should be passed using option
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos resume [-h] [-s] [-w] [-v {0,1,2,3,4}] [workflow_id]
+<pre>usage: sos resume [-h] [-s] [-w] [-v {0,1,2,3,4}] [-j JOBS] [-J EXTERNAL_JOBS]
+                  [workflow_id]
 
-Resume the execution of a suspended workflow.
+Resume the execution or list status of suspended workflows
 
 positional arguments:
   workflow_id           First few characters of the ID of a workflow as long
@@ -518,6 +495,14 @@ optional arguments:
                         Output error (0), warning (1), info (2), debug (3) and
                         trace (4) information to standard output (default to
                         2).
+  -j JOBS               Maximum number of worker processes for the execution
+                        of the workflow if the workflow can be executed in
+                        parallel (namely having multiple starting points or
+                        execution branches).
+  -J EXTERNAL_JOBS      Maximum number of externally running tasks. This
+                        option overrides option &#34;max_running_jobs&#34; of a task
+                        queue (option -q) so that you can, for example, submit
+                        one job at a time (with -J 1) to test the task queue.
 </pre>
 </div>
 </div>
@@ -540,7 +525,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">dryrun</span> <span class="o">-</span><span class="n">h</span>
@@ -667,7 +652,7 @@ specified in the script. Single value parameters should be passed using option
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">execute</span> <span class="o">-</span><span class="n">h</span>
@@ -750,7 +735,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">status</span> <span class="o">-</span><span class="n">h</span>
@@ -801,8 +786,9 @@ optional arguments:
   --age AGE             Limit to tasks that are created more than (default) or
                         within specified age. Value of this parameter can be
                         in units s (second), m (minute), h (hour), or d (day,
-                        default), with optional prefix + for older (default)
-                        and - for newer than specified age.
+                        default), or in the foramt of HH:MM:SS, with optional
+                        prefix + for older (default) and - for newer than
+                        specified age.
   --html                Output results in HTML format. This option will
                         override option verbosity and output detailed status
                         information in HTML tables and figures.
@@ -827,7 +813,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">kill</span> <span class="o">-</span><span class="n">h</span>
@@ -896,7 +882,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">purge</span> <span class="o">-</span><span class="n">h</span>
@@ -931,8 +917,9 @@ optional arguments:
   --age AGE             Limit to tasks that are created more than (default) or
                         within specified age. Value of this parameter can be
                         in units s (second), m (minute), h (hour), or d (day,
-                        default), with optional prefix + for older (default)
-                        and - for younder than specified age.
+                        default), or in the foramt of HH:MM:SS, with optional
+                        prefix + for older (default) and - for newer than
+                        specified age.
   -s STATUS [STATUS ...], --status STATUS [STATUS ...]
                         Only remove tasks with specified status, which can be
                         pending, submitted, running, completed, failed,
@@ -984,7 +971,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">convert</span> <span class="o">-</span><span class="n">h</span>
@@ -1003,7 +990,7 @@ optional arguments:
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos convert [-h] [-v {0,1,2,3,4}]
-                   {sos-html,sos-term,sos-md,sos-ipynb,ipynb-sos,ipynb-html,ipynb-pdf,ipynb-md}
+                   {ipynb-html,ipynb-pdf,ipynb-md,sos-term,sos-ipynb,sos-html,ipynb-sos,sos-md}
                    ...
 
 Converts .sos to various formats including .html for web display, to jupyter
@@ -1018,19 +1005,7 @@ optional arguments:
                         2).
 
 converters (name of converter is not needed from command line):
-  {sos-html,sos-term,sos-md,sos-ipynb,ipynb-sos,ipynb-html,ipynb-pdf,ipynb-md}
-    sos-html            Convert sos file to html format with syntax
-                        highlighting, and save the output either to a HTML
-                        file or view it in a broaser.
-    sos-term            Write script to terminal with syntax highlighting.
-    sos-md              Convert SOS scriot to a markdown format with scripts
-                        quoted in markdown syntax.
-    sos-ipynb           Convert a sos script to Jupyter notebook (.ipynb) so
-                        that it can be opened by Jupyter notebook.
-    ipynb-sos           Export Jupyter notebook with a SoS kernel to a .sos
-                        file. The cells are presented in the .sos file as cell
-                        structure lines, which will be ignored if executed in
-                        batch mode
+  {ipynb-html,ipynb-pdf,ipynb-md,sos-term,sos-ipynb,sos-html,ipynb-sos,sos-md}
     ipynb-html          Export Jupyter notebook with a SoS kernel to a .html
                         file. Additional command line arguments are passed
                         directly to command &#34;jupyter nbconvert --to html&#34; so
@@ -1046,6 +1021,18 @@ converters (name of converter is not needed from command line):
                         passed directly to command &#34;jupyter nbconvert --to
                         markdown&#34; so please refer to nbconvert manual for
                         available options.
+    sos-term            Write script to terminal with syntax highlighting.
+    sos-ipynb           Convert a sos script to Jupyter notebook (.ipynb) so
+                        that it can be opened by Jupyter notebook.
+    sos-html            Convert sos file to html format with syntax
+                        highlighting, and save the output either to a HTML
+                        file or view it in a broaser.
+    ipynb-sos           Export Jupyter notebook with a SoS kernel to a .sos
+                        file. The cells are presented in the .sos file as cell
+                        structure lines, which will be ignored if executed in
+                        batch mode
+    sos-md              Convert SOS scriot to a markdown format with scripts
+                        quoted in markdown syntax.
 
 Extra command line argument could be specified to customize the style of html,
 markdown, and terminal output.
@@ -1080,7 +1067,7 @@ markdown, and terminal output.
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">config</span> <span class="o">-</span><span class="n">h</span>
@@ -1173,7 +1160,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">remove</span> <span class="o">-</span><span class="n">h</span>
@@ -1195,7 +1182,7 @@ optional arguments:
                   [-y] [-v {0,1,2,3,4}]
                   [FILE_OR_DIR [FILE_OR_DIR ...]]
 
-Remove specified files and/or their signatures.
+Remove specified files and/or their signatures
 
 positional arguments:
   FILE_OR_DIR           Files and directories to be removed. Directories will
@@ -1229,8 +1216,9 @@ optional arguments:
   --age AGE             Limit to files that are modified more than (default)
                         or within specified age. Value of this parameter can
                         be in units s (second), m (minute), h (hour), or d
-                        (day, default), with optional prefix + for older
-                        (default) and - for newer than specified age.
+                        (day, default), or in the foramt of HH:MM:SS, with
+                        optional prefix + for older (default) and - for newer
+                        than specified age.
   -n, --dryrun          List files or directories to be removed, without
                         actually removing them.
   -y, --yes             Remove files without confirmation, suitable for batch
@@ -1270,7 +1258,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">pack</span> <span class="o">-</span><span class="n">h</span>
@@ -1368,7 +1356,7 @@ optional arguments:
 	
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">unpack</span> <span class="o">-</span><span class="n">h</span>
