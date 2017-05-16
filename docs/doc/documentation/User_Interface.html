@@ -204,7 +204,7 @@ $( document ).ready(function(){
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos [-h] [--version]
-           {run,dryrun,execute,status,kill,purge,convert,remove,config,pack,unpack,patch-spyder}
+           {run,resume,dryrun,execute,status,kill,purge,convert,remove,config,pack,unpack,patch-spyder}
            ...
 
 A workflow system for the execution of commands and scripts in different
@@ -215,9 +215,10 @@ optional arguments:
   --version             show program&#39;s version number and exit
 
 subcommands:
-  {run,dryrun,execute,status,kill,purge,convert,remove,config,pack,unpack,patch-spyder}
+  {run,resume,dryrun,execute,status,kill,purge,convert,remove,config,pack,unpack,patch-spyder}
     run                 Execute default or specified workflow defined in
                         script
+    resume              Resume the execution of a suspended workflow.
     dryrun              Execute workflow in dryrun mode. This mode is
                         identical to run mode except that 1). Actions might
                         behavior differently. In particular, script-running
@@ -282,7 +283,43 @@ Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Pe
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-run">subcommand <code>run</code><a class="anchor-link" href="#subcommand-run">&#182;</a></h2>
+<h2 id="Command-sos-runner">Command <code>sos-runner</code><a class="anchor-link" href="#Command-sos-runner">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Command <code>sos-runner</code> is a shortcut for <code>sos run</code> so</p>
+<div class="highlight"><pre><span></span>% sos-runner script
+</pre></div>
+<p>is equivalent to</p>
+<div class="highlight"><pre><span></span>% sos run script
+</pre></div>
+<p>This allows a SoS script to be executed directly if it is executable with shebang line</p>
+
+<pre><code>#!/usr/bin/env sos-runner</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Workflow-Execution">Workflow Execution<a class="anchor-link" href="#Workflow-Execution">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="subcommand-run">subcommand <code>run</code><a class="anchor-link" href="#subcommand-run">&#182;</a></h3>
 </div>
 </div>
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
@@ -309,7 +346,7 @@ Use &#39;sos cmd -h&#39; for details about each subcommand. Please contact Bo Pe
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>usage: sos run [-h] [-j JOBS] [-J EXTERNAL_JOBS] [-c CONFIG_FILE]
                [-t FILE [FILE ...]] [-b [BIN_DIR [BIN_DIR ...]]] [-q [QUEUE]]
-               [-w] [-W] [-r] [-n] [-s SIGMODE] [-d [DAG]] [-v {0,1,2,3,4}]
+               [-w] [-W] [-n] [-s SIGMODE] [-d [DAG]] [-v {0,1,2,3,4}]
                SCRIPT [WORKFLOW]
 
 Execute default or specified workflow defined in script
@@ -373,12 +410,6 @@ optional arguments:
                         quit SoS if all tasks are being executed by external
                         task queues. This option overrides the default wait
                         setting of task queues.
-  -r                    Resume the execution of a workflow that exited with
-                        running tasks. sos would report the status of running
-                        tasks and exit directly if none of the tasks have been
-                        completed. This option would also prevent the option
-                        -s force from re-executing completed tasks if the task
-                        has been re-executed.
 
 Run mode options:
   Control how sos scirpt is executed.
@@ -441,7 +472,67 @@ specified in the script. Single value parameters should be passed using option
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-dryrun">subcommand <code>dryrun</code><a class="anchor-link" href="#subcommand-dryrun">&#182;</a></h2><p>This command execute the script in dryrun mode. It is alias to command <code>sos run -n</code>.</p>
+<h3 id="subcommand-resume">subcommand <code>resume</code><a class="anchor-link" href="#subcommand-resume">&#182;</a></h3>
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">resume</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>usage: sos resume [-h] [-s] [-w] [-v {0,1,2,3,4}] [workflow_id]
+
+Resume the execution of a suspended workflow.
+
+positional arguments:
+  workflow_id           First few characters of the ID of a workflow as long
+                        as it uniquely identifies the workflow. The last
+                        executed workflow will be resumed if no workflow is
+                        specified.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s, --status          Return the status of all or specified workflows
+                        without resuming them. This option will list status of
+                        all pending tasks.
+  -w                    Wait for the completion of external tasks regardless
+                        of the setting of individual task queue.
+  -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
+                        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="subcommand-dryrun">subcommand <code>dryrun</code><a class="anchor-link" href="#subcommand-dryrun">&#182;</a></h3><p>This command execute the script in dryrun mode. It is alias to command <code>sos run -n</code>.</p>
 
 </div>
 </div>
@@ -560,7 +651,333 @@ specified in the script. Single value parameters should be passed using option
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-convert">subcommand <code>convert</code><a class="anchor-link" href="#subcommand-convert">&#182;</a></h2>
+<h2 id="Task-Management">Task Management<a class="anchor-link" href="#Task-Management">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="subcommand-execute">subcommand <code>execute</code><a class="anchor-link" href="#subcommand-execute">&#182;</a></h3>
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">execute</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>usage: sos execute [-h] [-s SIGMODE] [-v {0,1,2,3,4}] [-n] [-q [QUEUE]]
+                   [-c CONFIG] [-w]
+                   tasks [tasks ...]
+
+Execute a packages task
+
+positional arguments:
+  tasks                 IDs of the task.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SIGMODE            How runtime signature would be handled, which can be
+                        &#34;default&#34; (save and use signature, default mode in
+                        batch mode), &#34;ignore&#34; (ignore runtime signature,
+                        default mode in interactive mode), &#34;force&#34; (ignore
+                        existing signature and overwrite them while executing
+                        the workflow), &#34;build&#34; (build new or overwrite
+                        existing signature from existing environment and
+                        output files), and &#34;assert&#34; for validating existing
+                        files against their signatures. Please refer to online
+                        documentation for details about the use of runtime
+                        signatures.
+  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
+  -n, --dryrun          Dryrun mode, which will cause actions to print scripts
+                        instead of executing them.
+  -q [QUEUE], --queue [QUEUE]
+                        Check the status of job on specified tasks queue or
+                        remote host if the tasks . The queue can be defined in
+                        global or local sos configuration file, or a file
+                        specified by option --config. A host is assumed to be
+                        a remote machine with process type if no configuration
+                        is found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
+  -c CONFIG, --config CONFIG
+                        A configuration file with host definitions, in case
+                        the definitions are not defined in global or local sos
+                        config.yml files.
+  -w, --wait            Wait for the completion of the task, and retrieve job
+                        results if needed after the completion of the task.
+                        This option is only valid with the specification of
+                        the -q option.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="subcommand-status">subcommand <code>status</code><a class="anchor-link" href="#subcommand-status">&#182;</a></h3>
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">status</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>usage: sos status [-h] [-q [QUEUE]] [-c CONFIG] [-v {0,1,2,3,4}] [--age AGE]
+                  [--html]
+                  [tasks [tasks ...]]
+
+Check the status of specified tasks
+
+positional arguments:
+  tasks                 ID of the task. All tasks will be checked if
+                        unspecified. There is no need to specify compelete
+                        task IDs because SoS will match specified name with
+                        tasks starting with these names.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -q [QUEUE], --queue [QUEUE]
+                        Check the status of job on specified tasks queue or
+                        remote host if the tasks . The queue can be defined in
+                        global or local sos configuration file, or a file
+                        specified by option --config. A host is assumed to be
+                        a remote machine with process type if no configuration
+                        is found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
+  -c CONFIG, --config CONFIG
+                        A configuration file with host definitions, in case
+                        the definitions are not defined in global or local sos
+                        config.yml files.
+  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
+  --age AGE             Limit to tasks that are created more than (default) or
+                        within specified age. Value of this parameter can be
+                        in units s (second), m (minute), h (hour), or d (day,
+                        default), with optional prefix + for older (default)
+                        and - for newer than specified age.
+  --html                Output results in HTML format. This option will
+                        override option verbosity and output detailed status
+                        information in HTML tables and figures.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="subcommand-kill">subcommand <code>kill</code><a class="anchor-link" href="#subcommand-kill">&#182;</a></h3>
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">kill</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>usage: sos kill [-h] [-a] [-q [QUEUE]] [-c CONFIG] [-v {0,1,2,3,4}]
+                [tasks [tasks ...]]
+
+Stop the execution of running task
+
+positional arguments:
+  tasks                 IDs of the tasks that will be killed. There is no need
+                        to specify compelete task IDs because SoS will match
+                        specified name with tasks starting with these names.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a, --all             Kill all tasks in local or specified remote task queue
+  -q [QUEUE], --queue [QUEUE]
+                        Kill jobs on specified tasks queue or remote host if
+                        the tasks . The queue can be defined in global or
+                        local sos configuration file, or a file specified by
+                        option --config. A host is assumed to be a remote
+                        machine with process type if no configuration is
+                        found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
+  -c CONFIG, --config CONFIG
+                        A configuration file with host definitions, in case
+                        the definitions are not defined in global or local sos
+                        config.yml files.
+  -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
+                        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="subcommand-purge">subcommand <code>purge</code><a class="anchor-link" href="#subcommand-purge">&#182;</a></h3>
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">purge</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>usage: sos purge [-h] [-a] [--age AGE] [-s STATUS [STATUS ...]] [-q [QUEUE]]
+                 [-c CONFIG] [-v {0,1,2,3,4}]
+                 [tasks [tasks ...]]
+
+Remove local or remote tasks
+
+positional arguments:
+  tasks                 ID of the tasks to be removed. There is no need to
+                        specify compelete task IDs because SoS will match
+                        specified name with tasks starting with these names.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a, --all             Kill all tasks in local or specified remote task queue
+  --age AGE             Limit to tasks that are created more than (default) or
+                        within specified age. Value of this parameter can be
+                        in units s (second), m (minute), h (hour), or d (day,
+                        default), with optional prefix + for older (default)
+                        and - for younder than specified age.
+  -s STATUS [STATUS ...], --status STATUS [STATUS ...]
+                        Only remove tasks with specified status, which can be
+                        pending, submitted, running, completed, failed,
+                        aborted, and result-mismatch. One of more status can
+                        be specified.
+  -q [QUEUE], --queue [QUEUE]
+                        Remove tasks on specified tasks queue or remote host
+                        if the tasks . The queue can be defined in global or
+                        local sos configuration file, or a file specified by
+                        option --config. A host is assumed to be a remote
+                        machine with process type if no configuration is
+                        found. SoS will list all configured queues (with
+                        details varying by option -v) if this option is
+                        specified without value.
+  -c CONFIG, --config CONFIG
+                        A configuration file with host definitions, in case
+                        the definitions are not defined in global or local sos
+                        config.yml files.
+  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
+                        trace (4) information to standard output (default to
+                        2).
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Project-Management">Project Management<a class="anchor-link" href="#Project-Management">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="subcommand-convert">subcommand <code>convert</code><a class="anchor-link" href="#subcommand-convert">&#182;</a></h3>
 </div>
 </div>
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
@@ -656,7 +1073,7 @@ markdown, and terminal output.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-config">subcommand <code>config</code><a class="anchor-link" href="#subcommand-config">&#182;</a></h2>
+<h3 id="subcommand-config">subcommand <code>config</code><a class="anchor-link" href="#subcommand-config">&#182;</a></h3>
 </div>
 </div>
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
@@ -749,7 +1166,7 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-remove">subcommand <code>remove</code><a class="anchor-link" href="#subcommand-remove">&#182;</a></h2>
+<h3 id="subcommand-remove">subcommand <code>remove</code><a class="anchor-link" href="#subcommand-remove">&#182;</a></h3>
 </div>
 </div>
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
@@ -846,7 +1263,7 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-pack">subcommand <code>pack</code><a class="anchor-link" href="#subcommand-pack">&#182;</a></h2>
+<h3 id="subcommand-pack">subcommand <code>pack</code><a class="anchor-link" href="#subcommand-pack">&#182;</a></h3>
 </div>
 </div>
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
@@ -944,7 +1361,7 @@ optional arguments:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-unpack">subcommand <code>unpack</code><a class="anchor-link" href="#subcommand-unpack">&#182;</a></h2>
+<h3 id="subcommand-unpack">subcommand <code>unpack</code><a class="anchor-link" href="#subcommand-unpack">&#182;</a></h3>
 </div>
 </div>
 </div><div class="cell border-box-sizing code_cell rendered lan_sos">
@@ -1027,341 +1444,6 @@ optional arguments:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Please refer to the tutorial on <a href="../tutorials/Project_Management.html">Project Management</a> for details about this command.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-execute">subcommand <code>execute</code><a class="anchor-link" href="#subcommand-execute">&#182;</a></h2>
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">execute</span> <span class="o">-</span><span class="n">h</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos execute [-h] [-s SIGMODE] [-v {0,1,2,3,4}] [-n] [-q [QUEUE]]
-                   [-c CONFIG] [-w]
-                   tasks [tasks ...]
-
-Execute a packages task
-
-positional arguments:
-  tasks                 IDs of the task.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -s SIGMODE            How runtime signature would be handled, which can be
-                        &#34;default&#34; (save and use signature, default mode in
-                        batch mode), &#34;ignore&#34; (ignore runtime signature,
-                        default mode in interactive mode), &#34;force&#34; (ignore
-                        existing signature and overwrite them while executing
-                        the workflow), &#34;build&#34; (build new or overwrite
-                        existing signature from existing environment and
-                        output files), and &#34;assert&#34; for validating existing
-                        files against their signatures. Please refer to online
-                        documentation for details about the use of runtime
-                        signatures.
-  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
-                        trace (4) information to standard output (default to
-                        2).
-  -n, --dryrun          Dryrun mode, which will cause actions to print scripts
-                        instead of executing them.
-  -q [QUEUE], --queue [QUEUE]
-                        Check the status of job on specified tasks queue or
-                        remote host if the tasks . The queue can be defined in
-                        global or local sos configuration file, or a file
-                        specified by option --config. A host is assumed to be
-                        a remote machine with process type if no configuration
-                        is found. SoS will list all configured queues (with
-                        details varying by option -v) if this option is
-                        specified without value.
-  -c CONFIG, --config CONFIG
-                        A configuration file with host definitions, in case
-                        the definitions are not defined in global or local sos
-                        config.yml files.
-  -w, --wait            Wait for the completion of the task, and retrieve job
-                        results if needed after the completion of the task.
-                        This option is only valid with the specification of
-                        the -q option.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-status">subcommand <code>status</code><a class="anchor-link" href="#subcommand-status">&#182;</a></h2>
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">status</span> <span class="o">-</span><span class="n">h</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos status [-h] [-q [QUEUE]] [-c CONFIG] [-v {0,1,2,3,4}] [--age AGE]
-                  [--html]
-                  [tasks [tasks ...]]
-
-Check the status of specified tasks
-
-positional arguments:
-  tasks                 ID of the task. All tasks will be checked if
-                        unspecified. There is no need to specify compelete
-                        task IDs because SoS will match specified name with
-                        tasks starting with these names.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -q [QUEUE], --queue [QUEUE]
-                        Check the status of job on specified tasks queue or
-                        remote host if the tasks . The queue can be defined in
-                        global or local sos configuration file, or a file
-                        specified by option --config. A host is assumed to be
-                        a remote machine with process type if no configuration
-                        is found. SoS will list all configured queues (with
-                        details varying by option -v) if this option is
-                        specified without value.
-  -c CONFIG, --config CONFIG
-                        A configuration file with host definitions, in case
-                        the definitions are not defined in global or local sos
-                        config.yml files.
-  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
-                        trace (4) information to standard output (default to
-                        2).
-  --age AGE             Limit to tasks that are created more than (default) or
-                        within specified age. Value of this parameter can be
-                        in units s (second), m (minute), h (hour), or d (day,
-                        default), with optional prefix + for older (default)
-                        and - for newer than specified age.
-  --html                Output results in HTML format. This option will
-                        override option verbosity and output detailed status
-                        information in HTML tables and figures.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-kill">subcommand <code>kill</code><a class="anchor-link" href="#subcommand-kill">&#182;</a></h2>
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">kill</span> <span class="o">-</span><span class="n">h</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos kill [-h] [-a] [-q [QUEUE]] [-c CONFIG] [-v {0,1,2,3,4}]
-                [tasks [tasks ...]]
-
-Stop the execution of running task
-
-positional arguments:
-  tasks                 IDs of the tasks that will be killed. There is no need
-                        to specify compelete task IDs because SoS will match
-                        specified name with tasks starting with these names.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -a, --all             Kill all tasks in local or specified remote task queue
-  -q [QUEUE], --queue [QUEUE]
-                        Kill jobs on specified tasks queue or remote host if
-                        the tasks . The queue can be defined in global or
-                        local sos configuration file, or a file specified by
-                        option --config. A host is assumed to be a remote
-                        machine with process type if no configuration is
-                        found. SoS will list all configured queues (with
-                        details varying by option -v) if this option is
-                        specified without value.
-  -c CONFIG, --config CONFIG
-                        A configuration file with host definitions, in case
-                        the definitions are not defined in global or local sos
-                        config.yml files.
-  -v {0,1,2,3,4}, --verbosity {0,1,2,3,4}
-                        Output error (0), warning (1), info (2), debug (3) and
-                        trace (4) information to standard output (default to
-                        2).
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="subcommand-purge">subcommand <code>purge</code><a class="anchor-link" href="#subcommand-purge">&#182;</a></h2>
-</div>
-</div>
-</div><div class="cell border-box-sizing code_cell rendered lan_sos">
-	
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">purge</span> <span class="o">-</span><span class="n">h</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>usage: sos purge [-h] [-a] [--age AGE] [-s STATUS [STATUS ...]] [-q [QUEUE]]
-                 [-c CONFIG] [-v {0,1,2,3,4}]
-                 [tasks [tasks ...]]
-
-Remove local or remote tasks
-
-positional arguments:
-  tasks                 ID of the tasks to be removed. There is no need to
-                        specify compelete task IDs because SoS will match
-                        specified name with tasks starting with these names.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -a, --all             Kill all tasks in local or specified remote task queue
-  --age AGE             Limit to tasks that are created more than (default) or
-                        within specified age. Value of this parameter can be
-                        in units s (second), m (minute), h (hour), or d (day,
-                        default), with optional prefix + for older (default)
-                        and - for younder than specified age.
-  -s STATUS [STATUS ...], --status STATUS [STATUS ...]
-                        Only remove tasks with specified status, which can be
-                        pending, submitted, running, completed, failed,
-                        aborted, and result-mismatch. One of more status can
-                        be specified.
-  -q [QUEUE], --queue [QUEUE]
-                        Remove tasks on specified tasks queue or remote host
-                        if the tasks . The queue can be defined in global or
-                        local sos configuration file, or a file specified by
-                        option --config. A host is assumed to be a remote
-                        machine with process type if no configuration is
-                        found. SoS will list all configured queues (with
-                        details varying by option -v) if this option is
-                        specified without value.
-  -c CONFIG, --config CONFIG
-                        A configuration file with host definitions, in case
-                        the definitions are not defined in global or local sos
-                        config.yml files.
-  -v {0,1,2,3,4}        Output error (0), warning (1), info (2), debug (3) and
-                        trace (4) information to standard output (default to
-                        2).
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-	</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Command-sos-runner">Command <code>sos-runner</code><a class="anchor-link" href="#Command-sos-runner">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Command <code>sos-runner</code> is a shortcut for <code>sos run</code> so</p>
-<div class="highlight"><pre><span></span>% sos-runner script
-</pre></div>
-<p>is equivalent to</p>
-<div class="highlight"><pre><span></span>% sos run script
-</pre></div>
-<p>This allows a SoS script to be executed directly if it is executable with shebang line</p>
-
-<pre><code>#!/usr/bin/env sos-runner</code></pre>
 
 </div>
 </div>

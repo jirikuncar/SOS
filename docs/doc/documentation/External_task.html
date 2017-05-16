@@ -1357,7 +1357,7 @@ shared = []</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="dryrun-mode"><code>dryrun</code> mode<a class="anchor-link" href="#dryrun-mode">&#182;</a></h3>
+<h3 id="sos-dryrun"><code>sos dryrun</code><a class="anchor-link" href="#sos-dryrun">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -1411,7 +1411,100 @@ shared = []</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Command-sos-status">Command <code>sos status</code><a class="anchor-link" href="#Command-sos-status">&#182;</a></h3>
+<h3 id="-w-and--W"><code>-w</code> and <code>-W</code><a class="anchor-link" href="#-w-and--W">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Options <code>-w</code> (wait) and <code>-W</code> (no-wait) tells SoS to wait (or not wait) for the completion of tasks, which overrides the default wait mode for the task queue used (option <code>wait_for_task</code>). For example, a local process queue might be running in <code>wait</code> mode and a remote PBS queue is likely to be running in <code>no-wait</code> mode.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When a workflow is executed and reaches a point where all tasks have been submitted and no more step could be executed (namely the entire workflow is waiting for the completion of tasks), it will continue to wait in <code>wait</code> mode or quit in <code>no-wait</code> mode. Note that</p>
+<table>
+<thead><tr>
+<th>feature</th>
+<th>wait mode</th>
+<th>no-wait mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>when</td>
+<td><code>-w</code> or default for task queue with <code>wait_for_task=true</code></td>
+<td><code>-W</code> or default for task queue with <code>wait_for_task=false</code></td>
+</tr>
+<tr>
+<td>keyboard interruption</td>
+<td>kills all running tasks</td>
+<td>runing tasks are not affected</td>
+</tr>
+<tr>
+<td>task monitoring</td>
+<td>continuous</td>
+<td>external</td>
+</tr>
+<tr>
+<td>when tasks are completed</td>
+<td>results synced, continue execution</td>
+<td>results stay on (remote) server</td>
+</tr>
+<tr>
+<td>resume execution</td>
+<td>not needed</td>
+<td><code>sos resume</code></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-resume"><code>sos resume</code><a class="anchor-link" href="#sos-resume">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Command <code>sos resume</code> resumes the execution of specified or last-executed workflow. In its simplest form, you can execute a workflow in no-wait mode</p>
+
+<pre><code>sos run workflow --options -W</code></pre>
+<p>if the command exit with a number of running tasks, you can run</p>
+
+<pre><code>sos resume</code></pre>
+<p>to resume the execution of workflow at any time. The command will exit immediately if all tasks are still running, and resume the execution if some tasks are completed. If more tasks are to be submitted, this command will exit again after submission more tasks unless option <code>-w</code> is specified.</p>
+<p>This command also accepts an option <code>--status</code> to check the status of pending workflows so if you are not sure if your workflows have been completed, you can execute</p>
+
+<pre><code>sos resume -s</code></pre>
+<p>to check the status of them. Note that <code>sos resume</code> does not have to be executed on the directory where the workflows were submitted so you can resume or check status of workflows from any directory.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-status"><code>sos status</code><a class="anchor-link" href="#sos-status">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -1529,6 +1622,38 @@ sos execute [tasks] [-q queue]</code></pre>
 
 <pre><code>sos execute task_id -q server</code></pre>
 <p>to execute the command on another server. Note that <code>task_id</code> specifies a local task with local paths. The task will be converted to a remote task (with path names converted for that host) if <code>server</code> specifies a remote host. This makes it easy for you to re-submit tasks to the same server after changing server configuration, or submit the same task to a different server.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sos-purge"><code>sos purge</code><a class="anchor-link" href="#sos-purge">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Command <code>sos purge</code> is used to clear completed or failed tasks. You can remove tasks by age (<code>--age</code>) or status (option <code>--status</code>) from local or remote host (option <code>-q</code>). For example, command</p>
+
+<pre><code>sos purge -q cluster --all</code></pre>
+<p>removes all tasks from a remote cluster,</p>
+
+<pre><code>sos purge --age 2d</code></pre>
+<p>removes all tasks that are created more than 2 days ago, and</p>
+
+<pre><code>sos purge -q cluster -s completed</code></pre>
+<p>removes all completed tasks from the remote cluster.</p>
+<p>You can of course specify the IDs of tasks to be removed, e.g.</p>
+
+<pre><code>sos purge 38ef</code></pre>
+<p>removes all tasks with ID starting with <code>38ef</code>.</p>
 
 </div>
 </div>
