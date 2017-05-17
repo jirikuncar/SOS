@@ -174,7 +174,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="All-inclusive-workflows">All-inclusive workflows<a class="anchor-link" href="#All-inclusive-workflows">&#182;</a></h3><p>A SoS workflow consists of steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). As a first step, you can include all steps, regardless of their sizes (requirement for resources), in a single workflow**.</p>
+<h3 id="All-inclusive-workflows-or-notebooks">All-inclusive workflows or notebooks<a class="anchor-link" href="#All-inclusive-workflows-or-notebooks">&#182;</a></h3><p>A SoS workflow consists of steps to execute certain procedures on input files (forward-style), or as steps to produce desired outputs (makefile style). As a first step, you can <strong>include all steps, regardless of their sizes (requirement for resources), in a single workflow</strong>. As you can see later, even if you do not use the workflow features of SoS, you can execute both large time-consuming tasks (remotely) and interactive analysis in the same Jupyter notebook.</p>
 <p>A workflow is usually executed in a multi-processing manner where multiple processes (by default to 4) are used to execute different branches of the DAG (Direct Acyclic Graph) in parallel.</p>
 
 </div>
@@ -256,7 +256,7 @@ run:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can easily specify part of the step process as <strong>tasks</strong>, by prepending the statements with a <code>task</code> keyword:</p>
+<p>You can easily specify part or all of a step process as <strong>tasks</strong>, by prepending the statements with a <code>task</code> keyword:</p>
 
 <pre><code>[10]
 input: bam_files, group_by=1
@@ -265,7 +265,7 @@ output: "${_input}.bai"
 task:
 run:
     samtools index ${_input}</code></pre>
-<p>This statement declares the rest of the step process as a <code>task</code>. For each input file, a task will be created with an ID determined from task content and context (input and output files, variables etc). The task will be by default executed by a <code>process</code> task queue where tasks are started as background processes.</p>
+<p>This statement declares the rest of the step process as a <code>task</code>. For each input file, a task will be created with an ID determined from task content and context (input and output files, variables etc). The task will be by default executed by a local <code>process</code> task queue where tasks are started as background processes.</p>
 
 </div>
 </div>
@@ -379,7 +379,7 @@ run:
 <ul>
 <li><code>address</code> should be ignored for hosts, for example your desktop, that do not accept remote execution.</li>
 <li>If you have a different user name on the the remote host, specify the <code>address</code> in the format of <code>username@hostaddress</code>.</li>
-<li>SoS does not support username/password authentication and you will have to set up public key authentication between local and remote hosts to communicate with remote host.</li>
+<li>SoS does not support username/password authentication so <strong>public key authentication between local and remote hosts is reuired for communication between local and remote host</strong>.</li>
 </ul>
 
 </div>
@@ -546,9 +546,9 @@ run:
 <p>Option <code>query_type</code> determines the type of remote server or job queue. SoS currently supports the following types of job queues:</p>
 <ol>
 <li><strong><code>process</code></strong>: this is the default queue type. Tasks are executed directly, either on local host or on a server.</li>
-<li><strong><code>pbs</code></strong>: A PBS/MOAB cluster system where tasks are submitted using commands such as <code>qsub</code>.</li>
+<li><strong><code>pbs</code></strong>: A PBS/MOAB/LFS/Slurm cluster system where tasks are submitted using commands such as <code>qsub</code>.</li>
 <li><strong><code>rq</code></strong>: A redis queue where tasks are submitted to the rq server and monitored through rq-dashboard.</li>
-<li><strong><code>celery</code></strong>: A celery queue where tasks are submitted to the celery server and monitored through celery's flower module</li>
+<li><strong><code>celery</code></strong>: A celery queue where tasks are submitted to the celery server and monitored through celery's flower module.</li>
 </ol>
 
 </div>
@@ -717,6 +717,34 @@ run:
 job_template = |
     #PBS -l walltime=${walltime}</code></pre>
 <p>would set a default <code>walltime</code> of 10 hours for tasks without specified <code>walltime</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-remote-server-configuration">Sample remote server configuration<a class="anchor-link" href="#Sample-remote-server-configuration">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the default <code>queue_type: process</code>, the following configuration allows you to execute tasks on a remote server. You can change <code>wait_on_task</code> to <code>true</code> if you would like to wait for the completion of tasks and be able to kill runing tasks easily.</p>
+
+<pre><code>    computing_server:
+        address: username@host.url
+        max_mem: 20G
+        max_procs: 12
+        max_walltime: 10h
+        wait_on_task: false
+        paths:
+            home: /home/username</code></pre>
 
 </div>
 </div>
@@ -973,6 +1001,226 @@ job_template = |
 
 <pre><code>qdel ${job_id}</code></pre>
 <p>where <code>job_id</code> is the output of command <code>submit_cmd</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-PBS/Torch-configuration">Sample PBS/Torch configuration<a class="anchor-link" href="#Sample-PBS/Torch-configuration">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>    cluster:
+        address: host.url
+        description: cluster with PBS
+        paths:
+            home: /scratch/username
+        queue_type: pbs
+        status_check_interval: 30
+        wait_for_task: false
+        job_template: |
+            #!/bin/bash
+            #PBS -N ${task}
+            #PBS -l nodes=${nodes}:ppn=${ppn}
+            #PBS -l walltime=${walltime}
+            #PBS -l mem=${mem//10**9}GB
+            #PBS -o ${home_dir}/.sos/tasks/${task}.out
+            #PBS -e ${home_dir}/.sos/tasks/${task}.err
+            #PBS -m ae
+            #PBS -M bpeng@mdanderson.org
+            #PBS -v ${cur_dir}
+            cd ${cur_dir}
+            sos execute ${task} -v ${verbosity} -s ${sig_mode} ${'--dryrun' if run_mode == 'dryrun' else ''}        max_running_jobs: 100
+        submit_cmd: qsub ${job_file}
+        status_cmd: qstat ${job_id}
+        kill_cmd: qdel ${job_id}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-MOAB-configuration">Sample MOAB configuration<a class="anchor-link" href="#Sample-MOAB-configuration">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>    cluster:
+        address: host.url
+        description: cluster with MOAB
+        paths:
+            home: /scratch/username
+        queue_type: pbs
+        status_check_interval: 30
+        wait_for_task: false
+        job_template: |
+            #!/bin/bash
+            #PBS -N ${task}
+            #PBS -l nodes=${nodes}:ppn=${ppn}
+            #PBS -l walltime=${walltime}
+            #PBS -l mem=${mem//10**9}GB
+            #PBS -o ${home_dir}/.sos/tasks/${task}.out
+            #PBS -e ${home_dir}/.sos/tasks/${task}.err
+            #PBS -m ae
+            #PBS -M bpeng@mdanderson.org
+            #PBS -v ${cur_dir}
+            cd ${cur_dir}
+            sos execute ${task} -v ${verbosity} -s ${sig_mode} ${'--dryrun' if run_mode == 'dryrun' else ''}        max_running_jobs: 100
+        submit_cmd: msub ${job_file}
+        status_cmd: qstat ${job_id}
+        kill_cmd: qdel ${job_id}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-LFS-configuration">Sample LFS configuration<a class="anchor-link" href="#Sample-LFS-configuration">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>    lfs:
+        address: host.url
+        description: cluster with LSF
+        paths:
+            home: /rsrch2/bcb/bpeng1/
+            project: /scratch/bcb/bpeng1/RNASeq
+        queue_type: pbs
+        status_check_interval: 30
+        wait_for_task: false
+        job_template: |
+            #!/bin/bash
+            #BSUB -J ${job_name}
+            #BSUB -q short
+            #BSUB -n 8
+            #BSUB -M 6000
+            #BSUB -W 1:0
+            #BSUB -o ${home_dir}/.sos/tasks/${task}.out
+            #BSUB -e ${home_dir}/.sos/tasks/${task}.err
+            #BSUB -N
+            #BSUB -u bpeng@mdanderson.org
+            cd ${cur_dir}
+            sos execute ${task} -v ${verbosity} -s ${sig_mode} ${'--dryrun' if run_mode == 'dryrun' else ''}
+        max_running_jobs: 100
+        submit_cmd: bsub &lt; ${job_file}
+        submit_cmd_output: 'Job &lt;{job_id}&gt; is submitted to queue &lt;{queue}&gt;'
+        status_cmd: bjobs ${job_id}
+        kill_cmd: bkill ${job_id}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-SLURM-configuration">Sample SLURM configuration<a class="anchor-link" href="#Sample-SLURM-configuration">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This configuration defines default <code>walltime</code> and <code>cores</code>.</p>
+
+<pre><code>mstephens:
+    description: cluster with SLURM
+    address: host.url
+    paths:
+      home: /home/username
+    queue_type: pbs
+    status_check_interval: 120
+    max_running_jobs: 15
+    max_cores: 28 
+    max_walltime: "36:00:00"
+    max_mem: 256G
+    job_template: |
+      #!/bin/bash
+      #SBATCH --time=${walltime}
+      #SBATCH --partition=mstephens
+      #SBATCH --account=pi-mstephens
+      #SBATCH --nodes=1
+      #SBATCH --ntasks-per-node=${cores}
+      #SBATCH --mem-per-cpu=${mem_per_cpu}
+      #SBATCH --job-name=${job_name}
+      #SBATCH --output=${cur_dir}/.sos/${job_name}.out
+      #SBATCH --error=${cur_dir}/.sos/${job_name}.err
+      cd ${cur_dir}
+      mkdir -p .sos
+      sos execute ${task} -v ${verbosity} -s ${sig_mode} ${'--dryrun' if run_mode == 'dryrun' else ''}
+    walltime: "06:00:00"
+    cores: 20
+    mem_per_cpu: 1000
+    submit_cmd: sbatch ${job_file}
+    submit_cmd_output: "Submitted batch job {job_id}"
+    status_cmd: squeue --job ${job_id}
+    kill_cmd: scancel ${job_id}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-Task-Spooler-configuration">Sample Task Spooler configuration<a class="anchor-link" href="#Sample-Task-Spooler-configuration">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="http://vicerveza.homeunix.net/~viric/soft/ts/">Task Spooler</a> is a light-weight task spooler for single machines.</p>
+
+<pre><code>    taskspooler:
+        description: task spooler on a single machine
+        address: username@host.url
+        port: 32771
+        paths:
+            home: /home/user
+        queue_type: pbs
+        status_check_interval: 5
+        job_template: |
+            #!/bin/bash
+            cd ${cur_dir}
+            sos execute ${task} -v ${verbosity} -s ${sig_mode} ${'--dryrun' if run_mode == 'dryrun' else ''}
+        max_running_jobs: 100
+        submit_cmd: tsp -L ${task} sh ${job_file}
+        status_cmd: tsp -s ${job_id}
+        kill_cmd: tsp -w ${job_id}</code></pre>
 
 </div>
 </div>
@@ -1697,8 +1945,8 @@ sos execute [tasks] [-q queue]</code></pre>
       #PBS -l nodes=1:ppn=${cores}
       #PBS -l walltime=${walltime}
       #PBS -l mem=${mem//1000000}GB
-      #PBS -o ${cur_dir}/${task}.out
-      #PBS -e ${cur_dir}/${task}.err
+      #PBS -o ${home_dir}/.sos/tasks/${task}.out
+      #PBS -e ${home_dir}/.sos/tasks/${task}.err
       #PBS -m ae
       #PBS -M bpeng@mdanderson.org
       #PBS -v ${cur_dir}
@@ -1728,7 +1976,7 @@ sos execute [tasks] [-q queue]</code></pre>
 <pre><code>[10]
 input: for_each={'tid': range(10) }
 
-task: concurrent=True, walltime='20m', mem='100M', cores=1
+task: walltime='20m', mem='100M'
 
 run:
     echo I am task ${tid}
