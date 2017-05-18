@@ -1220,7 +1220,7 @@ job_template = |
         max_running_jobs: 100
         submit_cmd: tsp -L ${task} sh ${job_file}
         status_cmd: tsp -s ${job_id}
-        kill_cmd: tsp -w ${job_id}</code></pre>
+        kill_cmd: tsp -r ${job_id}</code></pre>
 
 </div>
 </div>
@@ -1483,6 +1483,87 @@ sh:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Option-shared">Option <code>shared</code><a class="anchor-link" href="#Option-shared">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SoS tasks are executed externally and by default does not return any value. Similar to the <code>shared</code> step option (that passes step variables to the workflow), you can use <code>shared</code> option to pass task variables to the step in which the task is defined.</p>
+<p>For example, the following script perform some simulations in 10 tasks and return the result by variable <code>rng</code>, which is then shared to the workflow by step option <code>shared</code> so that it can be available to the next step.</p>
+
+</div>
+</div>
+</div><div class="cell border-box-sizing code_cell rendered lan_sos">
+	
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="kp">run</span>
+<span class="p">[</span><span class="mi">10</span> <span class="p">(</span><span class="n">simulate</span><span class="p">):</span> <span class="kp">shared</span><span class="o">=</span><span class="s1">&#39;rng&#39;</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="kp">for_each</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)}</span>
+<span class="kn">task:</span> <span class="kp">shared</span><span class="o">=</span><span class="s1">&#39;rng&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;${i}&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10 tasks completed.
+{0: 857, 1: 904, 2: 404, 3: 862, 4: 269, 5: 87, 6: 699, 7: 240, 8: 119, 9: 245}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is important to note that, however, because there can be multiple tasks in one step, the variables returned by tasks are dictionaries with loop index <code>_index</code> as keys.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Also similar to step option <code>shared</code>, task option <code>shared</code> accepts a single variable (e.g. <code>rng</code>), a sequence of variables  (e.g. <code>('rng', 'sum')</code>), a dictionary of variable derived from an expression (e.g. <code>{'result': 'float(open(output).read())'}</code>, or sequences of names and variables. In the dictionary case, the values of the dictionary should be an expression (string), that will be evaluated upon the completion of the task, and assign to the specified variable.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Option-env">Option <code>env</code><a class="anchor-link" href="#Option-env">&#182;</a></h3><p>The <code>env</code> option allow you to modify runtime environment, similar to the <code>env</code> parameter of the <code>subprocess.Popen</code> function. For example, you can execute your command with in a specific directory using</p>
 <div class="highlight"><pre><span></span><span class="kn">task:</span>  <span class="kp">env</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;/path/to/mycommand&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]}</span>
 <span class="kn">run:</span>
@@ -1523,6 +1604,35 @@ sh:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Option <code>active</code> specifies the active task within a input loop. It should be an index or a list of indexes when the task will be executed. Negative index is acceptable (e.g. task for only the last input loop will be executed with <code>active=-1</code>).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="remote-target"><code>remote</code> target<a class="anchor-link" href="#remote-target">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A <code>remote</code> target is any target that is marked as remote-only with syntax <code>remote('input.txt')</code> or <code>remote(R_Library('ggplot2'))</code>. It tells SoS that <strong>the target might not be available locally and should only be checked on the host on which the tasks are executed</strong>. Because tasks can be executed locally, a <code>remote</code> target does not have to be on a remote host.</p>
+<p><strong><code>remote</code> targets are not translated by SoS during task preparation</strong> so it is users' responsibility to make sure the targets are valid on the host where the tasks are executed. Although the use of <code>remote</code> tasks requires the task to be executed on particular host, it allows you to execute tasks with remote (large) input and/or output files without synchronizing these files to the local machine.</p>
+<p>For example, you could use the following step to process and large input file and only synchronize small output files to local desktop for further analysis:</p>
+
+<pre><code>[10]
+input: remote('/path/to/large/input/file')
+output: remote('large_output'), 'summary.stat'
+task:
+sh:
+    script to generate large_output and summary.stat
+    from large input files.</code></pre>
 
 </div>
 </div>
@@ -1705,12 +1815,12 @@ shared = []</code></pre>
 <tr>
 <td>when tasks are completed</td>
 <td>results synced, continue execution</td>
-<td>results stay on (remote) server</td>
+<td>results stay on  server (if remote) until the workflow resumes to fetch them</td>
 </tr>
 <tr>
 <td>resume execution</td>
 <td>not needed</td>
-<td><code>sos resume</code></td>
+<td>Command <code>sos resume</code></td>
 </tr>
 </tbody>
 </table>
