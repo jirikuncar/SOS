@@ -1623,7 +1623,7 @@ sh:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A <code>remote</code> target is any target that is marked as remote-only with syntax <code>remote('input.txt')</code> or <code>remote(R_Library('ggplot2'))</code>. It tells SoS that <strong>the target might not be available locally and should only be checked on the host on which the tasks are executed</strong>. Because tasks can be executed locally, a <code>remote</code> target does not have to be on a remote host.</p>
-<p><strong><code>remote</code> targets are not translated by SoS during task preparation</strong> so it is users' responsibility to make sure the targets are valid on the host where the tasks are executed. Although the use of <code>remote</code> tasks requires the task to be executed on particular host, it allows you to execute tasks with remote (large) input and/or output files without synchronizing these files to the local machine.</p>
+<p><strong><code>remote</code> targets are not translated by SoS during task preparation</strong> so it should be specified with valid targets (filenames) on the remote host. Although this makes the workflow less portable  (has to be executed on particular host), it allows you to execute tasks with (large) remote input and/or output files without synchronizing these files to the local machine.</p>
 <p>For example, you could use the following step to process and large input file and only synchronize small output files to local desktop for further analysis:</p>
 
 <pre><code>[10]
